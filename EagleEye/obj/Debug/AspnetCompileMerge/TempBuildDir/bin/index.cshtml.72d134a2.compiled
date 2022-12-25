@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/Views/WinService/Index.cshtml" hash="67377dc6" filehash="41348766e2ac" flags="110000" assembly="App_Web_index.cshtml.72d134a2" type="ASP._Page_Views_WinService_Index_cshtml">
+    <filedeps>
+        <filedep name="/Views/WinService/Index.cshtml" />
+    </filedeps>
+</preserve>

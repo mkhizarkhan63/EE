@@ -1,0 +1,545 @@
+﻿@model List<EagleEye.DAL.Partial.Account_P>
+@using EagleEye.Common
+@using EagleEye.DAL.Partial
+@{
+    /**/
+
+    ViewBag.Title = "Accounts";
+    MenuGen Menu = new MenuGen();
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen> List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Accounts").FirstOrDefault();
+    }
+}
+<style>
+    .btn-dark.active {
+        background: #28D094 !important;
+    }
+</style>
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-0">Accounts Management</h4>
+
+    <div class="row">
+        <div class="col-md-12 ml-auto">
+
+            @if (Menu.Insert == true)
+            {
+                <button type="button" class="btn btn-primary waves-effect ladda-button left" title="Add Account" id="btnAdd" onclick="location.href='@Url.Action("Add","Accounts")'">
+                    <i class="fa fa-plus" id="aIcon"></i> <span>Add Account</span>
+                </button>
+            }
+            @if (Menu.Delete == true)
+            {
+                <button type="button" class="btn btn-primary waves-effect ladda-button left" title="Delete Account" id="btnDelete">
+                    <i class="fas fa-trash" id="dIcon"></i> <span>Delete Account</span>
+                </button>
+            }
+            @if (Menu.Update == true)
+            {
+                <button type="button" class="btn btn-primary float-right waves-effect ladda-button" title="Update" id="btnUpdate">
+                    <i class="fas fa-edit" id="uIcon"></i> <span>Update</span>
+                </button>
+            }
+        </div>
+
+        <div class="col-md-3">
+            <hr>
+            <div id="accordion2">
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <input type="hidden" id="txtUserID" />
+
+                        <a class="d-flex justify-content-between text-dark" data-toggle="collapse" aria-expanded="true" href="#accordion2-1">All Accounts<div class="collapse-icon"></div></a>
+                    </div>
+                    <div id="accordion2-1" class="collapse show" data-parent="#accordion2">
+                        <div class="card-body" style="padding:0.7rem;max-height:403px;overflow-y:auto;">
+
+                            <div class="kanban-box">
+
+                                @foreach (var item in Model)
+                                {
+
+                                    <div class="ui-bordered p-2">
+
+                                        <div class="kanban-board-actions btn-group float-left ml-2">
+
+                                            @if (item.Code != 1)
+                                            {
+
+                                                <label class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input chk-m checkBoxClickable" data-id="@item.Code" id="chkm_@item.Code">
+                                                    <span class="custom-control-label font-weight-normal"> </span>
+                                                </label>
+                                            }
+                                            else
+                                            {
+                                                <label class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input chk-m" disabled>
+                                                    <span class="custom-control-label font-weight-normal"> </span>
+                                                </label>
+                                            }
+                                        </div>
+                                        @*onclick="GetMenuRights(this)"*@
+                                        <a href="#" data-id="@item.Code">
+                                            @item.UserName
+                                        </a>
+                                        @if (Menu.Update == true)
+                                        {
+                                            if (item.Code != 1)
+                                            {
+
+                                                <span><a href="/Accounts/Edit?UserName=@item.UserName" class="fas fa-pencil-alt float-right"></a></span>
+                                            }
+                                        }
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <hr />
+            <div class="card">
+                <table class="table card-table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>All</th>
+                            <th>
+                                <label class="switcher switcher-success">
+                                    <input type="checkbox" class="switcher-input" id="chkInsertAll">
+                                    <span class="switcher-indicator">
+                                        <span class="switcher-yes">
+                                            <span class="ion ion-md-checkmark"></span>
+                                        </span>
+                                        <span class="switcher-no">
+                                            <span class="ion ion-md-close"></span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </th>
+                            <th>
+                                <label class="switcher switcher-info">
+                                    <input type="checkbox" class="switcher-input" id="chkUpdateAll">
+                                    <span class="switcher-indicator">
+                                        <span class="switcher-yes">
+                                            <span class="ion ion-md-checkmark"></span>
+                                        </span>
+                                        <span class="switcher-no">
+                                            <span class="ion ion-md-close"></span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </th>
+                            <th>
+                                <label class="switcher switcher-danger">
+                                    <input type="checkbox" class="switcher-input" id="chkDeleteAll">
+                                    <span class="switcher-indicator">
+                                        <span class="switcher-yes">
+                                            <span class="ion ion-md-checkmark"></span>
+                                        </span>
+                                        <span class="switcher-no">
+                                            <span class="ion ion-md-close"></span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </th>
+                            <th>
+                                <label class="switcher switcher-warning">
+                                    <input type="checkbox" class="switcher-input" id="chkViewAll">
+                                    <span class="switcher-indicator">
+                                        <span class="switcher-yes">
+                                            <span class="ion ion-md-checkmark"></span>
+                                        </span>
+                                        <span class="switcher-no">
+                                            <span class="ion ion-md-close"></span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Menu</th>
+                            <th>Add</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody id="menuTbl"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- [ content ] End -->
+
+@section scripts{
+    @*Startup*@
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            GetMenuTable();
+            CheckedAll();
+        });
+
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".checkBoxClickable").change(function () {
+
+                checkAccountRowsSingleOrMultiple(this);
+
+
+            });
+
+            $("#btnDelete").click(function () {
+                codes = [];
+                $(".chk-m:not(:disabled):checked").each(function () {
+                    codes.push($(this).attr("data-id"));
+                });
+                if (codes.length < 1) {
+                    showWarningNoti("Please Select User Account To Delete...");
+                    return;
+
+                }
+                else {
+                    Delete(codes, this);
+                }
+            });
+
+            $("#btnUpdate").click(function () {
+                codes = [];
+                $(".chk-m:not(:disabled):checked").each(function () {
+                    codes.push($(this).attr("data-id"));
+                });
+                if (codes.length < 1) {
+                    showWarningNoti("Please Select User Account To Update...");
+                    return;
+
+                }
+
+                else {
+                    Update(codes, this);
+                }
+
+            });
+        });
+    </script>
+
+    @*Function*@
+    <script type="text/javascript">
+        function checkAccountRowsSingleOrMultiple() {
+            let codes = [];
+            $(".chk-m:not(:disabled):checked").each(function () {
+                codes.push($(this).attr("data-id"));
+            });
+
+            //if (codes.length == 0) {
+            //    Reset();
+            //}
+            
+            if (codes.length > 1) {
+                $("#btnUpdate").prop('disabled', true);
+
+                return;
+
+            } else{
+
+                $("#btnUpdate").prop('disabled', false);
+                if (codes.length != 0) {
+                    GetMenuRights(parseInt(codes[codes.length - 1]));
+                }
+                else {
+                    Reset();
+                }
+                return;
+            }
+        }
+
+
+
+
+        var menuData = [];
+
+        // Update MenuRights Start
+        function Update(codes, button) {
+            var l = Ladda.create(button);
+            l.start();
+            // var user = $("#txtUserID").val();
+            var Model = GetModelData();
+            $.ajax({
+                url: '@Url.Action("UpdateMenuRights", "Accounts")',
+                type: "POST",
+                data: { menuRights: Model, lstAccountCode: codes },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        showSuccessNoti("Account Rights Updated successfully");
+                    } else {
+                        showWarningNoti("Account Rights Failed to Update..");
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //Update MenuRights Ends
+
+        // Get MenuRights Start
+        function GetMenuRights(a) {
+           
+            //if (typeof (a) == "number") {
+           
+                var userID = a;
+                 $(".chk-m").prop("checked", false);
+                $("#chkm_" + userID).prop("checked", true);
+                $("#txtUserID").val(userID);
+                $.ajax({
+                    url: '@Url.Action("GetMenuRights", "Accounts")',
+                    type: "POST",
+                    data: { id: userID },
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+                        for (var i = 0; i < data.result.length; i++) {
+
+                            var menu_id = data.result[i].Menu_Id;
+                            var Insert = data.result[i].Insert;
+                            var Update = data.result[i].Update;
+                            var Delete = data.result[i].Delete;
+                            var View = data.result[i].View;
+
+                            $("#chkInsert_" + menu_id).prop("checked", Insert);
+                            $("#chkUpdate_" + menu_id).prop("checked", Update);
+                            $("#chkDelete_" + menu_id).prop("checked", Delete);
+                            $("#chkView_" + menu_id).prop("checked", View);
+                        }
+                    },
+                    failure: function (response) {
+                    },
+                    error: function (err, status) {
+                    },
+                    complete: function (data) {
+                    }
+                });
+            //}
+           
+          //  }
+            @*else {
+                Reset();
+
+            var userID = $(a).attr("data-id");
+            $(".chk-m").prop("checked", false);
+            $("#chkm_" + userID).prop("checked", true);
+            $("#txtUserID").val(userID);
+            $.ajax({
+                url: '@Url.Action("GetMenuRights", "Accounts")',
+                type: "POST",
+                data: { id: userID },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    for (var i = 0; i < data.result.length; i++) {
+
+                        var menu_id = data.result[i].Menu_Id;
+                        var Insert = data.result[i].Insert;
+                        var Update = data.result[i].Update;
+                        var Delete = data.result[i].Delete;
+                        var View = data.result[i].View;
+
+                        $("#chkInsert_" + menu_id).prop("checked", Insert);
+                        $("#chkUpdate_" + menu_id).prop("checked", Update);
+                        $("#chkDelete_" + menu_id).prop("checked", Delete);
+                        $("#chkView_" + menu_id).prop("checked", View);
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+            });
+            }*@
+           
+        }
+        // Get MenuRights End
+
+        // Get Model Data Start
+        function GetModelData() {
+            var Model = [];
+            var data = menuData;
+
+            for (var i = 0; i < data.result.length; i++) {
+                var menu_id = data.result[i].Menu_Id;
+                var m = {};
+                m.Menu_Id = menu_id;
+                m.Insert = $("#chkInsert_" + menu_id).is(":checked");
+                m.Update = $("#chkUpdate_" + menu_id).is(":checked");
+                m.Delete = $("#chkDelete_" + menu_id).is(":checked");
+                m.View = $("#chkView_" + menu_id).is(":checked");
+                // m.User_Id = $("#txtUserID").val();
+                // m.User_Id = $("#txtUserID").val();
+                Model.push(m);
+            }
+            return Model;
+        }
+        // Get Model Data End
+
+        //GetMenuTable Start
+        function GetMenuTable() {
+
+            $.ajax({
+                url: '@Url.Action("GetMenuTable", "Accounts")',
+                type: "POST",
+                data: {},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    menuData = data;
+                    if (data.result) {
+
+                        $("#menuTbl").html("");
+
+                        for (var i = 0; i < data.result.length; i++) {
+                            var id = data.result[i].Menu_Id;
+
+                            var datarow = $('<tr><td>' + data.result[i].Menu_Name + '</td>' +
+                                '<td>' + '<label class="switcher switcher-success">' + '<input type="checkbox" class="switcher-input chkAdd" id="chkInsert_' + id + '">' +
+                                '<span class="switcher-indicator">' + '<span class= "switcher-yes">' + '<span class="ion ion-md-checkmark"></span>' + '</span>' +
+                                '<span class="switcher-no">' + '<span class="ion ion-md-close"></span>' + '</span>' + '</span>' + '</td>' +
+
+                                '<td>' + '<label class="switcher switcher-info">' + '<input type="checkbox" class="switcher-input chkUpdate" id="chkUpdate_' + id + '">' +
+                                '<span class="switcher-indicator">' + '<span class= "switcher-yes">' + '<span class="ion ion-md-checkmark"></span>' + '</span>' +
+                                '<span class="switcher-no">' + '<span class="ion ion-md-close"></span>' + '</span>' + '</span>' + '</td>' +
+
+                                '<td>' + '<label class="switcher switcher-danger">' + '<input type="checkbox" class="switcher-input chkDelete" id="chkDelete_' + id + '">' +
+                                '<span class="switcher-indicator">' + '<span class= "switcher-yes">' + '<span class="ion ion-md-checkmark"></span>' + '</span>' +
+                                '<span class="switcher-no">' + '<span class="ion ion-md-close"></span>' + '</span>' + '</span>' + '</td>' +
+
+                                '<td>' + '<label class="switcher switcher-warning">' + '<input type="checkbox" class="switcher-input chkView" id="chkView_' + id + '">' +
+                                '<span class="switcher-indicator">' + '<span class= "switcher-yes">' + '<span class="ion ion-md-checkmark"></span>' + '</span>' +
+                                '<span class="switcher-no">' + '<span class="ion ion-md-close"></span>' + '</span>' + '</span>' + '</td>' + '</tr>');
+
+                            $("#menuTbl").append(datarow);
+                        }
+                    }
+                    else {
+                        showWarningNoti("No Data Found!");
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+            });
+        }
+        //GetMenuTable End
+
+        //Delete Start
+        function Delete(codes, button) {
+
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("DeleteAccount", "Accounts")',
+                type: "POST",
+                data: { lstAccountCode: codes },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        showSuccessNoti("Account deleted successfully");
+                    } else {
+                        showWarningNoti("Account cannot be deleted..");
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                    window.location.href = '@Url.Action("Index", "Accounts")';
+                }
+            });
+        }
+        //Delete Ends
+        function Reset() {
+            //var user = $("#txtUserID").val();
+            GetMenuTable();
+            //   $("#chkm_" + user).prop("checked", false);
+        }
+
+        function CheckedAll() {
+                $('#chkInsertAll').click(function (event) {
+                    if (this.checked) {
+                        $('.chkAdd').each(function () {
+                            $(this).prop('checked', true);
+                        });
+                    } else {
+                        $('.chkAdd').each(function () {
+                            $(this).prop('checked', false);
+
+                        });
+                    }
+                });
+                $('#chkUpdateAll').click(function (event) {
+                    if (this.checked) {
+                        $('.chkUpdate').each(function () {
+                            $(this).prop('checked', true);
+                        });
+                    } else {
+                        $('.chkUpdate').each(function () {
+                            $(this).prop('checked', false);
+
+                        });
+                    }
+                });
+                $('#chkDeleteAll').click(function (event) {
+                    if (this.checked) {
+                        $('.chkDelete').each(function () {
+                            $(this).prop('checked', true);
+                        });
+                    } else {
+                        $('.chkDelete').each(function () {
+                            $(this).prop('checked', false);
+
+                        });
+                    }
+                });
+                $('#chkViewAll').click(function (event) {
+                    if (this.checked) {
+                        $('.chkView').each(function () {
+                            $(this).prop('checked', true);
+                        });
+                    } else {
+                        $('.chkView').each(function () {
+                            $(this).prop('checked', false);
+
+                        });
+                    }
+                });
+        }
+    </script>
+}

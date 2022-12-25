@@ -1,0 +1,186 @@
+﻿@using EagleEye.DAL.Partial
+@{
+    ViewBag.Title = "Service";
+    MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen> List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "EagleEye Service").FirstOrDefault();
+    }
+}
+
+
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-0">Service</h4>
+    <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")"><i class="feather icon-home"></i></a></li>
+            <li class="breadcrumb-item active">service</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4 overflow-hidden">
+                <div class="card-body">
+
+                    <a href="javascript:void(0)" class="text-dark text-large font-weight-semibold">Service Status</a>
+
+                    <div class="my-3" id="divstatus">
+
+                    </div>
+                    <hr />
+                    <div class="text-right">
+                        @if (Menu.Insert == true || Menu.Update == true)
+                        {
+                        <button type="button" id="btnStart" class="btn btn-primary ladda-button" data-style="expand-right"><i class="ion ion-ios-play"></i> Start</button>
+                        <button type="button" id="btnStop" class="btn btn-danger ladda-button" data-style="expand-right"><i class="ion ion-ios-square"></i> Stop</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ content ] End -->
+
+
+@section scripts{
+
+    @*Events*@
+    <script type="text/javascript">
+        $(function () {
+
+            ServiceStatus();
+
+            $("#btnStart").click(function () {
+
+                Start(this);
+            });
+
+            $("#btnStop").click(function () {
+
+                Stop(this);
+            });
+
+
+        });
+
+    </script>
+
+    @*Functions*@
+    <script type="text/javascript">
+
+        function ServiceStatus() {
+
+            $.ajax({
+                url: '@Url.Action("ServiceExists", "WinService")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+
+                        $("#btnStart").prop("disabled", true);
+                        $("#btnStop").prop("disabled", true);
+
+                        $("#divstatus").html(data.msg);
+
+                        if (data.status == "Running" || data.status == "Paused") {
+                            $("#btnStop").removeAttr("disabled");
+                        } else {
+                            $("#btnStart").removeAttr("disabled");
+                        }
+
+
+                    } else {
+                        $("#divstatus").html("Service is not exist in current system kindly download it and install...");
+                        $("#btnStart").prop("disabled", true);
+                        $("#btnStop").prop("disabled", true);
+
+                    }
+
+
+
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+
+
+            });
+
+        }
+
+        function Start(button) {
+
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("Start", "WinService")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("service is started.");
+                    }
+
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                    ServiceStatus();
+                }
+
+
+            });
+
+        }
+
+        function Stop(button) {
+
+
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("Stop", "WinService")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("service is stopped.");
+                    }
+
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                    ServiceStatus();
+                }
+
+
+            });
+
+        }
+
+    </script>
+
+}

@@ -1,0 +1,228 @@
+﻿@model EagleEye.DAL.Partial.Report_P
+@using EagleEye.Common
+@using Common
+@using EagleEye.DAL.Partial
+@{
+    ViewBag.Title = "Single Report";
+    Communication_P com = @SessionHandling.Communication;
+}
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+
+    <div class="card">
+        <br />
+        <div class="row d-flex justify-content-end">
+            
+
+
+            <div class="col-md-3 col-sm-6 col-xs-6 m-1">
+                <input type="date" class="form-control text-center " onkeydown="return false" id="dtTime">
+            </div>
+
+
+            <div class="col-md-3 col-sm-6 col-xs-6  text-center  m-1 ">
+
+                <select class="btn btn-white dropdown-toggle " id="ddlEmplist" style="width:100%">
+                    <option selected disabled>Select User</option>
+                    @foreach (Employee_P item in Model.Employee_List)
+                    {
+                        <option value="@item.Employee_ID">@item.Employee_ID - @item.Employee_Name</option>
+                    }
+                </select>
+
+
+
+            </div>
+
+            <div class="col-md-3 col-xs-6 col-sm-6 text-center  m-1">
+
+                <button type="button" class="btn btn-primary ladda-button " data-style="expand-right" title="Proceed" style="width:80%;" id="btnProceed">
+                    <span class="fa fa-check-square"></span>&nbsp;&nbsp;Proceed
+                </button>
+            </div>
+
+
+        </div>
+        <br /><br />
+       
+
+
+            
+
+                @*<div class="float-left">
+            <label class="text-left" style="font-weight:500;font-size:x-large;" id="dtDate"></label>
+        </div>*@
+
+                @*<button id="daterange-4" class="btn btn-default dropdown-toggle btn-default" data-style="expand-right"></button>*@
+
+            @*</div>
+        </div>*@
+
+        <div class="col-md-12 text-center">
+            <hr />
+            <div class="text-center" style="font-weight:500;font-size:x-large;">ID#<span class="text" id="txtID"> </span></div>
+            <hr />
+            <img src="~/assets/img/avatars/no-image.jpg" id="imgEmp" style="width:100px;height:100px;" />
+            <hr />
+            <div class="text-center" style="font-weight:500;font-size:x-large;" id="txtName">NAME</div>
+            <div class="text-center">All Transactions: <span id="txtTransaction" style="font-weight:500;font-size:large;">0</span></div>
+            <hr />
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <table class="table table-borderless">
+                    <tr>
+                        <td class="text-left">Time In Date: <span id="txtTimeInDate" style="font-weight:500;"> --/--/----</span></td>
+                        <td class="text-right">Time Out Date: <span id="txtTimeOutDate" style="font-weight:500;"> --/--/----</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">Time In: <span id="txtTimeIn" style="font-weight:500;"> --:--:--</span></td>
+                        <td class="text-right">Time Out: <span id="txtTimeOut" style="font-weight:500;"> --:--:--</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <br />
+            <div class="col">
+                <div class="text-center">Worked Hours: <span class="text" style="font-weight:500;font-size:x-large;" id="txtWorkedHours"> --:--:--</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <hr />
+        <div class="text-center">
+            <label class="text" style="font-weight:500;font-size:x-large;" id="dtDate"></label>
+        </div> <hr />
+        <!-- / Controls -->
+        <div class="card">
+            <table class="table">
+                <thead style="color:white;background-color:dimgray;text-align:center;">
+                    <tr>
+                        @foreach (Att_Status_P item in Model.Att_Status_List)
+                        {
+                            if (item.Name != "")
+                            {
+                                <th value="@item.Code">@item.Name</th>
+                            }
+                            else
+                            {
+                                <th value="@item.Code">Status_@item.Code</th>
+                            }
+                        }
+                    </tr>
+                </thead>
+                <tbody id="tblAttLog" style="text-align:center;"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+
+    @*Startup*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0')
+            var mm = String(today.getMonth() + 1).padStart(2, '0')
+            var yy = today.getFullYear();
+            $("#dtTime").val(yy + "-" + mm + "-" + dd)
+        });
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+        $("#btnProceed").click(function () {
+            GetSingleReport();
+        });
+    </script>
+
+
+    @*Function*@
+    <script type="text/javascript">
+
+        function GetSingleReport() {
+            var emp = $("#ddlEmplist").val();
+            var dt = $("#dtTime").val();
+            if (emp == null || emp == "") {
+                showWarningNoti("Select User to Proceed...");
+
+            } else {
+                 $.ajax({
+                url: '@Url.Action("GetSingleReport", "Report")',
+                type: "POST",
+                data: { emp: emp, dt: dt },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.rpt) {
+
+                        if (data.rpt.Employee_Photo != null && data.rpt.Employee_Photo != '') {
+                            $("#imgEmp").attr("src", data.rpt.Employee_Photo);
+                        }
+                        else {
+                            $("#imgEmp").attr("src", "/assets/img/avatars/no-image.jpg");
+                        }
+
+                        $("#txtID").text(data.rpt.Employee_ID);
+                        $("#txtName").text(data.rpt.Employee_Name);
+
+                    if (data.rpt.att_count)
+                        $("#txtTransaction").text(data.rpt.att_count);
+                    else
+                        $("#txtTransaction").text("0");
+
+                        if (data.rpt.curr_datetime)
+                            $("#dtDate").text(data.rpt.curr_datetime);
+
+                        if (data.rpt.TimeInDate == "01-01-0001")
+                            $("#txtTimeInDate").text("--/--/----");
+                        else if (data.rpt.TimeInDate)
+                            $("#txtTimeInDate").text(data.rpt.TimeInDate);
+
+                        if (data.rpt.TimeIn == "00:00:00")
+                            $("#txtTimeIn").text("--:--:--");
+                        else if (data.rpt.TimeIn)
+                            $("#txtTimeIn").text(data.rpt.TimeIn);
+
+                        if (data.rpt.TimeOutDate == "01-01-0001")
+                            $("#txtTimeOutDate").text("--/--/----");
+                        else if (data.rpt.TimeOutDate)
+                            $("#txtTimeOutDate").text(data.rpt.TimeOutDate);
+
+                        if (data.rpt.TimeOut == "00:00:00")
+                            $("#txtTimeOut").text("--:--:--");
+                        else if (data.rpt.TimeOut)
+                            $("#txtTimeOut").text(data.rpt.TimeOut);
+
+                        if (data.rpt.dt_workedhours)
+                            $("#txtWorkedHours").text(data.rpt.dt_workedhours);
+                        else
+                            $("#txtWorkedHours").text("--:--:--");
+                    }
+
+                    $("#tblAttLog").html("");
+                    if (data.result) {
+                        $("#tblAttLog").html(data.result);
+                    }
+                    },
+                    failure: function (response) {
+                    },
+                    error: function (err, status) {
+                    },
+                    complete: function (data) {
+                }
+                });
+            }
+           
+        }
+    </script>
+
+}

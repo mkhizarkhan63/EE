@@ -1,0 +1,971 @@
+﻿@model List<EagleEye.DAL.Partial.PolicyDetail_P>
+@using EagleEye.Common;
+@{
+
+    var mon = Model.Where(x => x.Day == "1").FirstOrDefault();
+    var tue = Model.Where(x => x.Day == "2").FirstOrDefault();
+    var wed = Model.Where(x => x.Day == "3").FirstOrDefault();
+    var thu = Model.Where(x => x.Day == "4").FirstOrDefault();
+    var fri = Model.Where(x => x.Day == "5").FirstOrDefault();
+    var sat = Model.Where(x => x.Day == "6").FirstOrDefault();
+    var sun = Model.Where(x => x.Day == "7").FirstOrDefault();
+
+
+}
+
+@using EagleEye.DAL.Partial
+
+@{
+    ViewBag.Title = "Edit WorkHour Policy";
+
+    MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen>
+            List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Work Hour Policy").FirstOrDefault();
+    }
+}
+
+<link rel="stylesheet" href="~/assets/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.css">
+<style>
+    .dtp-header {
+        background: #23b58a !important;
+    }
+</style>
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    @if (Menu.Insert == true)
+    {
+        <h4 class="font-weight-bold py-3 mb-0">
+            Edit Work Hour<button type="button" class="btn btn-primary float-right ladda-button"
+                                  data-style="expand-right" id="btnSave">
+                Save Changes
+            </button>
+        </h4>
+    }
+    <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href='@Url.Action("Index", "WorkHourPolicy")'><i class="feather icon-watch"></i></a></li>
+            <li class="breadcrumb-item"><a href='@Url.Action("Index", "WorkHourPolicy")'>Work Hour Policy</a></li>
+            <li class="breadcrumb-item active">Add</li>
+        </ol>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-2 pl-0">Work Hour's Policy: </label>
+                <div class="col-sm-4 pl-0">
+                    <input type="text" class="form-control" id="workHourPolicy" value="@ViewBag.PolicyName" required>
+                    <input type="hidden" name="name" id="workHourPolicyCode" value="@ViewBag.PolicyCode" />
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-sm-6 pl-0">
+                    <label class="switcher  float-right text-primary">
+                        <input type="checkbox" class="switcher-input pl-3 text-primary" id="isActivePolicy" checked="@ViewBag.PolicyIsActive">
+                        <span class="switcher-indicator">
+                            <span class="switcher-yes"></span>
+                            <span class="switcher-no"></span>
+                        </span>
+                        <span class="switcher-label change_label pl-3">Active</span>
+                    </label>
+                </div>
+            </div>
+            <hr />
+
+
+
+            @* Monday *@
+
+            <div class="row">
+                <div class="col-2">
+                    <div class="pt-3">
+                        <label class="custom-control custom-checkbox">
+
+                            <input type="checkbox" id="chk_1" checked="@((mon!=null && mon.DayCheck !=false)?true:false)" class="custom-control-input">
+                            <span class="custom-control-label">Monday : </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Work Hour<span style="color:red;">*</span></label>
+                        <input type="text" id="time_workHour_1" class="form-control custom-time-input" placeholder="__:__" value="@(mon!=null?mon.Workhour:"")" disabled required>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Overtime<span style="color:red;">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <label class="custom-control custom-checkbox px-2 m-0">
+                                        <input type="checkbox" id="chk_overtime_1" class="custom-control-input" value="" checked="@(mon!=null?mon.isOvertimeActive:false)" disabled required>
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input type="text" id="time_overtime_1" value="@(mon!=null?mon.Overtime:"")" placeholder="__:__" class="form-control custom-time-input" disabled required>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Break Hours<span style="color:red;">*</span></label>
+                        <input type="text" id="time_breakHour_1" class="form-control custom-time-input" value="@(mon!=null?mon.Breakhour:"")" placeholder="__:__" disabled required>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            @*  Tuesday *@
+            <div class="row">
+                <div class="col-2">
+                    <div class="pt-3">
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" id="chk_2" class="custom-control-input" checked="@((tue!=null && tue.DayCheck != false)?true:false)">
+                            <span class="custom-control-label">Tuesday : </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Work Hour<span style="color:red;">*</span></label>
+                        <input type="text" id="time_workHour_2" class="form-control custom-time-input" value="@(tue!=null?tue.Workhour:"")" placeholder="__:__" disabled required>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Overtime<span style="color:red;">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <label class="custom-control custom-checkbox px-2 m-0">
+                                        <input type="checkbox" id="chk_overtime_2" class="custom-control-input" checked="@(tue!= null? tue.isOvertimeActive:false)" disabled required>
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input type="text" id="time_overtime_2" placeholder="__:__" class="form-control custom-time-input" value="@(tue!=null?tue.Overtime:"")" disabled required>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Break Hours<span style="color:red;">*</span></label>
+                        <input type="text" id="time_breakHour_2" class="form-control custom-time-input" value="@(tue!=null?tue.Breakhour:"")" placeholder="__:__" required disabled>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+
+            @*  Wednesday *@
+
+            <div class="row">
+                <div class="col-2">
+                    <div class="pt-3">
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" id="chk_3" checked="@((wed!=null && wed.DayCheck != false)?true:false)" class="custom-control-input">
+                            <span class="custom-control-label">Wednesday : </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Work Hour<span style="color:red;">*</span></label>
+                        <input type="text" id="time_workHour_3" class="form-control custom-time-input" value="@(wed!=null?wed.Workhour:"")" placeholder="__:__" required disabled>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Overtime<span style="color:red;">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <label class="custom-control custom-checkbox px-2 m-0">
+                                        <input type="checkbox" id="chk_overtime_3" class="custom-control-input" checked="@(wed!=null?wed.isOvertimeActive:false)" disabled required>
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input type="text" id="time_overtime_3" placeholder="__:__" value="@(wed!=null?wed.Overtime:"")" class="form-control custom-time-input" required disabled>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Break Hours<span style="color:red;">*</span></label>
+                        <input type="text" id="time_breakHour_3" class="form-control custom-time-input" value="@(wed!=null?wed.Breakhour:"")" placeholder="__:__" required disabled>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            @* Thursday *@
+            <div class="row">
+                <div class="col-2">
+                    <div class="pt-3">
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" id="chk_4" checked="@((thu!=null && thu.DayCheck != false)?true:false)" class="custom-control-input">
+                            <span class="custom-control-label">Thursday : </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Work Hour<span style="color:red;">*</span></label>
+                        <input type="text" id="time_workHour_4" value="@(thu!=null?thu.Workhour:"")" class="form-control custom-time-input" placeholder="__:__" required disabled>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Overtime<span style="color:red;">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <label class="custom-control custom-checkbox px-2 m-0">
+                                        <input type="checkbox" id="chk_overtime_4" checked="@(thu!=null?thu.isOvertimeActive:false)" class="custom-control-input" required disabled>
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input type="text" id="time_overtime_4" value="@(thu!=null?thu.Overtime:"")" placeholder="__:__" class="form-control custom-time-input" required disabled>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Break Hours<span style="color:red;">*</span></label>
+                        <input type="text" id="time_breakHour_4" value="@(thu!=null?thu.Breakhour:"")" class="form-control custom-time-input" placeholder="__:__" required disabled>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            @* Friday *@
+            <div class="row">
+                <div class="col-2">
+                    <div class="pt-3">
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" id="chk_5" class="custom-control-input" checked="@((fri!=null && fri.DayCheck != false)?true:false)">
+                            <span class="custom-control-label">Friday : </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Work Hour<span style="color:red;">*</span></label>
+                        <input type="text" id="time_workHour_5" class="form-control custom-time-input" value="@(fri!=null?fri.Workhour:"")" placeholder="__:__" required disabled>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Overtime<span style="color:red;">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <label class="custom-control custom-checkbox px-2 m-0">
+                                        <input type="checkbox" id="chk_overtime_5" class="custom-control-input" checked="@(fri!=null?fri.isOvertimeActive:false)" required disabled>
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input type="text" id="time_overtime_5" placeholder="__:__" value="@(fri!=null?fri.Overtime:"")" class="form-control custom-time-input" required disabled>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Break Hours<span style="color:red;">*</span></label>
+                        <input type="text" id="time_breakHour_5" value="@(fri!=null?fri.Breakhour:"")" class="form-control custom-time-input" placeholder="__:__" required disabled>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            @* Saturday *@
+            <div class="row">
+                <div class="col-2">
+                    <div class="pt-3">
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" checked="@((sat!=null && sat.DayCheck != false)?true:false)" id="chk_6" class="custom-control-input">
+                            <span class="custom-control-label">Saturday : </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Work Hour<span style="color:red;">*</span></label>
+                        <input type="text" id="time_workHour_6" value="@(sat!=null?sat.Workhour:"")" class="form-control custom-time-input" placeholder="__:__" required disabled>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Overtime<span style="color:red;">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <label class="custom-control custom-checkbox px-2 m-0">
+                                        <input type="checkbox" id="chk_overtime_6" checked="@(sat!=null?sat.isOvertimeActive:false)" class="custom-control-input" required disabled>
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input type="text" id="time_overtime_6" placeholder="__:__" value="@(sat != null?sat.Overtime:"")" class="form-control custom-time-input" required disabled>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Break Hours<span style="color:red;">*</span></label>
+                        <input type="text" id="time_breakHour_6" value="@(sat!=null?sat.Breakhour:"")" class="form-control custom-time-input" placeholder="__:__" required disabled>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            @* Sunday *@
+            <div class="row">
+                <div class="col-2">
+                    <div class="pt-3">
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" id="chk_7" class="custom-control-input" checked="@((sun!=null && sun.DayCheck!= false)?true:false)">
+                            <span class="custom-control-label">Sunday : </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Work Hour<span style="color:red;">*</span></label>
+                        <input type="text" id="time_workHour_7" class="form-control custom-time-input" placeholder="__:__" value="@(sun!=null?sun.Workhour:"")" required disabled>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Overtime<span style="color:red;">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <label class="custom-control custom-checkbox px-2 m-0">
+                                        <input type="checkbox" id="chk_overtime_7" checked="@(sun!=null?sun.isOvertimeActive:false)" class="custom-control-input" disabled required>
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input type="text" id="time_overtime_7" placeholder="__:__" value="@(sun!=null?sun.Overtime:"")" class="form-control custom-time-input" required disabled>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Break Hours<span style="color:red;">*</span></label>
+                        <input type="text" id="time_breakHour_7" value="@(sun!=null?sun.Breakhour:"")" class="form-control custom-time-input" placeholder="__:__" required disabled>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- [ content ] End -->
+
+@section scripts{
+
+
+    <script src="~/assets/libs/moment/moment.js"></script>
+    <script src="~/assets/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.js"></script>
+
+    <script type="text/javascript">
+        var isActivePolicy;
+        $(document).ready(function () {
+
+                @*var obj = {};
+                obj.mon =  @(mon!= null ? 1 : 0);
+                obj.tue =  @(tue!= null ? 2 : 0);
+                obj.wed =  @(wed!= null ? 3 : 0);
+                obj.thu =  @(thu!= null ? 4 : 0);
+                obj.fri =  @(fri!= null ? 5 : 0);
+                obj.sat =  @(sat!= null ? 6 : 0);
+                obj.sun =  @(sun!= null ? 7 : 0);*@
+
+             var DaysObj = [];
+            DaysObj.mon = { Day: @(mon?.DayCheck == true?"true":"false") , DayCheck: @(mon!= null ? 1 : 0) };
+            DaysObj.tue = { Day: @(tue?.DayCheck == true?"true":"false") , DayCheck: @(tue != null ? 2 : 0) };
+            DaysObj.wed = { Day: @(wed?.DayCheck == true?"true":"false") , DayCheck: @(wed != null ? 3 : 0) };
+            DaysObj.thu = { Day: @(thu?.DayCheck == true?"true":"false") , DayCheck: @(thu != null ? 4 : 0) };
+            DaysObj.fri = { Day: @(fri?.DayCheck == true?"true":"false") , DayCheck: @(fri != null ? 5 : 0) };
+            DaysObj.sat = { Day: @(sat?.DayCheck == true?"true":"false") , DayCheck: @(sat != null ? 6 : 0) };
+            DaysObj.sun = { Day: @(sun?.DayCheck == true?"true":"false") , DayCheck: @(sun != null ? 7 : 0) };
+                    @*DaysObj.tue = [@(tue?.DayCheck == true?"true":"false"), ];
+                    DaysObj.wed = [@(wed?.DayCheck == true?"true":"false"), ];
+                    DaysObj.thu = [@(thu?.DayCheck == true?"true":"false"), ];
+                    DaysObj.fri = [@(fri?.DayCheck == true?"true":"false"), ];
+                    DaysObj.sat = [@(sat?.DayCheck == true?"true":"false"), ];
+                    DaysObj.sun = [@(sun?.DayCheck == true?"true":"false"), ];*@
+            
+
+
+
+            isActivePolicy =@(ViewBag.PolicyIsActive == true ? "true" : "false");
+
+            if (isActivePolicy == true) {
+
+                for (let i = 1; i <= 7; i++) {
+
+                        enableDays_checkbox(i);
+                        showingFields(i);
+
+                }
+            }
+            else {
+
+                for (let j = 1; j <= 7; j++) {
+
+                    hidingFields(j);
+                    disableDays_checkbox(j);
+
+
+                }
+            }
+
+
+            //for policy toggler
+            $("#isActivePolicy").change(function () {
+                isActivePolicy = ($(this).is(":checked") == true) ? true : false;
+
+                if (isActivePolicy) {
+
+                    //$("span.change_label").text('Active');
+                    for (let i = 1; i <= 7; i++) {
+                        enableDays_checkbox(i);
+                        for (var item in DaysObj) {
+                            if (DaysObj[item].Day == true && DaysObj[item].DayCheck > 0 && DaysObj[item].DayCheck == i) {
+                                       
+                                         showingFields(i);
+                                   }
+                               }
+
+                      }
+
+                }
+                else {
+                    //$("span.change_label").text('In Active');
+                   
+                    for (let i = 1; i <= 7; i++) {
+                        disableDays_checkbox(i);
+                        hidingFields(i);
+                        //for (var item in DaysObj) {
+                        //    if (DaysObj[item].Day == false && DaysObj[item].DayCheck == 0 ) {
+
+                                
+                        //    }
+                        //}
+
+                    }
+
+                 
+                }
+
+
+            });
+
+
+
+            forMasking();
+
+
+
+            //for (var item in obj) {
+
+            //   // showingFields(obj[item]);
+            //    //for OT Check
+            //    ck_ovt_Enabling_Disabling(obj[item]);
+
+            //}
+
+            let daysOBJ = {};
+            daysOBJ.mon = @(mon != null && mon.DayCheck != false? "true" : "1");
+            daysOBJ.tue = @(tue != null && tue.DayCheck != false? "true" : "2");
+            daysOBJ.wed = @(wed != null && wed.DayCheck != false? "true" : "3");
+            daysOBJ.thu = @(thu != null && thu.DayCheck != false? "true" : "4");
+            daysOBJ.fri = @(fri != null && fri.DayCheck != false? "true" : "5");
+            daysOBJ.sat = @(sat != null && sat.DayCheck != false? "true" : "6");
+            daysOBJ.sun = @(sun != null && sun.DayCheck != false? "true" : "7");
+
+            for(var item in daysOBJ){
+
+                hidingFields(daysOBJ[item]);
+
+            }
+
+
+        });
+
+        // Bootstrap Material DateTimePicker
+        //$(function () {
+        //    $('.custom-time-input').bootstrapMaterialDatePicker({
+        //        date: false,
+        //        shortTime: false,
+        //        format: 'HH:mm',
+        //        clearButton: true
+        //    });
+        //});
+
+
+
+
+    </script>
+
+    @* Events *@
+    <script type="text/javascript">
+
+        var chk_mon;
+        var chk_tue;
+        var chk_wed;
+        var chk_thu;
+        var chk_fri;
+        var chk_sat;
+        var chk_sun;
+        var workHourArr = [];
+
+
+        $("#btnSave").click(function (e) {
+            //  if (isActivePolicy) {
+            let allCountDisable = 0;
+            let allCounEnable = 0;
+
+            for (let i = 1; i <= 7; i++) {
+               
+                let isChecked = $(`#chk_${i}`).is(":checked");
+                if (!isChecked) {
+                    ++allCountDisable;
+                }
+                else {
+                    ++allCounEnable;
+                }
+
+            }
+          
+
+
+                e.preventDefault();
+                var workHourPolicy = {
+                    "Code": $("#workHourPolicyCode").val(),
+                    "PolicyName": $("#workHourPolicy").val(),
+                    "isActive": isActivePolicy,
+
+                };
+                //getting values from model
+            gettingValue();
+
+            if (allCountDisable == 7) {
+
+                showWarningNoti("Select atleast one To Proceed...");
+
+            } else {
+                let count = 0;
+                for (let i = 0; i <= 7; i++) {
+
+                    if ($(`#time_workHour_${i}`).val() == "" && $(`#chk_${i}`).is(":checked") == true) {
+                        ++count;
+                        switch (i) {
+
+                            case 1:
+                                showWarningNoti("Please Add WorkHour on Monday");
+                                break;
+                            case 2:
+                                showWarningNoti("Please Add WorkHour on Tuesday");
+                                break;
+                            case 3:
+                                showWarningNoti("Please Add WorkHour on Wednesday");
+                                break;
+                            case 4:
+                                showWarningNoti("Please Add WorkHour on Thursday");
+                                break;
+                            case 5:
+                                showWarningNoti("Please Add WorkHour on Friday");
+                                break;
+                            case 6:
+                                showWarningNoti("Please Add WorkHour on Saturday");
+                                break;
+                            case 7:
+                                showWarningNoti("Please Add WorkHour on Sunday");
+                                break;
+
+                        }
+                    } 
+                }
+                if (count == 0) {
+                    if (workHourPolicy.PolicyName != null) {
+
+                        let flag = validityCheckFor24Hours(workHourArr);
+                        if (!flag)
+                        {
+                       
+                            $.ajax({
+
+                                url: '@Url.Action("EditWorkHour", "WorkHourPolicy")',
+                                type: "POST",
+                                dataType: "json",
+                                cache: false,
+                                data: { workHourPolicy: workHourPolicy, workHourDetail: workHourArr },
+                                success: function (data) {
+                                    if (data.result) {
+
+                                        showSuccessNoti(data.msg);
+                                        setTimeout(function () {
+                                            window.location.href = '@Url.Action("Index", "WorkHourPolicy")';
+                                        }, 1000);
+                                    }
+                                    else {
+                                        showWarningNoti("Add Workhour To Proceed...");
+                                    }
+
+                                }
+                            });
+                        }
+                        
+                    } else {
+                        showWarningNoti("Policy Name must be Required...");
+                    }
+                  
+                }
+            }
+                
+            //}
+            //else {
+            //    showWarningNoti("Policy is InActive...");
+            //}
+
+        });
+
+
+
+        //For monday
+        $("#chk_1").click(function (e) {
+            if ($(this).is(":checked") == true) {
+
+                chk_mon = showingFields('1');
+            } else {
+                chk_mon = hidingFields('1');
+
+            }
+
+
+        });
+
+        $("#chk_overtime_1").click(function (e) {
+            ck_ovt_Enabling_Disabling('1');
+        });
+
+        //For tuesday
+        $("#chk_2").click(function (e) {
+             chk_tue = $(this).is(":checked") == true ? showingFields('2') : hidingFields('2');
+
+        });
+
+        $("#chk_overtime_2").click(function (e) {
+            ck_ovt_Enabling_Disabling('2');
+        });
+
+        //For wednesday
+        $("#chk_3").click(function (e) {
+             chk_wed = $(this).is(":checked") == true ? showingFields('3') : hidingFields('3');
+
+        });
+
+        $("#chk_overtime_3").click(function (e) {
+            ck_ovt_Enabling_Disabling('3');
+        });
+
+        //For thursday
+        $("#chk_4").click(function (e) {
+             chk_thu = $(this).is(":checked") == true ? showingFields('4') : hidingFields('4');
+
+        });
+
+        $("#chk_overtime_4").click(function (e) {
+            ck_ovt_Enabling_Disabling('4');
+        });
+
+        //For friday
+        $("#chk_5").click(function (e) {
+             chk_fri = $(this).is(":checked") == true ? showingFields('5') : hidingFields('5');
+
+        });
+
+        $("#chk_overtime_5").click(function (e) {
+            ck_ovt_Enabling_Disabling('5');
+        });
+
+        //For saturday
+        $("#chk_6").click(function (e) {
+             chk_sat = $(this).is(":checked") == true ? showingFields('6') : hidingFields('6');
+
+        });
+
+        $("#chk_overtime_6").click(function (e) {
+            ck_ovt_Enabling_Disabling('6');
+        });
+
+        //For sunday
+        $("#chk_7").click(function (e) {
+             chk_sun = $(this).is(":checked") == true ? showingFields('7') : hidingFields('7');
+
+        });
+
+        $("#chk_overtime_7").click(function (e) {
+            ck_ovt_Enabling_Disabling('7');
+        });
+    </script>
+
+
+
+
+    @* Methods *@
+    <script type="text/javascript">
+        function forMasking() {
+            for (let i = 1; i <= 7; i++) {
+
+                vanillaTextMask.maskInput({
+                    inputElement: $(`#time_workHour_${i}`)[0],
+                    mask: [/[0-9]/, /\d/, ':', /\d/, /\d/]
+                });
+                vanillaTextMask.maskInput({
+                    inputElement: $(`#time_overtime_${i}`)[0],
+                    mask: [/[0-9]/, /\d/, ':', /\d/, /\d/]
+                });
+                vanillaTextMask.maskInput({
+                    inputElement: $(`#time_breakHour_${i}`)[0],
+                    mask: [/[0-9]/, /\d/, ':', /\d/, /\d/]
+                });
+            }
+        }
+
+        function gettingValue() {
+            workHourArr = [];
+            for (let i = 1; i <= 7; i++) {
+                var model = {};
+                //  if ($(`#chk_${i}`).is(":checked") == true) {
+               // if ($(`#time_workHour_${i}`).val() != "") {
+                    model.DayCheck = $(`#chk_${i}`).is(":checked");
+                    model.Day = i;
+                    model.Workhour = $(`#time_workHour_${i}`).val();
+                    model.Overtime = $(`#time_overtime_${i}`).val();
+                    model.Breakhour = $(`#time_breakHour_${i}`).val();
+                    model.isOvertimeActive = $(`#chk_overtime_${i}`).is(":checked");
+                    workHourArr.push(model);
+            
+               // }
+
+            }
+
+        }
+
+
+       
+
+
+        function ck_ovt_Enabling_Disabling(param) {
+
+            let chckOverTime = `#chk_overtime_${param}`;
+            let overTime = `#time_overtime_${param}`;
+            $(chckOverTime).is(":checked") == true ? $(overTime).attr('disabled', false) : $(overTime).attr('disabled', true);
+
+        }
+
+        function hidingFields(param) {
+
+            let workHour = `#time_workHour_${param}`;
+            let overTime = `#time_overtime_${param}`;
+            let chckOverTime = `#chk_overtime_${param}`;
+            let breakHours = `#time_breakHour_${param}`;
+            $(workHour).attr('disabled', true);
+            $(overTime).attr('disabled', true);
+            $(breakHours).attr('disabled', true);
+            $(chckOverTime).attr('disabled', true);
+        }
+
+        function showingFields(param) {
+
+            let workHour = `#time_workHour_${param}`;
+            let overTime = `#time_overtime_${param}`;
+            let chckOverTime = `#chk_overtime_${param}`;
+            let breakHours = `#time_breakHour_${param}`;
+            $(workHour).attr('disabled', false);
+            //$(overTime).attr('disabled', false);
+            $(breakHours).attr('disabled', false);
+            $(chckOverTime).attr('disabled', false);
+        }
+
+        function disableDays_checkbox(param) {
+
+            let check = `#chk_${param}`
+            $(check).attr('disabled', true);
+
+        }
+
+        function enableDays_checkbox(param) {
+
+            let check = `#chk_${param}`
+            $(check).attr('disabled', false);
+
+        }
+
+    </script>
+
+    <script>
+
+        function validityCheckFor24Hours(model) {
+            console.log(model)
+            let day;
+            let WH;
+            let OT;
+            let BH;
+            let total;
+            let flag = false;
+            for (let i = 0; i < model.length; i++) {
+                switch (model[i].Day) {
+
+                    case 1:
+
+                        day = "Monday";
+                        WH = model[i].Workhour == "" ? 0 : parseInt(model[i].Workhour);
+                        if (model[i].isOvertimeActive) {
+                            OT = model[i].Overtime == "" ? 0 : parseInt(model[i].Overtime);
+                        } else {
+                            OT = 0;
+                        }
+                        BH = model[i].Breakhour == "" ? 0 : parseInt(model[i].Breakhour);
+                        total = WH + OT + BH;
+                        if (total > 24) {
+                            flag = true;
+                            showWarningNoti("Make sure Policy for " + day + " is within 24 Hours!");
+                        }
+                        break;
+
+                    case 2:
+                        day = "Tuesday";
+                        WH = model[i].Workhour == "" ? 0 : parseInt(model[i].Workhour);
+                        if (model[i].isOvertimeActive) {
+                            OT = model[i].Overtime == "" ? 0 : parseInt(model[i].Overtime);
+                        } else {
+                            OT = 0;
+                        }
+                        BH = model[i].Breakhour == "" ? 0 : parseInt(model[i].Breakhour);
+                        total = WH + OT + BH;
+                        if (total > 24) {
+                            flag = true;
+                            showWarningNoti("Make sure Policy for " + day + " is within 24 Hours!");
+                        }
+                        break;
+                    case 3:
+                        day = "Wednesday";
+                        WH = model[i].Workhour == "" ? 0 : parseInt(model[i].Workhour);
+                        if (model[i].isOvertimeActive) {
+                            OT = model[i].Overtime == "" ? 0 : parseInt(model[i].Overtime);
+                        } else {
+                            OT = 0;
+                        }
+                        BH = model[i].Breakhour == "" ? 0 : parseInt(model[i].Breakhour);
+                        total = WH + OT + BH;
+                        if (total > 24) {
+                            flag = true;
+                            showWarningNoti("Make sure Policy for " + day + " is within 24 Hours!");
+                        }
+                        break;
+
+                    case 4:
+                        day = "Thursday";
+                        WH = model[i].Workhour == "" ? 0 : parseInt(model[i].Workhour);
+                        if (model[i].isOvertimeActive) {
+                            OT = model[i].Overtime == "" ? 0 : parseInt(model[i].Overtime);
+                        } else {
+                            OT = 0;
+                        }
+                        BH = model[i].Breakhour == "" ? 0 : parseInt(model[i].Breakhour);
+                        total = WH + OT + BH;
+                        if (total > 24) {
+                            flag = true;
+                            showWarningNoti("Make sure Policy for " + day + " is within 24 Hours!");
+                        }
+                        break;
+
+
+                    case 5:
+                        day = "Friday";
+                        WH = model[i].Workhour == "" ? 0 : parseInt(model[i].Workhour);
+                        if (model[i].isOvertimeActive) {
+                            OT = model[i].Overtime == "" ? 0 : parseInt(model[i].Overtime);
+                        } else {
+                            OT = 0;
+                        }
+                        BH = model[i].Breakhour == "" ? 0 : parseInt(model[i].Breakhour);
+                        total = WH + OT + BH;
+                        if (total > 24) {
+                            flag = true;
+                            showWarningNoti("Make sure Policy for " + day + " is within 24 Hours!");
+                        }
+                        break;
+
+                    case 6:
+                        day = "Saturday";
+                        WH = model[i].Workhour == "" ? 0 : parseInt(model[i].Workhour);
+                        if (model[i].isOvertimeActive) {
+                            OT = model[i].Overtime == "" ? 0 : parseInt(model[i].Overtime);
+                        } else {
+                            OT = 0;
+                        }
+                        BH = model[i].Breakhour == "" ? 0 : parseInt(model[i].Breakhour);
+                        total = WH + OT + BH;
+                        if (total > 24) {
+                            flag = true;
+                            showWarningNoti("Make sure Policy for " + day + " is within 24 Hours!");
+                        }
+                        break;
+
+
+                    case 7:
+                        day = "Sunday";
+                        WH = model[i].Workhour == "" ? 0 : parseInt(model[i].Workhour);
+                        if (model[i].isOvertimeActive) {
+                            OT = model[i].Overtime == "" ? 0 : parseInt(model[i].Overtime);
+                        } else {
+                            OT = 0;
+                        }
+                        BH = model[i].Breakhour == "" ? 0 : parseInt(model[i].Breakhour);
+                        total = WH + OT + BH;
+                        if (total > 24) {
+                            flag = true;
+                            showWarningNoti("Make sure Policy for " + day + " is within 24 Hours!");
+                        }
+                        break;
+
+
+                }
+
+            }
+
+            return flag;
+        }
+
+    </script>
+}

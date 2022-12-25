@@ -1,0 +1,564 @@
+﻿@model List<EagleEye.DAL.Partial.Report_P>
+@using EagleEye.Common
+@using EagleEye.DAL.Partial
+@{
+    /**/
+
+    ViewBag.Title = "Reports";
+    Communication_P com = @SessionHandling.Communication;
+}
+@{
+    MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen> List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Daily Attendence Report").FirstOrDefault();
+    }
+}
+
+<link rel="stylesheet" href="~/assets/libs/bootstrap-select/bootstrap-select.css">
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+
+    @*<h4 class="font-weight-bold py-3 mb-0">Reports</h4>*@
+
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-sm-4">
+                <h4 class="font-weight-bold py-3 mb-0">Daily Attendence Report</h4>
+                @*<label class="text-left" style="font-weight:500;font-size:large;" id="dtDate"></label>*@
+
+            </div>
+            <div class="col-sm-8 text-right">
+                <div class="demo-inline-spacing">
+                    @if (Menu.Update == true || Menu.Insert == true)
+                    {
+                        <button type="button" class="btn btn-primary waves-effect float-right" data-style="expand-right" title="Export" id="btnExport">
+                            <span class="fa fa-file-excel"></span>&nbsp;&nbsp;Export to Excel
+                        </button>
+                        <button type="button" class="btn btn-primary ladda-button float-right" data-style="expand-right" title="Proceed" id="btnProceed">
+                            <span class="fa fa-check-square"></span>&nbsp;&nbsp;Proceed
+                        </button>
+                    }
+                    <div class="col-sm-3 float-right">
+                        <input type="date" class="form-control float-right" onkeydown="return false" id="dtTime">
+                    </div>
+
+                    <div class="col-sm-4">
+                        <select class="selectpicker" multiple="multiple" data-style="btn-default" id="ddlDevice" data-live-search="true">
+
+                            @if (ViewBag.Devices != null)
+                            {
+                                foreach (Device_P item in ViewBag.Devices)
+                                {
+                                    <option value="@item.Device_ID">@item.Device_Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 float-right">
+
+                @if (Menu.Update == true || Menu.Insert == true)
+                {
+                    <button type="button" class="btn btn-info ladda-button float-right" data-style="expand-right" title="Report" id="btnReport">
+                        <span class="fa fa-file-pdf"></span>&nbsp;&nbsp;Report
+                    </button>
+                    <label class="switcher switcher-info float-right">
+                        <input type="checkbox" class="switcher-input" id="chkInclude">
+                        <span class="switcher-indicator">
+                            <span class="switcher-yes"></span>
+                            <span class="switcher-no"></span>
+                        </span>
+                        <span class="switcher-label">Include All Transactions</span>
+                    </label>
+                }
+            </div>
+        </div>
+        <hr />
+        @*<div class="row" id="cardlist">*@
+        <div class="card">
+
+            <div class="card-datatable table-responsive">
+                @*<div class="text-center" id="divLoader">
+                        <img src="~/assets/img/loader.gif" /><br />
+                        Loading Data..
+                    </div>*@
+                <table class="table table-striped card-body" id="tblAttendence">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Employee Name</th>
+                            <th>Time In</th>
+                            <th>Time In Date</th>
+                            <th>Time Out</th>
+                            <th>Device</th>
+                            <th>Worked Hours</th>
+                            <th>All Transactions</th>
+                            <th>Photo</th>
+                            <th>Location</th>
+                            <th>Department</th>
+                            <th>Designation</th>
+                            <th>Employee Type</th>
+                            @*<th>Actual Work Hour</th>
+                            <th>Overtime</th>
+                            <th>Break Hour</th>*@
+                                  
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    @*</div>*@
+</div>
+
+
+<div class="modal fade" id="modals-loading" data-backdrop="static" data-keyboard="false" style="padding-bottom:250px;padding-top:250px;">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-body">
+                <div class="text-center" id="divLoader">
+                    <img src="~/assets/img/loader.gif" /> <br />
+                    Loading Reports ..
+                </div>
+                @*<div class="text-center" style="font-weight:500;font-size:small;" id="dtCount"> </div>*@
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-pic" data-keyboard="true" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin:0 auto;">
+                    Employee
+                    <span class="font-weight-light">Photo</span>
+
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="col text-center">
+                        <img id="imgPhoto" class="img-rounded" width="200" height="250" />
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+@section scripts{
+
+    <script src="~/assets/libs/bootstrap-select/bootstrap-select.js"></script>
+
+    @*Startup*@
+    <script type="text/javascript">
+        // var tblAttLog;
+        var userAttendance = [];
+        var tableAttendence;
+
+
+        $(document).ready(function () {
+
+
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0')
+            var mm = String(today.getMonth() + 1).padStart(2, '0')
+            var yy = today.getFullYear();
+            $("#dtTime").val(yy + "-" + mm + "-" + dd)
+
+            bindDatatable();
+
+        });
+
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+
+        $("#btnProceed").click(function () {
+            var dt = $("#dtTime").val();
+            if (dt == ""  ) {
+                showWarningNoti("Kindly Select Date Time");
+            } else {
+                bindDatatable();
+            }
+
+        });
+        $("#btnReport").click(function () {
+            Report(this);
+        });
+        $("#btnExport").click(function () {
+            var dt = $("#dtTime").val();
+            Export(this, dt);
+        });
+
+    </script>
+
+
+    @*Function*@
+    <script type="text/javascript">
+
+
+        function bindDatatable() {
+
+            if (tableAttendence != null)
+                tableAttendence.destroy();
+
+            var devices = $("#ddlDevice").val() != null ? $("#ddlDevice").val().toString(): "";
+            
+            var dt = $("#dtTime").val();
+
+
+            tableAttendence = $('#tblAttendence')
+                .DataTable({
+                    "aLengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                    "sAjaxSource": "/Report/GetTotalReport",
+                    "fnServerParams": function (aoData) {
+                        aoData.push({ name: "dt", value: dt });
+                        aoData.push({ name: "devices", value: devices });
+                    },
+                    "bServerSide": true,
+                    "bProcessing": true,
+                    "bSearchable": true,
+                    "language": {
+                        "emptyTable": "No record found.",
+                        "processing":
+                            '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+                    },
+                    columnDefs: [
+                        {
+                            "data": "Employee_ID",
+                            targets: 0
+                        },
+                        {
+                            "data": "Employee_Name",
+                            targets: 1
+                        },
+                        {
+                            "data": "TimeIn",
+                            targets: 2
+                        },
+                        {
+                            "data": "TimeInDate",
+                            targets: 3
+                        },
+                        {
+                            "data": "TimeOut",
+                            targets: 4
+                        },
+
+                        {
+                            "data": "Device",
+                            targets: 5
+                        },
+                        {
+                            "data": "dt_workedhours",
+                            targets: 6
+                        },
+                        {
+                            "data": "att_count",
+                            targets: 7,
+                            "render": function (data, type, row) {
+
+                                if (row.att_count > 0) {
+                                    return "<a href='/Report/Individual?emp=" + row.Employee_ID + "&dt=" + row.curr_datetime +"' target='_blank'>"+ row.att_count + "</a> ";
+                                } else {
+                                    return "0";
+                                }
+
+                                
+                            }
+                            },
+                        {
+                            "data": "Employee_Photo",
+                            targets: 8,
+                            "className": "text-center",
+                            "render": function (data, type, row) {
+
+                                return "<input type='hidden' id='hdnimg_" + row.Employee_ID + "' value='" + row.Employee_Photo + "'/><i class='feather icon-image' style='font-size:20px;cursor:pointer;' onclick='showImg(" + row.Employee_ID + ");'></i>";
+
+                            }
+                        },
+                        {
+                            "data": "Location",
+                            targets: 9
+                        },
+                        {
+                            "data": "Department",
+                            targets: 10
+                        },
+                        {
+                            "data": "Designation",
+                            targets: 11
+                        },
+                        {
+                            "data": "EmployeeType",
+                            targets: 12
+                        },
+                        //{
+                        //    "data": "rpt_ActualWorkHour",
+                        //    targets: 13
+                        //},
+                        //{
+                        //    "data": "rpt_OverTime",
+                        //    targets: 14
+                        //},
+                        //{
+                        //    "data": "rpt_BreakHour",
+                        //    targets: 15
+                        //},
+                    ]
+
+
+
+                });
+
+
+        }
+
+        function DisableAll() {
+            //  $("#modals-loading").modal('toggle');
+            $("#btnProceed").attr("disabled", true);
+            $("#dtTime").attr("disabled", true);
+            $("#btnExport").attr("disabled", true);
+        }
+        function EnableAll() {
+            // $("#modals-loading").modal('toggle');
+            $("#btnProceed").attr("disabled", false);
+            $("#dtTime").attr("disabled", false);
+            $("#btnExport").attr("disabled", false);
+        }
+
+        @*function GetTotalReportFromDB(dt) {
+
+            $("#divLoader").show();
+            DisableAll();
+            if (dt == "")
+                var dt = "2000-01-01";
+
+            var devices = $("#ddlDevice").val();
+
+            $.ajax({
+                url: '@Url.Action("GetTotalReport", "Report")',
+                type: "POST",
+                data: { dt: dt, devices: devices },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        tableAttendence.clear().draw();
+                        for (var i = 0; i < data.result.length; i++) {
+                            userAttendance.push(data.result[i]);
+                            var photo = data.result[i].Employee_Photo;
+                            if (photo == null || photo == "") {
+                                photo = "/assets/img/avatars/no-image.jpg";
+                            }
+
+                            var img = "<input type='hidden' id='hdnimg_" + data.result[i].Employee_ID + "' value='" + data.result[i].Employee_Photo + "'/><i class='feather icon-image' style='font-size:20px;cursor:pointer;' onclick='showImg(" + data.result[i].Employee_ID + ");'></i>";
+                            if (data.result[i].att_count != 0)
+                                var transacations = '<a href="/Report/Individual?emp=' + data.result[i].Employee_ID + '&dt=' + data.result[i].curr_datetime + '"><td>' + data.result[i].att_count + '</td></a>'
+
+                            else
+                                var transacations = '<td>' + data.result[i].att_count + '</td>'
+
+
+
+                            if (data.result[i].TimeIn == "00:00:00")
+                                var timeIn = "--:--:--";
+
+                            else
+                                timeIn = data.result[i].TimeIn;
+
+                            if (data.result[i].TimeOut == "00:00:00")
+                                var timeOut = "--:--:--";
+
+                            else
+                                timeOut = data.result[i].TimeOut;
+
+
+                            if (data.result[i].TimeOutDate == "01-01-0001")
+                                var TimeOutDate = "--/--/----";
+
+                            else
+                                TimeOutDate = data.result[i].TimeOutDate;
+
+                            tableAttendence.row.add([
+                                data.result[i].Employee_ID,
+                                data.result[i].Employee_Name,
+                                timeIn,
+                                TimeOutDate,
+                                timeOut,
+                                data.result[i].Device,
+                                data.result[i].dt_workedhours,
+                                transacations,
+                                img,
+                                data.result[i].Location,
+                                data.result[i].Department,
+                                data.result[i].Designation,
+                                data.result[i].EmployeeType,
+                            ]).draw(false);
+
+                        }
+                    }
+                    EnableAll();
+
+                    $("#divLoader").hide();
+
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+
+                }
+            });
+
+        }*@
+
+        function showImg(code) {
+            var data = $("#hdnimg_" + code).val();
+            $("#imgPhoto").attr("src", data);
+            $("#modal-pic").modal('toggle');
+
+        }
+
+        function Report(button) {
+            if (tableAttendence != null) {
+
+                var l = Ladda.create(button);
+                l.start();
+
+                var inc = $("#chkInclude").prop("checked");
+                var dt = $("#dtTime").val();
+                var devices = $("#ddlDevice").val();
+
+                $.ajax({
+                    url: '@Url.Action("PDFReport", "Report")',
+                    type: "POST",
+                    data: { dt: dt, include: inc, devices: devices },
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+
+                        if (data.result) {
+
+                            var a = document.createElement('a');
+                            var url = "@Request.Url.GetLeftPart(UriPartial.Authority)" + "/Reports/" + data.fullname;
+                            a.href = url;
+                            a.download = data.fullname;
+                            document.body.append(a);
+                            a.click();
+                            a.remove();
+                            window.URL.revokeObjectURL(url);
+                            showSuccessNoti("Report Generated Successfully!");
+                            var filepath = data.fullname;
+                            Delete(filepath);
+                        } else {
+                            showWarningNoti("No Users to Proceed!");
+                        }
+                    },
+                    failure: function (response) {
+                        l.stop();
+                    },
+                    error: function (err, status) {
+                        l.stop();
+                    },
+                    complete: function (data) {
+                        l.stop();
+                    }
+                });
+
+
+
+            } else {
+                showWarningNoti("No Data Exist!");
+            }
+
+        }
+
+        function Export(button, dt) {
+            var inc = $("#chkInclude").prop("checked");
+            if (tableAttendence.data().any()) {
+
+                if (dt == "")
+                    var dt = "2000-01-01";
+
+                var l = Ladda.create(button);
+                l.start();
+
+                var devices = $("#ddlDevice").val();
+
+                $.ajax({
+                    url: '@Url.Action("Export", "Report")',
+                    type: "POST",
+                    data: { dt: dt, devices: devices, include: inc },
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+
+                        if (data.result) {
+
+                            var a = document.createElement('a');
+                            var url = "@Request.Url.GetLeftPart(UriPartial.Authority)" + "/Reports/" + data.fullname;
+                            a.href = url;
+                            a.download = data.fullname;
+                            document.body.append(a);
+                            a.click();
+                            a.remove();
+                            window.URL.revokeObjectURL(url);
+                            showSuccessNoti("Data Exported Successfully!");
+                            var filepath = data.fullname;
+                            Delete(filepath);
+
+                        } else {
+                            showWarningNoti("Issue occurred during export!");
+                        }
+                    },
+                    failure: function (response) {
+                        l.stop();
+                    },
+                    error: function (err, status) {
+                        l.stop();
+                    },
+                    complete: function (data) {
+                        l.stop();
+                    }
+                });
+
+            } else {
+
+                showWarningNoti("No Record Found!");
+            }
+        }
+
+
+        //Delete start
+        function Delete(filepath) {
+            $.ajax({
+
+                url: '@Url.Action("Delete", "Report")',
+                type: "POST",
+                data: { filename: filepath },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                }
+            });
+        }
+        //Delete end
+
+    </script>
+
+}

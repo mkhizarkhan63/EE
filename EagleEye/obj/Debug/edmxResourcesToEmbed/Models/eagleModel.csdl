@@ -1,0 +1,657 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EagleEyeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="EagleEyeEntities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="usp_check_reset_fk_cmd">
+      <Parameter Name="dev_id" Mode="In" Type="String" />
+      <Parameter Name="trans_id" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_receive_cmd">
+      <Parameter Name="dev_id" Mode="In" Type="String" />
+      <Parameter Name="trans_id" Mode="InOut" Type="String" />
+      <Parameter Name="cmd_code" Mode="InOut" Type="String" />
+      <Parameter Name="cmd_param_bin" Mode="InOut" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="usp_set_cmd_result" ReturnType="Collection(String)">
+      <Parameter Name="dev_id" Mode="In" Type="String" />
+      <Parameter Name="trans_id" Mode="In" Type="String" />
+      <Parameter Name="return_code" Mode="In" Type="String" />
+      <Parameter Name="cmd_result_bin" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="usp_update_device_conn_status">
+      <Parameter Name="dev_id" Mode="In" Type="String" />
+      <Parameter Name="dev_name" Mode="In" Type="String" />
+      <Parameter Name="tm_last_update" Mode="In" Type="DateTime" />
+      <Parameter Name="fktm_last_update" Mode="In" Type="DateTime" />
+      <Parameter Name="dev_info" Mode="In" Type="String" />
+      <Parameter Name="dev_model" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="tbl_account" EntityType="EagleEyeModel.tbl_account" />
+    <EntitySet Name="tbl_att_status" EntityType="EagleEyeModel.tbl_att_status" />
+    <EntitySet Name="tbl_attendence" EntityType="EagleEyeModel.tbl_attendence" />
+    <EntitySet Name="tbl_awaitingdevice" EntityType="EagleEyeModel.tbl_awaitingdevice" />
+    <EntitySet Name="tbl_communication" EntityType="EagleEyeModel.tbl_communication" />
+    <EntitySet Name="tbl_department" EntityType="EagleEyeModel.tbl_department" />
+    <EntitySet Name="tbl_designation" EntityType="EagleEyeModel.tbl_designation" />
+    <EntitySet Name="tbl_device" EntityType="EagleEyeModel.tbl_device" />
+    <EntitySet Name="tbl_employee" EntityType="EagleEyeModel.tbl_employee" />
+    <EntitySet Name="tbl_employeetype" EntityType="EagleEyeModel.tbl_employeetype" />
+    <EntitySet Name="tbl_exceptionlog" EntityType="EagleEyeModel.tbl_exceptionlog" />
+    <EntitySet Name="tbl_expiredusers" EntityType="EagleEyeModel.tbl_expiredusers" />
+    <EntitySet Name="tbl_fkcmd_trans" EntityType="EagleEyeModel.tbl_fkcmd_trans" />
+    <EntitySet Name="tbl_fkcmd_trans_cmd_param" EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_param" />
+    <EntitySet Name="tbl_fkcmd_trans_cmd_param_offline" EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_param_offline" />
+    <EntitySet Name="tbl_fkcmd_trans_cmd_result" EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_result" />
+    <EntitySet Name="tbl_fkcmd_trans_cmd_result_user_id_list" EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_result_user_id_list" />
+    <EntitySet Name="tbl_fkcmd_trans_offline" EntityType="EagleEyeModel.tbl_fkcmd_trans_offline" />
+    <EntitySet Name="tbl_fkdevice_status" EntityType="EagleEyeModel.tbl_fkdevice_status" />
+    <EntitySet Name="tbl_irregularemployee" EntityType="EagleEyeModel.tbl_irregularemployee" />
+    <EntitySet Name="tbl_location" EntityType="EagleEyeModel.tbl_location" />
+    <EntitySet Name="tbl_menu" EntityType="EagleEyeModel.tbl_menu" />
+    <EntitySet Name="tbl_menurights" EntityType="EagleEyeModel.tbl_menurights" />
+    <EntitySet Name="tbl_operationlog" EntityType="EagleEyeModel.tbl_operationlog" />
+    <EntitySet Name="tbl_policyDetail" EntityType="EagleEyeModel.tbl_policyDetail" />
+    <EntitySet Name="tbl_policyWithEmployee" EntityType="EagleEyeModel.tbl_policyWithEmployee" />
+    <EntitySet Name="tbl_realtime_enroll_data" EntityType="EagleEyeModel.tbl_realtime_enroll_data" />
+    <EntitySet Name="tbl_realtime_userinfo" EntityType="EagleEyeModel.tbl_realtime_userinfo" />
+    <EntitySet Name="tbl_setting" EntityType="EagleEyeModel.tbl_setting" />
+    <EntitySet Name="tbl_temptable" EntityType="EagleEyeModel.tbl_temptable" />
+    <EntitySet Name="tbl_timezone" EntityType="EagleEyeModel.tbl_timezone" />
+    <EntitySet Name="tbl_workcode" EntityType="EagleEyeModel.tbl_workcode" />
+    <EntitySet Name="tbl_workHourPolicy" EntityType="EagleEyeModel.tbl_workHourPolicy" />
+    <EntitySet Name="tbl_fkcmd_trans_cmd_result_log_data" EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_result_log_data" />
+    <EntitySet Name="tbl_fkcmd_trans_cmd_result_slog_data" EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_result_slog_data" />
+    <EntitySet Name="tbl_realtime_doorstatus" EntityType="EagleEyeModel.tbl_realtime_doorstatus" />
+    <EntitySet Name="tbl_realtime_glog" EntityType="EagleEyeModel.tbl_realtime_glog" />
+  </EntityContainer>
+  <EntityType Name="tbl_account">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Hash" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Salt" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="LastLogin" Type="DateTime" Precision="3" />
+    <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_att_status">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_attendence">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Attendance_DateTime" Type="DateTime" Precision="3" />
+    <Property Name="Attendance_Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Polling_DateTime" Type="DateTime" Precision="3" />
+    <Property Name="Device_ID" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Employee_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Employee_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Status_Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="WorkCode" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="WorkCode_Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="DoorStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Verify_Mode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Status_TIS" Type="Boolean" />
+    <Property Name="Status_Oracle" Type="Boolean" />
+    <Property Name="Status_SQL" Type="Boolean" />
+    <Property Name="Ext_Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Status_MySQL" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="tbl_awaitingdevice">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Device_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Device_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Device_Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Device_Status_Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Device_Type" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="IsConnected" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="tbl_communication">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Server_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SignalR_Port" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Server_Port" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_department">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_designation">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_device">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Device_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Device_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Device_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Device_Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Face_Data_Ver" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Firmware" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Firmware_Filename" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Fk_Bin_Data_Lib" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Fp_Data_Ver" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Supported_Enroll_Data" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Device_Status_Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Max_Record" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Real_FaceReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Max_FaceReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Real_FPReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Max_FPReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Real_IDCardReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Max_IDCardReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Real_Manager" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Max_Manager" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Real_PasswordReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Max_PasswordReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Real_PvReg" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Max_PvReg" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Total_log_Count" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Total_log_Max" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Real_Employee" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Max_Employee" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Device_LastStatusTime" Type="DateTime" Precision="3" />
+    <Property Name="Alarm_Delay" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Allow_EarlyTime" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Allow_LateTime" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Anti_back" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DoorMagnetic_Delay" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DoorMagnetic_Type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Glog_Warning" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="OpenDoor_Delay" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Receive_Interval" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Reverify_Time" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Show_ResultTime" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Screensavers_Time" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Sleep_Time" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Use_Alarm" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Volume" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Wiegand_Input" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Wiegand_Output" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Wiegand_Type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Multi_Users" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Device_Group" Type="Int32" />
+    <Property Name="Server_Address" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Server_Port" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Sys_Time" Type="DateTime" Precision="3" />
+    <Property Name="Device_Status" Type="Int32" />
+    <Property Name="Reader_ID" Type="Int32" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <Property Name="Last_Polled_Record" Type="DateTime" Precision="3" />
+    <Property Name="Device_Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="OpenDoor" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="IsSlave" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="tbl_employee">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Employee_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Employee_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Employee_Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Card_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="User_Privilege" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FingerPrint" Type="Boolean" />
+    <Property Name="Face" Type="Boolean" />
+    <Property Name="Palm" Type="Boolean" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Device_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fkDepartment_Code" Type="Int32" />
+    <Property Name="fkLocation_Code" Type="Int32" />
+    <Property Name="fkDesignation_Code" Type="Int32" />
+    <Property Name="fkEmployeeType_Code" Type="Int32" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Active" Type="Int32" />
+    <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Trans_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Update_Date" Type="DateTime" Precision="3" />
+    <Property Name="Cmd_Param" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_0" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_1" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_2" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_3" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_4" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_5" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_6" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_7" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_8" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_9" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="face_data" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="palm_0" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="palm_1" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="photo_data" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Valid_DateStart" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Valid_DateEnd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Sunday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Monday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Tuesday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Wednesday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Thursday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Friday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Saturday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="WorkHourPolicyCode" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tbl_employeetype">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_exceptionlog">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Exception_Layer" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Method" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Stacktrace" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Error_Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Form" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Exception_DateTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tbl_expiredusers">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Employee_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Employee_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Employee_Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Card_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="User_Privilege" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FingerPrint" Type="Boolean" />
+    <Property Name="Face" Type="Boolean" />
+    <Property Name="Palm" Type="Boolean" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Device_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fkDepartment_Code" Type="Int32" />
+    <Property Name="fkLocation_Code" Type="Int32" />
+    <Property Name="fkDesignation_Code" Type="Int32" />
+    <Property Name="fkEmployeeType_Code" Type="Int32" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Active" Type="Int32" />
+    <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Trans_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Update_Date" Type="DateTime" Precision="3" />
+    <Property Name="Cmd_Param" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_0" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_1" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_2" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_3" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_4" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_5" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_6" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_7" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_8" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_9" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="face_data" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="palm_0" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="palm_1" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="photo_data" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Valid_DateStart" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Valid_DateEnd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Sunday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Monday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Tuesday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Wednesday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Thursday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Friday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Saturday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="IsDelete" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="tbl_fkcmd_trans">
+    <Key>
+      <PropertyRef Name="trans_id" />
+    </Key>
+    <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+    <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="timezone_no" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="cmd_code" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="return_code" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="update_time" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="tbl_fkcmd_trans_cmd_param">
+    <Key>
+      <PropertyRef Name="trans_id" />
+    </Key>
+    <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+    <Property Name="cmd_param" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tbl_fkcmd_trans_cmd_param_offline">
+    <Key>
+      <PropertyRef Name="trans_id" />
+    </Key>
+    <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+    <Property Name="cmd_param" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tbl_fkcmd_trans_cmd_result">
+    <Key>
+      <PropertyRef Name="trans_id" />
+    </Key>
+    <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+    <Property Name="cmd_result" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tbl_fkcmd_trans_cmd_result_user_id_list">
+    <Key>
+      <PropertyRef Name="code" />
+    </Key>
+    <Property Name="code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+    <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="true" />
+    <Property Name="user_id" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="backup_number" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tbl_fkcmd_trans_offline">
+    <Key>
+      <PropertyRef Name="trans_id" />
+    </Key>
+    <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="device_id" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+    <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="timezone_no" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="cmd_code" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="return_code" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="update_time" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tbl_fkdevice_status">
+    <Key>
+      <PropertyRef Name="device_id" />
+    </Key>
+    <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+    <Property Name="device_name" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+    <Property Name="connected" Type="Int32" Nullable="false" />
+    <Property Name="last_update_time" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="last_update_fk_time" Type="DateTime" Precision="3" />
+    <Property Name="device_info" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+    <Property Name="dev_model" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+    <Property Name="dev_status_info" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+    <Property Name="con_status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tbl_irregularemployee">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Employee_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Employee_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Employee_Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Card_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="User_Privilege" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FingerPrint" Type="Boolean" />
+    <Property Name="Face" Type="Boolean" />
+    <Property Name="Palm" Type="Boolean" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Device_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fkDepartment_Code" Type="Int32" />
+    <Property Name="fkLocation_Code" Type="Int32" />
+    <Property Name="fkDesignation_Code" Type="Int32" />
+    <Property Name="fkEmployeeType_Code" Type="Int32" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Active" Type="Int32" />
+    <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Trans_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Update_Date" Type="DateTime" Precision="3" />
+    <Property Name="Cmd_Param" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_0" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_1" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_2" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_3" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_4" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_5" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_6" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_7" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_8" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="finger_9" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="face_data" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="palm_0" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="palm_1" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="photo_data" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="IsDelete" Type="Boolean" />
+    <Property Name="Msg" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_location">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_menu">
+    <Key>
+      <PropertyRef Name="Menu_Id" />
+    </Key>
+    <Property Name="Menu_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Menu_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Menu_Controller" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Menu_Action" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Parent" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Icon" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="IsActive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="tbl_menurights">
+    <Key>
+      <PropertyRef Name="Menu_Rights_Id" />
+    </Key>
+    <Property Name="Menu_Rights_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="User_Id" Type="Int32" />
+    <Property Name="Menu_Id" Type="Int32" />
+    <Property Name="Insert" Type="Boolean" />
+    <Property Name="Update" Type="Boolean" />
+    <Property Name="Delete" Type="Boolean" />
+    <Property Name="View" Type="Boolean" />
+    <Property Name="IsActive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="tbl_operationlog">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Trans_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Device_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Device_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Action" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Message" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Device_Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tbl_policyDetail">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DayCheck" Type="Boolean" />
+    <Property Name="Day" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Workhour" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Overtime" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Breakhour" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="isOvertimeActive" Type="Boolean" />
+    <Property Name="PolicyCode" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tbl_policyWithEmployee">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Emp_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Dt" Type="DateTime" Precision="3" />
+    <Property Name="Workhour" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Overtime" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Breakhour" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Extrahour" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Policycode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tbl_realtime_enroll_data">
+    <Key>
+      <PropertyRef Name="code" />
+    </Key>
+    <Property Name="code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="update_time" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+    <Property Name="user_id" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="user_data" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tbl_realtime_userinfo">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+    <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="privilige" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="card" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Face" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Fp_0" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Fp_1" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Fp_2" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Fp_3" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Fp_4" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Fp_5" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Fp_6" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Fp_7" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Fp_8" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Fp_9" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tbl_setting">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AppSetting_Path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ServiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_temptable">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Device_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Employee_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Cmd" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="DateTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tbl_timezone">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Timezone_No" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Timezone_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Period_1_Start" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Period_1_End" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Period_2_Start" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Period_2_End" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Period_3_Start" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Period_3_End" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Period_4_Start" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Period_4_End" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Period_5_Start" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Period_5_End" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Period_6_Start" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Period_6_End" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="tbl_workcode">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_workHourPolicy">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PolicyName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="isActive" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="tbl_fkcmd_trans_cmd_result_log_data">
+    <Key>
+      <PropertyRef Name="trans_id" />
+      <PropertyRef Name="device_id" />
+    </Key>
+    <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+    <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="true" />
+    <Property Name="user_id" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="verify_mode" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="io_mode" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+    <Property Name="io_time" Type="DateTime" Precision="3" />
+    <Property Name="io_workcode" Type="String" MaxLength="16" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tbl_fkcmd_trans_cmd_result_slog_data">
+    <Key>
+      <PropertyRef Name="trans_id" />
+      <PropertyRef Name="device_id" />
+    </Key>
+    <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+    <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="true" />
+    <Property Name="kind" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="tobackup_number" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="user_id" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="touser_id" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="operation_time" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tbl_realtime_doorstatus">
+    <Key>
+      <PropertyRef Name="update_time" />
+    </Key>
+    <Property Name="update_time" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="device_id" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+    <Property Name="door_status" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_realtime_glog">
+    <Key>
+      <PropertyRef Name="update_time" />
+    </Key>
+    <Property Name="update_time" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="device_id" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+    <Property Name="user_id" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="verify_mode" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+    <Property Name="io_mode" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="io_time" Type="DateTime" Precision="3" />
+    <Property Name="io_workcode" Type="String" MaxLength="16" FixedLength="true" Unicode="true" />
+    <Property Name="log_image" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+</Schema>

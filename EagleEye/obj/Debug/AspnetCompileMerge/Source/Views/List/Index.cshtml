@@ -1,0 +1,122 @@
+﻿@model List<Common.ListFileModel>
+@using EagleEye.DAL.Partial
+@using EagleEye.Common
+@{
+    ViewBag.Title = "List";
+}
+
+@{
+    MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen> List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Download List").FirstOrDefault();
+    }
+}
+
+<div class="container-fluid flex-grow-1 container-p-y">
+    <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")"><i class="feather icon-home"></i></a></li>
+            <li class="breadcrumb-item active">download list file</li>
+        </ol>
+    </div>
+    <hr>
+    <div class="card">
+        <table class="table card-table">
+            <thead class="thead-light">
+                <tr>
+                    <th>File Name</th>
+                    <th>Size</th>
+                    <th>Last Modified</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @Html.HiddenFor(x => item.filepath)
+                        <td>@item.filename</td>
+                        <td>@item.size</td>
+                        <td>@item.lastmodified</td>
+                        <td>
+                            @if (Menu.Insert==true || Menu.Update== true)
+                            {
+                                <button type="button" class="btn btn-primary" id="btnDownload" data-id="@item.filepath" onclick="Download(this,'@item.filename')">
+                                    <span class="fas fa-download"></span>&nbsp;&nbsp;Download
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section scripts{
+    @*<script src="~/Scripts/FileSaver.js"></script>*@
+  
+
+    @*Events*@
+    <script type="text/javascript">
+        $(function () {
+
+        });
+    </script>
+
+    @*Function*@
+    <script type="text/javascript">
+
+        //Delete start
+        function Delete(filepath) {
+            $.ajax({
+
+                url: '@Url.Action("Delete", "List")',
+                type: "POST",
+                data: { filename: filepath },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    //if (data.result) {
+                    //    showSuccessNoti("Download successfully");
+                    //} else {
+                    //    showWarningNoti("Failed to Download..");
+                    //}
+                }
+            });
+        }
+        //Delete end
+
+        //Download Start
+        function Download(a, name) {
+            var filepath = $(a).attr("data-id");
+            $.ajax({
+                url: '@Url.Action("DownloadFile", "List")',
+                type: "POST",
+                data: { filePath: filepath, filename: name },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                  
+                    var a = document.createElement('a');
+                    var url = "@Request.Url.GetLeftPart(UriPartial.Authority)" + "/" + data.result;
+                   
+                      
+                    a.href = url;
+                    a.download = data.result2;
+                    document.body.append(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                    var filepath = data.result;
+                    Delete(filepath);
+                }
+            });
+        }
+        //Download Ends
+    </script>
+}

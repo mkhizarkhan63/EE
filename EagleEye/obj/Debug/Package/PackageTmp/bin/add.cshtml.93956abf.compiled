@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/Views/WorkHourPolicy/Add.cshtml" hash="67377dc6" filehash="3e26908fa5de" flags="110000" assembly="App_Web_add.cshtml.93956abf" type="ASP._Page_Views_WorkHourPolicy_Add_cshtml">
+    <filedeps>
+        <filedep name="/Views/WorkHourPolicy/Add.cshtml" />
+    </filedeps>
+</preserve>

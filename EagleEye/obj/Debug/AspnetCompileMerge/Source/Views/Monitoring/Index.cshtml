@@ -1,0 +1,802 @@
+﻿@using EagleEye.DAL.Partial
+@using EagleEye.Common
+@{
+    ViewBag.Title = "Monitoring";
+    Communication_P com = @SessionHandling.Communication;
+}
+
+<link rel="stylesheet" href="~/assets/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css">
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-0">Monitoring</h4>
+    @*<div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="feather icon-home"></i></a></li>
+                <li class="breadcrumb-item active">Monitoring</li>
+            </ol>
+        </div>*@
+
+
+    <div class="row">
+        <!-- Messages sidebox -->
+        <div class="messages-sidebox col-sm-12">
+            <div class="row p-3">
+                <!-- Mail boxes -->
+                <div class="col-md-2">
+                    <a href="#" id="aRealLog" class="d-flex justify-content-between align-items-center text-dark font-weight-bold py-2">
+                        <div>
+                            <i class="ion ion-ios-play"></i> &nbsp; Real-Time Log
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-2">
+                    <a href="#" id="aLog" class="d-flex justify-content-between align-items-center text-dark text-muted py-2">
+                        <div>
+                            <i class="ion ion-ios-filing"></i> &nbsp; Event Log
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- / Messages sidebox -->
+        </div>
+    </div>
+    <div class="row">
+        <!-- Messages sidebox -->
+        @*<div class="messages-sidebox col-sm-2">
+
+
+                <a href="#" id="aRealLog" class="d-flex justify-content-between align-items-center text-dark font-weight-bold py-2">
+                    <div>
+                        <i class="ion ion-ios-play"></i> &nbsp; Real-Time Log
+                    </div>
+                </a>
+                <a href="#" id="aLog" class="d-flex justify-content-between align-items-center text-dark text-muted py-2">
+                    <div>
+                        <i class="ion ion-ios-filing"></i> &nbsp; Event Log
+                    </div>
+                </a>
+            </div>*@
+        <!-- / Messages sidebox -->
+
+
+        <div class="col-sm-12" id="divRealLog">
+            <!-- Messages list -->
+            <div class="card">
+                <!-- Header -->
+                <h4 class="card-header media flex-wrap align-items-center py-4">
+                    <span class="media-body"><i class="ion ion-ios-play"></i> &nbsp; Real-Time Log</span>
+                    <span class="clearfix"></span>
+                </h4>
+                <!-- / Header -->
+                <!-- Controls -->
+                <div class="row media flex-wrap align-items-center" style="padding: 0.5rem 1.5rem">
+                    <div class="col-sm-4" style="padding:10px 5px">
+                        Total Transactions: <span style="font-weight:700;" id="Counter"></span>
+                    </div>
+                    <div class="col-sm-8 text-right" style="padding:10px 5px">
+
+                        <button type="button" class="btn btn-primary" title="Play" style="width:150px;" id="btnPlay">
+                            <i class="ion ion-ios-pause" id="pIcon"></i> <span>Pause</span>
+                        </button>
+                        <button type="button" class="btn btn-default" title="Clear" style="width:150px;" id="btnClear">
+                            <i class="fa fa-eraser"></i> Clear Screen
+                        </button>
+
+                    </div>
+                </div>
+                <!-- / Controls -->
+                <div class="card-datatable table-responsive">
+                    <table class="table table-striped table-bordered" id="tblRealTime">
+                        <thead>
+                            <tr>
+                                @*<th>Device ID</th>*@
+                                <th>Employee ID</th>
+
+                                <th>Employee Name</th>
+
+                                <th>DateTime</th>
+                                <th>Verify Mode</th>
+                                <th>Status</th>
+                                <th>Work Code</th>
+                                <th>Device Name</th>
+
+                                <th>Photo</th>
+                                <th>Ext Status</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+
+            </div>
+            <!-- / Messages list -->
+        </div>
+
+
+        <div class="col-sm-12" id="divLog" style="display:none;">
+            <!-- Messages list -->
+            <div class="card">
+                <!-- Header -->
+                <h4 class="card-header media flex-wrap align-items-center py-4">
+                    <span class="media-body"><i class="ion ion-ios-filing"></i> &nbsp; Event Log</span>
+                    <span class="clearfix"></span>
+                </h4>
+                <!-- / Header -->
+                <!-- Controls -->
+                <div class="row media flex-wrap align-items-center" style="padding: 0.5rem 1.5rem">
+                    <div class="col-sm-7" style="padding:10px 5px">
+
+                        <div class="demo-inline-spacing">
+
+                            <label class="switcher switcher-success">
+                                <input type="checkbox" class="switcher-input" id="List">
+                                <span class="switcher-indicator">
+                                    <span class="switcher-yes">
+                                        <span class="ion ion-md-checkmark"></span>
+                                    </span>
+                                    <span class="switcher-no">
+                                        <span class="ion ion-md-close"></span>
+                                    </span>
+                                </span>
+                                <span class="switcher-label">List</span>
+                            </label>
+
+
+                            @if (ViewBag.TIS)
+                            {
+                                <label class="switcher switcher-info">
+                                    <input type="checkbox" class="switcher-input" id="Tis">
+                                    <span class="switcher-indicator">
+                                        <span class="switcher-yes">
+                                            <span class="ion ion-md-checkmark"></span>
+                                        </span>
+                                        <span class="switcher-no">
+                                            <span class="ion ion-md-close"></span>
+                                        </span>
+                                    </span>
+                                    <span class="switcher-label">TIS</span>
+                                </label>
+                            }
+
+                            @if (ViewBag.SQL)
+                            {
+                                <label class="switcher switcher-warning">
+                                    <input type="checkbox" class="switcher-input" id="Sql">
+                                    <span class="switcher-indicator">
+                                        <span class="switcher-yes">
+                                            <span class="ion ion-md-checkmark"></span>
+                                        </span>
+                                        <span class="switcher-no">
+                                            <span class="ion ion-md-close"></span>
+                                        </span>
+                                    </span>
+                                    <span class="switcher-label">SQL</span>
+                                </label>
+                            }
+
+                            @if (ViewBag.MySql)
+                            {
+
+                                <label class="switcher switcher-warning">
+                                    <input type="checkbox" class="switcher-input" id="MySql">
+                                    <span class="switcher-indicator">
+                                        <span class="switcher-yes">
+                                            <span class="ion ion-md-checkmark"></span>
+                                        </span>
+                                        <span class="switcher-no">
+                                            <span class="ion ion-md-close"></span>
+                                        </span>
+                                    </span>
+                                    <span class="switcher-label">MySql</span>
+                                </label>
+
+
+
+
+                            }
+
+                            @if (ViewBag.Oracle)
+                            {
+                                <label class="switcher switcher-danger">
+                                    <input type="checkbox" class="switcher-input" id="Orcl">
+                                    <span class="switcher-indicator">
+                                        <span class="switcher-yes">
+                                            <span class="ion ion-md-checkmark"></span>
+                                        </span>
+                                        <span class="switcher-no">
+                                            <span class="ion ion-md-close"></span>
+                                        </span>
+                                    </span>
+                                    <span class="switcher-label">Oracle</span>
+                                </label>
+                            }
+
+                            <button id="daterange-4" class="btn btn-default dropdown-toggle md-btn-flat"></button>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-5 text-right d-inline" style="">
+                        <button type="button" style="width:120px;" class="btn btn-primary ladda-button" data-style="expand-right" title="Proceed" id="btnProceed">Process Log</button>
+                        <button type="button" style="width:120px;" class="btn btn-primary ladda-button" data-style="expand-right" title="Search"  id="btnSearch">
+                             View Log
+                        </button>
+
+                    </div>
+                </div>
+                <!-- / Controls -->
+                <div class="card-datatable table-responsive">
+                    <table class="table table-striped table-bordered" id="tblEventLog">
+                        <thead>
+                            <tr>
+                                @*<th>Device ID</th>*@
+
+                                <th>Employee ID</th>
+                                <th>Employee Name</th>
+                                <th>DateTime</th>
+                                <th>Verify Mode</th>
+                                <th>Status</th>
+                                <th>Work Code</th>
+                                <th>Device Name</th>
+                                <th>Photo</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+
+            </div>
+            <!-- / Messages list -->
+        </div>
+
+    </div>
+</div>
+<!-- [ content ] End -->
+<!-- Modal Picture -->
+<div class="modal fade" id="modal-pic" data-keyboard="true" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin:0 auto;">
+                    Employee
+                    <span class="font-weight-light">Photo</span>
+
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="col text-center">
+                        <img id="imgPhoto" class="img-rounded" width="200" height="250" />
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+@section scripts{
+
+    <script src="~/assets/libs/moment/moment.js"></script>
+    <script src="~/assets/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js"></script>
+
+    @*Startup*@
+    <script type="text/javascript">
+
+        var counter = 0;
+        var tblRealTime;
+        var tblEventLog;
+        var startDate = moment();
+        var endDate = moment();
+      
+        $(document).ready(function () {
+
+            bindDataTable();
+
+          
+
+            tblRealTime = $('#tblRealTime').DataTable({
+                "order": [[2, "desc"]], stateSave: true
+            });
+
+            //tblEventLog = $('#tblEventLog').DataTable({
+
+            //    //"columns": [
+            //    //{ "data": 'Device_ID' },
+            //    //{ "data": 'Device' },
+            //    //{ "data": 'Employee_ID' },
+            //    //{ "data": 'Employee' },
+            //    //{ "data": 'Attendance_DateTime' },
+            //    //{ "data": 'Work_Code' },
+            //    //{ "data": 'Authority' },
+            //    //{ "data": 'Status' }
+            //    //],
+            //    //'columnDefs': [
+            //    //{
+            //    //    "targets": 8,
+            //    //    "className": "text-center"
+            //    //}],
+            //    "order": [[3, "desc"]], stateSave: true
+            //});
+
+
+            $("#Counter").text(counter);
+
+
+            $('#daterange-4').daterangepicker({
+                startDate: startDate,
+                endDate: endDate,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                opens: ('right')
+            }, cb);
+
+            cb(startDate, endDate);
+
+
+        });
+
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+
+        $("#btnPlay").click(function () {
+
+            if ($("#pIcon").hasClass("ion-ios-play")) {
+
+                $("#pIcon").removeClass("ion-ios-play");
+                $("#pIcon").addClass("ion-ios-pause");
+                $("#btnPlay span").text("Pause");
+            } else {
+                $("#pIcon").addClass("ion-ios-play");
+                $("#pIcon").removeClass("ion-ios-pause");
+                $("#btnPlay span").text("Play");
+            }
+
+        });
+
+
+        $("#btnClear").click(function () {
+
+            tblRealTime.clear().draw();
+            counter = 0;
+            $("#Counter").text(counter);
+
+        });
+
+        $("#aRealLog").click(function () {
+
+            $("#divRealLog").css("display", "block");
+            $("#divLog").css("display", "none");
+            $("#aRealLog").addClass("font-weight-bold");
+            $("#aRealLog").removeClass("text-muted");
+
+            $("#aLog").removeClass("font-weight-bold");
+            $("#aLog").addClass("text-muted");
+
+        });
+
+        $("#aLog").click(function () {
+
+            $("#divRealLog").css("display", "none");
+            $("#divLog").css("display", "block");
+
+            $("#aLog").addClass("font-weight-bold");
+            $("#aLog").removeClass("text-muted");
+
+            $("#aRealLog").removeClass("font-weight-bold");
+            $("#aRealLog").addClass("text-muted");
+
+        });
+
+        $("#btnSearch").click(function () {
+            $("#btnProceed").attr('disabled', true);
+            GetLogFromDB(this);
+           
+            
+        });
+
+        $("#btnProceed").click(function () {
+            $("#btnSearch").attr('disabled', true);
+            listProceed(this);
+        });
+
+    </script>
+
+
+    @*Function*@
+    <script type="text/javascript">
+
+        function bindDataTable() {
+            
+            tblEventLog = $('#tblEventLog').DataTable({
+
+                "aLengthMenu": [[10, 25, 50, 100, 500], [10, 25, 50, 100, 500]],
+                "sAjaxSource": "/Monitoring/GetRecords",
+                "fnServerParams": function (aoData) {
+                    aoData.push({ name: "start", value: startDate.format('YYYY-MM-DD') });
+                    aoData.push({ name: "end", value: endDate.format('YYYY-MM-DD') });
+                    //aoData.push({ name: "IsList", value: List });
+                    //aoData.push({ name: "IsTIS", value: Tis });
+                    //aoData.push({ name: "IsSQL", value: Sql });
+                    //aoData.push({ name: "IsOrcl", value: Orcl });
+                    //aoData.push({ name: "IsMySql", value: MySql });
+
+                },
+                "bServerSide": true,
+                "bProcessing": true,
+                "bSearchable": true,
+                  "bSort" : false,
+                "language": {
+                    
+                   //"searchPlaceholder":"Search..",
+                    "emptyTable": "No record found.",
+                    "processing":
+                        '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+                },
+                "drawCallback": function (settings, s, e, m, total, pre) {
+                    if (settings._iRecordsTotal > 0) {
+                        settings._iRecordsTotal = 0;
+                        $("#btnProceed").attr('disabled', false);
+                    } else {
+                        $("#btnProceed").attr('disabled', false);
+                    }
+                },
+                columnDefs: [
+                    {
+                        "data": "Employee_ID",
+                        "searchable": true,
+                        "visible": true,
+                        targets: 0
+                    },
+                    {
+                        "data": "Employee",
+                        "searchable": false,
+                        "visible": true,
+                       
+                        targets: 1
+                    },
+                    {
+                        "data": "DateTime",
+                        "searchable": true,
+                        "visible": true,
+                       
+
+                        targets: 2
+                    },
+                    {
+                        "data": "Verify_Mode",
+                        "searchable": true,
+                        "visible": true,
+                        
+                        targets: 3
+                    },
+
+                    {
+                        "data": "Status_Description",
+                        "searchable": true,
+                        "visible": true,
+                        targets: 4
+                    },
+                    {
+                        "data": "WorkCode",
+                        "searchable": true,
+                        "visible": true,
+                        targets: 5
+                    },
+                    {
+                        "data": "Device_ID",
+                        "searchable": true,
+                        "visible": true,
+                        targets: 6
+                    },
+                    {
+                        "data": "Attendance_Photo",
+                        "searchable": true,
+                        "visible": true,
+                        "render": function (data, type, row) {
+                            var today = new Date().toISOString();
+                           
+                                if (data != "" && data != null) {
+
+                                    //"<i class='feather icon-image' style = 'font-size:20px;cursor:pointer;' onclick = 'showImg(" + row.Code + ");' ></i >"
+                                    return "<img src='" + data + "?" + today + "' class='' style='cursor: pointer;' onclick = 'showImg(" + row.Code + ");' height='50px'  width='55px'/><input type='hidden' id='hdnimg_" + row.Code + "' value='" + row.Attendance_Photo + "' />";
+                                }
+                                else {
+                                    return '<img src="/assets/img/avatars/no-image.jpg" height="50px"  width="55px"/>';
+                                }
+                            
+                        },
+                        targets: 7
+                    },
+
+                ]
+
+            })
+
+          
+        }
+
+
+        function listProceed(button) {
+            var List = $("#List").is(":checked");
+            var Tis = $("#Tis").is(":checked");
+            var Sql = $("#Sql").is(":checked");
+            var Orcl = $("#Orcl").is(":checked");
+            var MySql = $("#MySql").is(":checked");
+            //aoData.push({ name: "IsList", value: List });
+            //aoData.push({ name: "IsTIS", value: Tis });
+            //aoData.push({ name: "IsSQL", value: Sql });
+            //aoData.push({ name: "IsOrcl", value: Orcl });
+            //aoData.push({ name: "IsMySql", value: MySql });
+            var l = Ladda.create(button);
+            l.start();
+             $.ajax({
+                url: '@Url.Action("proceedList", "Monitoring")',
+                type: "POST",
+                data: { start: startDate.format('YYYY-MM-DD'), end: endDate.format('YYYY-MM-DD'), IsList: List, IsSQL: Sql, IsTIS: Tis, IsOrcl: Orcl, IsMySql: MySql},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("List File Generated Successfully");
+                        $("#btnSearch").attr('disabled', false);
+                    }
+                    else {
+                        showWarningNoti(data.msg);
+                        $("#btnSearch").attr('disabled', false);
+                    }
+                },
+                failure: function (response) {
+                    l.stop();
+                },
+                error: function (err, status) {
+                    l.stop();
+                },
+                complete: function (data) {
+                    l.stop();
+                 
+                }
+            });
+
+        }
+
+        //$(document).keydown(function (e) {
+        //    var code = e.keyCode || e.which;
+        //    if (code == 27)
+        //        $("#modal-pic").modal('toggle');
+        //    $("#modal-pic").data('toggle');
+        //});
+
+        //$("#modal-pic").keydown(function (event) {
+        //    debugger;
+        //    if (event.keyCode == 27) {
+        //        $("#modal-pic").closeElement();
+
+        //        $('a[href=#modal-pic]').focus();
+        //    }
+        //});
+        function cb(start, end) {
+
+            $('#daterange-4').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            startDate = start;
+            endDate = end;
+        }
+
+         function GetEventLogs(log) {
+
+            //var Employee = log.UserName;
+            var Employee, DeviceID, DeviceName, EmployeeID, DateTime, VerifyMode, Status,WorkCode= "" , extaStatus;
+             var cc = "";
+             var photo = log.Photo;
+             if (photo == null || photo == "") {
+                 photo = "/assets/img/avatars/no-image.jpg";
+             }
+
+             var today = new Date().toISOString();
+
+             var img = "<td><img src='" + photo + "?" + today + "'style='width:60px;height:60px;cursor:pointer;'></td>";
+
+
+
+
+            if (log.UserName.includes("Unregistered")) {
+
+                Employee = '<span style="color:red; font-weight:500;">' + log.UserName + '</span>'
+                //DeviceID = '<span style="color:red; font-weight:500;">' + log.DeviceID + '</span>'
+                DeviceName = '<span style="color:red; font-weight:500;">' + log.DeviceName + '</span>'
+                EmployeeID = '<span style="color:red; font-weight:500;">' + log.UserID + '</span>'
+                DateTime = '<span style="color:red; font-weight:500;">' + log.DateTime + '</span>'
+                VerifyMode = '<span style="color:red; font-weight:500;">' + log.VerifyMode + '</span>'
+                Status = '<span style="color:red; font-weight:500;">' + log.Status + '</span>'
+                WorkCode = '<span style="color:red; font-weight:500;">' + log.WorkCode + '</span>'
+                extaStatus = '<span style="color:red; font-weight:500;">' + log.extaStatus + '</span>'
+            }
+            else
+            {
+
+                Employee = log.UserName;
+                //DeviceID = log.DeviceID;
+                DeviceName = log.DeviceName;
+                EmployeeID = log.UserID;
+                DateTime = log.DateTime;
+                VerifyMode = log.VerifyMode;
+                Status = log.Status;
+                WorkCode = log.WorkCode;
+                extaStatus = log.ExtraStatus
+            }
+            var tr = tblRealTime.row.add([
+                            //DeviceID,
+                EmployeeID,
+                Employee,
+                DateTime,
+                VerifyMode,
+                Status,
+                WorkCode,
+                DeviceName,
+                img,
+                extaStatus
+            ]).draw(false);
+
+
+
+
+
+            counter++;
+            $("#Counter").text(counter);
+        }
+
+        function GetLogFromDB(button) {
+
+           // var l = Ladda.create(button);
+            tblEventLog.destroy();
+            tblEventLog.clear().draw();
+            bindDataTable();
+
+            
+
+
+            @*var List = $("#List").is(":checked");
+            var Tis = $("#Tis").is(":checked");
+            var Sql = $("#Sql").is(":checked");
+            var Orcl = $("#Orcl").is(":checked");
+            var MySql = $("#MySql").is(":checked");
+
+
+            $.ajax({
+                url: '@Url.Action("GetRecords", "Monitoring")',
+                type: "POST",
+                data: { start: startDate.format('YYYY-MM-DD'), end: endDate.format('YYYY-MM-DD'), IsList: List, IsSQL: Sql, IsTIS: Tis, IsOrcl: Orcl, IsMySql: MySql},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+
+                        tblEventLog.clear().draw();
+
+                        for (var i = 0; i < data.result.length; i++) {
+
+
+                            tblEventLog.row.add([
+                           //data.result[i].Device_ID,
+
+                           data.result[i].Employee_ID,
+                                data.result[i].Employee,
+
+                           data.result[i].DateTime,
+                           data.result[i].Verify_Mode,
+                                data.result[i].Status_Description,
+                                data.result[i].WorkCode_Description,
+                                data.result[i].Device,
+                            data.result[i].Attendance_Photo
+                            ]).draw(false);
+
+                        }
+
+
+                    } else {
+                        showWarningNoti("No Data Found!");
+                    }
+                },
+                failure: function (response) {
+                    l.stop();
+                },
+                error: function (err, status) {
+                    l.stop();
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });*@
+
+        }
+
+
+        function showImg(code) {
+
+            var data = $("#hdnimg_" + code).val();
+            $("#imgPhoto").attr("src", data);
+            $("#modal-pic").modal('toggle');
+
+        }
+
+    </script>
+
+
+    @*SignalR*@
+
+    <script src="http://@com.Server_IP:@com.SignalR_Port/signalr/hubs"></script>
+
+    <script src="http://@com.Server_IP:@com.SignalR_Port/signalr/hubs"></script>
+    <script type="text/javascript">
+
+            $(function () {
+
+                var serverIP = '@com.Server_IP';
+                var signalrPort = '@com.SignalR_Port';
+
+                $.connection.hub.url = "http://" + serverIP + ":" + signalrPort + "/signalr/hubs";
+                var notifier = $.connection.NotifierHub;
+
+                try {
+
+                    notifier.client.eventLogs = function (log) {
+                        if ($("#pIcon").hasClass("ion-ios-pause")) {
+                            GetEventLogs(log);
+                        }
+                    }
+
+                } catch (e) {
+                   // showWarningNoti("Unable to connect to server, Please check EagleEye Service");
+
+                }
+
+                $.connection.hub.start().done(function () {
+                    console.log("SignalR Connected");
+                })
+
+                $.connection.hub.reconnected(function () {
+                    console.log("SignalR is reconnected.");
+                });
+
+
+                $.connection.hub.disconnected(function () {
+
+                 
+                    console.log("SignalR Disconnected.");
+
+                    if ($.connection.hub.lastError) {
+                        console.log("SignalR Disconnected Due to Inactivity");
+                    }
+
+                    setTimeout(function () {
+                        $.connection.hub.start().done(function () {
+                            console.log("SignalR Connected");
+                        });
+                    }, 5000); // Restart connection after 10 seconds.
+
+                });
+
+
+            })
+
+    </script>
+}
+
+

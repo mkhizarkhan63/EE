@@ -1,0 +1,2265 @@
+﻿@model EagleEye.DAL.Partial.Employee_P
+@using EagleEye.DAL.Partial
+@using EagleEye.Common
+
+@{
+    ViewBag.Title = "Edit User";
+    Communication_P com = @SessionHandling.Communication;
+
+}
+@{ MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen>
+            List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Users").FirstOrDefault();
+    }
+}
+
+<!-- [ content ] Start -->
+<input type="hidden" id="hdnCode" value="@Model.Code" />
+<div class="container-fluid flex-grow-1 container-p-y">
+    @if (Menu.Update == true)
+    {
+        <h4 class="font-weight-bold py-3 mb-0">Edit User<button type="button" class="btn btn-primary float-right ladda-button" data-style="expand-right" id="btnSave">Apply Changes</button></h4>
+
+    }
+    <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href='@Url.Action("Index","User")'><i class="feather icon-users"></i></a></li>
+            <li class="breadcrumb-item"><a href='@Url.Action("Index","User")'>User</a></li>
+            <li class="breadcrumb-item">Edit</li>
+            <li class="breadcrumb-item">@Model.Employee_ID</li>
+            <li class="breadcrumb-item active">@Model.Employee_Name</li>
+        </ol>
+    </div>
+
+    <div class="nav-tabs-top mb-4">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#navs-top-user">User Information</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#navs-top-access">Access Control</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="navs-top-user">
+                <div class="card-body">
+                    <div class="row no-gutters row-bordered row-border-light">
+                        <div class="col-md-3 pt-0 text-center">
+
+                            @*@if (Model.Employee_Photo == null || Model.Employee_Photo == "")
+                                {
+                                    <img src="~/assets/img/avatars/no-image.jpg" class="img-thumbnail rounded shadow-sm" style="display:inline-block;margin-top:20px;" />
+                                }
+                                else
+                                {<img src="data:image/jpg;base64,@Model.Employee_Photo" class="img-thumbnail rounded shadow-sm" style="display:inline-block;margin-top:20px;width:200px;height:200px;" />
+
+                                }*@
+
+                            @if (!string.IsNullOrEmpty(Model.Employee_Photo))
+                            {
+
+                                <img src="@Model.Employee_Photo?t=@DateTime.Now" id="Picture" class="img-thumbnail rounded shadow-sm" style="display:inline-block;margin-top:20px;width:200px;height:200px;" />
+                                <input type="hidden" id="hdnImg" value="1" />
+                            }
+                            else
+                            {
+                                <input type="hidden" id="hdnImg" value="0" />
+                                <img src="~/assets/img/avatars/no-image.jpg" id="Picture" class="img-thumbnail rounded shadow-sm" style="display:inline-block;margin-top:20px;width:200px;height:200px;" />
+                            }
+                            <br /><br />
+                            <button class="btn btn-primary" id="btnUpload">Change</button>
+                            @*<button class="btn btn-info" data-toggle="modal" data-target="#modals-camera" id="btnCamera">Capture Photo</button>*@
+                            <input type="file" id="File" style="display:none;" />
+
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+
+                                <h5 class="text-primary">
+                                    Information
+                                    <label class="switcher float-right">
+
+                                        <input type="checkbox" class="switcher-input" id="chkActive">
+                                        <span class="switcher-indicator">
+                                            <span class="switcher-yes"></span>
+                                            <span class="switcher-no"></span>
+                                        </span>
+                                        <span class="switcher-label">Active</span>
+                                    </label>
+                                </h5>
+                                <hr />
+                                <br />
+                                <div class="form-row">
+                                    <input type="hidden" name="name" id="Code" value="@Model.Code" />
+                                    @Html.HiddenFor(x => x.Employee_Photo)
+
+                                    @Html.HiddenFor(x => x.finger_0)
+                                    @Html.HiddenFor(x => x.finger_1)
+                                    @Html.HiddenFor(x => x.finger_2)
+                                    @Html.HiddenFor(x => x.finger_5)
+                                    @Html.HiddenFor(x => x.finger_3)
+                                    @Html.HiddenFor(x => x.finger_4)
+                                    @Html.HiddenFor(x => x.finger_7)
+                                    @Html.HiddenFor(x => x.finger_8)
+                                    @Html.HiddenFor(x => x.finger_6)
+                                    @Html.HiddenFor(x => x.finger_9)
+                                    @Html.HiddenFor(x => x.face_data)
+                                    @Html.HiddenFor(x => x.palm_0)
+                                    @Html.HiddenFor(x => x.palm_1)
+                                    @Html.HiddenFor(x => x.photo_data)
+                                    @Html.HiddenFor(x => x.Cmd_Param)
+                                    @Html.HiddenFor(x => x.Device_Id)
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">User ID<span style="color:red;">*</span></label>
+                                        <input type="text" class="form-control mb-1" disabled id="txtUserID" required oninput="this.value = this.value.replace(/[^A-Za-z0-9-,.;'&/.() ]|^ /g,'')">
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Name<span style="color:red;">*</span></label>
+                                        <input type="text" class="form-control" id="txtName" required oninput="this.value = this.value.replace(/[^A-Za-z0-9-,.;'&/.() ]|^ /g,'')">
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+
+                                        <label class="form-label">Mobile No.</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">+92</span>
+                                            </div>
+                                            <input type="text" id="txtTel" class="form-control">
+                                            <div class="clearfix"></div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <br />
+                                <div class="form-row">
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Location</label>
+                                        <div class="input-group">
+                                            <select class="custom-select flex-grow-1" id="ddlLocation">
+                                                <option value="0" disabled selected>Select</option>
+                                                @foreach (Location_P item in Model.ListLocation)
+                                                {
+                                                    <option value="@item.Code">@item.Description</option>
+                                                }
+                                            </select>
+                                            <span class="input-group-append">
+                                                <button class="btn btn-primary waves-effect" data-toggle="modal" data-target="#modals-locations" onclick="GetAllLocation()">+</button>
+                                            </span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Department</label>
+                                        <div class="input-group">
+                                            <select class="custom-select flex-grow-1" id="ddlDepartment">
+                                                <option value="0" disabled selected>Select</option>
+                                                @foreach (Department_P item in Model.ListDepartment)
+                                                {
+                                                    <option value="@item.Code">@item.Description</option>
+                                                }
+                                            </select>
+                                            <span class="input-group-append">
+                                                <button class="btn btn-primary waves-effect" data-toggle="modal" data-target="#modals-departments" onclick="GetAllDepartment()">+</button>
+                                            </span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Designation</label>
+                                        <div class="input-group">
+                                            <select class="custom-select flex-grow-1" id="ddlDesignation">
+                                                <option value="0" disabled selected>Select</option>
+                                                @foreach (Designation_P item in Model.ListDesignation)
+                                                {
+                                                    <option value="@item.Code">@item.Description</option>
+                                                }
+                                            </select>
+                                            <span class="input-group-append">
+                                                <button class="btn btn-primary waves-effect" data-toggle="modal" data-target="#modals-designations" onclick="GetAllDesignation()">+</button>
+                                            </span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br />
+                                <div class="form-row">
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Employee Types</label>
+                                        <div class="input-group">
+                                            <select class="custom-select flex-grow-1" id="ddlEmpTypes">
+                                                <option value="0" disabled selected>Select</option>
+                                                @foreach (EmployeeType_P item in Model.ListEmployeeType)
+                                                {
+                                                    <option value="@item.Code">@item.Description</option>
+                                                }
+                                            </select>
+                                            <span class="input-group-append">
+                                                <button class="btn btn-primary waves-effect" data-toggle="modal" data-target="#modals-emptypes" onclick="GetAllEmpType()">+</button>
+                                            </span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Gender</label>
+                                        <select class="form-control mb-1" id="ddlGender">
+                                            <option value="0">Male</option>
+                                            <option value="1">Female</option>
+                                        </select>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="form-group col mb-2">
+                                        <label class="form-label">Email</label>
+                                        <input type="text" class="form-control" id="txtEmail" />
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="form-row">
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Work Hour Policy</label>
+                                        <select class="custom-select flex-grow-1" id="ddlWorkHourPolicy">
+                                            <option value="0" disabled selected>Select</option>
+                                            <option value="">None</option>
+                                            @foreach (WorkHourPolicy_P item in Model.ListWorkHour)
+                                            {
+                                                <option value="@item.Code">@item.PolicyName</option>
+                                            }
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="form-row">
+                                    <div class="form-group col-sm-12">
+                                        <label class="form-label">Address</label>
+                                        <input type="text" class="form-control mb-1" id="txtAddress" />
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <br />
+                                <h5 class="text-primary">Credentials</h5>
+                                <hr />
+                                <br />
+                                <div class="form-row">
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Pin</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <label class="custom-control custom-checkbox px-2 m-0">
+                                                        <input type="checkbox" class="custom-control-input" id="chkPin">
+                                                        <span class="custom-control-label"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <input type="password" class="form-control bootstrap-maxlength-example" maxlength="8" id="txtPin" disabled>
+                                            <span class="input-group-append">
+                                                <button class="btn btn-primary waves-effect ion ion-md-eye" id="btnEye"></button>
+                                            </span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Card No</label>
+                                        <input type="text" class="form-control mb-1 bootstrap-maxlength-example" maxlength="10" id="txtCardNo" min="0" />
+                                        <div class="clearfix"></div>
+                                    </div>
+
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">User Prviliege</label>
+                                        <select class="form-control mb-1" id="ddlUserPriv">
+                                            <option value="USER">USER</option>
+                                            <option value="MANAGER">ADMIN</option>
+                                        </select>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="form-row">
+                                    @if (@Model.Face != null || @Model.Face == true)
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <label class="switcher">
+                                                <input type="checkbox" class="switcher-input" id="chkFace" disabled>
+                                                <span class="switcher-indicator">
+                                                    <span class="switcher-yes"></span>
+                                                    <span class="switcher-no"></span>
+                                                </span>
+                                                <span class="switcher-label">Face</span>
+                                            </label>
+                                        </div>
+                                    }
+                                    @if (@Model.FingerPrint != null || @Model.FingerPrint == true)
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <label class="switcher">
+                                                <input type="checkbox" class="switcher-input" id="chkFP" disabled>
+                                                <span class="switcher-indicator">
+                                                    <span class="switcher-yes"></span>
+                                                    <span class="switcher-no"></span>
+                                                </span>
+                                                <span class="switcher-label">Finger Print</span>
+                                            </label>
+                                        </div>
+                                    }
+                                    @if (@Model.Palm != null || @Model.Palm == true)
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <label class="switcher">
+                                                <input type="checkbox" class="switcher-input" id="chkPalm" disabled>
+                                                <span class="switcher-indicator">
+                                                    <span class="switcher-yes"></span>
+                                                    <span class="switcher-no"></span>
+                                                </span>
+                                                <span class="switcher-label">Palm</span>
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="navs-top-access">
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-sm-4">
+                            <label class="form-label">Valid Date Start</label>
+                            <input type="date" class="form-control" id="txtValidDateStart">
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label class="form-label">Valid Date End</label>
+                            <input type="date" class="form-control" id="txtValidDateEnd">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <br />
+                    <h5 class="text-primary">Week TimeZone No</h5>
+                    <hr />
+                    <div class="form-row">
+                        <div class="form-group col-sm-3">
+                            <label class="form-label">Sunday</label>
+                            <select class="custom-select flex-grow-1" id="ddlSunday">
+                                <option value="0" disabled selected>Select</option>
+                                @foreach (TimeZone_P item in Model.ListTimeZones)
+                                {
+                                    <option value="@item.Timezone_No">@item.Timezone_Name</option>
+                                }
+                            </select>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label class="form-label">Monday</label>
+                            <select class="custom-select flex-grow-1" id="ddlMonday">
+                                <option value="0" disabled selected>Select</option>
+                                @foreach (TimeZone_P item in Model.ListTimeZones)
+                                {
+                                    <option value="@item.Timezone_No">@item.Timezone_Name</option>
+                                }
+                            </select>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label class="form-label">Tuesday</label>
+                            <select class="custom-select flex-grow-1" id="ddlTuesday">
+                                <option value="0" disabled selected>Select</option>
+                                @foreach (TimeZone_P item in Model.ListTimeZones)
+                                {
+                                    <option value="@item.Timezone_No">@item.Timezone_Name</option>
+                                }
+                            </select>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label class="form-label">Wednesday</label>
+                            <select class="custom-select flex-grow-1" id="ddlWednesday">
+                                <option value="0" disabled selected>Select</option>
+                                @foreach (TimeZone_P item in Model.ListTimeZones)
+                                {
+                                    <option value="@item.Timezone_No">@item.Timezone_Name</option>
+                                }
+                            </select>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-sm-3">
+                            <label class="form-label">Thursday</label>
+                            <select class="custom-select flex-grow-1" id="ddlThursday">
+                                <option value="0" disabled selected>Select</option>
+                                @foreach (TimeZone_P item in Model.ListTimeZones)
+                                {
+                                    <option value="@item.Timezone_No">@item.Timezone_Name</option>
+                                }
+                            </select>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label class="form-label">Friday</label>
+                            <select class="custom-select flex-grow-1" id="ddlFriday">
+                                <option value="0" disabled selected>Select</option>
+                                @foreach (TimeZone_P item in Model.ListTimeZones)
+                                {
+                                    <option value="@item.Timezone_No">@item.Timezone_Name</option>
+                                }
+                            </select>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label class="form-label">Saturday</label>
+                            <select class="custom-select flex-grow-1" id="ddlSaturday">
+                                <option value="0" disabled selected>Select</option>
+                                @foreach (TimeZone_P item in Model.ListTimeZones)
+                                {
+                                    <option value="@item.Timezone_No">@item.Timezone_Name</option>
+                                }
+                            </select>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Location -->
+
+<div class="modal fade show" id="modals-locations" style="display:none; padding-right: 17px;" aria-modal="true" data-keyboard="true" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Location
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="GetLocationDDL()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    @*<input type="hidden" id="hdnCode" value="@Model.Code" />*@
+                    <div class="form-group col-md-8">
+                        <label class="form-label">Location Name</label>
+                        <input type="text" class="form-control" id="txtLocation">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <br />
+                        @if (Menu.Insert == true)
+                        {<button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnAddLoc">
+                                <span class="fa fa-plus"></span>&nbsp;&nbsp;Add
+                            </button>
+                        }
+
+                    </div>
+                </div>
+                <hr />
+                <div class="card">
+                    <h6 class="text-primary">All Locations</h6>
+                    @*<div class="card-datatable table-responsive">*@
+                    <table class="table table-striped table-bordered" id="tblLocation">
+                        <thead>
+                            <tr>
+                                <th width="10px">
+                                    <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                        <input type="checkbox" class="custom-control-input" id="selectAllLocation">
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </th>
+                                <th width="10px">Code</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*@foreach (var item in Model.ListLocation)
+                                {
+                                    <tr id="@item.Code">
+                                        <td width="1px"></td>
+                                        <td style="display:none;">@item.Code</td>
+                                        <td>@item.Description</td>
+                                    </tr>
+                                }*@
+                        </tbody>
+                    </table>
+                    @*</div>*@
+                </div>
+            </div>
+            <div class="modal-footer">
+                @if (Menu.Delete == true)
+                {
+                    <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnDeleteLoc">
+                        <span class="fa fa-trash"></span>&nbsp;&nbsp;Delete
+                    </button>
+                }
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal" onclick="GetLocationDDL()">Close</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal DEPARTMENT -->
+
+<div class="modal fade show" id="modals-departments" style="display:none; padding-right: 17px;" data-keyboard="true" tabindex="-1" aria-modal="true">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Departments
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="GetDepartmentDDL()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    @*<input type="hidden" id="hdnCode" value="@Model.Code" />*@
+                    <div class="form-group col-md-8">
+                        <label class="form-label">Department Name</label>
+                        <input type="text" class="form-control" id="txtDepartment">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <br />
+                        @if (Menu.Insert == true)
+                        {
+                            <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnAddDept">
+                                <span class="fa fa-plus"></span>&nbsp;&nbsp;Add
+                            </button>}
+                    </div>
+                </div>
+                <hr />
+                <div class="card">
+                    <h6 class="text-primary">All Departments</h6>
+                    @*<div class="card-datatable table-responsive">*@
+                    <table class="table table-striped table-bordered" id="tblDepartment">
+                        <thead>
+                            <tr>
+                                <th width="10px">
+                                    <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                        <input type="checkbox" class="custom-control-input" id="selectAllDepartment">
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </th>
+                                <th width="10px">Code</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*@foreach (var item in Model.ListDepartment)
+                                {
+                                    <tr id="@item.Code">
+                                        <td width="1px"></td>
+                                        <td style="display:none;">@item.Code</td>
+                                        <td>@item.Description</td>
+                                    </tr>
+                                }*@
+                        </tbody>
+                    </table>
+                    @*</div>*@
+                </div>
+            </div>
+            <div class="modal-footer">
+                @if (Menu.Delete == true)
+                {
+                    <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnDeleteDept">
+                        <span class="fa fa-trash"></span>&nbsp;&nbsp;Delete
+                    </button>
+                }
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal" onclick="GetDepartmentDDL()">Close</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal DESIGNATION -->
+
+<div class="modal fade show" id="modals-designations" style="display:none; padding-right: 17px;" aria-modal="true" data-keyboard="true" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Designations
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="GetDesignationDDL()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    @*<input type="hidden" id="hdnCode" value="@Model.Code" />*@
+                    <div class="form-group col-md-8">
+                        <label class="form-label">Designation</label>
+                        <input type="text" class="form-control" id="txtDesignation">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <br />
+                        @if (Menu.Insert == true)
+                        {
+                            <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnAddDesignation">
+                                <span class="fa fa-plus"></span>&nbsp;&nbsp;Add
+                            </button>}
+                    </div>
+                </div>
+                <hr />
+                <div class="card">
+                    <h6 class="text-primary">All Designations</h6>
+                    @*<div class="card-datatable table-responsive">*@
+                    <table class="table table-striped table-bordered" id="tblDesignation">
+                        <thead>
+                            <tr>
+                                <th width="10px">
+                                    <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                        <input type="checkbox" class="custom-control-input" id="selectAllDesignation">
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </th>
+                                <th width="10px">Code</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*@foreach (var item in Model.ListDesignation)
+                                {
+                                    <tr id="@item.Code">
+                                        <td width="1px"></td>
+                                        <td style="display:none;">@item.Code</td>
+                                        <td>@item.Description</td>
+                                    </tr>
+                                }*@
+                        </tbody>
+                    </table>
+                    @*</div>*@
+                </div>
+            </div>
+            <div class="modal-footer">
+                @if (Menu.Delete == true)
+                {
+                    <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnDeleteDesignation">
+                        <span class="fa fa-trash"></span>&nbsp;&nbsp;Delete
+                    </button>}
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal" onclick="GetDesignationDDL()">Close</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal EmpType -->
+
+<div class="modal fade show" id="modals-emptypes" style="display:none; padding-right: 17px;" aria-modal="true" data-keyboard="true" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Employee Type
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="GetEmpTypeDDL()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    @*<input type="hidden" id="hdnCode" value="@Model.Code" />*@
+                    <div class="form-group col-md-8">
+                        <label class="form-label">Employee Type</label>
+                        <input type="text" class="form-control" id="txtEmployeeTypes">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <br />
+                        @if (Menu.Insert == true)
+                        {
+                            <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnAddEmpType">
+                                <span class="fa fa-plus"></span>&nbsp;&nbsp;Add
+                            </button>}
+                    </div>
+                </div>
+                <hr />
+                <div class="card">
+                    <h6 class="text-primary">All Employee Types</h6>
+                    @*<div class="card-datatable table-responsive">*@
+                    <table class="table table-striped table-bordered" id="tblEmpType">
+                        <thead>
+                            <tr>
+                                <th width="10px">
+                                    <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                        <input type="checkbox" class="custom-control-input" id="selectAllEmpType">
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </th>
+                                <th width="10px">Code</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*@foreach (var item in Model.ListEmployeeType)
+                                {
+                                    <tr id="@item.Code">
+                                        <td width="1px"></td>
+                                        <td style="display:none;">@item.Code</td>
+                                        <td>@item.Description</td>
+                                    </tr>
+                                }*@
+                        </tbody>
+                    </table>
+                    @*</div>*@
+                </div>
+            </div>
+            <div class="modal-footer">
+                @if (Menu.Delete == true)
+                {
+                    <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnDeleteEmpType">
+                        <span class="fa fa-trash"></span>&nbsp;&nbsp;Delete
+                    </button>}
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal" onclick="GetEmpTypeDDL()">Close</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Camera -->
+<div class="modal fade" id="modals-camera" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Capture <span class="font-weight-light">Photo</span>
+                </h5>
+                <span class="text-right">
+                    <button type="button" class="btn btn-primary btn-sm" id="btnCamera"><span class="fa fa-camera"></span> Capture</button>
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" id="btnCloseCamera"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body">
+                <div id="my_camera" style="margin:0 auto;"></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Machine -->
+<div class="modal fade" id="modals-machine" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Select <span class="font-weight-light">Machine</span>
+                </h5>
+                <span class="text-right">
+                    <label class="badge-dark" id="lblCount"></label>
+                    <button type="button" class="btn btn-primary btn-sm ladda-button" data-style="expand-right" id="btnSendToDevice"><span class="fa fa-upload"></span> Transfer To Device</button>
+                    @*<button type="button" class="btn btn-primary btn-sm ladda-button" data-style="expand-right" id="btnSendAdminToDevice"><span class="fa fa-upload"></span> Set As Admin</button>*@
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body" height="400px">
+                <table class="table table-striped table-bordered" id="tblMachine">
+                    <thead>
+                        <tr>
+                            <th width="10px">
+                                <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                    <input type="checkbox" class="custom-control-input" id="selectAllMachine">
+                                    <span class="custom-control-label"></span>
+                                </label>
+                            </th>
+                            <th>Device ID</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Modal Transfer -->
+<div class="modal fade" id="modals-transfer" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Transferring  <span class="font-weight-light">Users...</span>
+                </h5>
+                <span class="text-right">
+                    <button type="button" class="btn btn-success btn-sm" id="btnDone"><span class="fa fa-check"></span> Done</button>
+                    <button type="button" class="btn btn-default btn-sm" id="btnClose" data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body" height="400px">
+                <div class="row">
+                    <div id="lblProgress" class="col-sm-9"></div>
+                    <div class="col-sm-3"><label id="lblCompleted" class="float-right text-primary font-weight-semibold"></label></div>
+                </div>
+                <div class="progress" style="height:12px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>
+                </div>
+                <br />
+                <table class="table table-striped table-bordered" id="tblTUsers">
+                    <thead>
+                        <tr>
+                            <th>Device</th>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section scripts{
+
+    <script src="~/assets/libs/moment/moment.js"></script>
+    <script src="~/assets/libs/vanilla-text-mask/vanilla-text-mask.js"></script>
+    <script src="~/assets/libs/vanilla-text-mask/text-mask-addons.js"></script>
+
+    <script>
+        //window.onload = function () {
+        //    getDate();
+        //}
+
+    </script>
+    @*Startup*@
+    <script type="text/javascript">
+        var tableLocation;
+        var tableDepartment;
+        var tableDesignation;
+        var tableEmpType;
+        var tableMachine;
+        $(document).ready(function () {
+            // let st_dt = new Date("2022-01-01");
+
+
+
+            //var a = moment(st_dt).format('MM/DD/YYYY');
+
+            //var date = new Date();
+            //var day = date.getDate();
+            //var month = date.getMonth() + 1;
+            //var year = date.getFullYear();
+
+            //if (month < 10) month = "0" + month;
+            //if (day < 10) day = "0" + day;
+
+            //var today = year + "-" + month + "-" + day;
+
+            //$("input#txtValidDateStart").value = today;
+            //  $("input#txtValidDateStart")
+
+
+            //// let txtValidDateStart = formatDate(st_dt);
+            // var a = "2022-01-01";
+            //  $("#txtValidDateStart").value = "2022-06-07";
+
+            // document.getElementById("txtValidDateStart").value = "";
+            // console.log(new Date(txtValidDateStart))
+
+            //function padTo2Digits(num) {
+
+            //    return num.toString().padStart(2, 0);
+            //}
+
+            //function formatDate(date) {
+
+            //    return [
+            //        padTo2Digits(date.getMonth() + 1),
+            //        padTo2Digits(date.getDate()),
+            //        date.getFullYear(),
+
+            //    ].join('/');
+            //}
+
+            //$("#txtValidDateStart").change(function () {
+
+            //    console.log($(this).val());
+
+            //})
+
+
+            SetModelData();
+
+
+            // Phone
+            vanillaTextMask.maskInput({
+                inputElement: $('#txtTel')[0],
+                mask: [/[1-9]/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]
+            });
+
+
+            // Email
+            vanillaTextMask.maskInput({
+                inputElement: $('#txtEmail')[0],
+                mask: textMaskAddons.emailMask
+            });
+
+
+            tableLocation = $('#tblLocation').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0,
+                }, {
+                    "visible": false,
+                    "searchable": false,
+                    "oTargets": [6]
+                }],
+
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+                order: [
+                    [1, 'asc']
+                ]
+            });
+
+            tableDepartment = $('#tblDepartment').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0,
+                }, {
+                    "visible": false,
+                    "searchable": false,
+                    "oTargets": [6]
+                }],
+
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+                order: [
+                    [1, 'asc']
+                ]
+            });
+
+            tableDesignation = $('#tblDesignation').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0,
+                }, {
+                    "visible": false,
+                    "searchable": false,
+                    "oTargets": [6]
+                }],
+
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+                order: [
+                    [1, 'asc']
+                ]
+            });
+
+            tableEmpType = $('#tblEmpType').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0,
+                }, {
+                    "visible": false,
+                    "searchable": false,
+                    "oTargets": [6]
+                }],
+
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+                order: [
+                    [1, 'asc']
+                ]
+            });
+
+            tableMachine = $('#tblMachine').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0,
+                }, {
+                    "visible": false,
+                    "searchable": false,
+                    "oTargets": [6]
+                }],
+
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+                order: [
+                    [1, 'asc']
+                ]
+            });
+
+            $("#selectAllMachine").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    tableMachine.rows().select();
+                } else {
+                    tableMachine.rows().deselect();
+                }
+            });
+        });
+
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+        var selectedUser = [];
+        var selectedDevice = [];
+
+
+            $("#btnUpload").click(function () {
+
+                UploadPicture();
+
+            });
+
+            $("#File").change(function () {
+
+                let fileSize = this.files[0].size;
+                let types = ['jpeg', 'jpg', 'png'];
+
+                let findingType = types.indexOf(this.files[0].name.toLowerCase().split('.')[1]);
+
+                if (findingType != -1) {
+                    //less than 200 kb
+                    if (fileSize <= 200000) {
+
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("#Picture").attr('src', e.target.result);
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                        $("#hdnImg").val("1");
+                    }
+                    else {
+                        showWarningNoti("Image should be less than 200KB ");
+                    }
+                }
+                else {
+                    showWarningNoti("Incorrect file format");
+                }
+            });
+
+            //$("#btnCapture").click(function () {
+
+            //    take_snapshot();
+
+            //});
+
+            $("#selectAllLocation").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    tableLocation.rows().select();
+                } else {
+                    tableLocation.rows().deselect();
+                }
+            });
+
+            $("#selectAllDepartment").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    tableDepartment.rows().select();
+                } else {
+                    tableDepartment.rows().deselect();
+                }
+            });
+
+            $("#selectAllDesignation").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    tableDesignation.rows().select();
+                } else {
+                    tableDesignation.rows().deselect();
+                }
+            });
+
+            $("#selectAllEmpType").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    tableEmpType.rows().select();
+                } else {
+                    tableEmpType.rows().deselect();
+                }
+            });
+
+
+            $("#btnDeleteLoc").click(function () {
+                if (tableLocation.rows('.selected').count() > 0) {
+
+                    var selectedLoc = [];
+                    $.each(tableLocation.rows('.selected').nodes(), function (i, item) {
+                        var datadevice = tableLocation.row(this).data();
+                        selectedLoc.push(datadevice[1]);
+                    });
+                    DeleteLoc(selectedLoc, this);
+                }
+                else {
+                    showWarningNoti("Please Select Location To Proceed...");
+                }
+            });
+
+            $("#btnDeleteDept").click(function () {
+
+                if (tableDepartment.rows('.selected').count() > 0) {
+
+                    var selectedDept = [];
+                    $.each(tableDepartment.rows('.selected').nodes(), function (i, item) {
+                        var datadevice = tableDepartment.row(this).data();
+                        selectedDept.push(datadevice[1]);
+                    });
+                    DeleteDept(selectedDept, this);
+
+                }
+                else {
+                    showWarningNoti("Please Select Department To Proceed...");
+                }
+            });
+
+            $("#btnDeleteDesignation").click(function () {
+                if (tableDesignation.rows('.selected').count() > 0) {
+
+                    var selectedDesignation = [];
+                    $.each(tableDesignation.rows('.selected').nodes(), function (i, item) {
+                        var datadevice = tableDesignation.row(this).data();
+                        selectedDesignation.push(datadevice[1]);
+                    });
+                    DeleteDesignation(selectedDesignation, this);
+
+                }
+                else {
+                    showWarningNoti("Please Select Designation To Proceed...");
+                }
+            });
+
+            $("#btnDeleteEmpType").click(function () {
+                if (tableEmpType.rows('.selected').count() > 0) {
+
+                    var selectedEmpType = [];
+                    $.each(tableEmpType.rows('.selected').nodes(), function (i, item) {
+                        var datadevice = tableEmpType.row(this).data();
+                        selectedEmpType.push(datadevice[1]);
+                    });
+                    DeleteEmpType(selectedEmpType, this);
+
+                }
+                else {
+                    showWarningNoti("Please Select Employee Type To Proceed...");
+                }
+            });
+
+
+            $("#btnAddLoc").click(function () {
+                if ($("#txtLocation").val() == "") {
+                    showWarningNoti("Location Can't be Empty");
+                } else {
+                    AddLocation(this);
+                }
+            });
+
+            $("#btnAddDept").click(function () {
+                if ($("#txtDepartment").val() == "") {
+                    showWarningNoti("Department Can't be Empty");
+                } else {
+                    AddDepartment(this);
+                }
+            });
+
+            $("#btnAddDesignation").click(function () {
+                if ($("#txtDesignation").val() == "") {
+                    showWarningNoti("Designation Can't be Empty");
+                } else {
+                    AddDesignation(this);
+                }
+            });
+
+            $("#btnAddEmpType").click(function () {
+                if ($("#txtEmployeeTypes").val() == "") {
+                    showWarningNoti("Employee Type Can't be Empty");
+                } else {
+                    AddEmpType(this);
+                }
+            });
+
+
+            $("#chkPin").on("click", function (e) {
+
+                if ($(this).is(":checked")) {
+                    $('#txtPin').prop("disabled", false);
+                    var value = '@Model.Password';
+                    if (value != "") {
+                        $("#txtPin").val("********");
+                    }
+                    @*$('#txtPin').val("@Model.Password");*@
+                } else {
+                    $('#txtPin').prop("disabled", true);
+                    $('#txtPin').val("");
+                }
+
+            });
+
+            $("#btnEye").on("click", function (e) {
+
+                $('#txtPin').prop("disabled", false);
+                $("#txtPin").val('@Model.Password');
+                var x = document.getElementById("txtPin");
+                if (x.type === "password") {
+                    x.type = "text";
+                }
+                else {
+                    x.type = "password";
+                    var value = '@Model.Password';
+                    if (value != "")
+                        $("#txtPin").val("********");
+                }
+            });
+
+            $("#btnSave").click(function () {
+                Edit(this);
+            });
+
+            $("#btnDone").click(function ()
+            {
+                window.location.href = '@Url.Action("Index", "User")';
+            });
+            $("#btnSendToDevice").click(function () {
+                selectedUser = [];
+
+                if (tableMachine.rows('.selected').count() > 0) {
+
+                    $.each(tableMachine.rows('.selected').nodes(), function (i, item) {
+
+                        var datadevice = tableMachine.row(this).data();
+                        selectedDevice.push(datadevice[1]);
+                    });
+
+                    selectedUser.push($("#Code").val());
+
+                    SendUserToDevice(selectedUser, selectedDevice,1);
+                }
+                else {
+                    showWarningNoti("Please Select Machine To Proceed...");
+                }
+            });
+
+            tableTUsers = $('#tblTUsers').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                order: [
+                    [0, 'asc']
+                ]
+            });
+
+
+
+    </script>
+
+    @*Function*@
+    <script type="text/javascript">
+
+
+        //function getDate() {
+        //    var date = new Date();
+        //    var day = date.getDate();
+        //    var month = date.getMonth() + 1;
+        //    var year = date.getFullYear();
+
+        //    if (month < 10) month = "0" + month;
+        //    if (day < 10) day = "0" + day;
+
+        //    var today = year + "-" + month + "-" + day;
+
+        //    $("input#txtValidDateStart").value = today;
+
+        //}
+
+
+
+
+
+        var fileData = new FormData();
+
+        //Edit Starts
+        function Edit(button) {
+            if (window.FormData == undefined)
+                alert("Error: FormData is undefined");
+            else {
+
+                var l = Ladda.create(button);
+                l.start();
+                var Model = GetModelData();
+
+                var fileUpload = $("#File").get(0);
+                var files = fileUpload.files;
+                if (files.length > 0)
+                    fileData.append(files[0].name, files[0]);
+                if ($("#txtUserID").val() == "") {
+                    l.stop();
+                    return showWarningNoti("Please enter ID");
+                }
+                if ($("#txtName").val() == "") {
+                    l.stop();
+                    return showWarningNoti("Please enter Name");
+                }
+
+                else {
+
+                    $.ajax({
+                        url: '@Url.Action("EditUser", "User")',
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        data: fileData,
+                        dataType: "json",
+                        cache: false,
+                        success: function (data) {
+
+                            if (data.result == true) {
+
+                                $("#Code").val(data.code);
+                                swal({
+                                    title: "User edited successfully!",
+                                    text: "Do you wish to send it to device?",
+                                    type: "success",
+                                    confirmButtonClass: "btn-success",
+                                    confirmButtonText: "Yes",
+                                    cancelButtonText: "No",
+                                    showCancelButton: true,
+                                },
+                                    function (isConfirm) {
+                                        if (isConfirm) {
+
+                                            GetDevices();
+
+                                        } else {
+                                            window.location.href = '@Url.Action("Index", "User")';
+                                        }
+                                    });
+                           }
+                           else {
+
+                               swal({
+                                   title: data.title,
+                                   text: data.msg,
+                                   type: "warning",
+                                   confirmButtonClass: "btn-warning",
+                                   confirmButtonText: "Close",
+
+                               });
+                               
+                           }
+
+                        },
+                        failure: function (response) {
+
+                        },
+                        error: function (err, status) {
+
+                        },
+                        complete: function (data) {
+                            l.stop();
+                        }
+
+                    });
+
+                }
+            }
+        }
+        //Edit Ends
+
+
+
+
+        //GetDevices Start
+        function GetDevices() {
+            tableMachine.clear().draw();
+            //var l = Ladda.create(button);
+            //l.start();
+
+            $.ajax({
+                url: '@Url.Action("GetAllDevices", "Device")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result != null) {
+
+                        let connectedDevices = [];
+                        let disConnectedDevices = [];
+                      
+                        for (var i = 0; i < data.result.length; i++) {
+
+                            if (data.result[i].Device_Status == '1') {
+                                tableMachine.row.add([
+                                '',
+                                data.result[i].Device_ID,
+                                data.result[i].Device_Name,
+                                    '<span style="color:#28D094">Connected</span>'
+                                ]).draw(false);
+                                connectedDevices.push(data.result[i].Device_ID);
+                            }
+                            else {
+
+                                tableMachine.row.add([
+                                    '',
+                                    data.result[i].Device_ID,
+                                    data.result[i].Device_Name,
+                                    '<span style="color:red">Disconnected</span>'
+                                ]).draw(false);
+                                disConnectedDevices.push(data.result[i].Device_ID);
+                            }
+                           
+                        }
+                        if (connectedDevices.length > 0) {
+                            $("#btnSendToDevice").css("display", "inline");
+                        }
+                        else if (disConnectedDevices.length > 0 && data.count == data.result.length) {
+                            $("#btnSendToDevice").css("display", "none");
+                        }
+                    }
+                },
+                failure: function (response) {
+                    alert("failure " + response.data);
+                },
+                error: function (err, status, thrown) {
+                    alert("error " + status + " " + thrown);
+                },
+                complete: function (data) {
+                    $("#modals-machine").modal('toggle');
+                   // l.stop();
+                }
+            });
+
+
+        }
+        //GetDevices Ends
+
+
+        //UploadPicture Starts
+        function UploadPicture() {
+
+            var elm = document.getElementById("File");
+            if (elm && document.createEvent) {
+                var evt = document.createEvent("MouseEvents");
+                evt.initEvent("click", true, false);
+                elm.dispatchEvent(evt);
+            }
+
+        }
+        //UploadPicture Ends
+
+
+
+
+        //GetModelData Starts
+        function GetModelData() {
+            fileData = new FormData();
+            fileData.append('Employee_ID', $("#txtUserID").val());
+            fileData.append('Code', $("#Code").val());
+            fileData.append('Employee_Name', $("#txtName").val());
+            fileData.append('Email', $("#txtEmail").val());
+            fileData.append('Address', $("#txtAddress").val());
+            fileData.append('Gender', $("#ddlGender").val());
+            fileData.append('fkDepartment_Code', $("#ddlDepartment").val());
+            fileData.append('fkLocation_Code', $("#ddlLocation").val());
+            fileData.append('fkDesignation_Code', $("#ddlDesignation").val());
+            fileData.append('fkEmployeeType_Code', $("#ddlEmpTypes").val());
+            fileData.append('Card_No', $("#txtCardNo").val());
+            fileData.append('Telephone', $("#txtTel").val());
+            fileData.append('Active', $("#chkActive").is(":checked"));
+            fileData.append('Employee_Photo', $("#Employee_Photo").val());
+
+            if ($("#txtPin").val() != "********") {
+                fileData.append('Password', $("#txtPin").val());
+            } else {
+                $("#txtPin").val('@Model.Password');
+                fileData.append('Password', $("#txtPin").val());
+            }
+            fileData.append('Face', $("#chkFace").is(":checked"));
+            fileData.append('FingerPrint', $("#chkFP").is(":checked"));
+            fileData.append('Palm', $("#chkPalm").is(":checked"));
+            fileData.append('User_Privilege', $("#ddlUserPriv").val());
+
+            fileData.append('finger_1', $("#finger_1").val());
+            fileData.append('finger_0', $("#finger_0").val());
+            fileData.append('finger_2', $("#finger_2").val());
+            fileData.append('finger_3', $("#finger_3").val());
+            fileData.append('finger_5', $("#finger_5").val());
+            fileData.append('finger_4', $("#finger_4").val());
+            fileData.append('finger_7', $("#finger_7").val());
+            fileData.append('finger_6', $("#finger_6").val());
+            fileData.append('finger_8', $("#finger_8").val());
+            fileData.append('finger_9', $("#finger_9").val());
+            fileData.append('face_data', $("#face_data").val());
+            fileData.append('palm_0', $("#palm_0").val());
+            fileData.append('palm_1', $("#palm_1").val());
+            fileData.append('photo_data', $("#photo_data").val());
+            fileData.append('Cmd_Param', $("#Cmd_Param").val());
+            fileData.append('Device_Id', $("#Device_Id").val());
+
+            fileData.append('Valid_DateStart', $("#txtValidDateStart").val());
+            fileData.append('Valid_DateEnd', $("#txtValidDateEnd").val());
+            fileData.append('Sunday', $("#ddlSunday").val());
+            fileData.append('Monday', $("#ddlMonday").val());
+            fileData.append('Tuesday', $("#ddlTuesday").val());
+            fileData.append('Wednesday', $("#ddlWednesday").val());
+            fileData.append('Thursday', $("#ddlThursday").val());
+            fileData.append('Friday', $("#ddlFriday").val());
+            fileData.append('Saturday', $("#ddlSaturday").val());
+            fileData.append('WorkHourPolicyCode', $("#ddlWorkHourPolicy").val());
+        }
+
+
+        //SetModelData Starts
+        function SetModelData() {
+            $("#txtUserID").val('@Model.Employee_ID');
+            $("#txtName").val('@Model.Employee_Name');
+            $("#txtEmail").val('@Model.Email');
+            $("#ddlDesignation").val('@Model.fkDesignation_Code');
+            $("#ddlEmpTypes").val('@Model.fkEmployeeType_Code');
+            $("#ddlDepartment").val('@Model.fkDepartment_Code');
+            $("#ddlLocation").val('@Model.fkLocation_Code');
+            $("#ddlUserPriv").val('@Model.User_Privilege');
+            $("#ddlWorkHourPolicy").val('@Model.WorkHourPolicyCode');
+
+            var pin = '@Model.Password';
+            //$("#txtPin").val(pin);
+            if (pin != '') {
+                $("#chkPin").prop("checked", true);
+                $("#txtPin").val("********");
+                $("#txtPin").prop("disabled", false);
+            }
+
+            $("#txtCardNo").val('@Model.Card_No');
+            var active = '@Model.Active';
+            if (active == 1) {
+                $("#chkActive").prop("checked", true);
+            }
+             $("#txtAddress").val('@Model.Address');
+            $("#ddlGender").val('@Model.Gender');
+            $("#txtTel").val('@Model.Telephone');
+
+            var face = '@Model.Face';
+            if (face == 'True') {
+                $("#chkFace").prop("checked", true);
+            }
+            var fp = '@Model.FingerPrint';
+            if (fp == 'True') {
+                $("#chkFP").prop("checked", true);
+            }
+            var palm = '@Model.Palm';
+            if (palm == 'True') {
+                $("#chkPalm").prop("checked", true);
+            }
+
+            $("#txtValidDateStart").val('@Model.Valid_DateStart');
+            $("#txtValidDateEnd").val('@Model.Valid_DateEnd');
+            $("#ddlSunday").val('@Model.Sunday');
+            $("#ddlMonday").val('@Model.Monday');
+            $("#ddlTuesday").val('@Model.Tuesday');
+            $("#ddlWednesday").val('@Model.Wednesday');
+            $("#ddlThursday").val('@Model.Thursday');
+            $("#ddlFriday").val('@Model.Friday');
+            $("#ddlSaturday").val('@Model.Saturday');
+        }
+        //SetModelData Ends
+
+
+
+
+
+
+
+         function GetAllLocation() {
+            tableLocation.clear().draw();
+            $("#txtLocation").val("");
+            $.ajax({
+                url: '@Url.Action("GetAllLocations", "User")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+
+                    if (data.result != null) {
+                         for (var i = 0; i < data.result.length; i++) {
+                            tableLocation.row.add([
+                                '',
+                                data.result[i].Code,
+                                data.result[i].Description
+                                ]).draw(false);
+                        }
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status, thrown) {
+                },
+                complete: function (data) {
+
+                }
+            });
+        }
+
+
+        function GetAllDepartment() {
+            tableDepartment.clear().draw();
+            $("#txtDepartment").val("");
+            $.ajax({
+                url: '@Url.Action("GetAllDepartment", "User")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+
+                    if (data.result != null) {
+                         for (var i = 0; i < data.result.length; i++) {
+                             tableDepartment.row.add([
+                                '',
+                                data.result[i].Code,
+                                data.result[i].Description
+                                ]).draw(false);
+                        }
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status, thrown) {
+                },
+                complete: function (data) {
+
+                }
+            });
+        }
+
+        function GetAllDesignation() {
+            tableDesignation.clear().draw();
+            $("#txtDesignation").val("");
+            $.ajax({
+                url: '@Url.Action("GetAllDesignation", "User")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+
+                    if (data.result != null) {
+                         for (var i = 0; i < data.result.length; i++) {
+                             tableDesignation.row.add([
+                                '',
+                                data.result[i].Code,
+                                data.result[i].Description
+                                ]).draw(false);
+                        }
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status, thrown) {
+                },
+                complete: function (data) {
+
+                }
+            });
+        }
+
+
+       function GetAllEmpType() {
+            tableEmpType.clear().draw();
+            $("#txtEmployeeTypes").val("");
+            $.ajax({
+                url: '@Url.Action("GetAllEmpType", "User")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+
+                    if (data.result != null) {
+                         for (var i = 0; i < data.result.length; i++) {
+                             tableEmpType.row.add([
+                                '',
+                                data.result[i].Code,
+                                data.result[i].Description
+                                ]).draw(false);
+                        }
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status, thrown) {
+                },
+                complete: function (data) {
+
+                }
+            });
+        }
+
+
+
+        function GetLocationDDL() {
+
+            $.ajax({
+                url: '@Url.Action("GetAllLocations", "User")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    $("#ddlLocation").empty();
+                    if (data.result != 0) {
+                        for (var i = 0; i < data.result.length; i++) {
+                            $("#ddlLocation").append($("<option></option>").val(data.result[i].Code).html(data.result[i].Description));
+                        }
+                    } else {
+                        $("#ddlLocation").append($("<option value="+0+" disabled selected>Select</option>"));
+                    }
+                },
+                failure: function () {
+                    alert("Failed!");
+                }
+            });
+        }
+
+        function GetDepartmentDDL() {
+
+            $.ajax({
+                url: '@Url.Action("GetAllDepartment", "User")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    $("#ddlDepartment").empty();
+                    if (data.result != 0) {
+                        for (var i = 0; i < data.result.length; i++) {
+                            $("#ddlDepartment").append($("<option></option>").val(data.result[i].Code).html(data.result[i].Description));
+                        }
+                    } else {
+                        $("#ddlDepartment").append($("<option value=" + 0 + " disabled selected>Select</option>"));
+                    }
+                },
+                failure: function () {
+                    alert("Failed!");
+                }
+            });
+        }
+
+          function GetDesignationDDL() {
+
+            $.ajax({
+                url: '@Url.Action("GetAllDesignation", "User")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    $("#ddlDesignation").empty();
+                    if (data.result != 0) {
+                        for (var i = 0; i < data.result.length; i++) {
+                            $("#ddlDesignation").append($("<option></option>").val(data.result[i].Code).html(data.result[i].Description));
+                        }
+                    } else {
+                        $("#ddlDesignation").append($("<option value=" + 0 + " disabled selected>Select</option>"));
+                    }
+                },
+                failure: function () {
+                    alert("Failed!");
+                }
+            });
+        }
+
+        function GetEmpTypeDDL() {
+
+            $.ajax({
+                url: '@Url.Action("GetAllEmpType", "User")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    $("#ddlEmpTypes").empty();
+                    if (data.result != 0) {
+                        for (var i = 0; i < data.result.length; i++) {
+                            $("#ddlEmpTypes").append($("<option></option>").val(data.result[i].Code).html(data.result[i].Description));
+                        }
+                    } else {
+                        $("#ddlEmpTypes").append($("<option value=" + 0 + " disabled selected>Select</option>"));
+                    }
+                },
+                failure: function () {
+                    alert("Failed!");
+                }
+            });
+        }
+
+
+         function AddLocation(button) {
+
+            var l = Ladda.create(button);
+            l.start();
+            var LocModel = GetLocModelData();
+
+            $.ajax({
+                url: '@Url.Action("AddLocation", "User")',
+                type: "POST",
+                data: { location: LocModel  },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+
+                        showSuccessNoti("Location Added");
+
+                    } else {
+                        showWarningNoti("Location not Added..");
+                    } GetAllLocation();
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+
+
+        //AddDepartment Ends
+        function AddDepartment(button) {
+            var l = Ladda.create(button);
+            l.start();
+            var DeptModel = GetDeptModelData();
+
+            $.ajax({
+                url: '@Url.Action("AddDepartment", "User")',
+                type: "POST",
+                data: { department: DeptModel  },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+
+                        showSuccessNoti("Department Added");
+                    } else {
+                        showWarningNoti("Department not Added..");
+                    }
+                    GetAllDepartment();
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //AddDepartment Ends
+
+
+         //AddDesignation Ends
+        function AddDesignation(button) {
+            var l = Ladda.create(button);
+            l.start();
+            var DesignationModel = GetDesignationModelData();
+           // var departmentName = $("#txtDepartment").val();
+
+            $.ajax({
+                url: '@Url.Action("AddDesignation", "User")',
+                type: "POST",
+                data: { designation: DesignationModel  },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+
+                        showSuccessNoti("Designation Added");
+                    } else {
+                        showWarningNoti("Designation not Added..");
+                    }
+                    GetAllDesignation();
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //AddDesignation Ends
+
+
+
+         //AddEmpType Ends
+        function AddEmpType(button) {
+            var l = Ladda.create(button);
+            l.start();
+            var EmpTypeModel = GetEmpTypeModelData();
+
+            $.ajax({
+                url: '@Url.Action("AddEmpType", "User")',
+                type: "POST",
+                data: { emptype: EmpTypeModel  },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+
+                        showSuccessNoti("Employee Type Added");
+                    } else {
+                        showWarningNoti("Employee Type not Added..");
+                    }
+                    GetAllEmpType();
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //AddEmpType Ends
+
+
+
+        //Delete Location Start
+        function DeleteLoc(codes, button) {
+
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("DeleteLocation", "User")',
+                type: "POST",
+                data: { locationCodes: codes },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("Location deleted successfully");
+                        tableLocation.rows('.selected').remove().draw(false);
+                        $("#chkMaskDetection").prop("checked", false);
+                    } else {
+                        showWarningNoti("Location cannot be deleted..");
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //Delete Location Ends
+
+
+        //Delete Department Start
+        function DeleteDept(codes, button) {
+
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("DeleteDepartment", "User")',
+                type: "POST",
+                data: {deptCodes: codes },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        showSuccessNoti("Department deleted successfully");
+                        tableDepartment.rows('.selected').remove().draw(false);
+                    } else {
+                        showWarningNoti("Department cannot be deleted..");
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //Delete Department Ends
+
+
+
+        //Delete Designation Start
+        function DeleteDesignation(codes, button) {
+
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("DeleteDesignation", "User")',
+                type: "POST",
+                data: { designationCodes: codes },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        showSuccessNoti("Designation deleted successfully");
+                        tableDesignation.rows('.selected').remove().draw(false);
+                    } else {
+                        showWarningNoti("Designation cannot be deleted..");
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //Delete Designation Ends
+
+        //Delete EmpType Start
+        function DeleteEmpType(codes, button) {
+
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("DeleteEmpType", "User")',
+                type: "POST",
+                data: { emptypeCodes: codes },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        showSuccessNoti("Employee Type deleted successfully");
+                        tableEmpType.rows('.selected').remove().draw(false);
+                    } else {
+                        showWarningNoti("Employee Type cannot be deleted..");
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //Delete EmpType Ends
+
+
+        function GetDeptModelData() {
+            var Model = {};
+            Model.Code = $("#hdnCode").val();
+            Model.Description = $("#txtDepartment").val();
+            return Model;
+        }
+        function GetLocModelData() {
+            var Model = {};
+            Model.Code = $("#hdnCode").val();
+            Model.Description = $("#txtLocation").val();
+            return Model;
+        }
+
+        function GetDesignationModelData() {
+            var Model = {};
+            Model.Code = $("#hdnCode").val();
+            Model.Description = $("#txtDesignation").val();
+            return Model;
+        }
+        function GetEmpTypeModelData() {
+            var Model = {};
+            Model.Code = $("#hdnCode").val();
+            Model.Description = $("#txtEmployeeTypes").val();
+            return Model;
+        }
+
+        //SendUserToDevice Start
+
+        function SendUserToDevice(user, device, actionNo) {
+            tableTUsers.clear().draw();
+            $("#modals-machine").modal('toggle');
+            $("#modals-transfer").modal('toggle');
+            $("#lblProgress").html("");
+            $(".progress-bar").width("0%");
+            $("#selectAllMachine").prop("checked", false);
+            $("#lblCompleted").text("");
+            $("#btnClose").prop("disabled", true);
+            $("#btnDone").prop("disabled", true);
+            $.ajax({
+                url: '@Url.Action("SendUserToDevice", "User")',
+                type: "POST",
+                data: { userCodes: user, deviceIds: device, action: actionNo },
+                dataType: "json",
+                cache: false,
+                beforeSend: function (xhr) {
+                    asyncCallsXHR = xhr;
+                },
+                success: function (data) {
+                    if (data.result) {
+                    }
+                    else {
+                        swal({
+                            title: data.msg,
+                            type: "warning",
+                            confirmButtonClass: 'btn-warning',
+                            confirmButtonText: 'Ok!'
+                        });
+                            }
+
+                        },
+                        failure: function (response) {
+                            alert("failure " + response.data);
+                        },
+                        error: function (err, status, thrown) {
+                            alert("error " + status + " " + thrown);
+                        },
+                        complete: function (data) {
+                        }
+
+
+                    });
+
+
+                }
+                //SendUserToDevice Ends
+
+        //SendUserTransferStatus Start
+        var progress = 1;
+        var percent = 0;
+        function SendUserTransferStatus(user_id, user_name, device_id, device_name, msg) {
+            var total = selectedUser.length * selectedDevice.length;
+
+            percent = (progress * 100) / total;
+            $("#lblProgress").html("Sending to Device: <span class='text-primary font-weight-semibold'>" + device_name + "</span> Users: <span class='text-primary font-weight-semibold'>" + progress + " / " + total + "</span>");
+            $(".progress-bar").width(percent + "%");
+            if (msg == "success") {
+                msg = "<label class='text-success'>" + msg + "</label>";
+            } else {
+                msg = "<label class='text-danger'>" + msg + "</label>";
+            }
+
+            tableTUsers.row.add([
+                device_name,
+                user_id,
+                user_name,
+                msg
+            ]).draw(false);
+
+            if (total == progress) {
+                $("#lblProgress").html("");
+                $("#btnClose").prop("disabled", false);
+
+                $("#btnDone").prop("disabled", false);
+                progress = 1;
+                percent = 0;
+                selectedUser = [];
+                selectedDevice = [];
+            }
+            else {
+                progress++;
+            }
+
+
+        }
+        //SendUserTransferStatus Ends
+
+
+    </script>
+    @*SignalR*@
+
+
+
+    @if (com != null)
+    {
+        if (!string.IsNullOrEmpty(com.Server_IP) && !string.IsNullOrEmpty(com.SignalR_Port))
+        {
+
+            <script src="http://@com.Server_IP:@com.SignalR_Port/signalr/hubs"></script>
+            <script type="text/javascript">
+
+                $(function () {
+
+                    var serverIP = '@com.Server_IP';
+                    var signalrPort = '@com.SignalR_Port';
+
+                    $.connection.hub.url = "http://" + serverIP + ":" + signalrPort + "/signalr/hubs";
+                    var notifier = $.connection.NotifierHub;
+
+                    notifier.client.sendUserTransferStatus = function (user_id, user_name, device_id, device_name, msg) {
+                        SendUserTransferStatus(user_id,user_name,device_id,device_name, msg);
+                    }
+
+                    $.connection.hub.start().done(function () {
+                        console.log("SignalR Connected");
+                    })
+
+                    $.connection.hub.reconnected(function () {
+                        console.log("SignalR is reconnected.");
+                    });
+
+
+                    $.connection.hub.disconnected(function () {
+
+                        console.log("SignalR Disconnected.");
+
+                        if ($.connection.hub.lastError) {
+                            console.log("SignalR Disconnected. Reason: " + $.connection.hub.lastError.message);
+                        }
+
+                        setTimeout(function () {
+                            $.connection.hub.start().done(function () {
+                                console.log("SignalR Connected");
+                            });
+                        }, 10000); // Restart connection after 10 seconds.
+
+                    });
+
+
+                })
+
+            </script>
+        }
+    }
+
+}

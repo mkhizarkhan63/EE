@@ -1,0 +1,2159 @@
+﻿@model Common.AppSettingModel
+@using EagleEye.DAL.Partial
+@using EagleEye.Common
+@{
+    ViewBag.Title = "Settings";
+    Communication_P com = @SessionHandling.Communication;
+}
+@{
+    MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen> List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Settings").FirstOrDefault();
+    }
+}
+<style>
+    .btn-dark.active {
+        background: #28D094 !important;
+    }
+</style>
+<div class="container-fluid flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-0">
+        Settings
+        @if (Menu.Insert == true || Menu.Update == true)
+        {
+            <button type="button" class="btn btn-primary float-right ladda-button" data-style="expand-right" id="btnSave">Save</button>
+        }
+    </h4>
+    <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")"><i class="feather icon-home"></i></a></li>
+            <li class="breadcrumb-item active">settings</li>
+        </ol>
+    </div>
+    <div class="card overflow-hidden">
+        <div class="row no-gutters row-bordered row-border-light">
+            <div class="col-md-3 pt-0">
+                <div class="list-group list-group-flush account-settings-links">
+                    <a class="list-group-item list-group-item-action active" data-toggle="list" href="#program-settings"><i class="fa fa-project-diagram"></i> Program Settings</a>
+                    @if (Model.IntAuPoAct)
+                    {
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#auto-polling"><i class="fa fa-clipboard-list"></i> Auto Polling</a>
+                    }
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#software-settings"><i class="fa fa-wrench"></i> Software Settings</a>
+                    @if (Model.TISInt || Model.OrclInt || Model.SQLInt)
+                    {
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#integration-settings"><i class="fa fa-paper-plane"></i> Integration Settings</a>
+                    }
+                   @* <a class="list-group-item list-group-item-action" data-toggle="list" href="#email-configuration"><i class="fa fa-envelope"></i> Email Configuration</a>*@
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#attendence-status"><i class="fa fa-list"></i> Attendence Status</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#work-codes"><i class="fa fa-briefcase"></i> Work Codes</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#department"><i class="fa fa-building"></i> Department</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#location"><i class="fa fa-map-marker-alt"></i> Location</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#employee-type"><i class="fa fa-user-friends"></i> Employee Types</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#designation"><i class="fa fa-user-tie"></i> Designation</a>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="program-settings">
+                        <div class="card-body">
+                            <h5 class="text-primary"><i class="fa fa-project-diagram"></i> Program Settings</h5>
+                            <hr />
+                            <br />
+                            <h5 class="text-primary"><i class="fa fa-cogs"></i> Polling Settings</h5>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="txtPollingFile" value="@Model.PollingFileName">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">.dat</span>
+                                        </div>
+                                    </div>
+                                    <label style="color:#a1a1a1">(Polling File Name)</label>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="txtPollingFolder" value="@Model.PollingFolderName" />
+                                    <label style="color:#a1a1a1">(Polling Folder)</label>
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+
+                            <h5 class="text-primary"><i class="fa fa-database"></i> Other Settings</h5>
+
+                            <div class="form-row">
+                                <div class="form col-md-4">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="chckDuplicateEntries" checked="@Model.IsDup">
+                                        <span class="custom-control-label">Allow Duplicate Entries</span>
+                                    </label>
+                                </div>
+                                <div class="form col-md-4">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="chckSynchorinzedDT" checked="@Model.IsSync">
+                                        <span class="custom-control-label">Sync DateTime After Polling</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="auto-polling">
+                        <div class="card-body">
+                            <div class="card-header-elements">
+                                <h5 class="text-primary"><i class="fa fa-clipboard-list"></i> Auto Polling</h5>
+                                <div class="card-header-elements ml-auto">
+                                    <label class="text-primary m-0">
+                                        <span class="switcher d-inline-block align-middle mr-0 ml-2">
+                                            <input type="checkbox" class="switcher-input" checked="@Model.EnableAutoPolling" id="chckEnablePolling" onchange="EnablePolling()">
+                                            <span class="switcher-indicator">
+                                                <span class="switcher-yes"></span>
+                                                <span class="switcher-no"></span>
+                                            </span>
+                                            <span class="switcher-label">Enable</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <hr />
+                            <br />
+                            <div class="form-row">
+                                <div class="form col-md-6">
+                                    <div id="pollevery" style="display:block">
+                                        <label class="form-label">Poll Every</label>
+                                        <input type="text" class="form-control" id="txtPollEveryMinutes" value="@Model.PollEverySpan">
+                                        <label style="color:#a1a1a1">(Seconds)</label>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="software-settings">
+                        <div class="card-body">
+                            <h5 class="text-primary"> <i class="fa fa-wrench"></i> Software Settings</h5>
+                            <hr />
+                            <br />
+                            <div class="form-row">
+                                <div class="form col-md-12">
+                                    <h5 class="text-primary"><i class="fa fa-folder"></i> Select Hidden File Folders</h5>
+                                    <input type="text" class="form-control col-md-8" id="txtHiddenFiles" value="@Model.HiddenFilePath" />
+                                    <label style="color:#a1a1a1">(Hidden File Folders Path)</label>
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                            <h5 class="text-primary"><i class="fa fa-file"></i> File Type</h5>
+                            <div class="form-row">
+                                <div class="form col-md-4">
+                                    <label class="custom-control custom-radio">
+                                        <input name="rdFileType" type="radio" class="custom-control-input" id="rdUseFixedPollingFile" checked="@Model.UseFixedPollingFile">
+                                        <span class="custom-control-label">Fixed File Name</span>
+                                    </label>
+                                </div>
+                                <div class="form col-md-4">
+                                    <label class="custom-control custom-radio">
+                                        <input name="rdFileType" type="radio" class="custom-control-input" id="rdUseDTPollingFile" checked="@Model.UseDateTimePollingFile">
+                                        <span class="custom-control-label">Use Date Time</span>
+                                    </label>
+                                </div>
+                                @if (Model.LDAT)
+                                {
+                                    <div class="form col-md-4">
+                                        <label class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="chckAllowPlainList" checked="@Model.AllowPlainList">
+                                            <span class="custom-control-label">Allow Plain List</span>
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                            <br />
+                            <br />
+                            <div class="form-row">
+                                <div class="form col-sm-4">
+                                    <h5 class="text-primary"><i class="fa fa-clock"></i> Web Timeout</h5>
+                                    <input type="number" class="form-control" id="txtWebTimeout" value="@Model.WebTimeout" min="1" max="255" />
+                                    <label style="color:#a1a1a1">seconds</label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="integration-settings">
+                        <div class="card-body">
+                            <h5 class="text-primary"><i class="fas fa-paper-plane"></i> Integration Settings</h5>
+                            <hr />
+                            <br />
+                            @if (Model.TISInt)
+                            {
+                                <div id="TISINTVISIBLE">
+                                    <div class="card-header-elements">
+                                        <h5 class="text-primary"><i class="fa fa-coins"></i> TIS Integration</h5>
+                                        <div class="card-header-elements ml-auto">
+                                            <label class="text-primary m-0">
+                                                <span class="switcher d-inline-block align-middle mr-0 ml-2">
+                                                    <input type="checkbox" class="switcher-input" checked="@Model.EnableTISIntegration" id="chckTISIntegration" onchange="EnableTIS()">
+                                                    <span class="switcher-indicator">
+                                                        <span class="switcher-yes"></span>
+                                                        <span class="switcher-no"></span>
+                                                    </span>
+                                                    <span class="switcher-label">Enable</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <form id="TISINTEGRATION">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Database Server Name</label>
+                                                <input type="text" class="form-control" placeholder="Server Name" id="txtTISSQLServerName" value="@Model.TISSQLServerName">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Database Name</label>
+                                                <input type="text" class="form-control" placeholder="Database Name" id="txtTISSQLDatabaseName" value="@Model.TISSQLDBName">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">User Id</label>
+                                                <input type="text" class="form-control" autocomplete="off" placeholder="User Id" id="txtTISSQLUserId" value="@Model.TISSQLUserID">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Password</label>
+                                                <input type="password" class="form-control" autocomplete="off" placeholder="Password" id="txtTISSQLPassword" value="@Model.TISSQLPassword">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Port</label>
+                                                <input type="text" class="form-control" placeholder="Port" id="txtTISSQLPort" value="@Model.TISSQLPort">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="chckTISSQLUseTcp" checked="@Model.UseSQLTcp">
+                                                    <span class="custom-control-label">Use Tcp Only</span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <button type="button" class="btn btn-primary float-right ladda-button" id="btnTISSQLTest">Test Connection</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            }
+                            <br />
+                            <br />
+                            @if (Model.SQLInt)
+                            {
+                                <div id="SQLINTVISIBLE">
+                                    <div class="card-header-elements">
+                                        <h5 class="text-primary"><i class="fas fa-cubes"></i> SQL Integration</h5>
+                                        <div class="card-header-elements ml-auto">
+                                            <label class="text-primary m-0">
+                                                <span class="switcher d-inline-block align-middle mr-0 ml-2">
+                                                    <input type="checkbox" class="switcher-input" checked="@Model.EnableSQLIntegration" id="chckSQLIntegration" onchange="EnableSQLInt()">
+                                                    <span class="switcher-indicator">
+                                                        <span class="switcher-yes"></span>
+                                                        <span class="switcher-no"></span>
+                                                    </span>
+                                                    <span class="switcher-label">Enable</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <form id="SQLINTEGRATION">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Server Name</label>
+                                                <input type="text" class="form-control" placeholder="Server Name" id="txtSQLServerName" value="@Model.SQLServerName">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Database Name</label>
+                                                <input type="text" class="form-control" placeholder="Database Name" id="txtSQLDatabaseName" value="@Model.SQLDBName">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">User Id</label>
+                                                <input type="text" class="form-control" placeholder="User Id" id="txtSQLUserId" value="@Model.SQLUserId">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Password</label>
+                                                <input type="password" class="form-control" placeholder="Password" id="txtSQLPassword" value="@Model.SQLPassword">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <button type="button" class="btn btn-primary float-right ladda-button" id="btnSQLTest">Test Connection</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            }
+                            <br />
+                            <br />
+                            @* mysql integration *@
+                            @if (Model.MySqlInt)
+                            {
+                                <div id="MySqlInvisible">
+                                    <div class="card-header-elements">
+                                        <h5 class="text-primary"><i class="fas fa-cubes"></i> MySQL Integration</h5>
+                                        <div class="card-header-elements ml-auto">
+                                            <label class="text-primary m-0">
+                                                <span class="switcher d-inline-block align-middle mr-0 ml-2">
+                                                    <input type="checkbox" class="switcher-input" checked="@Model.EnableMySqlIntegration" id="chckMySQLIntegration" onchange="EnableMySqlInt()">
+                                                    <span class="switcher-indicator">
+                                                        <span class="switcher-yes"></span>
+                                                        <span class="switcher-no"></span>
+                                                    </span>
+                                                    <span class="switcher-label">Enable</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <form id="MySQLINTEGRATION">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Server Name</label>
+                                                <input type="text" class="form-control" placeholder="Server Name" id="txtMySQLServerName" value="@Model.MySqlServerName">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Database Name</label>
+                                                <input type="text" class="form-control" placeholder="Database Name" id="txtMySQLDatabaseName" value="@Model.MySqlDBName">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">User Id</label>
+                                                <input type="text" class="form-control" placeholder="User Id" id="txtMySQLUserId" value="@Model.MySqlUserId">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Password</label>
+                                                <input type="password" class="form-control" placeholder="Password" id="txtMySQLPassword" value="@Model.MySqlPassword">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Port</label>
+                                                <input type="text" class="form-control" placeholder="Port" id="txtMySQLPort" value="@Model.MySqlPort">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <button type="button" class="btn btn-primary float-right ladda-button" id="btnMySQLTest">Test Connection</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            }
+
+
+                            <br />
+                            <br />
+
+
+
+                            @if (Model.OrclInt)
+                            {
+                                <div id="ORCLINTVISIBLE">
+                                    <div class="card-header-elements">
+                                        <h5 class="text-primary"><i class="fas fa-database"></i> Oracle Integration</h5>
+                                        <div class="card-header-elements ml-auto">
+                                            <label class="text-primary m-0">
+                                                <span class="switcher d-inline-block align-middle mr-0 ml-2">
+                                                    <input type="checkbox" class="switcher-input" checked="@Model.EnableOrclIntegration" id="chckOrclIntegration" onchange="EnableOrclInt()">
+                                                    <span class="switcher-indicator">
+                                                        <span class="switcher-yes"></span>
+                                                        <span class="switcher-no"></span>
+                                                    </span>
+                                                    <span class="switcher-label">Enable</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <form id="ORCLINTEGRATION">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Server Name</label>
+                                                <input type="text" class="form-control" placeholder="Server Name" id="txtOracleServerName" value="@Model.OrclServerName">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Service Name</label>
+                                                <input type="text" class="form-control" placeholder="Service Name" id="txtOracleServiceName" value="@Model.OrclServicName">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">User Id</label>
+                                                <input type="text" class="form-control" placeholder="User Id" id="txtOracleUserId" value="@Model.OrclUserId">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Password</label>
+                                                <input type="password" class="form-control" placeholder="Password" id="txtOraclePassword" value="@Model.OrclPassword">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div> <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <button type="button" class="btn btn-primary float-right ladda-button" id="btnOracleTest">Test Connection</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            }
+                        </div>
+                        <hr />
+                    </div>
+
+                    <div class="tab-pane fade" id="email-configuration">
+                        <div class="card-body">
+                            <h5 class="text-primary"><i class="fas fa-envelope"></i> Email Configuration</h5>
+                            <hr />
+
+                            <div class="row">
+                                <label class="switcher">
+                                    <input type="checkbox" class="switcher-input" checked="@Model.SendingEmail" id="chkSendingEmail">
+                                    <span class="switcher-indicator">
+                                        <span class="switcher-yes"></span>
+                                        <span class="switcher-no"></span>
+                                    </span>
+                                    <span class="switcher-label">Sending Email</span>
+                                </label>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="form-label">SMTP Server IP</label>
+                                    <input type="text" class="form-control" placeholder="SMTP Server IP" id="txtSMTPServerIP" value="@Model.SMTPServerIP">
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="form-label">Sender Email</label>
+                                    <input type="email" class="form-control" placeholder="Sender Email" id="txtSenderEmail" value="@Model.SenderEmail">
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="form-label">Username</label>
+                                    <input type="text" class="form-control" placeholder="Username" id="txtUserName" value="@Model.UserName">
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="form-label">Password</label>
+                                    <input type="password" class="form-control" placeholder="Password" id="txtPassword" value="@Model.Password">
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                @*<div class="form-group col-md-6">
+                                        <label class="form-label">Authentication Mode</label>
+                                        @Html.DropDownListFor(x => x.AuthenticationMode, EnumHelper.GetSelectList(typeof(EagleEye.Common.Enumeration.AuthenticationMode)), "None", new { @class = "form-control" })
+                                        <div class="clearfix"></div>
+                                    </div>*@
+
+                                <div class="form-group col-md-6">
+                                    <label class="form-label">Mail Port</label>
+                                    <input type="number" class="form-control" placeholder="MailPort" id="txtMailPort" value="@Model.MailPort">
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label class="form-label">Supervisor Email(s)</label>
+                                    <input type="email" class="form-control" placeholder="Supervisor Email" id="txtSupervisorEmail" value="@Model.SupervisorEmail">
+                                    <label style="color:#a1a1a1">Note: Use Semicolon for multiple email(s) i.e (test@gmail.com, test2@gmail.com)</label>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr />
+                    </div>
+
+                    <div class="tab-pane fade" id="attendence-status">
+                        <div class="card-body">
+                            <h5 class="text-primary"><i class="fas fa-list"></i> Attendence Status</h5>
+                            <hr />
+                            <p class="text-danger"><b>Note: </b>Please ensure that Attendence status defination should be same as in device.</p>
+                            <br />
+
+                            @if (Model.ListAttendenceStatus != null)
+                            {
+                                foreach (var item in Model.ListAttendenceStatus)
+                                {
+                                    <div class="task-list-item form-group col-sm-8" id="Att_status_@item.Code">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Code:</span>
+                                            </div>
+                                            <input type="number" class="form-control" value="@item.Code" disabled />
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Status:</span>
+                                            </div>
+                                            <input type="text" class="form-control" value="@item.Name" id="txt_status_@item.Code" />
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="input-group">
+                                            @if (Menu.Update == true)
+                                            {
+                                                <button class="btn btn-primary" onclick="UpdateAttStatus('@item.Code',$('#txt_status_@item.Code').val())">Update</button>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="work-codes">
+                        <div class="card-body">
+                            <h5 class="text-primary"><i class="fas fa-briefcase"></i> Work Codes</h5>
+                            <hr />
+
+                            <br />
+                            @if (Model.ListWorkCodes != null)
+                            {
+                                foreach (var item in Model.ListWorkCodes)
+                                {
+                                    <div class="task-list-item form-group col-sm-10" id="WorkCode_@item.Code">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Code:</span>
+                                            </div>
+                                            <input type="number" class="form-control" value="@item.Code" disabled />
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Description:</span>
+                                            </div>
+                                            <input type="text" class="form-control" value="@item.Name" id="txt_description_@item.Code" />
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="input-group">
+                                            @if (Menu.Update == true)
+                                            {
+                                                <button class="btn btn-primary" onclick="UpdateWorkCode('@item.Code',$('#txt_description_@item.Code').val())">Update</button>
+                                            }
+                                        </div>
+
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="department">
+                        <div class="card-body">
+                            <h5 class="text-primary"><i class="fas fa-building"></i> Department</h5>
+                            <hr />
+                            <br />
+                            <div style="max-height:400px;overflow-y:auto;">
+                                <div class="task-list custom-controls-stacked" id="ListDepartment">
+
+                                    <div class="task-list-item">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Id:</span>
+                                            </div>
+                                            <input type="number" class="form-control" id="txtDepartmentID" disabled />
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Name:</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="txtDepartment" />
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="input-group">
+                                            @if (Menu.Insert == true)
+                                            {
+                                                <button class="btn btn-primary" id="btnAddDept">Add</button>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    @if (Model.ListDepartments != null)
+                                    {
+                                        foreach (var item in Model.ListDepartments)
+                                        {
+                                            <div class="task-list-item" id="Dept_@item.Code">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Id:</span>
+                                                    </div>
+                                                    <input type="number" class="form-control" value="@item.Code" disabled />
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Name:</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" value="@item.Description" id="txtDName_@item.Code" />
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="input-group">
+                                                    @if (Menu.Delete == true)
+                                                    {
+                                                        <button class="btn btn-danger" onclick="DeleteDepartment('@item.Code')">Delete</button>
+                                                    }
+                                                    @if (Menu.Update == true)
+                                                    {<button class="btn btn-primary" onclick="UpdateDepartment('@item.Code')">Update</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="location">
+                        <div class="card-body">
+                            <h5 class="text-primary"><i class="fas fa-map-marker-alt"></i> Location</h5>
+                            <hr />
+                            <br />
+                            <div style="max-height:400px;overflow-y:auto;">
+                                <div class="task-list custom-controls-stacked" id="ListLocation">
+
+                                    <div class="task-list-item">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Id:</span>
+                                            </div>
+                                            <input type="number" class="form-control" id="txtLocationID" disabled />
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Name:</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="txtLocation" />
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="input-group">
+                                            @if (Menu.Insert == true)
+                                            {
+                                                <button class="btn btn-primary" id="btnAddLoc">Add</button>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    @if (Model.ListLocations != null)
+                                    {
+                                        foreach (var item in Model.ListLocations)
+                                        {
+                                            <div class="task-list-item" id="Loc_@item.Code">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Id:</span>
+                                                    </div>
+                                                    <input type="number" class="form-control" value="@item.Code" disabled />
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Name:</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" value="@item.Description" id="txtLName_@item.Code" />
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="input-group">
+                                                    @if (Menu.Delete == true)
+                                                    {
+                                                        <button class="btn btn-danger" onclick="DeleteLocation('@item.Code')">Delete</button>
+                                                    }  @if (Menu.Update == true)
+                                                    {<button class="btn btn-primary" onclick="UpdateLocation('@item.Code')">Update</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="employee-type">
+                        <div class="card-body">
+                            <h5 class="text-primary"><i class="fas fa-user-friends"></i> Employee Types</h5>
+                            <hr />
+                            <br />
+                            <div style="max-height:400px;overflow-y:auto;">
+                                <div class="task-list custom-controls-stacked" id="ListEmployeeType">
+
+                                    <div class="task-list-item">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Id:</span>
+                                            </div>
+                                            <input type="number" class="form-control" id="txtEmployeeTypeID" disabled />
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Name:</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="txtEmployeeType" />
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="input-group">
+                                            @if (Menu.Insert == true)
+                                            {
+                                                <button class="btn btn-primary" id="btnAddET">Add</button>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    @if (Model.ListEmployeeTypes != null)
+                                    {
+                                        foreach (var item in Model.ListEmployeeTypes)
+                                        {
+                                            <div class="task-list-item" id="ET_@item.Code">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Id:</span>
+                                                    </div>
+                                                    <input type="number" class="form-control" value="@item.Code" disabled />
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Name:</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" value="@item.Description" id="txtETName_@item.Code" />
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="input-group">
+                                                    @if (Menu.Delete == true)
+                                                    {<button class="btn btn-danger" onclick="DeleteEmpType('@item.Code')">Delete</button>
+                                                    }     @if (Menu.Update == true)
+                                                    {<button class="btn btn-primary" onclick="UpdateEmpType('@item.Code')">Update</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="designation">
+                        <div class="card-body">
+                            <h5 class="text-primary"><i class="fas fa-user-tie"></i> Designation</h5>
+                            <hr />
+                            <br />
+                            <div style="max-height:400px;overflow-y:auto;">
+                                <div class="task-list custom-controls-stacked" id="ListDesignation">
+
+                                    <div class="task-list-item">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Id:</span>
+                                            </div>
+                                            <input type="number" class="form-control" id="txtDesignationID" disabled />
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Name:</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="txtDesignation" />
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="input-group">
+                                            @if (Menu.Insert == true)
+                                            {<button class="btn btn-primary" id="btnAddDes">Add</button>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    @if (Model.ListDesignations != null)
+                                    {
+                                        foreach (var item in Model.ListDesignations)
+                                        {
+                                            <div class="task-list-item" id="Des_@item.Code">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Id:</span>
+                                                    </div>
+                                                    <input type="number" class="form-control" value="@item.Code" disabled />
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Name:</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" value="@item.Description" id="txtDesName_@item.Code" />
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="input-group">
+                                                    @if (Menu.Delete == true)
+                                                    {<button class="btn btn-danger" onclick="DeleteDesignation('@item.Code')">Delete</button>
+                                                    }    @if (Menu.Update == true)
+                                                    {<button class="btn btn-primary" onclick="UpdateDesignation('@item.Code')">Update</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts
+    {
+
+    @*Startup*@
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            EnableTIS();
+            EnablePolling();
+            EnableSQLInt();
+            EnableMySqlInt();
+            EnableOrclInt();
+        });
+
+
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+           
+
+            
+            $("#btnSave").click(function () {
+             
+                SaveFile(this);
+            });
+
+
+             
+
+            $("#btnSQLTest").click(function () {
+                SQLTestConnection(this);
+            });
+
+
+            $("#btnMySQLTest").click(function () {
+                MySqlTestConnection(this);
+            });
+
+            $("#btnOracleTest").click(function () {
+                OrclTestConnection(this);
+            });
+
+            $("#btnTISSQLTest").click(function () {
+                TISTestConnection(this);
+            });
+
+
+            @*$("#chckDuplicateEntries").click(function () {
+                var check = $("#chckDuplicateEntries").is(":checked");
+                if ('@Menu.Update'== 'True') {
+                    SetDuplicateEntries(check);
+                }
+                // }
+            });*@
+
+            @*$("#chckSynchorinzedDT").click(function () {
+                var check = $("#chckSynchorinzedDT").is(":checked");
+                if ('@Menu.Update'== 'True') {
+                    SetSynchorinzedDateTime(check);
+                }
+            });*@
+
+            @*$("#chckEnablePolling").click(function () {
+                var check = $("#chckEnablePolling").is(":checked");
+                if ('@Menu.Update'== 'True') {
+                    EnableAutoPolling(check);
+                }
+            });*@
+
+
+
+
+
+            @*$("#chckAllowPlainList").click(function () {
+                var check = $("#chckAllowPlainList").is(":checked");
+                if ('@Menu.Update'== 'True') {
+                    SetFileType(check);
+                }
+            });*@
+
+            @*$("#rdUseDTPollingFile").click(function () {
+                var check = $("#rdUseDTPollingFile").is(":checked"); if ('@Menu.Update'== 'True') {
+                    SetFileType(check);
+                }
+            });*@
+
+            @*$("#rdUseFixedPollingFile").click(function () {
+                var check = $("#rdUseFixedPollingFile").is(":checked"); if ('@Menu.Update'== 'True') {
+                    SetFileType(check);
+                }
+            });*@
+
+            @*$("#chckTISIntegration").click(function () {
+                var check = $("#chckTISIntegration").is(":checked");
+                if ('@Menu.Update'== 'True') {
+                    SetTISIntegration(check);
+                }
+            });*@
+
+            @*$("#chckTISSQLUseTcp").click(function () {
+                var check = $("#chckTISSQLUseTcp").is(":checked"); if ('@Menu.Update'== 'True') {
+                    SetTISSQLUseTCP(check);
+                }
+            });*@
+
+            @*$("#chckOrclIntegration").click(function () {
+                var check = $("#chckOrclIntegration").is(":checked"); if ('@Menu.Update'== 'True') {
+                    SetORCLIntegration(check);
+                }
+            });*@
+
+            @*$("#chckSQLIntegration").click(function () {
+                var check = $("#chckSQLIntegration").is(":checked"); if ('@Menu.Update'== 'True') {
+                    SetSQLIntegration(check);
+                }
+            });*@
+
+            @*$("#chckMySQLIntegration").click(function () {
+                var check = $("#chckMySQLIntegration").is(":checked");
+                if ('@Menu.Update' == 'True') {
+
+                    SetMySQLIntegration(check);
+
+                }
+            });*@
+
+            
+
+            $("#btnAddDept").click(function () {
+                if ($("#txtDepartment").val() == "") {
+                    showWarningNoti("Department Can't be Empty");
+                } else {
+                    AddDepartment(this);
+                }
+            });
+
+            $("#btnAddLoc").click(function () {
+                if ($("#txtLocation").val() == "") {
+                    showWarningNoti("Location Can't be Empty");
+                } else {
+                    AddLocation(this);
+                }
+            });
+
+            $("#btnAddDes").click(function () {
+                if ($("#txtDesignation").val() == "") {
+                    showWarningNoti("Designation Can't be Empty");
+                } else {
+                    AddDesignation(this);
+                }
+            });
+
+            $("#btnAddET").click(function () {
+                if ($("#txtEmployeeType").val() == "") {
+                    showWarningNoti("EmployeeType Can't be Empty");
+                } else {
+                    AddEmployeeType(this);
+                }
+            });
+
+
+        });
+    </script>
+
+    @*Function*@
+    <script type="text/javascript">
+
+        //DeleteDepartment Starts
+        function DeleteDepartment(code){
+
+            $.ajax({
+                url: '@Url.Action("DeleteDepartment", "Settings")',
+                type: "POST",
+                data: { code: code},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+
+                        $("#Dept_"+code).css("display","none");
+                        showSuccessNoti('Department Deleted..');
+
+                    }
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+
+                }
+
+
+            });
+
+        }
+        //DeleteDepartment Ends
+
+
+        //AddDepartment Starts
+        function AddDepartment(button){
+            var l = Ladda.create(button);
+            l.start();
+           // var id = $("#txtDepartmentID").val();
+            var name = $("#txtDepartment").val();
+            $.ajax({
+                url: '@Url.Action("AddDepartment", "Settings")',
+                type: "POST",
+                data: {name: name},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        var row = "<div class='task-list-item' id='Dept_" + data.dept_id + "'>" +
+                            "<div class='input-group'><div class='input-group-prepend'><span class='input-group-text'>Id:</span></div>" +
+                            "<input type='number' class='form-control' value='" + data.dept_id + "' id='txtDCode' disabled /><div class='clearfix'></div></div>" +
+                            "<div class='input-group'><div class='input-group-prepend'><span class='input-group-text'>Name:</span></div>" +
+                            "<input type='text' class='form-control' value='" + name+"' id='txtDName'/><div class='clearfix'></div></div>"+
+                            "<div class='input-group'> @if (Menu.Delete == true) { <button class='btn btn-danger' onclick='DeleteDepartment(" + data.dept_id + ")'>Delete</button> }" +
+                            "@if (Menu.Update == true) { <button class='btn btn-primary' onclick='UpdateDepartment(" + data.dept_id + ")'>Update</button>}</div></div>"
+
+                        $("#ListDepartment").append(row);
+                                                        showSuccessNoti('Department Added..');
+                        $("#txtDepartmentID").val("");
+                        $("#txtDepartment").val("");
+                                                    }
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+
+
+            });
+
+        }
+        //AddDepartment Ends
+
+
+        //UpdateDepartment Starts
+        function UpdateDepartment(code) {
+            var name = $("#txtDName_" + code).val();
+
+            if (name == "") {
+                showWarningNoti("Department Can't be Empty");
+            } else {
+            $.ajax({
+                url: '@Url.Action("UpdateDepartment", "Settings")',
+                type: "POST",
+                data: { code: code, name: name},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti('Department Updated..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+
+                }
+            });
+            }
+        }
+        //UpdateDepartment Ends
+
+
+
+
+
+        //DeleteLocation Starts
+        function DeleteLocation(code){
+
+            $.ajax({
+                url: '@Url.Action("DeleteLocation", "Settings")',
+                type: "POST",
+                data: { code: code},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+
+                        $("#Loc_"+code).css("display","none");
+                        showSuccessNoti('Location Deleted..');
+
+                    }
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+
+                }
+            });
+
+        }
+        //DeleteLocation Ends
+
+
+        //AddLocation Starts
+        function AddLocation(button){
+            var l = Ladda.create(button);
+            l.start();
+           // var id = $("#txtDepartmentID").val();
+            var name = $("#txtLocation").val();
+            $.ajax({
+                url: '@Url.Action("AddLocation", "Settings")',
+                type: "POST",
+                data: {name: name},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        var row = "<div class='task-list-item' id='Loc_" + data.loc_id + "'>" +
+                            "<div class='input-group'><div class='input-group-prepend'><span class='input-group-text'>Id:</span></div>" +
+                            "<input type='number' class='form-control' value='" + data.loc_id + "' id='txtLCode' disabled /><div class='clearfix'></div></div>" +
+                            "<div class='input-group'><div class='input-group-prepend'><span class='input-group-text'>Name:</span></div>" +
+                            "<input type='text' class='form-control' value='" + name+"' id='txtLName'/><div class='clearfix'></div></div>"+
+                            "<div class='input-group'>@if (Menu.Delete == true) {<button class='btn btn-danger' onclick='DeleteLocation(" + data.loc_id+")'>Delete</button>}" +
+                            "@if (Menu.Update == true) {<button class='btn btn-primary' onclick='UpdateLocation(" + data.loc_id +")'>Update</button>}</div></div>"
+
+                        $("#ListLocation").append(row);
+                        showSuccessNoti('Location Added..');
+                        $("#txtLocationID").val("");
+                        $("#txtLocation").val("");
+                    }
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+
+
+            });
+
+        }
+        //AddLocation Ends
+
+
+        //UpdateLocation Starts
+        function UpdateLocation(code) {
+            var name = $("#txtLName_" + code).val();
+            if (name == "") {
+                showWarningNoti("Location Can't be Empty");
+            } else {
+                $.ajax({
+                    url: '@Url.Action("UpdateLocation", "Settings")',
+                    type: "POST",
+                    data: { code: code, name: name },
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+
+                        if (data.result) {
+                            showSuccessNoti('Location Updated..');
+                        }
+                    },
+                    failure: function (response) {
+
+                    },
+                    error: function (err, status) {
+
+                    },
+                    complete: function (data) {
+
+                    }
+                });
+            }
+        }
+        //UpdateLocation Ends
+
+
+
+
+
+
+
+
+        //DeleteDesignation Starts
+        function DeleteDesignation(code){
+
+            $.ajax({
+                url: '@Url.Action("DeleteDesignation", "Settings")',
+                type: "POST",
+                data: { code: code},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+
+                        $("#Des_"+code).css("display","none");
+                        showSuccessNoti('Designation Deleted..');
+
+                    }
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+
+                }
+            });
+
+        }
+        //DeleteDesignation Ends
+
+
+        //AddDesignation Starts
+        function AddDesignation(button){
+            var l = Ladda.create(button);
+            l.start();
+           // var id = $("#txtDepartmentID").val();
+            var name = $("#txtDesignation").val();
+            $.ajax({
+                url: '@Url.Action("AddDesignation", "Settings")',
+                type: "POST",
+                data: {name: name},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        var row = "<div class='task-list-item' id='Des_" + data.des_id + "'>" +
+                            "<div class='input-group'><div class='input-group-prepend'><span class='input-group-text'>Id:</span></div>" +
+                            "<input type='number' class='form-control' value='" + data.des_id + "' id='txtDesCode' disabled /><div class='clearfix'></div></div>" +
+                            "<div class='input-group'><div class='input-group-prepend'><span class='input-group-text'>Name:</span></div>" +
+                            "<input type='text' class='form-control' value='" + name+"' id='txtDesName'/><div class='clearfix'></div></div>"+
+                            "<div class='input-group'>@if (Menu.Delete == true)
+                            {<button class='btn btn-danger' onclick='DeleteDesignation("+data.des_id+")'>Delete</button>}" +
+                            "@if (Menu.Update == true){<button class='btn btn-primary' onclick='UpdateDesignation(" + data.des_id +")'>Update</button>}</div></div>"
+
+                        $("#ListDesignation").append(row);
+                        showSuccessNoti('Designation Added..');
+                        $("#txtDesignationID").val("");
+                        $("#txtDesignation").val("");
+                    }
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+
+
+            });
+
+        }
+        //AddDesignation Ends
+
+
+        //UpdateDesignation Starts
+        function UpdateDesignation(code) {
+            var name = $("#txtDesName_" + code).val();
+            if (name == "") {
+                showWarningNoti("Designation Can't be Empty");
+            } else {
+                $.ajax({
+                    url: '@Url.Action("UpdateDesignation", "Settings")',
+                    type: "POST",
+                    data: { code: code, name: name },
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+
+                        if (data.result) {
+                            showSuccessNoti('Designation Updated..');
+                        }
+                    },
+                    failure: function (response) {
+
+                    },
+                    error: function (err, status) {
+
+                    },
+                    complete: function (data) {
+
+                    }
+                });
+            }
+        }
+        //UpdateDesignation Ends
+
+
+
+
+
+
+
+
+
+        //DeleteEmployeeType Starts
+        function DeleteEmployeeType(code){
+
+            $.ajax({
+                url: '@Url.Action("DeleteEmployeeType", "Settings")',
+                type: "POST",
+                data: { code: code},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+
+                        $("#ET_"+code).css("display","none");
+                        showSuccessNoti('EmployeeType Deleted..');
+
+                    }
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+
+                }
+            });
+
+        }
+        //DeleteEmployeeType Ends
+
+
+        //AddEmployeeType Starts
+        function AddEmployeeType(button){
+            var l = Ladda.create(button);
+            l.start();
+           // var id = $("#txtDepartmentID").val();
+            var name = $("#txtEmployeeType").val();
+            $.ajax({
+                url: '@Url.Action("AddEmployeeType", "Settings")',
+                type: "POST",
+                data: {name: name},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        var row = "<div class='task-list-item' id='ET_" + data.et_id + "'>" +
+                            "<div class='input-group'><div class='input-group-prepend'><span class='input-group-text'>Id:</span></div>" +
+                            "<input type='number' class='form-control' value='" + data.et_id + "' id='txtETCode' disabled /><div class='clearfix'></div></div>" +
+                            "<div class='input-group'><div class='input-group-prepend'><span class='input-group-text'>Name:</span></div>" +
+                            "<input type='text' class='form-control' value='" + name+"' id='txtETName'/><div class='clearfix'></div></div>"+
+                            "<div class='input-group'>@if (Menu.Delete == true){<button class='btn btn-danger' onclick='DeleteEmployeeType("+data.et_id+")'>Delete</button>}" +
+                            "@if (Menu.Update == true){<button class='btn btn-primary' onclick='UpdateEmployeeType(" + data.et_id +")'>Update</button>}</div></div>"
+
+                        $("#ListEmployeeType").append(row);
+                        showSuccessNoti('EmployeeType Added..');
+                        $("#txtEmployeeTypeID").val("");
+                        $("#txtEmployeeType").val("");
+                    }
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+
+
+            });
+
+        }
+        //AddDesignation Ends
+
+
+        //UpdateDesignation Starts
+        function UpdateEmployeeType(code) {
+            var name = $("#txtETName_" + code).val();
+            if (name == "") {
+                showWarningNoti("EmployeeType Can't be Empty");
+            } else {
+                $.ajax({
+                    url: '@Url.Action("UpdateEmployeeType", "Settings")',
+                    type: "POST",
+                    data: { code: code, name: name },
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+
+                        if (data.result) {
+                            showSuccessNoti('EmployeeType Updated..');
+                        }
+                    },
+                    failure: function (response) {
+
+                    },
+                    error: function (err, status) {
+
+                    },
+                    complete: function (data) {
+
+                    }
+                });
+            }
+        }
+        //UpdateEmployeeType Ends
+
+
+
+
+
+
+
+        //UpdateAttStatus Starts
+        function UpdateAttStatus(code, name) {
+            if (name == "") {
+                showWarningNoti("Attendence Status Can't be Empty");
+            } else {
+                $.ajax({
+                    url: '@Url.Action("UpdateAttStatus", "Settings")',
+                    type: "POST",
+                    data: { code: code, name: name },
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+
+                        if (data.result) {
+
+                            showSuccessNoti('Attendence Status: ' + name + ' Updated..');
+                        }
+
+                    },
+                    failure: function (response) {
+
+                    },
+                    error: function (err, status) {
+
+                    },
+                    complete: function (data) {
+
+                    }
+
+
+                });
+
+            }
+        }
+        //UpdateAttStatus Ends
+
+        //UpdateAttStatus Starts
+        function UpdateWorkCode(code, name) {
+            if (name == "") {
+                showWarningNoti("Work Code Description Can't be Empty");
+            } else {
+                $.ajax({
+                    url: '@Url.Action("UpdateWorkCode", "Settings")',
+                    type: "POST",
+                    data: { code: code, name: name },
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+
+                        if (data.result) {
+
+                            showSuccessNoti('Work Code: ' + name + ' Updated..');
+                        }
+
+                    },
+                    failure: function (response) {
+
+                    },
+                    error: function (err, status) {
+
+                    },
+                    complete: function (data) {
+
+                    }
+
+
+                });
+
+            }
+        }
+        //UpdateAttStatus Ends
+
+        //Model Starts
+        function GetModelFile() {
+            var Model = {};
+           // Model.chkSendEmail = $("#chkSendingEmail").is(":checked");
+
+
+
+            Model.IsDup = $("#chckDuplicateEntries").is(":checked");
+            Model.IsSync = $("#chckSynchorinzedDT").is(":checked");
+            Model.PollingFileName = $("#txtPollingFile").val();
+            Model.PollingFolderName = $("#txtPollingFolder").val();
+
+            Model.EnableAutoPolling = $("#chckEnablePolling").is(":checked");
+            Model.PollEverySpan = $("#txtPollEveryMinutes").val();
+
+            Model.HiddenFilePath = $("#txtHiddenFiles").val();
+            Model.UseFixedPollingFile = $("#rdUseFixedPollingFile").is(":checked");
+            Model.UseDateTimePollingFile = $("#rdUseDTPollingFile").is(":checked");
+            Model.AllowPlainList = $("#chckAllowPlainList").is(":checked");
+
+            Model.EnableTISIntegration = $("#chckTISIntegration").is(":checked");
+            Model.EnableSQLIntegration = $("#chckSQLIntegration").is(":checked");
+            Model.EnableOrclIntegration = $("#chckOrclIntegration").is(":checked");
+            Model.EnableMySqlIntegration = $("#chckMySQLIntegration").is(":checked");
+
+            Model.UseSQLTcp = $("#chckTISSQLUseTcp").is(":checked");
+            Model.TISSQLPort = $("#txtTISSQLPort").val();
+            Model.TISSQLPassword = $("#txtTISSQLPassword").val();
+            Model.TISSQLUserID = $("#txtTISSQLUserId").val();
+            Model.TISSQLServerName = $("#txtTISSQLServerName").val();
+            Model.TISSQLDBName = $("#txtTISSQLDatabaseName").val();
+
+            Model.SQLServerName = $("#txtSQLServerName").val();
+            Model.SQLDBName = $("#txtSQLDatabaseName").val();
+            Model.SQLUserId = $("#txtSQLUserId").val();
+            Model.SQLPassword = $("#txtSQLPassword").val();
+
+            Model.MySQLServerName = $("#txtMySQLServerName").val();
+            Model.MySQLDBName = $("#txtMySQLDatabaseName").val();
+            Model.MySQLUserId = $("#txtMySQLUserId").val();
+            Model.MySQLPassword = $("#txtMySQLPassword").val();
+            Model.MySQLPort = $("#txtMySQLPort").val();
+
+            Model.OrclServerName = $("#txtOracleServerName").val();
+            Model.OrclServicName = $("#txtOracleServiceName").val();
+            Model.OrclUserId = $("#txtOracleUserId").val();
+            Model.OrclPassword = $("#txtOraclePassword").val();
+
+            Model.UserName = $("#txtUserName").val();
+            Model.SMTPServerIP = $("#txtSMTPServerIP").val();
+            //Model.AuthenticationMode = $("#AuthenticationMode").val();
+            Model.SupervisorEmail = $("#txtSupervisorEmail").val();
+            Model.SenderEmail = $("#txtSenderEmail").val();
+            Model.Password = $("#txtPassword").val();
+            Model.MailPort = $("#txtMailPort").val();
+            Model.SendingEmail = $("#chkSendingEmail").is(":checked");
+
+            Model.WebTimeout = $("#txtWebTimeout").val();
+
+            return Model;
+        }
+
+
+        //SetDuplicateEntries Starts
+        function SetDuplicateEntries(flag) {
+
+            var Model = GetModelFile();
+            $.ajax({
+                url: '@Url.Action("SetDuplicateEntries", "Settings")',
+                type: "POST",
+                data: { appModel: Model, isChecked: flag },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti('Duplication Record Status Updated..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                }
+            });
+        }
+        //SetDuplicateEntries Ends
+
+        //SetSynchorinzedDateTime Starts
+        function SetSynchorinzedDateTime(flag) {
+
+            var Model = GetModelFile();
+            $.ajax({
+                url: '@Url.Action("SetSynchorinzedDateTime", "Settings")',
+                type: "POST",
+                data: { appModel: Model, isChecked: flag },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti('Synchorinzed Date Time Status Updated..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                }
+            });
+
+        }
+        //SetSynchorinzedDateTime Ends
+
+        // EnableAutoPolling Starts
+        function EnableAutoPolling(flag) {
+
+            var Model = GetModelFile();
+            $.ajax({
+                url: '@Url.Action("EnableAutoPolling", "Settings")',
+                type: "POST",
+                data: { appModel: Model, isChecked: flag },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti('Auto Polling Status Updated..');
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+            });
+        }
+        // EnableAutoPolling Ends
+
+
+        // SetFileType Starts
+        function SetFileType(flag) {
+
+            var Model = GetModelFile();
+            $.ajax({
+                url: '@Url.Action("SetFileType", "Settings")',
+                type: "POST",
+                data: { appModel: Model, isChecked: flag },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti('FileType Status Updated..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                }
+            });
+        }
+        // SetFileType Ends
+
+        // SetDBConnStatus Starts
+        function SetDBConnStatus(flag) {
+
+            var Model = GetModelFile();
+            $.ajax({
+                url: '@Url.Action("SetDBConnStatus", "Settings")',
+                type: "POST",
+                data: { appModel: Model, isChecked: flag },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti('DBConnection Status Updated..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                }
+            });
+        }
+        // SetDBConnStatus Ends
+
+        //SQLTestConnection Starts
+        function SQLTestConnection(button) {
+            var Model = GetModelFile();
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("SQLTestConn", "Settings")',
+                type: "POST",
+                data: { appModel: Model },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        showSuccessNoti('Connection Successfull..!!');
+                    }
+                    else {
+                        showWarningNoti('Connection Failed..!!');
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //SQLTestConnection Ends
+
+        ///MySql TestConeection starts
+        function MySqlTestConnection(button) {
+
+              var Model = GetModelFile();
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("MySQLTestConn", "Settings")',
+                type: "POST",
+                data: { appModel: Model },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        showSuccessNoti('Connection Successfull..!!');
+                    }
+                    else {
+                        showWarningNoti('Connection Failed..!!');
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+
+
+
+        }
+
+
+
+        //MySql TestConnection Ends
+        //OracleTestConnection Starts
+        function OrclTestConnection(button) {
+            var Model = GetModelFile();
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("OrclTestConn", "Settings")',
+                type: "POST",
+                data: { appModel: Model },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        showSuccessNoti('Connection Successfull..!!');
+                    }
+                    else {
+                        showWarningNoti('Connection Failed..!!');
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //OracleTestConnection Ends
+
+        //TISTestConnection Starts
+        function TISTestConnection(button) {
+            var Model = GetModelFile();
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("TISTestConn", "Settings")',
+                type: "POST",
+                data: { appModel: Model },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        showSuccessNoti('Connection Successfull..!!');
+                    }
+                    else {
+                        showWarningNoti('Connection Failed..!!');
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //TISTestConnection Ends
+
+
+        //Save Start
+        function SaveFile(button) {
+            var Model = GetModelFile();
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("UpdateFile", "Settings")',
+                type: "POST",
+                data: { appModel: Model },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        //window.location.href = '@Url.Action("Index", "Settings")';
+
+                        showSuccessNoti('Settings Successfully Updated..!!');
+                    }
+                    else {
+                        showWarningNoti('Settings Failed to Update..!!');
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //Save Ends
+
+
+        function SetTISIntegration(flag) {
+
+            var Model = GetModelFile();
+            $.ajax({
+                url: '@Url.Action("SetTISIntegration", "Settings")',
+                type: "POST",
+                data: { appModel: Model, isChecked: flag },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti('TIS Integration Status Updated..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                }
+            });
+        }
+
+        function SetORCLIntegration(flag) {
+
+            var Model = GetModelFile();
+            $.ajax({
+                url: '@Url.Action("SetORCLIntegration", "Settings")',
+                type: "POST",
+                data: { appModel: Model, isChecked: flag },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti('Oracle Integration Status Updated..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                }
+            });
+        }
+
+        function SetSQLIntegration(flag) {
+
+            var Model = GetModelFile();
+            $.ajax({
+                url: '@Url.Action("SetSQLIntegration", "Settings")',
+                type: "POST",
+                data: { appModel: Model, isChecked: flag },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti('SQL Integration Status Updated..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                }
+            });
+        }
+//Mysql Integration
+
+         function SetMySQLIntegration(flag) {
+
+            var Model = GetModelFile();
+            $.ajax({
+                url: '@Url.Action("SetMYSQLIntegration", "Settings")',
+                type: "POST",
+                data: { appModel: Model, isChecked: flag },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti('MYSQL Integration Status Updated..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                }
+            });
+        }
+
+
+
+
+
+        ///end mysql Int end
+
+        function SetTISSQLUseTCP(flag) {
+
+            var Model = GetModelFile();
+            $.ajax({
+                url: '@Url.Action("SetTISSQLUseTCP", "Settings")',
+                type: "POST",
+                data: { appModel: Model, isChecked: flag },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti('TIS SQL Use TCP Status Updated..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                }
+            });
+        }
+
+
+
+        function EnablePolling() {
+            if ($("#chckEnablePolling").is(":checked")) {
+
+                $("#txtPollEveryMinutes").removeAttr("disabled");
+                $("#txtPollEveryMinutes").val('@Model.PollEverySpan');
+            } else {
+
+                $("#txtPollEveryMinutes").attr("disabled", "disabled");
+                $("#txtPollEveryMinutes").val('@Model.PollEverySpan');
+            }
+        }
+
+        function EnableTIS() {
+            if ($("#chckTISIntegration").is(":checked")) {
+
+                $("#TISINTEGRATION").css("display", "block");
+            } else {
+                $("#TISINTEGRATION").css("display", "none");
+            }
+        }
+
+        function EnableOrclInt() {
+            if ($("#chckOrclIntegration").is(":checked")) {
+
+                $("#ORCLINTEGRATION").css("display", "block");
+            } else {
+                $("#ORCLINTEGRATION").css("display", "none");
+            }
+        }
+
+        function EnableSQLInt() {
+            if ($("#chckSQLIntegration").is(":checked")) {
+
+                $("#SQLINTEGRATION").css("display", "block");
+            } else {
+                $("#SQLINTEGRATION").css("display", "none");
+            }
+        }
+
+        function EnableMySqlInt() {
+            if ($("#chckMySQLIntegration").is(":checked")) {
+
+                $("#MySQLINTEGRATION").css("display", "block");
+            } else {
+                $("#MySQLINTEGRATION").css("display", "none");
+            }
+          }
+
+        function SetSendingEmail(flag) {
+
+            var Model = GetModelFile();
+            $.ajax({
+                url: '@Url.Action("SetSendingEmail", "Settings")',
+                type: "POST",
+                data: { appModel: Model, isChecked: flag },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti('Sending Email Status Updated..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                }
+            });
+
+        }
+    </script>
+
+}

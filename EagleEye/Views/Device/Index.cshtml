@@ -1,0 +1,1389 @@
+﻿@model List<EagleEye.DAL.Partial.Device_P>
+@using EagleEye.DAL.Partial
+@using EagleEye.Common
+@{
+    ViewBag.Title = "Device";
+    Communication_P com = @SessionHandling.Communication;
+}
+
+@{
+    MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen> List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Device").FirstOrDefault();
+    }
+}
+<!--Libs-->
+<link rel="stylesheet" href="~/assets/libs/bootstrap-select/bootstrap-select.css">
+
+<style type="text/css">
+    .connected {
+        color: #28D094;
+        animation: hblink 1.5s infinite linear;
+    }
+
+    .disconnected {
+        color: #FF4961;
+        animation: hblink 1.5s infinite linear;
+    }
+
+    .waiting {
+        color: #ff9f61;
+    }
+
+    .changeColor {
+        color:white !important;
+    }
+</style>
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <div class="row">
+
+        <div class="col-sm-3">
+            <h4 class="font-weight-bold py-3 mb-0">Device Management</h4>
+        </div>
+        <div class="col-sm-9">
+            <div class="row">
+                <div class="col-md-12 text-right">
+
+                    @if (Menu.View == true)
+                    {
+                        <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" style="display:none;" id="btnUser">
+                            <span class="fa fa-users"></span>&nbsp;&nbsp;Manage Users
+                        </button>
+                        <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnSync">
+                            <span class="fa fa-recycle"></span>&nbsp;&nbsp;Sync Device
+                        </button>
+                    }
+
+                    @if (Menu.Delete == true)
+                    {
+                        <button type="button" class="btn btn-danger waves-effect ladda-button" data-style="expand-right" id="btnDelete">
+                            <span class="fa fa-trash"></span>&nbsp;&nbsp;Delete Device
+                        </button>
+                        <button type="button" class="btn btn-danger waves-effect ladda-button" data-style="expand-right" id="btnResetFK">
+                            <span class="fa fa-trash-alt"></span>&nbsp;&nbsp;Restart Device
+                        </button>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-3">
+            @if (Menu.Insert == true)
+            {
+                @*<button type="button" class="btn btn-primary waves-effect" style="width:100%;" data-toggle="modal" data-target="#modals-top">
+                        <span class="fa fa-search"></span>&nbsp;&nbsp;Search Devices
+                    </button>*@
+            }
+            <hr>
+
+            <div id="accordion2">
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <a class="d-flex justify-content-between text-dark" data-toggle="collapse" aria-expanded="true" href="#accordion2-1">All Devices<div class="collapse-icon"></div></a>
+                    </div>
+                    <div id="accordion2-1" class="collapse show" data-parent="#accordion2">
+                        <div class="card-body" style="padding:0.7rem;max-height:403px;overflow-y:auto;">
+
+                            <div class="kanban-box">
+
+                                @foreach (var item in Model)
+                                {
+
+                                    <div class="ui-bordered p-2">
+                                        <div class="kanban-board-actions btn-group float-right ml-2">
+                                            <button type="button" class="btn btn-default btn-xs btn-round icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i class="ion ion-ios-more"></i></button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                @if (Menu.Delete == true)
+                                                {
+                                                    <a class="dropdown-item" onclick="Delete(@item.Code,this)">Delete</a>
+
+                                                } @*<a class="dropdown-item" onclick="Reboot(@item.Code)">Reboot</a>*@
+                                            </div>
+                                        </div>
+
+                                        @if (item.Device_Status == 1)
+                                        {
+                                            <i class="fa fa-circle connected" id="status_@item.Code"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fa fa-circle disconnected"  id="status_@item.Code"></i>
+                                        }
+                                        @item.Device_Name
+                                    </div>
+
+                                }
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <a class="collapsed d-flex justify-content-between text-dark" data-toggle="collapse" href="#accordion2-2">Waiting Devices<div class="collapse-icon"></div></a>
+                    </div>
+                    <div id="accordion2-2" class="collapse show" data-parent="#accordion2">
+                        <div class="card-body" style="padding:0.7rem" id="divWaitingDevices">
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <hr>
+            <div class="card">
+                <div class="card-datatable table-responsive">
+                    <input type="hidden" id="SelectedDeviceID" />
+                    <table class="datatables-demo table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="10px">
+                                    <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                        <input type="checkbox" class="custom-control-input" id="selectAll">
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </th>
+                                <th style="display:none;">Code</th>
+                                <th>Device ID</th>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                            <tr id="@item.Code">
+                                <td></td>
+                                <td style="display:none;">@item.Code</td>
+                                <td>
+                                    @if (Menu.Update == true)
+                                    {
+                                        <a href="/Device/Edit?Code=@item.Code"> @item.Device_ID </a>
+                                    }
+                                    else
+                                    {
+                                        @item.Device_ID
+                                    }
+                                </td>
+                                <td>@item.Device_Name</td>
+                                @*<td>@item.Device_Type</td>*@
+                                <td>
+                                    @item.LocationDescription
+
+                                 </td>
+                            @if (item.Device_Status == 1)
+                            {
+                                <td id="tdStatus_@item.Code" style="color:#28D094">@Enum.GetName(typeof(Enumeration.DeviceStatus), item.Device_Status)</td>
+                            }
+                            else
+                            {
+                                <td id="tdStatus_@item.Code" style="color:red;">@Enum.GetName(typeof(Enumeration.DeviceStatus), item.Device_Status)</td>
+                            }
+
+                            </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Search Result -->
+<div class="modal fade" id="modals-search" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Found <span class="font-weight-light">Device</span>
+                </h5>
+
+            </div>
+            <div class="modal-body">
+
+                <table class="table table-striped table-bordered" id="tblSearchDevice">
+                    <thead>
+                        <tr>
+
+                            <th>Device ID</th>
+                            <th>Name</th>
+                            <th>Device Location</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @if (Menu.Insert == true)
+                {
+                    <button type="button" class="btn btn-primary ladda-button" data-style="expand-right" id="btnAddDevice">Add</button>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Manage Users -->
+<div class="modal fade" id="modals-users" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        @*<div class="progress">
+            <div class="progress-bar" style="width: 60%;"></div>
+        </div>*@
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Manage <span class="font-weight-light">Users</span>
+                </h5>
+                <span class="text-right">
+                    @if (Menu.Insert == true || Menu.Update == true)
+                    {
+                        <button type="button" class="btn btn-primary btn-sm ladda-button" data-style="expand-right" id="btnUploadUser"><span class="fa fa-upload"></span> Upload To DB</button>
+                    }
+                    @if (Menu.Delete == true)
+                    {
+                        <button type="button" class="btn btn-danger btn-sm ladda-button" data-style="expand-right" id="btnDeleteUser"><span class="fa fa-trash"></span> Delete</button>
+                    }
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" id="btnCloseUser"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body" height="400px">
+
+                <table class="tblUsers table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="10px">
+                                <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                    <input type="checkbox" class="custom-control-input" id="selectAllUser">
+                                    <span class="custom-control-label"></span>
+                                </label>
+                            </th>
+                            <th>User ID</th>
+                            <th>Device ID</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Manage Auth -->
+<div class="modal fade" id="modals-auth" data-backdrop="static" style="padding-top:100px" data-keyboard="true" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Confirm Deletion
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <div class="form-row">
+                            <div class="form-group col-sm-4">
+                                <label class="form-label">User Name</label>
+                                <input type="text" class="form-control" id="txtUserName" placeholder="Username">
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" id="txtPwd" placeholder="Password">
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <br />
+                                <input type="hidden" id="hdnAction" />
+                                <button type="button" class="btn btn-primary ladda-button" data-style="expand-right" id="btnConfirm">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+    <script src="assets/libs/bootstrap-select/bootstrap-select.js"></script>
+
+    @*Startup*@
+    <script type="text/javascript">
+        //var tableData;
+        var table;
+        var tableUsers;
+        //  var tableAdmins;
+        var elem = [];
+        $(document).ready(function () {
+
+            //Get Awaiting Devices
+            GetAwaitingDevices();
+
+            //By Default
+            $("#btnSync").attr("disabled", true);
+            $("#btnDelete").attr("disabled", true);
+            $("#btnResetFK").attr("disabled", true);
+
+            table = $('.datatables-demo').DataTable({
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0
+                }, {
+                    "visible": false,
+                    "searchable": false
+                }],
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+                order: [
+                    [1, 'asc']
+                ]
+            });
+
+            tableUsers = $('.tblUsers').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0,
+                }],
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+                order: [
+                    [1, 'asc']
+                ]
+            });
+
+            $.ajax({
+                    url: '@Url.Action("Location", "Device")',
+                    type: "POST",
+
+                    dataType: "json",
+                    cache: false,
+                success: function (data) {
+
+                    $.each(data.result, function (i, item) {
+
+                         elem.push(item);
+
+                    });
+
+                    },
+                    failure: function (response) {
+
+                    },
+                    error: function (err, status) {
+
+                    },
+                    complete: function (data) {
+
+                    }
+            });
+
+            //$.each(elem, function (i, item) {
+
+            //    $("select.selectpicker").append($('<option>', {
+            //        value: item.Code,
+            //        text: item.Description
+            //    }));
+            //});
+            //$('.selectpicker').selectpicker('refresh');
+
+        });
+
+
+
+
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+        //changing color
+        
+        //$('.datatables-demo tbody tr').on("click", function () {
+        //    var count = table.rows('.selected').count();
+        //    console.log(count)
+        //    if (count > 1) {
+        //        $(this).find('td').each(function (i) {
+        //            $(this).addClass('changeColor');
+        //        });
+        //    }
+        //    else {
+        //        $(this).find('td').each(function (i) {
+        //            $(this).removeClass('changeColor');
+        //        });
+        //    }
+
+
+        //});
+
+       
+
+        $(function () {
+            
+            table.on('select', function (e, dt, type, indexes) {
+                var count = table.rows('.selected').count();
+
+                if (count == 1) {
+                    
+                    $("#btnUser").css("display", "inline-block");
+                    $("#btnSync").attr("disabled", false);
+                    $("#btnDelete").attr("disabled", false);
+                    $("#btnResetFK").attr("disabled", false);
+      
+                    
+                } else {
+
+                    $("#btnUser").css("display", "none");
+
+                   
+                }
+                $('.datatables-demo tbody tr').each(function (i) {
+
+                    if ($(this).hasClass('selected')) {
+
+                        $(this).find('td').each(function (j) {
+                            $(this).addClass('changeColor');
+                            $(this).find('a').addClass('changeColor')
+
+                           // console.log($(this).find('last:child'));
+                        });
+                        //console.log($(this).find('td:last').context)
+                    }
+                });
+            });
+
+            table.on('deselect', function (e, dt, type, indexes) {
+                var count = table.rows('.selected').count();
+                $('.datatables-demo tbody tr').each(function (i) {
+
+                    if ($(this).hasClass('selected') != true) {
+                        
+                        $(this).find('td').each(function (j) {
+                            
+                            $(this).removeClass('changeColor');
+                            $(this).find('a').removeClass('changeColor')
+                        });
+                    }
+                });
+                if (count == 1) {
+                    $("#btnUser").css("display", "inline-block");
+                }
+                else {
+                    
+                    $("#btnUser").css("display", "none");
+                    $("#btnSync").attr("disabled", true);
+                    $("#btnDelete").attr("disabled", true);
+                    $("#btnResetFK").attr("disabled", true);
+                }
+
+
+            });
+
+
+            $("#selectAll").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    table.rows().select();
+                    $("#btnSync").attr("disabled", false);
+                    $("#btnDelete").attr("disabled", false);
+                    $("#btnResetFK").attr("disabled", false);
+                } else {
+                    table.rows().deselect();
+                    $("#btnSync").attr("disabled", true);
+                    $("#btnDelete").attr("disabled", true);
+                    $("#btnResetFK").attr("disabled", true);
+                }
+            });
+
+            $("#selectAllUser").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    tableUsers.rows().select();
+                } else {
+                    tableUsers.rows().deselect();
+                }
+            });
+
+            $("#btnAddDevice").click(function () {
+                AddDevice(this);
+
+            });
+
+            $("#btnSync").click(function () {
+
+                var l = Ladda.create(this);
+                l.start();
+                if (table.rows('.selected').count() > 0) {
+                    $.each(table.rows('.selected').nodes(), function (i, item) {
+                        var id = item.id;
+                        var data = table.row(this).data();
+
+                        Sync(id);
+                    });
+                }
+                else {
+                    showWarningNoti("Please Select Device To Proceed...");
+                }
+
+                l.stop();
+
+
+            });
+
+            $("#btnDelete").click(function () {
+
+                var arrIds = [];
+
+                $.each(table.rows('.selected').nodes(), function (i, item) {
+                    var id = item.id;
+                    arrIds.push(id);
+
+                });
+                if (arrIds.length > 0)
+                    Delete(arrIds, this);
+                else {
+                    showWarningNoti("Please Select Device To Proceed...");
+                }
+
+
+            });
+
+            $("#btnUser").click(function () {
+
+
+                var id;
+                $.each(table.rows('.selected').nodes(), function (i, item) {
+
+                    id = item.id;
+
+                });
+                if (id != null) {
+                    $("#SelectedDeviceID").val(id);
+                    GetEmployees(id, this);
+                }
+                else {
+                    showWarningNoti("Please Select Device To Proceed...");
+                }
+
+            });
+
+            $("#btnUploadUser").click(function () {
+                var ListSelected = tableUsers.rows({ selected: true }).data();
+                var arrIds = [];
+                var deviceId = $("#SelectedDeviceID").val();
+                for (var i = 0; i < ListSelected.length; i++) {
+                    arrIds.push(ListSelected[i][1]);
+                }
+                if (arrIds.length > 0)
+                    UploadUsers(arrIds, deviceId, this);
+                else {
+                    showWarningNoti("Please Select User To Proceed...");
+                }
+
+            });
+
+            $("#btnDeleteUser").click(function () {
+
+                var ListSelected = tableUsers.rows({ selected: true }).data();
+                var arrIds = [];
+                var deviceId = $("#SelectedDeviceID").val();
+                for (var i = 0; i < ListSelected.length; i++) {
+                    //  arrIds.push(ListSelected[i]['id']);
+                    arrIds.push(ListSelected[i][1]);
+                    //deviceId = ListSelected[i]['sn'];
+                }
+
+                if (arrIds.length > 0) {
+                    DeleteUsers(arrIds, deviceId, this);
+                    tableUsers.rows('.selected').remove().draw(false);
+                } else {
+                    showWarningNoti("Please Select User To Proceed...");
+                }
+
+
+            });
+
+            $("#btnResetFK").click(function () {
+                var l = Ladda.create(this);
+                l.start();
+                if (table.rows('.selected').count() > 0) {
+                    $.each(table.rows('.selected').nodes(), function (i, item) {
+                        $("#modals-auth").modal('toggle');
+                        $("#hdnAction").val(4);
+                    });
+                }
+                else {
+                    showWarningNoti("Please Select Device To Proceed...");
+                }
+
+                l.stop();
+            });
+
+            $("#btnConfirm").click(function () {
+                var l = Ladda.create(this);
+                l.start();
+                if (table.rows('.selected').count() > 0) {
+                    $.each(table.rows('.selected').nodes(), function (i, item) {
+                        var id = item.id;
+                        Confirm(id);
+                    });
+                }
+                else {
+                    showWarningNoti("Please Select Device To Proceed...");
+                }
+
+                l.stop();
+
+            });
+        });
+    </script>
+
+
+    @*Function*@
+    <script type="text/javascript">
+
+        var connectedBY = "";
+        function ClearSearchModal() {
+
+            $("#txtdevID").val("");
+            $("#tblSearchDevice tbody").empty();
+
+        }
+        //ClearSearchModal Ends
+
+        //GetDeviceFromDB Start
+        function GetDeviceFromDB() {
+
+            $.ajax({
+                url: "@Url.Action("Devices", "Device")",
+                type: 'GET',
+                dataType: 'html',
+                success: LoadDevices
+            });
+        }
+        //GetDeviceFromDB Ends
+
+        //LoadDevices Start
+        function LoadDevices(result) {
+
+            $("#divDevices").html(result)
+
+        }
+        //LoadDevices Ends
+
+        //AddDevice Start
+        function AddDevice(button) {
+            var deviceName = $("#txtSDeviceName").val();
+            var location = $('#txtLocation').val();
+            if (deviceName != '') {
+
+                var val = $.parseJSON(sessionStorage.getItem("devinfo"));
+                sessionStorage.getItem("User");
+
+                var l = Ladda.create(button);
+                l.start();
+
+                $.ajax({
+                    url: '@Url.Action("AddDevice", "Device")',
+                    type: "POST",
+                    data: { deviceInfo: val, name: deviceName, loc: location},
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+
+                        $("#modals-search").modal('toggle');
+
+                        if (data.result) {
+
+                            swal({
+                                title: "Device added successfully!",
+                                text: "",
+                                type: "success",
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "Ok",
+                                closeOnConfirm: false,
+                            },
+                                function (isConfirm) {
+                             if (isConfirm) {
+                                  window.location.href = '@Url.Action("Index", "Device")';
+                             }
+                         });
+
+                        } else {
+                            showWarningNoti(data.msg);
+                        }
+                    },
+                    failure: function (response) {
+                        l.stop();
+                    },
+                    error: function (err, status) {
+                        l.stop();
+                    },
+                    complete: function (data) {
+                        l.stop();
+                    }
+                });
+
+            } else {
+                showWarningNoti("Please Enter Device Name To Proceed...");
+                $("#txtSDeviceName").focus();
+            }
+
+        }
+        //AddDevice Ends
+
+
+        //SearchDevice Start
+        function SearchDevice(button) {
+
+
+            var id = $("#txtId").val();
+            Searching(id, button);
+
+
+        }
+        //SearchDevice Ends
+
+        function Searching(devid, button) {
+
+            $.ajax({
+                url: '@Url.Action("SearchDevice", "Device")',
+                type: "POST",
+                data: { deviceid: devid},
+                dataType: "json",
+                cache: true,
+                success: function (data) {
+                    if (data.result) {
+
+
+                        $("#modals-search").modal('toggle');
+                        if (data.info != "") {
+                            var select = "<select class='form-control' id='txtLocation'>@foreach (var item in ViewBag.Loc_list){<option value = @item.Code >@item.Description </option>}</select > "
+
+                            var row = "<tr><td id='SDeviceID'>" + data.info.Device_ID +
+                                "</td> <td> <input type='text' class='form-control bootstrap-maxlength-example' maxlength='20' id='txtSDeviceName' value=" + data.info.Device_Name +
+                                " placeholder='Enter Device Name...'/> <td>" + select + "</td> <td>Connectable</td>  </tr > ";
+
+
+
+
+
+
+
+                            $("#tblSearchDevice tbody").append(row);
+                            sessionStorage.setItem("devinfo", JSON.stringify(data.info));
+                            MaxLength();
+                        }
+
+                    } else {
+
+                        swal({
+                            title: "Device not found",
+                            type: "warning",
+                            confirmButtonClass: 'btn-warning',
+                            confirmButtonText: 'Ok!'
+                        });
+
+                    }
+
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+            });
+
+        }
+
+        function Confirm(id) {
+
+            var username = $("#txtUserName").val();
+            var password = $("#txtPwd").val();
+            var actionNo = $("#hdnAction").val();
+            var DeviceId = id;
+            $.ajax({
+                url: '@Url.Action("ConfirmPassword", "Device")',
+                type: "POST",
+                data: { UserName: username, Password: password, Action: actionNo, devID: DeviceId },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    $("#modals-auth").modal('toggle');
+                    $("#txtUserName").val("");
+                    $("#txtPwd").val("");
+                    switch (actionNo) {
+                        case "1":
+                            if (data.result) {
+                                showSuccessNoti('All Users Deleted..');
+                            }
+                            else {
+                                showWarningNoti('Login Credential not correct..')
+                            }
+                            break;
+                        case "2":
+                            if (data.result) {
+                                showSuccessNoti('All Administrator Deleted..');
+                            }
+                            else {
+                                showWarningNoti('Login Credential not correct..')
+                            }
+                            break;
+                        case "3":
+                            if (data.result) {
+                                showSuccessNoti('All Logs Deleted..');
+                            }
+                            else {
+                                showWarningNoti('Login Credential not correct..')
+                            }
+                            break;
+                        case "4":
+                            if (data.result) {
+                                showSuccessNoti('Device Reset..');
+                            }
+                            else {
+                                showWarningNoti('Login Credential not correct..')
+                            }
+                            break;
+                    }
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+
+                }
+            });
+        }
+
+
+        //Sync Start
+        function Sync(code) {
+
+            $.ajax({
+                url: '@Url.Action("SyncDevice", "Device")',
+                type: "POST",
+                data: { deviceCode: code },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti(data.device + " sync..");
+                    } else {
+                        showWarningNoti(data.msg);
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+            });
+        }
+        //Sync Ends
+
+
+        //GetEmployees Start
+        function GetEmployees(code, button) {
+            $("#btnUploadUser").prop("disabled", true);
+            $("#btnDeleteUser").prop("disabled", true);
+            $("#btnCloseUser").prop("disabled", true);
+            tableUsers.clear().draw();
+
+
+            var l = Ladda.create(button);
+            l.start();
+            $.ajax({
+                url: '@Url.Action("GetEmployees", "Device")',
+                type: "POST",
+                data: { deviceCode: code },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result != null) {
+                        if (!$("#modals-users").hasClass("show"))
+                            $("#modals-users").modal('toggle');
+
+                        if (data.result2 != true) {
+                            showWarningNoti("Device Disconnected");
+                            $("#btnCloseUser").prop("disabled", false);
+                        }
+
+                       
+                       
+                    }
+
+                   // var connID = $().attr('id');
+                    //$("#btnUploadUser").prop("disabled", false);
+                    //$("#btnDeleteUser").prop("disabled", false);
+                    //$("#btnCloseUser").prop("disabled", false);
+
+                },
+                failure: function (response) {
+                    alert("failure " + response.data);
+                },
+                error: function (err, status, thrown) {
+                    alert("error " + status + " " + thrown);
+                },
+                complete: function (data) {
+                    l.stop();
+
+
+                }
+
+
+            });
+
+
+        }
+        //GetEmployees Ends
+
+
+
+        //Delete Start
+        function Delete(codes, button) {
+
+
+            var l = Ladda.create(button);
+            l.start();
+
+
+            $.ajax({
+                url: '@Url.Action("DeleteDevice", "Device")',
+                type: "POST",
+                data: { deviceCodes: codes },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        showSuccessNoti("Device deleted successfully");
+                    } else {
+                        showWarningNoti("Device cannot be deleted..");
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    window.location.href = '@Url.Action("Index", "Device")';
+                    l.stop();
+                }
+
+
+            });
+
+
+
+        }
+        //Delete Ends
+
+        //GetAwaitingDevices Starts
+        function GetAwaitingDevices() {
+            $.ajax({
+                url: '@Url.Action("GeAllAwaitingDevices", "Device")',
+                type: "POST",
+                //data: { deviceCode: code },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    var devices = '';
+                    if (data.result.length > 0) {
+                        for (var i = 0; i < data.result.length; i++) {
+                            var func = "ConnectAwaitingDevice('" + data.result[i].Device_ID + "','" + data.result[i].Device_Name + "','" + data.result[i].IsConnected + "')";
+                            var func2 = "DeleteAwaitingDevice('" + data.result[i].Device_ID + "')";
+                            devices += '<div class="ui-bordered p-2">';
+                            devices += '<div class="kanban-board-actions btn-group float-right ml-2">';
+                            devices += '<button type="button" class="btn btn-default btn-xs btn-round icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i class="ion ion-ios-more"></i></button>';
+                            devices += '<div class="dropdown-menu dropdown-menu-right">';
+                            devices += '<a class="dropdown-item" onclick="' + func + '">Connect</a>';
+                            devices += '<a class="dropdown-item" onclick="' + func2 + '">Delete</a>';
+                            devices += '</div>';
+                            devices += '</div>';
+                            devices += '<i class="fa fa-circle waiting"></i> ';
+                            devices += ' (' + data.result[i].Device_ID + ')';
+                            devices += '</div>';
+
+                        }
+
+                    }
+                    $("#divWaitingDevices").html(devices);
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+
+
+            });
+
+        }
+        //GetAwaitingDevices Ends
+
+
+        //Connect Starts
+        function ConnectAwaitingDevice(deviceID,deviceName,isConnected) {
+
+            ClearSearchModal();
+            var button = null;
+            Searching(deviceID, button);
+
+        }
+
+        function DeleteAwaitingDevice(deviceID) {
+
+            $.ajax({
+                url: '@Url.Action("DeleteAwaitingDevices", "Device")',
+                type: "POST",
+                data: {  device_ID: deviceID },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("Device deleted successfully");
+
+                    } else {
+                        showWarningNoti("Device cannot be deleted due to some error..");
+                    }
+
+
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    window.location.href = '@Url.Action("Index", "Device")';
+                }
+
+
+            });
+
+        }
+        //Connect Ends
+
+        //RefreshConnectedDevices Starts
+        function RefreshConnectedDevices(code, flag) {
+            //console.log(code, flag);
+            if (flag) {
+                $("#status_" + code).removeClass("disconnected");
+                $("#status_" + code).addClass("connected");
+                $("#tdStatus_" + code).html("<span style='color:#28D094;'>Connected</span>");
+                //holding the color which is white and removing the span color after every refresh.
+                $("#tdStatus_" + code + " " + "span").css('color', '');
+            } else {
+                $("#status_" + code).addClass("disconnected");
+                $("#status_" + code).removeClass("connected");
+                $("#tdStatus_" + code).html("<div style='color:red'>Disconnected</div>");
+            }
+        }
+        //RefreshConnectedDevices Ends
+
+        //MaxLength Starts
+        function MaxLength() {
+
+            $('.bootstrap-maxlength-example').each(function () {
+                $(this).maxlength({
+                    warningClass: 'label label-success',
+                    limitReachedClass: 'label label-danger',
+                    separator: ' out of ',
+                    preText: 'You typed ',
+                    postText: ' chars available.',
+                    validate: true,
+                    threshold: +this.getAttribute('maxlength')
+                });
+            });
+        }
+        //MaxLength Ends
+
+        //UploadUsers Starts
+        function UploadUsers(selecteduser, deviceid, button) {
+
+
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("UploadUsers", "Device")',
+                type: "POST",
+                data: { listSelected: selecteduser, device_ID: deviceid },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+
+                         showSuccessNoti("Users uploaded successfully");
+
+                    } else {
+                        showWarningNoti("Users cannot be uploaded due to some error..");
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+
+
+            });
+
+        }
+        //UploadUsers Starts
+
+
+        //DeleteUsers Starts
+        function DeleteUsers(selecteduser, deviceid, button) {
+
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("DeleteUsersFromMachine", "Device")',
+                type: "POST",
+                data: { listSelected: selecteduser, device_ID: deviceid },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("Users deleted successfully");
+
+                    } else {
+                        showWarningNoti("Users cannot be deleted due to some error..");
+                    }
+
+
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+
+
+            });
+
+        }
+        //DeleteUsers Starts
+
+
+
+        function ClearUserSearchModal() {
+            $("#tblUsers tbody").empty();
+        }
+
+        //function GetEmployeeID(emp) {
+        //    if (emp.id!= null) {
+        //        tableUsers.row.add([
+        //        '', emp.id, '', '', '',''
+        //    ]).draw(false);
+
+        //        $("#btnUploadUser").prop("disabled", false);
+        //        $("#btnDeleteUser").prop("disabled", false);
+        //        $("#btnCloseUser").prop("disabled", false);
+        //    }
+        //    else {
+        //        showWarningNoti("No Employee Data in Device");
+        //        $("#btnCloseUser").prop("disabled", false);
+        //    }
+        //}
+
+
+        function SendUserIdList(list) {
+            
+            if (list.length != 0) {
+               
+                for (var i = 0; i < list.length; i++) {
+                    
+                    tableUsers.row.add([
+                        '',
+                        list[i].Employee_ID,
+                        list[i].Device_Id
+                    ]).draw(false);
+                   
+                }
+
+                $("#btnUploadUser").prop("disabled", false);
+                $("#btnDeleteUser").prop("disabled", false);
+                $("#btnCloseUser").prop("disabled", false);
+            }
+            else {
+                showWarningNoti("No Employee Data in Device");
+                $("#btnCloseUser").prop("disabled", false);
+            }
+        }
+
+         //GetDeviceSettings Start
+        function GetDeviceSettings(settings, device_id) {
+            $.ajax({
+                url: '@Url.Action("GetDeviceSetting", "Device")',
+                type: "POST",
+                data: { machineInfo: settings, deviceCode: device_id},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+
+
+            });
+
+
+        }
+        //GetDeviceSettings Ends
+
+
+
+
+         //GetDeviceStatus Start
+        function GetDeviceStatus(status, device_id) {
+            $.ajax({
+                url: '@Url.Action("GetDeviceStatusInfo", "Device")',
+                type: "POST",
+                data: { statusInfo: status, deviceCode: device_id },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+            });
+        }
+        //GetDeviceStatusInfo Ends
+
+    </script>
+
+
+    @*SignalR*@
+    @if (!string.IsNullOrEmpty(com.Server_IP) && !string.IsNullOrEmpty(com.SignalR_Port))
+    {
+        <script src="http://@com.Server_IP:@com.SignalR_Port/signalr/hubs"></script>
+        <script type="text/javascript">
+
+            $(function () {
+
+                var serverIP = '@com.Server_IP';
+                var signalrPort = '@com.SignalR_Port';
+
+
+                $.connection.hub.url = "http://" + serverIP + ":" + signalrPort + "/signalr/hubs";
+                var notifier = $.connection.NotifierHub;
+
+                notifier.client.refreshAwaitingDevices = function () {
+                    GetAwaitingDevices();
+                }
+                notifier.client.senduseridlist = function (list) {
+
+                    
+                    SendUserIdList(list);
+                }
+                //notifier.client.progress = function ( total, progress, percent) {
+
+                //    console.log(percent);
+                //    //SendUserIdList(list);
+                //}
+                notifier.client.refreshConnectedDevices = function (code, flag) {
+                    RefreshConnectedDevices(code, flag);
+                }
+
+                notifier.client.employeeids = function (emp) {
+
+                    GetEmployeeID(emp);
+                }
+
+                notifier.client.senddevicesetting = function (settings, device_id) {
+                   
+                //  GetDeviceSettings(settings, device_id);
+                }
+                notifier.client.senddevicestatusinfo = function (status, device_id) {
+
+                    GetDeviceStatus(status, device_id);
+                }
+
+                $.connection.hub.start().done(function () {
+                    console.log("SignalR Connected");
+                })
+
+                $.connection.hub.reconnected(function () {
+                    console.log("SignalR is reconnected.");
+                });
+
+
+                $.connection.hub.disconnected(function () {
+
+                    console.log("SignalR Disconnected.");
+
+                    if ($.connection.hub.lastError) {
+                        console.log("SignalR Disconnected Due to Inactivity");
+                    }
+
+                    setTimeout(function () {
+                        $.connection.hub.start().done(function () {
+                            console.log("SignalR Connected");
+                        });
+                    }, 10000); // Restart connection after 10 seconds.
+
+                });
+
+
+            })
+
+        </script>
+    }
+
+
+}

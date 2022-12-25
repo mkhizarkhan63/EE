@@ -1,0 +1,989 @@
+﻿@*@model List<EagleEye.DAL.Partial.IrregularEmployee_P>*@
+@using EagleEye.Common
+@using EagleEye.DAL.Partial
+@{
+    ViewBag.Title = "Irregular Users";
+    Communication_P com = @SessionHandling.Communication;
+}
+@{ MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen> List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Irregular Users").FirstOrDefault();
+    }
+}
+
+<style>
+    #tblTUsers td {
+        max-width: 500px !important;
+        word-wrap: break-word !important;
+        white-space: normal !important;
+    }
+   
+</style>
+
+
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-0">Irregular User Management </h4>
+
+    <div class="row">
+        <div class="col-sm-12 text-right">
+            @if (Menu.Insert == true || Menu.Update == true)
+            {
+                <label class="switcher">
+                    <input type="radio" class="switcher-input" name="switchers-stacked-radio" id="chkDB">
+                    <span class="switcher-indicator">
+                        <span class="switcher-yes"></span>
+                        <span class="switcher-no"></span>
+                    </span>
+                    <span class="switcher-label">Transfer Irregular User by DB</span>
+                </label>
+
+                <label class="switcher">
+                    <input type="radio" class="switcher-input" name="switchers-stacked-radio" id="chkMachine">
+                    <span class="switcher-indicator">
+                        <span class="switcher-yes"></span>
+                        <span class="switcher-no"></span>
+                    </span>
+                    <span class="switcher-label">Transfer Irregular User by Machine</span>
+                </label>
+
+                <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnTransferAll">
+                    <span class="fa fa-exchange-alt"></span>&nbsp;&nbsp;Transfer All
+                </button>
+            }
+            @if (Menu.Delete == true)
+            {
+                <button type="button" class="btn btn-danger waves-effect ladda-button" data-style="expand-right" id="btnDeleteAll">
+                    <span class="fa fa-trash"></span>&nbsp;&nbsp;Delete All
+                </button>
+            }
+        </div>
+    </div>
+
+    <hr>
+
+
+    <div class="card">
+        <div class="card-datatable table-responsive">
+
+            <table class="datatables-demo table table-striped table-bordered text-center" id="tblUsers">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>User Name</th>
+                        <th>Card No</th>
+                        <th>Face</th>
+                        <th>Finger Print</th>
+                        <th>Palm</th>
+                        <th>PIN</th>
+                        <th>Location</th>
+                        <th>Device</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+
+                    @*@foreach (var item in Model)
+                        {
+                            <tr id="@item.Code">
+                                <td>@item.Employee_ID</td>
+                                <td>@item.Employee_Name</td>
+                                <td>
+                                    @if (item.Card_No != "")
+                                    {
+                                        <label class="switcher">
+                                            <input type="checkbox" class="switcher-input" checked="checked" disabled>
+                                            <span class="switcher-indicator">
+                                                <span class="switcher-yes">
+                                                    <span class="ion ion-md-checkmark"></span>
+                                                </span>
+                                                <span class="switcher-no">
+                                                    <span class="ion ion-md-close"></span>
+                                                </span>
+                                            </span>
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <label class="switcher">
+                                            <input type="checkbox" class="switcher-input" disabled>
+                                            <span class="switcher-indicator">
+                                                <span class="switcher-yes">
+                                                    <span class="ion ion-md-checkmark"></span>
+                                                </span>
+                                                <span class="switcher-no">
+                                                    <span class="ion ion-md-close"></span>
+                                                </span>
+                                            </span>
+                                        </label>
+                                    }
+                                </td>
+                                <td>
+                                    <label class="switcher">
+                                        <input type="checkbox" class="switcher-input" checked="@item.Face" disabled>
+                                        <span class="switcher-indicator">
+                                            <span class="switcher-yes">
+                                                <span class="ion ion-md-checkmark"></span>
+                                            </span>
+                                            <span class="switcher-no">
+                                                <span class="ion ion-md-close"></span>
+                                            </span>
+                                        </span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="switcher">
+                                        <input type="checkbox" class="switcher-input" checked="@item.FingerPrint" disabled>
+                                        <span class="switcher-indicator">
+                                            <span class="switcher-yes">
+                                                <span class="ion ion-md-checkmark"></span>
+                                            </span>
+                                            <span class="switcher-no">
+                                                <span class="ion ion-md-close"></span>
+                                            </span>
+                                        </span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="switcher switcher-success">
+                                        <input type="checkbox" class="switcher-input" checked="@item.Palm" disabled>
+                                        <span class="switcher-indicator">
+                                            <span class="switcher-yes">
+                                                <span class="ion ion-md-checkmark"></span>
+                                            </span>
+                                            <span class="switcher-no">
+                                                <span class="ion ion-md-close"></span>
+                                            </span>
+                                        </span>
+                                    </label>
+                                </td>
+                                @*<td class="hideText">@item.Password</td>*@
+                    @*<td>
+                                @if (item.Password != "")
+                                {
+                                    <label class="switcher">
+                                        <input type="checkbox" class="switcher-input" checked="checked" disabled>
+                                        <span class="switcher-indicator">
+                                            <span class="switcher-yes">
+                                                <span class="ion ion-md-checkmark"></span>
+                                            </span>
+                                            <span class="switcher-no">
+                                                <span class="ion ion-md-close"></span>
+                                            </span>
+                                        </span>
+                                    </label>
+                                }
+                                else
+                                {
+                                    <label class="switcher">
+                                        <input type="checkbox" class="switcher-input" disabled>
+                                        <span class="switcher-indicator">
+                                            <span class="switcher-yes">
+                                                <span class="ion ion-md-checkmark"></span>
+                                            </span>
+                                            <span class="switcher-no">
+                                                <span class="ion ion-md-close"></span>
+                                            </span>
+                                        </span>
+                                    </label>
+                                }
+                            </td>
+                            <td>@item.Location</td>
+                            <td>@Enum.GetName(typeof(@Enumeration.UserStatus), item.Active)</td>
+
+                            <td>
+                                <div class="btn-group-vertical">
+                                    @if (Menu.Update == true)
+                                    {
+
+                                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="TransferUserbyMachine(@item.Employee_ID)">
+                                            <span class="fa fa-exchange-alt"></span>&nbsp;&nbsp;Transfer Irregular User by Machine
+                                        </button>
+
+                                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="TransferUserbyDB(@item.Employee_ID)">
+                                            <span class="fa fa-database"></span>&nbsp;&nbsp;Transfer Irregular User by DB
+                                        </button>
+
+                                    }
+                                    @if (Menu.Delete == true)
+                                    {
+                                        <button type="button" class="btn btn-sm btn-outline-danger" id="btnDelete" onclick="Delete(@item.Employee_ID)">
+                                            <span class="fa fa-trash"></span>&nbsp;&nbsp;Delete
+                                        </button>
+                                    }
+                                </div>
+                            </td>
+
+                            <td>@item.Msg</td>
+                        </tr>
+
+                                }
+                    *@
+
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="show-profile" data-backdrop="static" data-keyboard="true" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Irregular  <span class="font-weight-light">Users...</span>
+                </h5>
+                <span class="pull-right">
+                    <button type="button" class="btn btn-default btn-sm " id="" data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+                </span>
+                
+            </div>
+            <div class="modal-body" height="400px">
+                
+                <div id="UserModal">
+                    <div class="row">
+                        <div class="col-auto">
+                            <span id="m_Photo">
+
+                            </span>
+                          
+                        </div>
+                        <div class="col text-left">
+                            <table class="table table-striped" id="modal-table">
+                                <tr>
+                                    <td>ID</td>
+                                    <td><span id="m_ID"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Name</td>
+                                    <td><span id="m_Name"></span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Device</td>
+                                    <td><span id="m_Device"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Location</td>
+                                    <td><span id="m_Location"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Status</td>
+                                    <td><span id="m_Status"></span></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+
+    @*Startup*@
+    <script type="text/javascript">
+
+        var table;
+        var selected = [];
+       
+        $(document).ready(function () {
+
+           
+            //calling datatable
+             bindDataTable();
+            
+            
+           
+            //when click on datatable row it toggles modal
+            $("#tblUsers").on('click', '#userID ', function (e) {
+                e.preventDefault();
+                
+               // let id = table.rows(this).data()[0]['Employee_ID'];
+                let id = $(this).attr("data-id");
+               
+                $.ajax({
+                url: '@Url.Action("showProfiles", "IrregularUser")',
+                type: "POST",
+                data: { emp_id: id },
+                dataType: "json",
+                cache: false,
+                    success: function (data) {
+                       
+                        if (data.result.Employee_Photo != "") {
+                            $("#show-profile #UserModal #m_Photo").empty().append('<img src="' + data.result.Employee_Photo + "?Date=" + Date.now() + '" id="" width="250" height="250" />');
+                        }
+                        else
+                        {
+                            $("#show-profile #UserModal #m_Photo").empty().append('<img src="/assets/img/avatars/no-image.jpg" id="" width="250" height="250" />');
+
+                        }
+
+                        $("#show-profile #UserModal #m_ID").empty().append('<p>' + data.result.Employee_ID + '</p>');
+
+                        $("#show-profile #UserModal #m_Name").empty().append('<p>' + data.result.Employee_Name + '</p>');
+
+                        $("#show-profile #UserModal #m_Device").empty().append('<p>' + data.result.Device_Name + '</p>');
+
+                        $("#show-profile #UserModal #m_Location").empty().append('<p>' + data.result.Location + '</p>');
+                        if (data.result.Active == 1) {
+                            $("#show-profile #UserModal #m_Status").empty().append('<p> Active </p>');
+                        }
+                        else
+                        {
+                            $("#show-profile #UserModal #m_Status").empty().append('<p> InActive </p>');
+                        }
+                   
+                },
+                complete: function (data) {
+                    $("#show-profile").modal('toggle');
+                }
+            });
+
+
+            });
+
+            //DataTable Starts
+            function bindDataTable() {
+                var rowsCount;
+                var menuUpdate = "@Menu.Update.ToString()";
+                var menuDelete = "@Menu.Delete.ToString()";
+                var menuInsert = "@Menu.Insert.ToString()";
+               
+                var func = "";
+                table = $('#tblUsers').DataTable({
+                    "aLengthMenu": [[10, 25, 50, 100, 500], [10, 25, 50, 100, 500]],
+                    "sAjaxSource": "/IrregularUser/GetRecords",
+                    "bServerSide": true,
+                    "bProcessing": true,
+                     "bSearchable": true,
+                    "deferRender": true,
+                     "paging" : true,
+                    "language": {
+                        "emptyTable": "No record found.",
+                        "processing":
+                            '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+                    },
+                    "fnDrawCallback": function (oSettings) {
+                        //passing rows count to the function
+                        rowsCountMethod(table.row().context[0].aoData.length);
+
+                    },
+                    //"rowCallback": function (row, data) {
+
+                    //    if ($.inArray(data.Code, selected) !== -1) {
+                    //        $(row).addClass('selected');
+                    //    }
+
+                    //},
+
+                    columnDefs: [
+
+
+                        {
+                            "data": "Employee_ID",
+                            "searchable": true,
+                            "visible": true,
+                            "render": function (data, type, row) {
+                            
+                                return "<a href='#' id='userID' data-id='" + data + "' >" + data + "</a>";
+                            },
+                            targets: 0
+                        },
+                        {
+                            "data": "Employee_Name",
+                            "searchable": true,
+                            "visible": true,
+                            targets: 1
+                        },
+                        {
+                            "data": "Card_No",
+                            "searchable": true,
+                            "visible": true,
+                            "render": function (data, type, row)
+                            {
+                                var func = "";
+
+                                if (data != "")
+                                {
+
+                                    func =   '<label class="switcher">' +
+                                        ' <input type="checkbox" class="switcher-input" checked="checked" disabled>' +
+                                        ' <span class="switcher-indicator">' +
+                                        ' <span class="switcher-yes">' +
+                                        '<span class="ion ion-md-checkmark"></span>' +
+                                        ' </span>' +
+                                        ' <span class="switcher-no">' +
+                                        '+<span class="ion ion-md-close"></span>' +
+                                        ' </span>' +
+                                        '</span>' +
+                                        ' </label>';
+                                }
+                                else
+                                {
+                                    func =  '<label class="switcher">' +
+                                        ' <input type="checkbox" class="switcher-input" disabled>' +
+                                        ' <span class="switcher-indicator">' +
+                                        ' <span class="switcher-yes">' +
+                                        '<span class="ion ion-md-checkmark"></span>' +
+                                        ' </span>' +
+                                        ' <span class="switcher-no">' +
+                                        '+<span class="ion ion-md-close"></span>' +
+                                        ' </span>' +
+                                        '</span>' +
+                                        ' </label>';
+
+
+                                }
+                                return func;
+                            },
+                            targets: 2
+                        },
+                        {
+                            "data": "Face",
+                            "searchable": true,
+                            "visible": true,
+                            "render": function (data, type, row)
+                            {
+                                if (data == 0) {
+
+                                    return '<label class="switcher">' +
+                                        '<input type="checkbox" class="switcher-input"  disabled>' +
+                                        '<span class="switcher-indicator">' +
+                                        '<span class="switcher-yes">' +
+                                        '  <span class="ion ion-md-checkmark"></span>' +
+                                        '</span>' +
+                                        ' <span class="switcher-no">' +
+                                        ' <span class="ion ion-md-close"></span>' +
+                                        '</span>' +
+                                        ' </span>' +
+                                        '</label>';
+
+                                }
+                                else
+                                {
+                                    return '<label class="switcher">' +
+                                        '<input type="checkbox" class="switcher-input" checked="' + data + '" disabled>' +
+                                        '<span class="switcher-indicator">' +
+                                        '<span class="switcher-yes">' +
+                                        '  <span class="ion ion-md-checkmark"></span>' +
+                                        '</span>' +
+                                        ' <span class="switcher-no">' +
+                                        ' <span class="ion ion-md-close"></span>' +
+                                        '</span>' +
+                                        ' </span>' +
+                                        '</label>';
+                                }
+                                
+                            },
+                            targets: 3
+                        },
+                        {
+
+                            "data": "FingerPrint",
+                            "searchable": true,
+                            "visible": true,
+                            "render": function (data, type, row) {
+
+                                if (data == 0) {
+
+                                    return '<label class="switcher">' +
+                                        '<input type="checkbox" class="switcher-input"  disabled>' +
+                                        '<span class="switcher-indicator">' +
+                                        '<span class="switcher-yes">' +
+                                        '  <span class="ion ion-md-checkmark"></span>' +
+                                        '</span>' +
+                                        ' <span class="switcher-no">' +
+                                        ' <span class="ion ion-md-close"></span>' +
+                                        '</span>' +
+                                        ' </span>' +
+                                        '</label>';
+
+                                }
+                                else {
+                                    return '<label class="switcher">' +
+                                        '<input type="checkbox" class="switcher-input" checked="' + data + '" disabled>' +
+                                        '<span class="switcher-indicator">' +
+                                        '<span class="switcher-yes">' +
+                                        '  <span class="ion ion-md-checkmark"></span>' +
+                                        '</span>' +
+                                        ' <span class="switcher-no">' +
+                                        ' <span class="ion ion-md-close"></span>' +
+                                        '</span>' +
+                                        ' </span>' +
+                                        '</label>';
+                                }
+                            },
+                            targets: 4
+
+                        },
+                        {
+                            "data": "Palm",
+                            "searchable": true,
+                            "visible": true,
+                            "render": function (data, type, row)
+                            {
+
+                                if (data == 0) {
+
+                                    return '<label class="switcher">' +
+                                        '<input type="checkbox" class="switcher-input"  disabled>' +
+                                        '<span class="switcher-indicator">' +
+                                        '<span class="switcher-yes">' +
+                                        '  <span class="ion ion-md-checkmark"></span>' +
+                                        '</span>' +
+                                        ' <span class="switcher-no">' +
+                                        ' <span class="ion ion-md-close"></span>' +
+                                        '</span>' +
+                                        ' </span>' +
+                                        '</label>';
+
+                                }
+                                else {
+                                    return '<label class="switcher">' +
+                                        '<input type="checkbox" class="switcher-input" checked="' + data + '" disabled>' +
+                                        '<span class="switcher-indicator">' +
+                                        '<span class="switcher-yes">' +
+                                        '  <span class="ion ion-md-checkmark"></span>' +
+                                        '</span>' +
+                                        ' <span class="switcher-no">' +
+                                        ' <span class="ion ion-md-close"></span>' +
+                                        '</span>' +
+                                        ' </span>' +
+                                        '</label>';
+                                }
+                            },
+                            targets: 5
+                        },
+                        {
+                            "data": "Password",
+                            "searchable": true,
+                            "visible": true,
+                            "render": function (data, type, row)
+                            {
+                                let func= "";
+                                if (data != "")
+                                {
+                                    func = '<label class="switcher">' +
+                                        '<input type="checkbox" class="switcher-input" checked="checked" disabled>' +
+                                        ' <span class="switcher-indicator">' +
+                                        '<span class="switcher-yes">' +
+                                        ' <span class="ion ion-md-checkmark"></span>' +
+                                        ' </span>' +
+                                        '<span class="switcher-no">' +
+                                        ' <span class="ion ion-md-close"></span>' +
+                                        ' </span>' +
+                                        '</span>' +
+                                        '</label>';
+                                }
+                                  else
+                                {
+                                    func = '<label class="switcher">' +
+                                        '<input type="checkbox" class="switcher-input" disabled>' +
+                                        ' <span class="switcher-indicator">' +
+                                        '<span class="switcher-yes">' +
+                                        '<span class="ion ion-md-checkmark"></span>' +
+                                        '</span>' +
+                                        ' <span class="switcher-no">' +
+                                        '<span class="ion ion-md-close"></span>' +
+                                        '</span>' +
+                                        '</span>' +
+                                        '</label>';
+                                }
+                                return func;
+                             },
+                                targets: 6
+
+                          },
+                        {
+                            "data": "Location",
+                            "searchable": true,
+                            "visible": true,
+                            targets: 7
+                        },
+                        {
+                            "data": "DeviceComb",
+                            "searchable": true,
+                            "visible": true,
+                            "render": function (data, type, row) {
+                                let arr = data.split(',');
+                               
+                                    return "<p>"+arr[1]+"</p><p>"+arr[0]+"</p>";
+                                
+                            },
+                            targets: 8
+                        },
+                        {
+                            "data": "Active",
+                            "searchable": true,
+                            "visible": true,
+                            "render": function (data, type, row) {
+                                if (data == 1) {
+                                    return "<p> Active </p>";
+                                }
+                                else
+                                {
+                                    return "<p> InActive </p>";
+                                }
+                            },
+                            targets: 9
+                        },
+
+                        {
+                            "data": "Employee_ID",
+                            "searchable": true,
+                            "visible": true,
+                            "render": function (data, type, row)
+                            {
+                             
+                                func = '<div class="btn-group-vertical">'
+                                if (menuUpdate.toLocaleLowerCase() == 'true' || menuDelete.toLocaleLowerCase() == 'true' || menuInsert.toLocaleLowerCase() == 'true')
+                                {
+                                     func += '<button type = "button" class="btn btn-sm btn-outline-primary" id="transferUserbyMachine" data-id="' + data +'">' +
+                                        '<span class="fa fa-exchange-alt"></span>&nbsp;&nbsp;Transfer Irregular User by Machine' +
+                                        '</button> <button type = "button" class="btn btn-sm btn-outline-primary" id="transferUserbyDB" data-id="' + data +'">' +
+                                        '<span class="fa fa-database"></span>&nbsp;&nbsp;Transfer Irregular User by DB' +
+                                        ' </button><button type="button" class="btn btn-sm btn-outline-danger" id="btnDelete" data-id="' + data +'">' +
+                                        ' <span class="fa fa-trash"></span>&nbsp;&nbsp;Delete' +
+                                        '</button> ';
+
+                                }
+
+                                func += '</div>';
+
+                                return func;
+                            },
+                            targets: 10
+                        },
+                        {
+                            "data": "Msg",
+                            "searchable": true,
+                            "visible": true,
+                            targets: 11
+
+                        }
+                    ],
+                    //select: {
+                    //    style: 'multi',
+                    //    selector: 'td:first-child'
+                    //},
+                });
+             
+            }
+
+            //Rows counting method for hiding and showing delete all btn
+            function rowsCountMethod(val) {
+                    if (val == 0) {
+                        $("#btnDeleteAll").prop('disabled', true);
+                        }
+                        else {
+                         $("#btnDeleteAll").prop('disabled', false);
+                        }
+               
+            }
+
+        //Datatable Ends
+
+            //Datatable buttons start
+
+            $(document).on('click', ' button#transferUserbyMachine',function () {
+                let data = $(this).attr("data-id");
+                TransferUserbyMachine(data)
+            });
+            $(document).on('click', ' button#transferUserbyDB', function () {
+                let data = $(this).attr("data-id");
+                TransferUserbyDB(data)
+            });
+
+            $(document).on('click', ' button#btnDelete', function () {
+                let data = $(this).attr("data-id");
+                Delete(data)
+            });
+
+
+            //datatable buttons ends
+
+            $("#btnDeleteAll").click(function () {
+                var l = this;
+                swal({
+                            title: "Are you sure?",
+                            text: "Do you really want to Delete Irregular Users?",
+                            type: "warning",
+                            confirmButtonClass: "btn-warning",
+                            confirmButtonText: "Yes",
+                            cancelButtonText: "No",
+                            showCancelButton: true,
+                        },
+                    function (isConfirm) {
+                                if (isConfirm) {
+
+                                    DeleteAll(l);
+                                }
+                        
+                            });
+
+            });
+
+            //update on 12/10/2021 12:48 PM
+            $("#btnTransferAll").click(function () {
+                var machine = $("#chkMachine").is(":checked");
+                var DB = $("#chkDB").is(":checked");
+
+                if (machine == true) {
+
+                    TransferbyMachine(this);
+
+
+                }
+                else if (DB == true) {
+                    TransferbyDB(this);
+                }
+                else {
+                    showWarningNoti("Kindly select any option");
+                }
+            });
+        });
+
+    </script>
+
+    @*Function*@
+    <script type="text/javascript">
+
+        @*var menuUpdate = @Menu.Update;
+        var menuDelete = @Menu.Delete;*@
+
+
+        //$.each(table.rows().nodes(), function (i, item) {
+        //    console.log(table.rows().select());
+        //    //var datadevice = tableMachine.row(this).data();
+        //    //selectedDevice.push(datadevice[1]);
+
+        //});
+
+
+        function TransferbyMachine(button) {
+         var l = Ladda.create(button);
+                l.start();
+
+         $.ajax({
+                url: '@Url.Action("TransferbyMachine", "IrregularUser")',
+                type: "POST",
+                //data: { Code: Code },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("Users transferred successfully..");
+
+                        //window.location.href = '@Url.Action("Index", "IrregularUser")';
+                    }
+                    else {
+                        showWarningNoti("Users not transferred due to some error..");
+                    }
+
+
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+
+
+        }
+
+        function TransferUserbyMachineForce(Code) {
+
+         $.ajax({
+                url: '@Url.Action("TransferUserbyMachineForce", "IrregularUser")',
+                type: "POST",
+                data: { Code: Code },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("Users transferred successfully..");
+                        window.location.href = '@Url.Action("Index", "IrregularUser")';
+                    } else {
+                        showWarningNoti("Users not transferred due to some error..");
+                    }
+
+                },
+                complete: function (data) {
+                }
+            });
+
+
+        }
+
+        function TransferbyDB(button) {
+         var l = Ladda.create(button);
+                l.start();
+
+         $.ajax({
+                url: '@Url.Action("TransferbyDB", "IrregularUser")',
+                type: "POST",
+                //data: { Code: Code },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("Users transferred successfully..");
+                      //  window.location.href = '@Url.Action("Index", "IrregularUser")';
+                    } else if (data.msg != "") {
+                        showWarningNoti(data.msg);
+                    }
+                    else {
+                        showWarningNoti("Users not transferred due to some error..");
+                    }
+
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+
+
+        }
+
+
+         function DeleteAll(button){
+
+         var l = Ladda.create(button);
+                l.start();
+
+         $.ajax({
+                url: '@Url.Action("DeleteAll", "IrregularUser")',
+                type: "POST",
+                //data: { Code: Code },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("Users deleted successfully..");
+                       
+                    } else {
+                        showWarningNoti("Users not deleted due to some error..");
+                    }
+
+                },
+                complete: function (data) {
+                        l.stop();
+                    }
+            });
+
+
+        }
+
+
+
+
+        function Delete(Code){
+
+         $.ajax({
+                url: '@Url.Action("Delete", "IrregularUser")',
+                type: "POST",
+                data: { Code: Code },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("User deleted successfully..");
+                        table.clear().draw();
+                        //window.location.href = '@Url.Action("Index", "IrregularUser")';
+                    } else {
+                        showWarningNoti("User not delete due to some error..");
+                    }
+
+                }
+            });
+        }
+
+        function TransferUserbyMachine(Code){
+
+         $.ajax({
+                url: '@Url.Action("TransferUserbyMachine", "IrregularUser")',
+                type: "POST",
+                data: { Code: Code },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("Users transferred successfully..");
+                       // window.location.href = '@Url.Action("Index", "IrregularUser")';
+                    }
+                    else if (data.msg != "") {
+                        swal({
+                            title: "User Failed to transfer successfully!",
+                            text: data.msg + ", Do you really want to transfer it to regular employee?",
+                            type: "warning",
+                            confirmButtonClass: "btn-success",
+                            confirmButtonText: "Yes",
+                            cancelButtonText: "No",
+                            showCancelButton: true,
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+
+                                    TransferUserbyMachineForce(Code);
+
+                                } else {
+                                    window.location.href = '@Url.Action("Index", "IrregularUser")';
+                                }
+                            });
+                    } else {
+                        showWarningNoti("Users not transferred due to some error..");
+                    }
+                }
+            });
+        }
+
+        function TransferUserbyDB(Code){
+
+         $.ajax({
+                url: '@Url.Action("TransferUserbyDB", "IrregularUser")',
+                type: "POST",
+                data: { Code: Code },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                     if (data.result) {
+                        showSuccessNoti("Users transferred successfully..");
+                        //window.location.href = '@Url.Action("Index", "IrregularUser")';
+                    } else if (data.msg != "") {
+                        showWarningNoti(msg);
+                    }
+                    else {
+                        showWarningNoti("Users not transferred due to some error..");
+                    }
+
+                }
+            });
+        }
+
+        function SwitcherFunc() {
+            if ($("chkDB").prop("checked", false))
+                $("#chkMachine").prop("checked", false);
+
+            if ($("#chkMachine").prop("checked") == true)
+                $("#chkDB").prop("checked", false);
+        }
+
+
+    </script>
+}

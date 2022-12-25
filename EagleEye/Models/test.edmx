@@ -1,0 +1,967 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="hmsModel1.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="account">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="Hash" Type="longtext" />
+          <Property Name="Salt" Type="varbinary" MaxLength="512" />
+          <Property Name="LastLogin" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityType Name="attendance">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Attendance_DateTime" Type="datetime" Precision="0" />
+          <Property Name="Attendance_Photo" Type="longtext" />
+          <Property Name="Polling_DateTime" Type="datetime" Precision="0" />
+          <Property Name="Device_ID" Type="varchar" MaxLength="100" />
+          <Property Name="Employee_ID" Type="varchar" MaxLength="50" />
+          <Property Name="Check_Type" Type="text" />
+          <Property Name="Work_Code" Type="text" />
+          <Property Name="Authority" Type="text" />
+          <Property Name="Status" Type="text" />
+        </EntityType>
+        <EntityType Name="awaitingdevice">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Device_ID" Type="varchar" MaxLength="150" />
+          <Property Name="Device_Type" Type="varchar" MaxLength="150" />
+          <Property Name="Device_IP" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Port" Type="varchar" MaxLength="50" />
+          <Property Name="IsConnected" Type="bit" />
+          <Property Name="ConnectedBy" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="communication">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Server_IP" Type="varchar" MaxLength="50" />
+          <Property Name="TCP_Port" Type="varchar" MaxLength="50" />
+          <Property Name="UDP_Port" Type="varchar" MaxLength="50" />
+          <Property Name="SignalR_Port" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="department">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="device">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Device_ID" Type="varchar" MaxLength="100" />
+          <Property Name="Device_Name" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Algo" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Edition" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Type" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Volume" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Weigan" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Mode" Type="int" />
+          <Property Name="Device_IP" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Port" Type="varchar" MaxLength="50" />
+          <Property Name="Device_MAC" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Gateway" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Netmask" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Communication" Type="varchar" MaxLength="50" />
+          <Property Name="Enable_Server" Type="bit" />
+          <Property Name="Server_IP" Type="varchar" MaxLength="50" />
+          <Property Name="TCP" Type="varchar" MaxLength="50" />
+          <Property Name="UDP" Type="varchar" MaxLength="50" />
+          <Property Name="Max_Employee" Type="varchar" MaxLength="50" />
+          <Property Name="Real_Employee" Type="varchar" MaxLength="50" />
+          <Property Name="Max_FaceRecord" Type="varchar" MaxLength="50" />
+          <Property Name="Real_FaceRecord" Type="varchar" MaxLength="50" />
+          <Property Name="Max_FaceReg" Type="varchar" MaxLength="50" />
+          <Property Name="Real_FaceReg" Type="varchar" MaxLength="50" />
+          <Property Name="Max_Finger" Type="varchar" MaxLength="50" />
+          <Property Name="Real_Finger" Type="varchar" MaxLength="50" />
+          <Property Name="Max_Manager" Type="varchar" MaxLength="50" />
+          <Property Name="Real_Manager" Type="varchar" MaxLength="50" />
+          <Property Name="Max_Other" Type="varchar" MaxLength="50" />
+          <Property Name="Real_Other" Type="varchar" MaxLength="50" />
+          <Property Name="Reader_ID" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Interval" Type="varchar" MaxLength="50" />
+          <Property Name="Record_Duplication" Type="bit" />
+          <Property Name="Relay" Type="bit" />
+          <Property Name="Relay_Time" Type="varchar" MaxLength="50" />
+          <Property Name="Relay_Bell" Type="bit" />
+          <Property Name="Alarm" Type="bit" />
+          <Property Name="Device_Status" Type="int" />
+          <Property Name="Device_Template" Type="int" />
+          <Property Name="Device_Sensor" Type="int" />
+          <Property Name="DeviceRemoval_Alarm" Type="bit" />
+          <Property Name="Rejection_Alarm" Type="bit" />
+          <Property Name="Rejection_Count" Type="int" />
+          <Property Name="Rejection_HoldTime" Type="int" />
+          <Property Name="Magnet_Alarm" Type="bit" />
+          <Property Name="Magnet_Type" Type="int" />
+          <Property Name="Magnet_Delay" Type="int" />
+          <Property Name="LastPolled_RecordTime" Type="datetime" Precision="0" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="Security_Photo" Type="bit" />
+        </EntityType>
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_ID" Type="int" />
+          <Property Name="Employee_Name" Type="varchar" MaxLength="150" />
+          <Property Name="Employee_Photo" Type="longtext" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Authority" Type="varchar" MaxLength="50" />
+          <Property Name="Algorithm" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="Calid" Type="varchar" MaxLength="50" />
+          <Property Name="Card_No" Type="varchar" MaxLength="50" />
+          <Property Name="Check_Type" Type="varchar" MaxLength="50" />
+          <Property Name="OpenDoor_Type" Type="varchar" MaxLength="50" />
+          <Property Name="Device_ID" Type="varchar" MaxLength="50" />
+          <Property Name="fkDepartment_Code" Type="int" />
+          <Property Name="fkLocation_Code" Type="int" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="Finger_Data" Type="longtext" />
+          <Property Name="Face_Data0" Type="longtext" />
+          <Property Name="Face_Data1" Type="longtext" />
+          <Property Name="Face_Data2" Type="longtext" />
+          <Property Name="Face_Data3" Type="longtext" />
+          <Property Name="Face_Data4" Type="longtext" />
+          <Property Name="Face_Data5" Type="longtext" />
+          <Property Name="Face_Data6" Type="longtext" />
+          <Property Name="Face_Data7" Type="longtext" />
+          <Property Name="Face_Data8" Type="longtext" />
+          <Property Name="Face_Data9" Type="longtext" />
+          <Property Name="Face_Data10" Type="longtext" />
+          <Property Name="Face_Data11" Type="longtext" />
+          <Property Name="Face_Data12" Type="longtext" />
+          <Property Name="Face_Data13" Type="longtext" />
+          <Property Name="Face_Data14" Type="longtext" />
+          <Property Name="Face_Data15" Type="longtext" />
+          <Property Name="Face_Data16" Type="longtext" />
+          <Property Name="Face_Data17" Type="longtext" />
+        </EntityType>
+        <EntityType Name="exceptionlog">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Exception_Layer" Type="varchar" MaxLength="250" />
+          <Property Name="Method" Type="varchar" MaxLength="250" />
+          <Property Name="Stacktrace" Type="varchar" MaxLength="21844" />
+          <Property Name="Error_Message" Type="varchar" MaxLength="21844" />
+          <Property Name="Form" Type="varchar" MaxLength="250" />
+          <Property Name="Exception_DateTime" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityType Name="location">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="manager">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Admin_ID" Type="int" />
+          <Property Name="Admin_Name" Type="varchar" MaxLength="150" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Authority" Type="varchar" MaxLength="50" />
+          <Property Name="Algorithm" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="Card_No" Type="varchar" MaxLength="50" />
+          <Property Name="Enter_Type" Type="varchar" MaxLength="50" />
+          <Property Name="Device_ID" Type="varchar" MaxLength="50" />
+          <Property Name="fkDepartment_Code" Type="int" />
+          <Property Name="fkLocation_Code" Type="int" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="Face_Data0" Type="longtext" />
+          <Property Name="Face_Data1" Type="longtext" />
+          <Property Name="Face_Data2" Type="longtext" />
+          <Property Name="Face_Data3" Type="longtext" />
+          <Property Name="Face_Data4" Type="longtext" />
+          <Property Name="Face_Data5" Type="longtext" />
+          <Property Name="Face_Data6" Type="longtext" />
+          <Property Name="Face_Data7" Type="longtext" />
+          <Property Name="Face_Data8" Type="longtext" />
+          <Property Name="Face_Data9" Type="longtext" />
+          <Property Name="Face_Data10" Type="longtext" />
+          <Property Name="Face_Data11" Type="longtext" />
+          <Property Name="Face_Data12" Type="longtext" />
+          <Property Name="Face_Data13" Type="longtext" />
+          <Property Name="Face_Data14" Type="longtext" />
+          <Property Name="Face_Data15" Type="longtext" />
+          <Property Name="Face_Data16" Type="longtext" />
+          <Property Name="Face_Data17" Type="longtext" />
+        </EntityType>
+        <EntityType Name="menu">
+          <Key>
+            <PropertyRef Name="Menu_Id" />
+          </Key>
+          <Property Name="Menu_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Menu_Name" Type="varchar" MaxLength="100" />
+          <Property Name="Menu_Controller" Type="varchar" MaxLength="100" />
+          <Property Name="Menu_Action" Type="varchar" MaxLength="100" />
+          <Property Name="Parent" Type="varchar" MaxLength="20" />
+          <Property Name="Icon" Type="varchar" MaxLength="20" />
+          <Property Name="isActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="menurights">
+          <Key>
+            <PropertyRef Name="Menu_Rights_Id" />
+          </Key>
+          <Property Name="Menu_Rights_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_Id" Type="int" />
+          <Property Name="Menu_Id" Type="int" />
+          <Property Name="Insert" Type="bit" />
+          <Property Name="Update" Type="bit" />
+          <Property Name="Delete" Type="bit" />
+          <Property Name="View" Type="bit" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="setting">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AppSetting_Path" Type="text" />
+        </EntityType>
+        <EntityType Name="wandevicedetail">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Device_ID" Type="varchar" MaxLength="100" />
+          <Property Name="Device_Name" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Algo" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Edition" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Type" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Volume" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Weigan" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Mode" Type="int" />
+          <Property Name="Device_IP" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Port" Type="varchar" MaxLength="50" />
+          <Property Name="Device_MAC" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Gateway" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Netmask" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Communication" Type="varchar" MaxLength="50" />
+          <Property Name="Enable_Server" Type="bit" />
+          <Property Name="Server_IP" Type="varchar" MaxLength="50" />
+          <Property Name="TCP" Type="varchar" MaxLength="50" />
+          <Property Name="UDP" Type="varchar" MaxLength="50" />
+          <Property Name="Max_Employee" Type="varchar" MaxLength="50" />
+          <Property Name="Real_Employee" Type="varchar" MaxLength="50" />
+          <Property Name="Max_FaceRecord" Type="varchar" MaxLength="50" />
+          <Property Name="Real_FaceRecord" Type="varchar" MaxLength="50" />
+          <Property Name="Max_FaceReg" Type="varchar" MaxLength="50" />
+          <Property Name="Real_FaceReg" Type="varchar" MaxLength="50" />
+          <Property Name="Max_Finger" Type="varchar" MaxLength="50" />
+          <Property Name="Real_Finger" Type="varchar" MaxLength="50" />
+          <Property Name="Max_Manager" Type="varchar" MaxLength="50" />
+          <Property Name="Real_Manager" Type="varchar" MaxLength="50" />
+          <Property Name="Max_Other" Type="varchar" MaxLength="50" />
+          <Property Name="Real_Other" Type="varchar" MaxLength="50" />
+          <Property Name="Reader_ID" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Interval" Type="varchar" MaxLength="50" />
+          <Property Name="Record_Duplication" Type="bit" />
+          <Property Name="Relay" Type="bit" />
+          <Property Name="Relay_Time" Type="varchar" MaxLength="50" />
+          <Property Name="Relay_Bell" Type="bit" />
+          <Property Name="Alarm" Type="bit" />
+          <Property Name="Device_Status" Type="int" />
+          <Property Name="Device_Template" Type="int" />
+          <Property Name="Device_Sensor" Type="int" />
+          <Property Name="DeviceRemoval_Alarm" Type="bit" />
+          <Property Name="Rejection_Alarm" Type="bit" />
+          <Property Name="Rejection_Count" Type="int" />
+          <Property Name="Rejection_HoldTime" Type="int" />
+          <Property Name="Magnet_Alarm" Type="bit" />
+          <Property Name="Magnet_Type" Type="int" />
+          <Property Name="Magnet_Delay" Type="int" />
+          <Property Name="LastPolled_RecordTime" Type="datetime" Precision="0" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="Security_Photo" Type="bit" />
+        </EntityType>
+        <EntityContainer Name="hmsModel1StoreContainer">
+          <EntitySet Name="account" EntityType="Self.account" Schema="hms" store:Type="Tables" />
+          <EntitySet Name="attendance" EntityType="Self.attendance" Schema="hms" store:Type="Tables" />
+          <EntitySet Name="awaitingdevice" EntityType="Self.awaitingdevice" Schema="hms" store:Type="Tables" />
+          <EntitySet Name="communication" EntityType="Self.communication" Schema="hms" store:Type="Tables" />
+          <EntitySet Name="department" EntityType="Self.department" Schema="hms" store:Type="Tables" />
+          <EntitySet Name="device" EntityType="Self.device" Schema="hms" store:Type="Tables" />
+          <EntitySet Name="employee" EntityType="Self.employee" Schema="hms" store:Type="Tables" />
+          <EntitySet Name="exceptionlog" EntityType="Self.exceptionlog" Schema="hms" store:Type="Tables" />
+          <EntitySet Name="location" EntityType="Self.location" Schema="hms" store:Type="Tables" />
+          <EntitySet Name="manager" EntityType="Self.manager" Schema="hms" store:Type="Tables" />
+          <EntitySet Name="menu" EntityType="Self.menu" Schema="hms" store:Type="Tables" />
+          <EntitySet Name="menurights" EntityType="Self.menurights" Schema="hms" store:Type="Tables" />
+          <EntitySet Name="setting" EntityType="Self.setting" Schema="hms" store:Type="Tables" />
+          <EntitySet Name="wandevicedetail" EntityType="Self.wandevicedetail" Schema="hms" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="hmsModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="account">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Hash" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Salt" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="LastLogin" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="attendance">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Attendance_DateTime" Type="DateTime" />
+          <Property Name="Attendance_Photo" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Polling_DateTime" Type="DateTime" />
+          <Property Name="Device_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Employee_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Check_Type" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Work_Code" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Authority" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="awaitingdevice">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Device_ID" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Type" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Device_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Port" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsConnected" Type="Boolean" />
+          <Property Name="ConnectedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="communication">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Server_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TCP_Port" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UDP_Port" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SignalR_Port" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="department">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="device">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Device_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Algo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Edition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Volume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Weigan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Mode" Type="Int32" />
+          <Property Name="Device_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Port" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_MAC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Gateway" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Netmask" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Communication" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Enable_Server" Type="Boolean" />
+          <Property Name="Server_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TCP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UDP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_Employee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_Employee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_FaceRecord" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_FaceRecord" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_FaceReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_FaceReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_Finger" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_Finger" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_Manager" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_Manager" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_Other" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_Other" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Reader_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Interval" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Record_Duplication" Type="Boolean" />
+          <Property Name="Relay" Type="Boolean" />
+          <Property Name="Relay_Time" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Relay_Bell" Type="Boolean" />
+          <Property Name="Alarm" Type="Boolean" />
+          <Property Name="Device_Status" Type="Int32" />
+          <Property Name="Device_Template" Type="Int32" />
+          <Property Name="Device_Sensor" Type="Int32" />
+          <Property Name="DeviceRemoval_Alarm" Type="Boolean" />
+          <Property Name="Rejection_Alarm" Type="Boolean" />
+          <Property Name="Rejection_Count" Type="Int32" />
+          <Property Name="Rejection_HoldTime" Type="Int32" />
+          <Property Name="Magnet_Alarm" Type="Boolean" />
+          <Property Name="Magnet_Type" Type="Int32" />
+          <Property Name="Magnet_Delay" Type="Int32" />
+          <Property Name="LastPolled_RecordTime" Type="DateTime" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="Security_Photo" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_ID" Type="Int32" />
+          <Property Name="Employee_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Employee_Photo" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Authority" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Algorithm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Calid" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Card_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Check_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OpenDoor_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fkDepartment_Code" Type="Int32" />
+          <Property Name="fkLocation_Code" Type="Int32" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="Finger_Data" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data0" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data1" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data2" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data3" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data4" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data5" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data6" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data7" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data8" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data9" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data10" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data11" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data12" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data13" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data14" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data15" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data16" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data17" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="exceptionlog">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Exception_Layer" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Method" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Stacktrace" Type="String" MaxLength="21844" FixedLength="false" Unicode="false" />
+          <Property Name="Error_Message" Type="String" MaxLength="21844" FixedLength="false" Unicode="false" />
+          <Property Name="Form" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Exception_DateTime" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="location">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="manager">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Admin_ID" Type="Int32" />
+          <Property Name="Admin_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Authority" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Algorithm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Card_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Enter_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fkDepartment_Code" Type="Int32" />
+          <Property Name="fkLocation_Code" Type="Int32" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="Face_Data0" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data1" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data2" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data3" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data4" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data5" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data6" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data7" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data8" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data9" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data10" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data11" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data12" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data13" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data14" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data15" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data16" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data17" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="menu">
+          <Key>
+            <PropertyRef Name="Menu_Id" />
+          </Key>
+          <Property Name="Menu_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Menu_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Menu_Controller" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Menu_Action" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Parent" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Icon" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="menuright">
+          <Key>
+            <PropertyRef Name="Menu_Rights_Id" />
+          </Key>
+          <Property Name="Menu_Rights_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_Id" Type="Int32" />
+          <Property Name="Menu_Id" Type="Int32" />
+          <Property Name="Insert" Type="Boolean" />
+          <Property Name="Update" Type="Boolean" />
+          <Property Name="Delete" Type="Boolean" />
+          <Property Name="View" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="setting">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AppSetting_Path" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="wandevicedetail">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Device_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Algo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Edition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Volume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Weigan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Mode" Type="Int32" />
+          <Property Name="Device_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Port" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_MAC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Gateway" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Netmask" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Communication" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Enable_Server" Type="Boolean" />
+          <Property Name="Server_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TCP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UDP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_Employee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_Employee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_FaceRecord" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_FaceRecord" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_FaceReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_FaceReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_Finger" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_Finger" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_Manager" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_Manager" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_Other" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_Other" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Reader_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Interval" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Record_Duplication" Type="Boolean" />
+          <Property Name="Relay" Type="Boolean" />
+          <Property Name="Relay_Time" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Relay_Bell" Type="Boolean" />
+          <Property Name="Alarm" Type="Boolean" />
+          <Property Name="Device_Status" Type="Int32" />
+          <Property Name="Device_Template" Type="Int32" />
+          <Property Name="Device_Sensor" Type="Int32" />
+          <Property Name="DeviceRemoval_Alarm" Type="Boolean" />
+          <Property Name="Rejection_Alarm" Type="Boolean" />
+          <Property Name="Rejection_Count" Type="Int32" />
+          <Property Name="Rejection_HoldTime" Type="Int32" />
+          <Property Name="Magnet_Alarm" Type="Boolean" />
+          <Property Name="Magnet_Type" Type="Int32" />
+          <Property Name="Magnet_Delay" Type="Int32" />
+          <Property Name="LastPolled_RecordTime" Type="DateTime" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="Security_Photo" Type="Boolean" />
+        </EntityType>
+        <EntityContainer Name="hmsEntitiestest" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="accounts" EntityType="Self.account" />
+          <EntitySet Name="attendances" EntityType="Self.attendance" />
+          <EntitySet Name="awaitingdevices" EntityType="Self.awaitingdevice" />
+          <EntitySet Name="communications" EntityType="Self.communication" />
+          <EntitySet Name="departments" EntityType="Self.department" />
+          <EntitySet Name="devices" EntityType="Self.device" />
+          <EntitySet Name="employees" EntityType="Self.employee" />
+          <EntitySet Name="exceptionlogs" EntityType="Self.exceptionlog" />
+          <EntitySet Name="locations" EntityType="Self.location" />
+          <EntitySet Name="managers" EntityType="Self.manager" />
+          <EntitySet Name="menus" EntityType="Self.menu" />
+          <EntitySet Name="menurights" EntityType="Self.menuright" />
+          <EntitySet Name="settings" EntityType="Self.setting" />
+          <EntitySet Name="wandevicedetails" EntityType="Self.wandevicedetail" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="hmsModel1StoreContainer" CdmEntityContainer="hmsEntitiestest">
+          <EntitySetMapping Name="accounts">
+            <EntityTypeMapping TypeName="hmsModel1.account">
+              <MappingFragment StoreEntitySet="account">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Hash" ColumnName="Hash" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="attendances">
+            <EntityTypeMapping TypeName="hmsModel1.attendance">
+              <MappingFragment StoreEntitySet="attendance">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Attendance_DateTime" ColumnName="Attendance_DateTime" />
+                <ScalarProperty Name="Attendance_Photo" ColumnName="Attendance_Photo" />
+                <ScalarProperty Name="Polling_DateTime" ColumnName="Polling_DateTime" />
+                <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+                <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+                <ScalarProperty Name="Check_Type" ColumnName="Check_Type" />
+                <ScalarProperty Name="Work_Code" ColumnName="Work_Code" />
+                <ScalarProperty Name="Authority" ColumnName="Authority" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="awaitingdevices">
+            <EntityTypeMapping TypeName="hmsModel1.awaitingdevice">
+              <MappingFragment StoreEntitySet="awaitingdevice">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+                <ScalarProperty Name="Device_Type" ColumnName="Device_Type" />
+                <ScalarProperty Name="Device_IP" ColumnName="Device_IP" />
+                <ScalarProperty Name="Device_Port" ColumnName="Device_Port" />
+                <ScalarProperty Name="IsConnected" ColumnName="IsConnected" />
+                <ScalarProperty Name="ConnectedBy" ColumnName="ConnectedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="communications">
+            <EntityTypeMapping TypeName="hmsModel1.communication">
+              <MappingFragment StoreEntitySet="communication">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Server_IP" ColumnName="Server_IP" />
+                <ScalarProperty Name="TCP_Port" ColumnName="TCP_Port" />
+                <ScalarProperty Name="UDP_Port" ColumnName="UDP_Port" />
+                <ScalarProperty Name="SignalR_Port" ColumnName="SignalR_Port" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="departments">
+            <EntityTypeMapping TypeName="hmsModel1.department">
+              <MappingFragment StoreEntitySet="department">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="devices">
+            <EntityTypeMapping TypeName="hmsModel1.device">
+              <MappingFragment StoreEntitySet="device">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+                <ScalarProperty Name="Device_Name" ColumnName="Device_Name" />
+                <ScalarProperty Name="Device_Algo" ColumnName="Device_Algo" />
+                <ScalarProperty Name="Device_Edition" ColumnName="Device_Edition" />
+                <ScalarProperty Name="Device_Type" ColumnName="Device_Type" />
+                <ScalarProperty Name="Device_Volume" ColumnName="Device_Volume" />
+                <ScalarProperty Name="Device_Weigan" ColumnName="Device_Weigan" />
+                <ScalarProperty Name="Device_Mode" ColumnName="Device_Mode" />
+                <ScalarProperty Name="Device_IP" ColumnName="Device_IP" />
+                <ScalarProperty Name="Device_Port" ColumnName="Device_Port" />
+                <ScalarProperty Name="Device_MAC" ColumnName="Device_MAC" />
+                <ScalarProperty Name="Device_Gateway" ColumnName="Device_Gateway" />
+                <ScalarProperty Name="Device_Netmask" ColumnName="Device_Netmask" />
+                <ScalarProperty Name="Device_Communication" ColumnName="Device_Communication" />
+                <ScalarProperty Name="Enable_Server" ColumnName="Enable_Server" />
+                <ScalarProperty Name="Server_IP" ColumnName="Server_IP" />
+                <ScalarProperty Name="TCP" ColumnName="TCP" />
+                <ScalarProperty Name="UDP" ColumnName="UDP" />
+                <ScalarProperty Name="Max_Employee" ColumnName="Max_Employee" />
+                <ScalarProperty Name="Real_Employee" ColumnName="Real_Employee" />
+                <ScalarProperty Name="Max_FaceRecord" ColumnName="Max_FaceRecord" />
+                <ScalarProperty Name="Real_FaceRecord" ColumnName="Real_FaceRecord" />
+                <ScalarProperty Name="Max_FaceReg" ColumnName="Max_FaceReg" />
+                <ScalarProperty Name="Real_FaceReg" ColumnName="Real_FaceReg" />
+                <ScalarProperty Name="Max_Finger" ColumnName="Max_Finger" />
+                <ScalarProperty Name="Real_Finger" ColumnName="Real_Finger" />
+                <ScalarProperty Name="Max_Manager" ColumnName="Max_Manager" />
+                <ScalarProperty Name="Real_Manager" ColumnName="Real_Manager" />
+                <ScalarProperty Name="Max_Other" ColumnName="Max_Other" />
+                <ScalarProperty Name="Real_Other" ColumnName="Real_Other" />
+                <ScalarProperty Name="Reader_ID" ColumnName="Reader_ID" />
+                <ScalarProperty Name="Device_Interval" ColumnName="Device_Interval" />
+                <ScalarProperty Name="Record_Duplication" ColumnName="Record_Duplication" />
+                <ScalarProperty Name="Relay" ColumnName="Relay" />
+                <ScalarProperty Name="Relay_Time" ColumnName="Relay_Time" />
+                <ScalarProperty Name="Relay_Bell" ColumnName="Relay_Bell" />
+                <ScalarProperty Name="Alarm" ColumnName="Alarm" />
+                <ScalarProperty Name="Device_Status" ColumnName="Device_Status" />
+                <ScalarProperty Name="Device_Template" ColumnName="Device_Template" />
+                <ScalarProperty Name="Device_Sensor" ColumnName="Device_Sensor" />
+                <ScalarProperty Name="DeviceRemoval_Alarm" ColumnName="DeviceRemoval_Alarm" />
+                <ScalarProperty Name="Rejection_Alarm" ColumnName="Rejection_Alarm" />
+                <ScalarProperty Name="Rejection_Count" ColumnName="Rejection_Count" />
+                <ScalarProperty Name="Rejection_HoldTime" ColumnName="Rejection_HoldTime" />
+                <ScalarProperty Name="Magnet_Alarm" ColumnName="Magnet_Alarm" />
+                <ScalarProperty Name="Magnet_Type" ColumnName="Magnet_Type" />
+                <ScalarProperty Name="Magnet_Delay" ColumnName="Magnet_Delay" />
+                <ScalarProperty Name="LastPolled_RecordTime" ColumnName="LastPolled_RecordTime" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Security_Photo" ColumnName="Security_Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="employees">
+            <EntityTypeMapping TypeName="hmsModel1.employee">
+              <MappingFragment StoreEntitySet="employee">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+                <ScalarProperty Name="Employee_Name" ColumnName="Employee_Name" />
+                <ScalarProperty Name="Employee_Photo" ColumnName="Employee_Photo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Authority" ColumnName="Authority" />
+                <ScalarProperty Name="Algorithm" ColumnName="Algorithm" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Calid" ColumnName="Calid" />
+                <ScalarProperty Name="Card_No" ColumnName="Card_No" />
+                <ScalarProperty Name="Check_Type" ColumnName="Check_Type" />
+                <ScalarProperty Name="OpenDoor_Type" ColumnName="OpenDoor_Type" />
+                <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+                <ScalarProperty Name="fkDepartment_Code" ColumnName="fkDepartment_Code" />
+                <ScalarProperty Name="fkLocation_Code" ColumnName="fkLocation_Code" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Finger_Data" ColumnName="Finger_Data" />
+                <ScalarProperty Name="Face_Data0" ColumnName="Face_Data0" />
+                <ScalarProperty Name="Face_Data1" ColumnName="Face_Data1" />
+                <ScalarProperty Name="Face_Data2" ColumnName="Face_Data2" />
+                <ScalarProperty Name="Face_Data3" ColumnName="Face_Data3" />
+                <ScalarProperty Name="Face_Data4" ColumnName="Face_Data4" />
+                <ScalarProperty Name="Face_Data5" ColumnName="Face_Data5" />
+                <ScalarProperty Name="Face_Data6" ColumnName="Face_Data6" />
+                <ScalarProperty Name="Face_Data7" ColumnName="Face_Data7" />
+                <ScalarProperty Name="Face_Data8" ColumnName="Face_Data8" />
+                <ScalarProperty Name="Face_Data9" ColumnName="Face_Data9" />
+                <ScalarProperty Name="Face_Data10" ColumnName="Face_Data10" />
+                <ScalarProperty Name="Face_Data11" ColumnName="Face_Data11" />
+                <ScalarProperty Name="Face_Data12" ColumnName="Face_Data12" />
+                <ScalarProperty Name="Face_Data13" ColumnName="Face_Data13" />
+                <ScalarProperty Name="Face_Data14" ColumnName="Face_Data14" />
+                <ScalarProperty Name="Face_Data15" ColumnName="Face_Data15" />
+                <ScalarProperty Name="Face_Data16" ColumnName="Face_Data16" />
+                <ScalarProperty Name="Face_Data17" ColumnName="Face_Data17" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="exceptionlogs">
+            <EntityTypeMapping TypeName="hmsModel1.exceptionlog">
+              <MappingFragment StoreEntitySet="exceptionlog">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Exception_Layer" ColumnName="Exception_Layer" />
+                <ScalarProperty Name="Method" ColumnName="Method" />
+                <ScalarProperty Name="Stacktrace" ColumnName="Stacktrace" />
+                <ScalarProperty Name="Error_Message" ColumnName="Error_Message" />
+                <ScalarProperty Name="Form" ColumnName="Form" />
+                <ScalarProperty Name="Exception_DateTime" ColumnName="Exception_DateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="locations">
+            <EntityTypeMapping TypeName="hmsModel1.location">
+              <MappingFragment StoreEntitySet="location">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="managers">
+            <EntityTypeMapping TypeName="hmsModel1.manager">
+              <MappingFragment StoreEntitySet="manager">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Admin_ID" ColumnName="Admin_ID" />
+                <ScalarProperty Name="Admin_Name" ColumnName="Admin_Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Authority" ColumnName="Authority" />
+                <ScalarProperty Name="Algorithm" ColumnName="Algorithm" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Card_No" ColumnName="Card_No" />
+                <ScalarProperty Name="Enter_Type" ColumnName="Enter_Type" />
+                <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+                <ScalarProperty Name="fkDepartment_Code" ColumnName="fkDepartment_Code" />
+                <ScalarProperty Name="fkLocation_Code" ColumnName="fkLocation_Code" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Face_Data0" ColumnName="Face_Data0" />
+                <ScalarProperty Name="Face_Data1" ColumnName="Face_Data1" />
+                <ScalarProperty Name="Face_Data2" ColumnName="Face_Data2" />
+                <ScalarProperty Name="Face_Data3" ColumnName="Face_Data3" />
+                <ScalarProperty Name="Face_Data4" ColumnName="Face_Data4" />
+                <ScalarProperty Name="Face_Data5" ColumnName="Face_Data5" />
+                <ScalarProperty Name="Face_Data6" ColumnName="Face_Data6" />
+                <ScalarProperty Name="Face_Data7" ColumnName="Face_Data7" />
+                <ScalarProperty Name="Face_Data8" ColumnName="Face_Data8" />
+                <ScalarProperty Name="Face_Data9" ColumnName="Face_Data9" />
+                <ScalarProperty Name="Face_Data10" ColumnName="Face_Data10" />
+                <ScalarProperty Name="Face_Data11" ColumnName="Face_Data11" />
+                <ScalarProperty Name="Face_Data12" ColumnName="Face_Data12" />
+                <ScalarProperty Name="Face_Data13" ColumnName="Face_Data13" />
+                <ScalarProperty Name="Face_Data14" ColumnName="Face_Data14" />
+                <ScalarProperty Name="Face_Data15" ColumnName="Face_Data15" />
+                <ScalarProperty Name="Face_Data16" ColumnName="Face_Data16" />
+                <ScalarProperty Name="Face_Data17" ColumnName="Face_Data17" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="menus">
+            <EntityTypeMapping TypeName="hmsModel1.menu">
+              <MappingFragment StoreEntitySet="menu">
+                <ScalarProperty Name="Menu_Id" ColumnName="Menu_Id" />
+                <ScalarProperty Name="Menu_Name" ColumnName="Menu_Name" />
+                <ScalarProperty Name="Menu_Controller" ColumnName="Menu_Controller" />
+                <ScalarProperty Name="Menu_Action" ColumnName="Menu_Action" />
+                <ScalarProperty Name="Parent" ColumnName="Parent" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="menurights">
+            <EntityTypeMapping TypeName="hmsModel1.menuright">
+              <MappingFragment StoreEntitySet="menurights">
+                <ScalarProperty Name="Menu_Rights_Id" ColumnName="Menu_Rights_Id" />
+                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+                <ScalarProperty Name="Menu_Id" ColumnName="Menu_Id" />
+                <ScalarProperty Name="Insert" ColumnName="Insert" />
+                <ScalarProperty Name="Update" ColumnName="Update" />
+                <ScalarProperty Name="Delete" ColumnName="Delete" />
+                <ScalarProperty Name="View" ColumnName="View" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="settings">
+            <EntityTypeMapping TypeName="hmsModel1.setting">
+              <MappingFragment StoreEntitySet="setting">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="AppSetting_Path" ColumnName="AppSetting_Path" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="wandevicedetails">
+            <EntityTypeMapping TypeName="hmsModel1.wandevicedetail">
+              <MappingFragment StoreEntitySet="wandevicedetail">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+                <ScalarProperty Name="Device_Name" ColumnName="Device_Name" />
+                <ScalarProperty Name="Device_Algo" ColumnName="Device_Algo" />
+                <ScalarProperty Name="Device_Edition" ColumnName="Device_Edition" />
+                <ScalarProperty Name="Device_Type" ColumnName="Device_Type" />
+                <ScalarProperty Name="Device_Volume" ColumnName="Device_Volume" />
+                <ScalarProperty Name="Device_Weigan" ColumnName="Device_Weigan" />
+                <ScalarProperty Name="Device_Mode" ColumnName="Device_Mode" />
+                <ScalarProperty Name="Device_IP" ColumnName="Device_IP" />
+                <ScalarProperty Name="Device_Port" ColumnName="Device_Port" />
+                <ScalarProperty Name="Device_MAC" ColumnName="Device_MAC" />
+                <ScalarProperty Name="Device_Gateway" ColumnName="Device_Gateway" />
+                <ScalarProperty Name="Device_Netmask" ColumnName="Device_Netmask" />
+                <ScalarProperty Name="Device_Communication" ColumnName="Device_Communication" />
+                <ScalarProperty Name="Enable_Server" ColumnName="Enable_Server" />
+                <ScalarProperty Name="Server_IP" ColumnName="Server_IP" />
+                <ScalarProperty Name="TCP" ColumnName="TCP" />
+                <ScalarProperty Name="UDP" ColumnName="UDP" />
+                <ScalarProperty Name="Max_Employee" ColumnName="Max_Employee" />
+                <ScalarProperty Name="Real_Employee" ColumnName="Real_Employee" />
+                <ScalarProperty Name="Max_FaceRecord" ColumnName="Max_FaceRecord" />
+                <ScalarProperty Name="Real_FaceRecord" ColumnName="Real_FaceRecord" />
+                <ScalarProperty Name="Max_FaceReg" ColumnName="Max_FaceReg" />
+                <ScalarProperty Name="Real_FaceReg" ColumnName="Real_FaceReg" />
+                <ScalarProperty Name="Max_Finger" ColumnName="Max_Finger" />
+                <ScalarProperty Name="Real_Finger" ColumnName="Real_Finger" />
+                <ScalarProperty Name="Max_Manager" ColumnName="Max_Manager" />
+                <ScalarProperty Name="Real_Manager" ColumnName="Real_Manager" />
+                <ScalarProperty Name="Max_Other" ColumnName="Max_Other" />
+                <ScalarProperty Name="Real_Other" ColumnName="Real_Other" />
+                <ScalarProperty Name="Reader_ID" ColumnName="Reader_ID" />
+                <ScalarProperty Name="Device_Interval" ColumnName="Device_Interval" />
+                <ScalarProperty Name="Record_Duplication" ColumnName="Record_Duplication" />
+                <ScalarProperty Name="Relay" ColumnName="Relay" />
+                <ScalarProperty Name="Relay_Time" ColumnName="Relay_Time" />
+                <ScalarProperty Name="Relay_Bell" ColumnName="Relay_Bell" />
+                <ScalarProperty Name="Alarm" ColumnName="Alarm" />
+                <ScalarProperty Name="Device_Status" ColumnName="Device_Status" />
+                <ScalarProperty Name="Device_Template" ColumnName="Device_Template" />
+                <ScalarProperty Name="Device_Sensor" ColumnName="Device_Sensor" />
+                <ScalarProperty Name="DeviceRemoval_Alarm" ColumnName="DeviceRemoval_Alarm" />
+                <ScalarProperty Name="Rejection_Alarm" ColumnName="Rejection_Alarm" />
+                <ScalarProperty Name="Rejection_Count" ColumnName="Rejection_Count" />
+                <ScalarProperty Name="Rejection_HoldTime" ColumnName="Rejection_HoldTime" />
+                <ScalarProperty Name="Magnet_Alarm" ColumnName="Magnet_Alarm" />
+                <ScalarProperty Name="Magnet_Type" ColumnName="Magnet_Type" />
+                <ScalarProperty Name="Magnet_Delay" ColumnName="Magnet_Delay" />
+                <ScalarProperty Name="LastPolled_RecordTime" ColumnName="LastPolled_RecordTime" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Security_Photo" ColumnName="Security_Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,698 @@
+﻿@model List<EagleEye.DAL.Partial.TimeZone_P>
+@using EagleEye.Common
+@using EagleEye.DAL.Partial
+@{
+    ViewBag.Title = "TimeZones";
+    Communication_P com = @SessionHandling.Communication;
+}
+@{ MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen>
+            List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Time Zone").FirstOrDefault();
+    }
+}
+<style>
+    /*.hideText {
+        -webkit-text-security: disc;
+    }*/
+</style>
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-0">Time Zone Management</h4>
+    <div class="alert alert-danger alert-dismissible fade show">
+        @*<button type="button" class="close" data-dismiss="alert">×</button>*@
+        Time zones can only be set by software admin, any changes made in device’s tome zone will make the software defined time zones ineffective. Time zones having valid data will be synced with online devices and override the existing time zone settings of device, offline devices will not be synced with the time zone in software so make sure that all devices are online.
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-sm-3">
+                    @if (Menu.Insert == true)
+                    {
+                        @*<button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnAdd" onclick="location.href='@Url.Action("Add", "TimeZone")'">
+                            <span class="fa fa-plus"></span>&nbsp;&nbsp;Add TimeZone
+                        </button>*@
+                    }
+                </div>
+
+                <div class="col-sm-9 text-right">
+                        @if (Menu.Update == true)
+                        {
+                            @*<button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnSync">
+                                    <span class="fa fa-sync"></span>&nbsp;&nbsp;Sync TimeZone
+                                </button>*@
+
+                        }
+                        @if (Menu.Update == true || Menu.Insert == true)
+                        {
+                            <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnTransfer">
+                                <span class="fa fa-upload"></span>&nbsp;&nbsp;Transfer To Device
+                            </button>
+
+                        }
+                        @if (Menu.Delete == true)
+                        {
+                            @*<button type="button" class="btn btn-danger waves-effect" id="btnDelete">
+                                <span class="fa fa-trash"></span>&nbsp;&nbsp;Delete TimeZone
+                            </button>*@
+                        }
+                </div>
+            </div>
+            <hr />
+            <div class="card">
+                <div class="card-datatable table-responsive">
+                    <table class="datatables-demo table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="10px">
+                                    <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                        <input type="checkbox" class="custom-control-input" id="selectAll">
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </th>
+                                <th style="display:none;">Code</th>
+                                <th>TimeZone No</th>
+                                <th>TimeZone Name</th>
+                                <th>Period 1</th>
+                                <th>Period 2</th>
+                                <th>Period 3</th>
+                                <th>Period 4</th>
+                                <th>Period 5</th>
+                                <th>Period 6</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                if (item.Status == true)
+                                {
+                            <tr id="@item.Code">
+                                <td></td>
+                                <td style="display:none;">@item.Code</td>
+
+                                <td>
+                                    @if (item.Timezone_No != "1")
+                                    {
+                                        if (Menu.Update == true)
+                                        {
+                                            <a href="/TimeZone/Edit?Code=@item.Code"> @item.Timezone_No </a>
+                                        }
+                                        else
+                                        {
+                                            @item.Timezone_No
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @item.Timezone_No
+                                    }
+                                </td>
+                                <td>@item.Timezone_Name</td>
+                                <td>@item.Period_1_Start - @item.Period_1_End</td>
+                                <td>@item.Period_2_Start - @item.Period_2_End</td>
+                                <td>@item.Period_3_Start - @item.Period_3_End</td>
+                                <td>@item.Period_4_Start - @item.Period_4_End</td>
+                                <td>@item.Period_5_Start - @item.Period_5_End</td>
+                                <td>@item.Period_6_Start - @item.Period_6_End</td>
+                                @if (item.Status == false)
+                                {
+                                    <td class="text-warning">@Enum.GetName(typeof(@Enumeration.TZStatus), item.Status)</td>
+                                }
+                                else
+                                {
+                                    <td class="text-success">@Enum.GetName(typeof(@Enumeration.TZStatus), item.Status)</td>
+                                }
+                            </tr>
+                                }
+                                if (item.Status == false)
+                                {
+                                    <tr class="text-warning" id="@item.Code">
+                                        <td></td>
+                                        <td style="display:none;"> @item.Code </td>
+                                        <td>
+                                            @if (item.Timezone_No != "1")
+                                            {
+                                                if (Menu.Update == true)
+                                                {
+                                                    <a href="/TimeZone/Edit?Code=@item.Code"> @item.Timezone_No </a>
+                                                }
+                                                else
+                                                {
+                                                    @item.Timezone_No
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @item.Timezone_No
+                                            }
+                                        </td>
+                                        <td>@item.Timezone_Name</td>
+                                        <td>@item.Period_1_Start - @item.Period_1_End</td>
+                                        <td>@item.Period_2_Start - @item.Period_2_End</td>
+                                        <td>@item.Period_3_Start - @item.Period_3_End</td>
+                                        <td>@item.Period_4_Start - @item.Period_4_End</td>
+                                        <td>@item.Period_5_Start - @item.Period_5_End</td>
+                                        <td>@item.Period_6_Start - @item.Period_6_End</td>
+                                        @if (item.Status == false)
+                                        {
+                                            <td class="text-warning">@Enum.GetName(typeof(@Enumeration.TZStatus), item.Status)</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-success">@Enum.GetName(typeof(@Enumeration.TZStatus), item.Status)</td>
+                                        }
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ content ] End -->
+<!-- Modal Machine -->
+<div class="modal fade" id="modals-machine" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Select <span class="font-weight-light">Machine</span>
+                </h5>
+                <span class="text-right">
+                    <label class="badge-dark" id="lblCount"></label>
+                    @if (Menu.Insert == true || Menu.Update == true)
+                    {
+                        <button type="button" class="btn btn-primary btn-sm ladda-button" data-style="expand-right" id="btnSendToDevice"><span class="fa fa-upload"></span> Transfer To Device</button>
+                    } <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body" height="400px">
+                <table class="table table-striped table-bordered" id="tblMachine">
+                    <thead>
+                        <tr>
+                            <th width="10px">
+                                <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                    <input type="checkbox" class="custom-control-input" id="selectAllMachine">
+                                    <span class="custom-control-label"></span>
+                                </label>
+                            </th>
+                            <th>Device ID</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Transfer -->
+<div class="modal fade" id="modals-transfer" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Transferring  <span class="font-weight-light">TimeZones...</span>
+                </h5>
+                <span class="text-right">
+                    <button type="button" class="btn btn-default btn-sm" id="btnClose" data-dismiss="modal" onclick="location.href='@Url.Action("Index", "TimeZone")'"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body" height="400px">
+                <div class="row">
+                    <div id="lblProgress" class="col-sm-9"></div>
+                    <div class="col-sm-3"><label id="lblCompleted" class="float-right text-primary font-weight-semibold"></label></div>
+                </div>
+                <div class="progress" style="height:12px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>
+                </div>
+                <br />
+                <table class="table table-striped table-bordered" id="tblTTimeZone">
+                    <thead>
+                        <tr>
+                            <th>Device</th>
+                            <th>TimeZone ID</th>
+                            <th>TimeZone Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+@section scripts{
+
+    @*Startup*@
+    <script type="text/javascript">
+
+        var table;
+        var tableMachine;
+        var tableTTimeZone;
+
+        $(document).ready(function () {
+        
+            table = $('.datatables-demo').DataTable({
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0
+                },
+                {
+                    "visible": false,
+                    "searchable": false
+                }],
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+                order: [
+                    [2, 'asc']
+                ],
+                stateSave: true
+            });
+
+            $("#selectAll").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    table.rows().select();
+                } else {
+                    table.rows().deselect();
+                }
+            });
+
+            tableMachine = $('#tblMachine').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0,
+                }, {
+                    "visible": false,
+                    "searchable": false,
+                    "oTargets": [6]
+                }],
+
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+                order: [
+                    [1, 'asc']
+                ]
+            });
+
+            $("#selectAllMachine").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    tableMachine.rows().select();
+                } else {
+                    tableMachine.rows().deselect();
+                }
+            });
+
+            tableTTimeZone = $('#tblTTimeZone').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                order: [
+                    [0, 'asc']
+                ]
+            });
+
+        });
+
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+
+
+        var selectedTimeZone = [];
+        var selectedDevice = [];
+        $(function () {
+
+            $("#btnDelete").click(function () {
+
+                // var button = this;
+                $.each(table.rows('.selected').nodes(), function (i, item) {
+
+                    var data = table.row(this).data();
+                    selectedTimeZone.push(data[1]);
+
+                });
+
+                Delete(selectedTimeZone, this);
+            });
+
+            $("#btnTransfer").click(function () {
+
+                var button = this;
+                if (table.rows('.selected').count() > 0) {
+
+                    if ($("#txtUserID").val() == "") {
+                        l.stop();
+                        return showWarningNoti("Please enter ID");
+                    }
+                    GetDevices(button, 2);
+
+                }
+                else {
+                    showWarningNoti("Please Select TimeZones To Proceed...");
+                }
+
+            });
+            $("#btnSendToDevice").click(function () {
+                if (tableMachine.rows('.selected').count() > 0) {
+
+                    // var selectedUser = [];
+                    //var selectedDevice = [];
+                    $.each(tableMachine.rows('.selected').nodes(), function (i, item) {
+
+                        var datadevice = tableMachine.row(this).data();
+                        selectedDevice.push(datadevice[1]);
+
+                    });
+
+                    $.each(table.rows('.selected').nodes(), function (i, item) {
+
+                        var data = table.row(this).data();
+                        selectedTimeZone.push(data[1]);
+
+                    });
+                    SendTimeZoneToDevice(selectedTimeZone, selectedDevice);
+                }
+                else {
+                    showWarningNoti("Please Select Machine To Proceed...");
+                }
+            });
+        });
+    </script>
+
+    @*Function*@
+    <script type="text/javascript">
+
+
+         //Delete Start
+        function Delete(tz, button) {
+
+            var l = Ladda.create(button);
+            l.start();
+            $.ajax({
+                url: '@Url.Action("DeleteTimeZones", "TimeZone")',
+                type: "POST",
+                data: { lstTZCode: tz },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+
+                        swal({
+                            title: "TimeZones deleted successfully!",
+                            type: "success",
+                            confirmButtonClass: 'btn-success',
+                            confirmButtonText: 'Ok!'
+                        });
+                        table.rows('.selected').remove().draw(false);
+                    } else {
+                        showWarningNoti("TimeZone(s) cannot be deleted..");
+                       // table.rows('.selected').remove().draw(false);
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //Delete Ends
+
+
+        //GetDevices Start
+        function GetDevices(button, id) {
+            tableMachine.clear().draw();
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("GetAllDevices", "Device")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result != null) {
+
+
+                        for (var i = 0; i < data.result.length; i++) {
+                            if (data.result[i].Device_Status == 1)
+                                var con = 'Connected';
+                            else
+                                var con = 'Disconnected';
+                            //if (data.result[i].Device_Status == '1') {
+                                tableMachine.row.add([
+                                '',
+                                data.result[i].Device_ID,
+                                    data.result[i].Device_Name,
+                                    con
+                                ]).draw(false);
+                            //}
+                        }
+                    }
+                },
+                failure: function (response) {
+                    alert("failure " + response.data);
+                },
+                error: function (err, status, thrown) {
+                    alert("error " + status + " " + thrown);
+                },
+                complete: function (data) {
+                    $("#modals-machine").modal('toggle');
+                    l.stop();
+                }
+            });
+        }
+        //GetDevices Ends
+
+
+         //SendTimeZOneToDevice Start
+        function SendTimeZoneToDevice(tz, device) {
+
+                    tableTTimeZone.clear().draw();
+                    $("#modals-machine").modal('toggle');
+                    $("#modals-transfer").modal('toggle');
+                    $("#lblProgress").html("");
+                    $(".progress-bar").width("0%");
+                    $("#selectAllMachine").prop("checked", false);
+                    $("#lblCompleted").text("");
+                    //$("#btnStop").prop("disabled", false);
+                    $("#btnClose").prop("disabled", true);
+
+
+                    $.ajax({
+                        url: '@Url.Action("SendTimeZoneToDevice", "TimeZone")',
+                        type: "POST",
+                        data: { tzCodes: tz, deviceIds: device },
+                        dataType: "json",
+                        cache: false,
+                        beforeSend: function (xhr) {
+                            asyncCallsXHR = xhr;
+                        },
+                        success: function (data) {
+                            if (data.result) {
+                                if (data.result2 == false) {
+                                    $("#btnClose").prop("disabled", false);
+                                    swal({
+                                        title: "TimeZone Set Takes Time",
+                                        text: data.msg,
+                                        type: "success",
+                                        confirmButtonClass: 'btn-success',
+                                        confirmButtonText: 'Ok!'
+                                    });
+                                }
+
+                            } else {
+
+                                swal({
+                                    title: data.msg,
+                                    type: "warning",
+                                    confirmButtonClass: 'btn-warning',
+                                    confirmButtonText: 'Ok!'
+                                });
+                            }
+
+                        },
+                        failure: function (response) {
+                            alert("failure " + response.data);
+                        },
+                        error: function (err, status, thrown) {
+                            alert("error " + status + " " + thrown);
+                        },
+                        complete: function (data) {
+
+                        }
+
+
+                    });
+                }
+                //SendTimeZOneToDevice Ends
+
+
+        //SendTZTransferStatus Start
+        var progress = 1;
+        var percent = 0;
+        function SendTZTransferStatus(timezone_no, timezone_name, device_id, device_name, msg) {
+            var total = selectedTimeZone.length;
+
+            percent = (progress * 100) / total;
+            $("#lblProgress").html("Sending to Device: <span class='text-primary font-weight-semibold'>" + device_name + "</span> TimeZones: <span class='text-primary font-weight-semibold'>" + progress + " / " + total + "</span>");
+            $(".progress-bar").width(percent + "%");
+            if (msg == "success") {
+                msg = "<label class='text-success'>" + msg + "</label>";
+            } else {
+                msg = "<label class='text-danger'>" + msg + "</label>";
+            }
+
+            tableTTimeZone.row.add([
+                device_name,
+                timezone_no,
+                timezone_name,
+                msg
+            ]).draw(false);
+
+            if (total == progress) {
+                $("#lblProgress").html("");
+                // $("#lblCompleted").text("Completed");
+                $("#btnClose").prop("disabled", false);
+                progress = 1;
+                percent = 0;
+              //  selectedTimeZone = [];
+                selectedDevice = [];
+            }
+            else {
+                progress++;
+            }
+        }
+        //SendTZTransferStatus Ends
+
+    </script>
+
+
+    @*SignalR*@
+
+
+    <script>
+        var con2 = $.hubConnection("/signalr/hubs");
+        var hub2 = con2.createHubProxy("WebHub");
+
+
+        con2.start({ transport: ["webSockets"] }).done(function () {
+            console.log("Web SignalR Connected");
+        });
+
+
+
+        con2.serverTimeoutInMilliseconds = 1000 * 60 * 10;//10 min
+        hub2.connection.logging = true;
+
+        con2.reconnected(function () {
+            console.log("Web SignalR is reconnected.");
+
+            if (hub2.connection.lastError) {
+                console.log("Web SignalR reconnected. Reason: " + hub2.connection.lastError.message);
+            }
+        });
+
+        con2.connectionSlow(function () {
+            console.log("Web SignalR is connectionSlow.");
+        });
+
+        con2.stateChanged(function () {
+            console.log("Web SignalR is stateChanged.");
+        });
+
+        con2.disconnected(function () {
+
+            console.log("Web SignalR Disconnected.");
+            if (hub2.connection.lastError) {
+                console.log("Web SignalR Disconnected. Reason: " + hub2.connection.lastError.message);
+            }
+
+            setTimeout(function () {
+                con2.start().done(function () {
+                    console.log("Web SignalR Connected");
+                });
+            }, 5000); // Restart connection after 5 seconds.
+
+        });
+
+
+    </script>
+
+
+    @if (com != null)
+    {
+        if (!string.IsNullOrEmpty(com.Server_IP) && !string.IsNullOrEmpty(com.SignalR_Port))
+        {
+
+            <script src="http://@com.Server_IP:@com.SignalR_Port/signalr/hubs"></script>
+            <script type="text/javascript">
+
+                $(function () {
+
+                    var serverIP = '@com.Server_IP';
+                    var signalrPort = '@com.SignalR_Port';
+
+                    $.connection.hub.url = "http://" + serverIP + ":" + signalrPort + "/signalr/hubs";
+                    var notifier = $.connection.NotifierHub;
+
+                    notifier.client.sendTZTransferStatus = function (timezone_no, timezone_name, device_id, device_name, msg) {
+
+                        SendTZTransferStatus(timezone_no, timezone_name, device_id, device_name, msg);
+                    }
+                    $.connection.hub.start().done(function () {
+                        console.log("SignalR Connected");
+                    })
+
+                    $.connection.hub.reconnected(function () {
+                        console.log("SignalR is reconnected.");
+                    });
+
+
+                    $.connection.hub.disconnected(function () {
+
+                        console.log("SignalR Disconnected.");
+
+                        if ($.connection.hub.lastError) {
+                            console.log("SignalR Disconnected. Reason: " + $.connection.hub.lastError.message);
+                        }
+
+                        setTimeout(function () {
+                            $.connection.hub.start().done(function () {
+                                console.log("SignalR Connected");
+                            });
+                        }, 10000); // Restart connection after 10 seconds.
+
+                    });
+                })
+
+            </script>
+        }
+    }
+
+}

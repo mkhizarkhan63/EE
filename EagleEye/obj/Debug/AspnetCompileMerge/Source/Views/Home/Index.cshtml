@@ -1,0 +1,1038 @@
+﻿@using EagleEye.DAL.Partial
+@using EagleEye.Common
+@{
+    ViewBag.Title = "Home";
+    Communication_P com = @SessionHandling.Communication;
+}
+<link rel="stylesheet" href="assets/libs/bootstrap-multiselect/bootstrap-multiselect.css">
+<link href="~/assets/css/loaders.css" rel="stylesheet" />
+<style>
+
+    /*table{
+        border-collapse:collapse;
+        width:100%;
+    }
+    th,td{
+        padding:8px 15px;
+        border: 2px solid #529432;
+    }
+    th{
+        background: #ABDD93;
+    }*/
+    /*.table-fixed thead {
+        position: fixed;
+        top: 0px;
+    }*/
+    /*.table-fixed tbody{
+        height:230px;
+        overflow-y:auto;
+        width:100%;
+    }
+    .table-fixed th, .table-fixed tr, .table-fixed tbody, .table-fixed thead, .table-fixed td {
+    display:block;
+    }
+        .table-fixed tbody td, .table-fixed thead > tr > th {
+            float: left;
+            border-bottom-width: 0;
+        }*/
+    /*#tblData {
+        position: fixed;
+        top: 0px;
+        display: none;
+        background-color: white;
+    }*/
+    .customLiveClass {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    button.multiselect.dropdown-toggle.btn.btn-default {
+        margin-right: 5px;
+    }
+</style>
+<!-- [ content ] Start -->
+
+<div class="loadingDIV">
+    <p>Please wait...</p>
+    <div class="chaotic-orbit">
+
+    </div>
+</div>
+<div class="container-fluid flex-grow-1 container-p-y">
+    <div id="mainContainer">
+        <h4 class="font-weight-bold py-3 mb-0">Dashboard</h4>
+
+
+        <div class="row">
+            <!-- Staustic card 10 Start -->
+
+            <div class="col-xl-4 col-md-6">
+                <div class="card bg-success text-white ui-hover-icon mb-4 bg-pattern-3">
+                    <div class="card-body text-center">
+                        <h2 id="lblCon"></h2>
+                        <h6 class="mb-0">Connected Devices</h6>
+                        <i class="lnr lnr-smartphone hov-icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="card bg-danger text-white ui-hover-icon mb-4 bg-pattern-3">
+                    <div class="card-body text-center">
+                        <h2 id="lblDisc"></h2>
+                        <h6 class="mb-0">Disconnected Devices</h6>
+                        <i class="lnr lnr-smartphone hov-icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="card bg-info text-white ui-hover-icon mb-4 bg-pattern-3">
+                    <div class="card-body text-center">
+                        <h2 id="lblTot"></h2>
+                        <h6 class="mb-0">Total Users</h6>
+                        <i class="lnr lnr-users hov-icon"></i>
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-xl-3 col-md-6">
+                    <div class="card bg-warning text-white ui-hover-icon mb-4 bg-pattern-3">
+                        <div class="card-body text-center">
+                            <h2>26+</h2>
+                            <h6 class="mb-0">Users Marked IN</h6>
+                            <i class="lnr lnr-enter hov-icon"></i>
+                        </div>
+                    </div>
+                </div>*@
+            <!-- Staustic card 10 end -->
+        </div>
+
+        <div class="row">
+
+            <!-- 1st row Start -->
+            <div class="col-lg-12">
+                <div class="card mb-4">
+                    <div class="card-header with-elements">
+                        <h6 class="card-header-title mb-0">Attendance Statistics</h6>
+                        <div class="card-header-elements ml-auto">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-default icon-btn borderless btn-round md-btn-flat dropdown-toggle hide-arrow" id="btnhide"><i class="ion ion-ios-more"></i></button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body" id="attStats">
+                        <div id="statistics-chart-1" style="height:270px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                @*<div class="row">
+                    <div class="col-md-12">*@
+                <div class="card d-flex w-100 mb-4" style="height:400px;">
+                    <div class="card-header customLiveClass">
+                        <div>
+                            <h3>Live Data</h3>
+                        </div>
+                        <div class="twoBtnInLiveData">
+                            <button class="btn btn-primary  float-right" id="btnClearLiveData">Clear Data</button>
+                            <!-- Multiple -->
+                            <select id="bs-multiselect-2" multiple>
+                                <option value="0">Photo</option>
+                                <option value="1">ID</option>
+                                <option value="2">Name</option>
+                                <option value="3">DateTime</option>
+                                <option value="4">Workcode</option>
+                                <option value="5">VerifyMode</option>
+                                <option value="6">Device</option>
+                                <option value="7">Status</option>
+                                <option value="8">Door Status</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-borderless" id="tblData">
+                            <thead>
+                                <tr>
+                                    <th>Photo</th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>DateTime</th>
+                                    <th>Workcode</th>
+                                    <th>VerifyMode</th>
+                                    <th>Device</th>
+                                    <th>Status</th>
+                                    <th>Door Status</th>
+                                    @* <th>Ext Status</th>*@
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    @*</div>
+                        </div>*@
+
+                </div>
+            </div>
+            <div class="col-lg-12">
+                @*<div class="row">
+                    <div class="col-md-12">*@
+                <div class="card d-flex w-100 mb-4" style="height:300px;">
+                    <h3 class="card-header">Expired Users @*<button class="btn btn-primary float-right" id="btnClearLiveData">Clear Data</button>*@</h3>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-borderless" id="tblexUsers">
+                            <thead>
+                                <tr>
+                                    <th>Photo</th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>User Privilege</th>
+                                    <th>FingerPrint</th>
+                                    <th>Face</th>
+                                    <th>Palm</th>
+                                    <th>Card</th>
+                                    <th>Password</th>
+                                    <th>User Validity</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        @*</div>
+                            </div>*@
+                    </div>
+
+                </div>
+            </div>
+            <!-- 1st row Start -->
+        </div>
+    </div>
+    @* mainContainer end *@
+
+</div>
+<!-- [ content ] End -->
+
+<div class="modal fade" id="modals-users" data-backdrop="static" data-keyboard="true" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+
+                    <label class="switcher float-right">
+                        <input type="checkbox" class="switcher-input" id="m_chkLive" checked="checked">
+                        <span class="switcher-indicator">
+                            <span class="switcher-yes"></span>
+                            <span class="switcher-no"></span>
+                        </span>
+                        <span class="switcher-label" style="font-size:1rem;font-weight:500;">Live</span>
+                    </label>
+
+                </h5>
+                <span class="text-right">
+                    @*<span class="dropdown" style="display:inline-block">
+                        <select class="btn btn-default btn-sm dropdown-toggle" id="ddlDevice" onchange="SetSession(),GetDiv()">
+                            <option value="0" selected>No Device</option>
+                            @foreach (Device_P item in Model.DeviceList)
+                            {
+                                <option value="@item.Device_ID">@item.Device_Name - @item.Device_ID</option>
+                            }
+                        </select>
+                    </span>*@
+
+                    @*<button type="button" class="btn btn-primary btn-sm ladda-button" data-style="expand-right" id="m_btnAddUser"><span class="fa fa-user-plus"></span> Add User</button>*@
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" id="btnCloseUser"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body" height="400px">
+                <div class="row" id="UserModalHide">
+                    <div class="col text-center">
+                        <label class="center" style="color:red; font-size:24px;">Please Select Device</label>
+                    </div>
+                </div>
+                <div id="UserModal">
+                    <div class="row">
+                        <div class="col-auto">
+                            <img src="~/assets/img/avatars/no-image.jpg" id="m_Photo" width="250" height="250" />
+                        </div>
+                        <div class="col text-left">
+                            <table class="table table-striped" id="modal-table">
+                                <tr>
+                                    <td>ID</td>
+                                    <td><span id="m_ID"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Name</td>
+                                    <td><span id="m_Name"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>DateTime</td>
+                                    <td><span id="m_DateTime"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>VerifyMode</td>
+                                    <td><span id="m_Verify_Mode"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Device</td>
+                                    <td><span id="m_Device"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Status</td>
+                                    <td><span id="m_Status"></span></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+    <script src="assets/libs/bootstrap-select/bootstrap-select.js"></script>
+    <script src="assets/libs/bootstrap-multiselect/bootstrap-multiselect.js"></script>
+
+
+    @*<script src="assets/js/pages/forms_selects.js"></script>*@
+
+    <script type="text/javascript">
+        var tableData;
+        var tableExusers;
+        var activeColumn = "";
+        var notActiveColumn = "";
+        var getLS_ActiveColumn = "";
+        var getLS_NotActiveColumn = "";
+        var xhrPool = [];
+        var delay = 1000;
+
+        //When Page Loads
+        $(document).ready(function () {
+            $(".loadingDIV").css('display', 'block');
+            $("#mainContainer").css('display', 'none');
+            setTimeout(function () {
+                $(".loadingDIV").css('display', 'none');
+                $("#mainContainer").css('display', 'block');
+               
+            }, 2000);
+
+            tableData = $('#tblData').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                "searching": false,
+                "paging": false,
+                "info": false,
+                order: [
+                    [3, 'desc']
+                ],
+
+            });
+            //using Multiple Select jquerylib
+            $('#bs-multiselect-2').multiselect();
+
+            //getting localstorage values
+            getLS_ActiveColumn = localStorage.getItem("ActiveColumn");
+            getLS_NotActiveColumn = localStorage.getItem("notActiveColumn");
+
+
+
+            //calling multiselector mehtod
+            multiSelectorMethod();
+
+            //Storing the value of Datatable in column via dropdown
+            function multiSelectorMethod() {
+
+                if (getLS_ActiveColumn != null) {
+
+                    let options = getLS_ActiveColumn.split(',').map(Number);
+
+                    for (let i = 0; i < options.length; i++) {
+
+                        tableData.column(options[i]).visible(true);
+
+                    }
+
+                    $("#bs-multiselect-2").val(options);
+                    $('#bs-multiselect-2').multiselect("refresh");
+                }
+                if (getLS_NotActiveColumn != null) {
+                    let options = getLS_NotActiveColumn.split(',').map(Number);
+                    for (let i = 0; i < options.length; i++) {
+                        tableData.column(options[i]).visible(false);
+
+                    }
+
+                }
+
+                $("#bs-multiselect-2").change(function () {
+
+                    var activeValues = [];
+                    activeColumn = $(this).val();
+
+                    activeValues.push(activeColumn)
+                    //hiding datatable column
+
+                    $.each($(".btn-group ul li"), function (i, item) {
+
+                        var active = $(this).hasClass("active");
+                        if (active) {
+                            // activeColumn = $(this).find('a input').val();
+                            for (let i = 0; i < activeColumn.length; i++) {
+
+                                let columns = tableData.column(activeColumn[i]);
+                                columns.visible(true);
+
+                            }
+
+                        }
+                    });
+                    if (activeColumn != null)
+                        localStorage.setItem("ActiveColumn", activeValues);
+                    else
+                        localStorage.removeItem("ActiveColumn");
+
+                    //Showing again which li has not active class
+                    var NotActivevalue = [];
+
+
+                    $.each($(".btn-group ul li"), function (i, item) {
+                        let notActive = $(this).hasClass("active");
+
+                        //checking false which has not active class
+                        if (!notActive) {
+
+                            notActiveColumn = $(this).find('a input').val();
+
+                            for (let i = 0; i < notActiveColumn.length; i++) {
+                                NotActivevalue.push(notActiveColumn[i])
+                                let columns = tableData.column(notActiveColumn[i]);
+                                columns.visible(false)
+
+                            }
+
+
+                        }
+
+
+                    });
+
+                    if (!NotActivevalue.length) {
+
+                        localStorage.removeItem("notActiveColumn");
+                    }
+                    else {
+                        localStorage.setItem("notActiveColumn", NotActivevalue);
+                    }
+
+
+                });
+            }
+
+
+            SetDropdown();
+            GetValues();
+            GetLogs();
+            GetExUsers();
+            GetSession();
+            GetDiv();
+
+
+
+
+            tableExusers = $('#tblexUsers').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                "searching": false,
+                "paging": false,
+                "info": false,
+                order: [
+                    [1, 'desc']
+                ]
+            });
+            var hides = window.localStorage.getItem("hide");
+            if (hides == 0) {
+                $("#attStats").hide();
+            }
+            else {
+                $("#attStats").show();
+                GetGraph();
+            }
+        });
+
+    </script>
+
+
+    @*Event*@
+    <script type="text/javascript">
+        $("#m_btnAddUser").click(function () {
+
+            var Date = $("#m_DateTime").text();
+            AddUser(Date);
+
+        });
+        $("#btnClearLiveData").click(function () {
+
+            ClearLiveData();
+
+        });
+        $("#btnhide").click(function () {
+
+            HideStats();
+
+        });
+
+    </script>
+
+
+    @*Function*@
+    <script type="text/javascript">
+
+
+
+        function ClearLiveData() {
+            tableData.clear().draw();
+            //$("#tblData tbody").html("");
+        }
+        function HideStats() {
+            var hides = window.localStorage.getItem("hide");
+            if (hides == 0) {
+                $("#attStats").show();
+                localStorage.setItem("hide", 1);
+                GetGraph();
+            }
+            else {
+                $("#attStats").hide();
+                localStorage.setItem("hide", 0);
+            }
+            //var display = $("#attStats").css("display", "none");
+            //if (display)
+
+            //else
+
+            //$("#tblData tbody").html("");
+        }
+
+
+
+        function SetDropdown() {
+            $("#ddlDevice").val(0);
+        }
+
+        function SetSession() {
+
+            var drpValue = 0;
+            drpValue = $("#ddlDevice").val();
+            if (window.localStorage) {
+                localStorage.setItem("drpValue", drpValue);
+            }
+        }
+
+        function GetSession() {
+
+            var drpValue = window.localStorage.getItem("drpValue");
+            if (drpValue != "") {
+                $("#ddlDevice").val(drpValue);
+            }
+            else {
+                $("#ddlDevice").val(0);
+            }
+        }
+
+
+        //GetValues Start
+        function GetValues() {
+
+            $.ajax({
+                url: '@Url.Action("GetValues", "Home")',
+                type: "POST",
+                //data: { deviceCode: code },
+                dataType: "json",
+                cache: false,
+                beforeSend: function (jqXHR, settings) {
+                    xhrPool.push(jqXHR)
+                },
+                success: function (data) {
+                    setTimeout(function () {
+                        $("#lblCon").text(data.connected);
+                        $("#lblDisc").text(data.disconnected);
+                        $("#lblTot").text(data.empCount);
+                    }, delay);
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+
+
+            });
+
+
+        }
+        //GetValues Ends
+
+        //GetGraph Start
+        function GetGraph() {
+
+            $.ajax({
+                url: '@Url.Action("GetGraph", "Home")',
+                type: "POST",
+                //data: { deviceCode: code },
+                dataType: "json",
+                cache: false,
+                beforeSend: function (jqXHR, settings) {
+                    xhrPool.push(jqXHR)
+                },
+                success: function (data) {
+                    setTimeout(function () {
+                        GenGraph(data.res);
+                    }, 1000);
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+
+
+            });
+
+
+        }
+        //GetGraph Ends
+
+
+        //GetLogs Start
+        function GetLogs() {
+
+            $.ajax({
+                url: '@Url.Action("GetLogs", "Home")',
+                type: "POST",
+                //data: { deviceCode: code },
+                dataType: "json",
+                cache: false,
+                beforeSend: function (jqXHR, settings) {
+                    xhrPool.push(jqXHR)
+                },
+                success: function (data) {
+
+                    setTimeout(function () {
+                        var cc = "";
+                        for (var i = 0; i < data.res.length; i++) {
+                            var customStatus = "";
+                            var log = data.res[i];
+                            var photo = log.Attendance_Photo;
+                           
+                            var arrPhoto = photo.split('\\');
+                            photo = "/" + arrPhoto[1] + "/" + arrPhoto[2];
+                            
+                            if (photo == null || photo == ""|| photo == "null") {
+                                photo = "/assets/img/avatars/no-image.jpg";
+                            }
+
+                            var today = new Date();
+                            
+                            
+                            var func = "openUserModal('" + photo + "','" + log.Employee_ID + "','" + log.Employee + "','" + log.DateTime + "','" + log.Verify_Mode + "','" + log.Device + "','" + log.Status + "')";
+                            var row = "<tr " + cc + "><td><a onclick=\"return " + func + "\"><img src='" + photo + "?" + today.toISOString() + "' alt='Not Found' onerror=this.src='/assets/img/avatars/no-image.jpg' class='img-fluid' style='width:60px;height:60px;cursor:pointer;'></a></td>";
+                            if (log.DoorStatus == "Opendoor")
+                                var doorstatus = '<span class="text-success">' + log.DoorStatus + '</span>';
+                            else
+                                var doorstatus = '<span class="text-danger">' + log.DoorStatus + '</span>';
+
+                            if (log.CheckIsSlave) {
+
+                                if (log.Status == 1)
+                                     customStatus = "Entrance";
+                                else
+                                     customStatus = "Exit";
+                            }
+                            else
+                            {
+
+                                customStatus = log.Status_Description
+                            }
+                            tableData.row.add([
+                                row,
+                                log.Employee_ID,
+                                log.Employee,
+                                log.DateTime,
+                                log.WorkCode_Description,
+                                log.Verify_Mode,
+                                log.Device,
+                                customStatus,
+                                doorstatus,
+                                log.ExtraStatus
+                            ]).draw(false);
+
+                        }
+                    }, delay);
+
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+
+
+            });
+
+
+        }
+        //GetLogs Ends
+
+
+         //GetLogs Start
+        function GetExUsers() {
+
+            $.ajax({
+                url: '@Url.Action("GetExUsers", "Home")',
+                type: "POST",
+                //data: { deviceCode: code },
+                dataType: "json",
+                cache: false,
+                beforeSend: function (jqXHR, settings) {
+
+                    xhrPool.push(jqXHR)
+                },
+                success: function (data) {
+                    setTimeout(function () {//settimeout
+                   // var cc = "";
+                        for (var i = 0; i < data.res.length; i++) {
+                            var log = data.res[i];
+
+                            var photo = log.Employee_Photo;
+                            if (photo == null || photo == "" || photo == "null") {
+                                photo = "/assets/img/avatars/no-image.jpg";
+                            }
+                            var row = "<td> <a href=/User/Edit?Code="+log.Employee_ID+"><img src='" + photo + "' alt='' class='img-fluid' style='width:60px;height:60px;cursor:pointer;'></a></td>";
+
+                           // var row = "<td><img src='" + photo + "' alt='' class='img-fluid' style='width:60px;height:60px;cursor:pointer;'></td>";
+
+                            var card = "";
+                            var pwd = "";
+                            var face = "<label class=\"switcher\"><input type=\"checkbox\" class=\"switcher-input\" checked='" + log.Face + "' disabled><span class=\"switcher-indicator\"><span class=\"switcher-yes\"><span class=\"ion ion-md-checkmark\"></span></span><span class=\"switcher-no\"><span class=\"ion ion-md-close\"></span></span></span></label>";
+                            var palm = "<label class=\"switcher\"><input type=\"checkbox\" class=\"switcher-input\" checked='" + log.Palm + "' disabled><span class=\"switcher-indicator\"><span class=\"switcher-yes\"><span class=\"ion ion-md-checkmark\"></span></span><span class=\"switcher-no\"><span class=\"ion ion-md-close\"></span></span></span></label>";
+                            var finger = "<label class=\"switcher\"><input type=\"checkbox\" class=\"switcher-input\" checked='" + log.FingerPrint + "' disabled><span class=\"switcher-indicator\"><span class=\"switcher-yes\"><span class=\"ion ion-md-checkmark\"></span></span><span class=\"switcher-no\"><span class=\"ion ion-md-close\"></span></span></span></label>";
+
+                            if (log.Card_No != "")
+                            {
+                                card = "<label class=\"switcher\"> <input type=\"checkbox\" class=\"switcher-input\" checked = \"checked\" disabled><span class=\"switcher-indicator\"><span class=\"switcher-yes\"><span class=\"ion ion-md-checkmark\"></span></span><span class=\"switcher-no\"><span class=\"ion ion-md-close\"></span></span></span></label>"
+                            }
+                            else
+                            {
+                                card = "<label class=\"switcher\"><input type=\"checkbox\" class=\"switcher-input\" disabled><span class=\"switcher-indicator\"><span class=\"switcher-yes\"><span class=\"ion ion-md-checkmark\"></span></span><span class=\"switcher-no\"><span class=\"ion ion-md-close\"></span></span></span></label>"
+                            }
+
+                            if (log.Password != "") {
+                                pwd = "<label class=\"switcher\"> <input type=\"checkbox\" class=\"switcher-input\" checked = \"checked\" disabled><span class=\"switcher-indicator\"><span class=\"switcher-yes\"><span class=\"ion ion-md-checkmark\"></span></span><span class=\"switcher-no\"><span class=\"ion ion-md-close\"></span></span></span></label>"
+                            }
+                            else {
+                                pwd = "<label class=\"switcher\"><input type=\"checkbox\" class=\"switcher-input\" disabled><span class=\"switcher-indicator\"><span class=\"switcher-yes\"><span class=\"ion ion-md-checkmark\"></span></span><span class=\"switcher-no\"><span class=\"ion ion-md-close\"></span></span></span></label>"
+                            }
+                            var uservalid = '<span class="text-danger">' + log.Valid_DateStart+' - '+ log.Valid_DateEnd + '</span>';
+                            tableExusers.row.add([
+                                row,
+                                log.Employee_ID,
+                                log.Employee_Name,
+                                log.User_Privilege,
+                                finger,
+                                face,
+                                palm,
+                                card,
+                                pwd,
+                                uservalid
+                            ]).draw(false);
+
+                        }
+                    }, delay);//settimeout
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+
+
+            });
+
+
+        }
+        //GetLogs Ends
+
+
+        function GetEventLogs(log) {
+           
+            var cc ="";
+             var photo = log.Photo;
+                        if (photo == null || photo == "") {
+                            photo = "/assets/img/avatars/no-image.jpg";
+                        }
+
+            var func = "openUserModal('" + photo + "','" + log.UserID + "','" + log.UserName + "','" + log.DateTime + "','" + log.VerifyMode + "','" + log.DeviceName + "','" + log.Status + "')";
+            var today = new Date();
+
+            var row = "<tr " + cc + "><td><a onclick=\"return " + func + "\"><img src='" + photo + "?" + today.toISOString() + "' alt='' class='img-fluid' style='width:60px;height:60px;cursor:pointer;'></a></td>";
+            var lastrow = "<td class='text-right'><span id='Status_" + log.DeviceID + "'>" + log.Status + "</span></td></tr>";
+            //    "<td>" + log.UserID + "</td>" +
+            //    "<td>" + log.UserName + "</td>" +
+            //    "<td>" + log.DateTime + "</td>" +
+            //    //"<td>" + log.WorkCode + "</td>" +
+            //    "<td>" + log.VerifyMode + "</td>" +
+            //    "<td>" + log.DeviceName + "</td>" +
+            //    "<td class='text-right'><span id='Status_" + log.DeviceID + "'>" + log.Status + "</span></td></tr>";
+
+            //$("#tblData tbody").prepend(row)
+
+            if (log.DoorStatus == "Opendoor")
+                var doorstatus = '<span class="text-success">' + log.DoorStatus + '</span>';
+            else
+                var doorstatus = '<span class="text-danger">' + log.DoorStatus + '</span>';
+
+            tableData.row.add([
+
+                row,
+                log.UserID,
+                log.UserName,
+                log.DateTime,
+                log.WorkCode,
+                log.VerifyMode,
+                log.DeviceName,
+                lastrow,
+                doorstatus,
+                log.ExtraStatus
+            ]).draw(false);
+
+            var isLive = $("#m_chkLive").is(":checked");
+            var deviceCheck = $("#ddlDevice").val();
+
+            if (isLive) {
+                if (deviceCheck == log.DeviceID) {
+                    //Get Modal Data
+                    GetUserModal(log);
+                }
+            }
+        }
+
+
+        function GenGraph(data) {
+            am4core.useTheme(am4themes_animated);
+            var chart = am4core.create("statistics-chart-1", am4charts.XYChart);
+
+            //chart.data = data;
+            // Add data
+            chart.data = JSON.parse(data);
+
+            // Create axes
+            var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+            categoryAxis.dataFields.category = "Period";
+            categoryAxis.renderer.minGridDistance = 20;
+
+            // First value axis
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+            // First series
+            var series = chart.series.push(new am4charts.LineSeries());
+            series.dataFields.valueY = "Out";
+            series.dataFields.categoryX = "Period";
+            series.name = "Out";
+            series.tooltipText = "{name}: [bold]{valueY}[/]";
+            series.strokeWidth = 4;
+            series.strokeDasharray = 10;
+            series.tensionY = 1;
+            series.tensionX = 0.8;
+            series.fill = am4core.color("#C4C2C3");
+            series.stroke = am4core.color("#C4C2C3");
+
+            // Second series
+            var series2 = chart.series.push(new am4charts.LineSeries());
+            series2.dataFields.valueY = "In";
+            series2.dataFields.categoryX = "Period";
+            series2.name = "In";
+            series2.tooltipText = "{name}: [bold]{valueY}[/]";
+            series2.strokeWidth = 4;
+            series2.tensionY = 1;
+            series2.tensionX = 0.8;
+            series2.fill = am4core.color("#28D094");
+            series2.stroke = am4core.color("#28D094");
+            var dropShadow = new am4core.DropShadowFilter();
+            dropShadow.dy = 15;
+            dropShadow.dx = 1;
+            dropShadow.blur = 8;
+            dropShadow.opacity = 0.5;
+            dropShadow.color = '#28D094';
+            series2.filters.push(dropShadow);
+
+            // Add cursor
+            chart.cursor = new am4charts.XYCursor();
+            categoryAxis.renderer.grid.template.strokeOpacity = 0;
+
+        }
+
+
+        function openUserModal(photo, id, name, datetime, verifymode, device, status) {
+            
+            if (name != null) {
+                if (name.includes("Stranger") || name.includes("Unregistered") || name.includes("Black List")) {
+                    $("#modal-table").addClass("table-danger");
+                } else {
+                    $("#modal-table").removeClass("table-danger");
+                }
+            }
+
+            var log = {};
+            log.Photo = photo;
+            log.UserID = id;
+            log.UserName = name;
+            log.DateTime = datetime;
+            log.VerifyMode = verifymode;
+            log.DeviceName = device;
+            log.Status = status;
+            //Get Modal Data
+            GetUserModal(log);
+            $("#modals-users").modal('toggle');
+
+        }
+
+
+        function GetDiv() {
+
+            if ($("#ddlDevice").val() == 0) {
+
+                $("#UserModalHide").css("display", "block");
+                $("#UserModal").css("display", "none");
+            } else {
+                $("#UserModalHide").css("display", "none");
+                $("#UserModal").css("display", "block");
+            }
+
+        } function GetUserModal(log) {
+           
+            if (log.UserName != null) {
+
+                if (log.UserName.includes("Stranger") || log.UserName.includes("Unregistered")) {
+                    $("#m_btnAddUser").show();
+                } else {
+                    $("#m_btnAddUser").hide();
+                }
+            }
+
+            if (log.Photo != null && log.Photo != '' && log.Photo != "null") {
+                
+                $("#m_Photo").attr("src", log.Photo);
+            }
+            else {
+                $("#m_Photo").attr("src", "/assets/img/avatars/no-image.jpg");
+            }
+            $("#m_ID").text(log.UserID);
+            $("#m_Name").text(log.UserName);
+            $("#m_DateTime").text(log.DateTime);
+            $("#m_Verify_Mode").text(log.VerifyMode);
+            $("#m_Device").text(log.DeviceName);
+            $("#m_Status").text(log.Status);
+
+        }
+
+        function AddUser(Date) {
+
+            $.ajax({
+                url: '@Url.Action("AddUser", "Home")',
+                type: "POST",
+                data: { Date: Date },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.res) {
+                        showSuccessNoti("User Added..");
+                        $("#modals-users").modal('toggle');
+                    }
+                },
+                    failure: function (response) {
+
+                    },
+                    error: function (err, status) {
+
+                    },
+                    complete: function (data) {
+                        l.stop();
+                    }
+
+                });
+        }
+
+
+    </script>
+
+    @*SignalR*@
+
+    @if (com != null)
+    {
+        if (!string.IsNullOrEmpty(com.Server_IP) && !string.IsNullOrEmpty(com.SignalR_Port))
+        {
+
+            <script src="http://@com.Server_IP:@com.SignalR_Port/signalr/hubs"></script>
+            <script type="text/javascript">
+
+                $(function () {
+
+                    var serverIP = '@com.Server_IP';
+                    var signalrPort = '@com.SignalR_Port';
+
+                    $.connection.hub.url = "http://" + serverIP + ":" + signalrPort + "/signalr/hubs";
+                    var notifier = $.connection.NotifierHub;
+
+                    notifier.client.eventLogs = function (log) {
+
+                        GetEventLogs(log);
+                        var hides = window.localStorage.getItem("hide");
+                        if (hides != 0) {
+                            GetGraph();
+                        }
+                    }
+                    notifier.client.refreshConnectedDevices = function (code, flag) {
+                        GetValues();
+                    }
+
+                    $.connection.hub.start().done(function () {
+                        console.log("SignalR Connected");
+                      
+                    })
+
+                    $.connection.hub.reconnected(function () {
+                        console.log("SignalR is reconnected.");
+                    });
+
+
+                    $.connection.hub.disconnected(function () {
+
+                        console.log("SignalR Disconnected.");
+                        //showWarningNoti("Unable to connect to server, Please check Ezface Service");
+                        if ($.connection.hub.lastError) {
+                            console.log("SignalR Disconnected. Reason: " + $.connection.hub.lastError.message);
+                        }
+
+                        setTimeout(function () {
+                            $.connection.hub.start().done(function () {
+                                console.log("SignalR Connected");
+                            });
+                        }, 5000); // Restart connection after 10 seconds.
+
+                    });
+
+
+                })
+
+            </script>
+        }
+    }
+
+}
+

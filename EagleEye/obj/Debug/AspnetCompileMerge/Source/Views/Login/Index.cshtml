@@ -1,0 +1,220 @@
+﻿@model EagleEye.DAL.Partial.Account_P
+@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+
+<!DOCTYPE html>
+<html lang="en" class="material-style layout-fixed">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="Bhumlu Bootstrap admin template made using Bootstrap 4, it has tons of ready made feature, UI components, pages which completely fulfills any dashboard needs." />
+    <meta name="keywords" content="Bhumlu, bootstrap admin template, bootstrap admin panel, bootstrap 4 admin template, admin template">
+    <meta name="author" content="Srthemesvilla" />
+    <link rel="icon" type="image/x-icon" href="assets/img/eye.ico">
+
+    <!-- Icon fonts -->
+    <link rel="stylesheet" href="~/assets/fonts/fontawesome.css">
+    <link rel="stylesheet" href="~/assets/fonts/ionicons.css">
+    <link rel="stylesheet" href="~/assets/fonts/linearicons.css">
+    <link rel="stylesheet" href="~/assets/fonts/open-iconic.css">
+    <link rel="stylesheet" href="~/assets/fonts/pe-icon-7-stroke.css">
+    <link rel="stylesheet" href="~/assets/fonts/feather.css">
+    <!-- Core stylesheets -->
+    <link rel="stylesheet" href="~/assets/css/bootstrap-material.css">
+    <link rel="stylesheet" href="~/assets/css/shreerang-material.css">
+    <link rel="stylesheet" href="~/assets/css/uikit.css">
+    <!-- Libs -->
+    <link rel="stylesheet" href="~/assets/libs/perfect-scrollbar/perfect-scrollbar.css">
+    <!-- Page -->
+    <link rel="stylesheet" href="~/assets/css/pages/authentication.css">
+    <link rel="stylesheet" href="~/assets/libs/growl/growl.css">
+    <link rel="stylesheet" href="~/assets/libs/ladda/ladda.css">
+
+
+</head>
+<body>
+   
+    <!-- [ Preloader ] Start -->
+    <div class="page-loader">
+        <div class="bg-primary"></div>
+    </div>
+    <!-- [ Preloader ] End -->
+    <!-- [ Content ] Start -->
+    <div class="authentication-wrapper authentication-2 ui-bg-cover ui-bg-overlay-container px-4" style="background-image: url('../assets/img/bg/21.jpg');">
+        <div class="ui-bg-overlay bg-dark opacity-25"></div>
+        <div class="authentication-inner py-5">
+            <div class="card">
+                <div class="p-4 p-sm-5">
+                    <!-- [ Logo ] Start -->
+                    <div class="d-flex justify-content-center align-items-center pb-2 mb-4">
+                        <div class="ui-w-60">
+                            <div class="w-100 position-relative">
+                                <img src="~/assets/img/eagleeye-dark.png" alt="Brand Logo" class="img-fluid">
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ Logo ] End -->
+                    <h5 class="text-center text-muted font-weight-normal mb-4">Login to Your Account</h5>
+                    <!-- Form -->
+                    @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "my-5" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(s => s.ReturnURL)
+                        <div class="form-group">
+                            <label class="form-label">User Name</label>
+                            @Html.TextBoxFor(s => s.UserName, new { @placeholder = "Username", @class = "form-control" })
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label d-flex justify-content-between align-items-end">
+                                <span>Password</span>
+
+                            </label>
+                            @Html.PasswordFor(s => s.Password, new { @placeholder = "Password", @class = "form-control" })
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center m-0">
+                            <label class="custom-control custom-checkbox m-0">
+                                @Html.CheckBoxFor(s => s.IsRemember, new { @class = "custom-control-input" })
+                                <span class="custom-control-label">Remember me</span>
+                            </label>
+                            <button type="button" class="btn btn-warning ladda-button text-center" data-style="expand-right" id="btnTest"><i class="fa fa-database"></i></button>
+                            <button type="submit" class="btn btn-primary">Sign In</button>
+                        </div>
+                    }
+                    <!-- [ Form ] End -->
+                </div>
+                @*<div class="card-footer py-3 px-4 px-sm-5 text-center">
+                    <button type="button" class="btn btn-info ladda-button" data-style="expand-right" id="btnDb" disabled><i class="fa fa-database"></i> Create Database</button>
+                </div>*@
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+   
+
+    @Scripts.Render("~/bundles/core")
+    @Scripts.Render("~/bundles/libs")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var error = "@TempData["ErrorMSG"]";
+
+            if (error != "")
+            {
+                showWarningNoti(error);
+            }
+
+
+            $("#btnTest").click(function(){
+            
+                TestConnection();
+
+            });
+            $("#btnDb").click(function () {
+
+                CreateDatabase(this);
+
+            });
+
+
+        });
+
+
+        function showWarningNoti(msg) {
+
+            $.growl.warning({
+                title: 'Warning!',
+                message: msg,
+                location: 'tr'
+            });
+
+        }
+        function showSuccessNoti(msg) {
+
+            $.growl({
+                title: 'Success',
+                message: msg,
+                location: 'tr'
+            });
+
+        }
+
+
+        function TestConnection() {
+
+          
+           
+            $.ajax({
+                url: '@Url.Action("TestConnection", "Login")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.flag) {
+
+                        alert("Database Connected");
+
+
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                failure: function (response) {
+                 
+                },
+                error: function (err, status) {
+                   
+                },
+                complete: function (data) {
+                  
+                }
+            });
+
+        }
+
+
+
+        function CreateDatabase(button){
+
+          var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("CreateDatabase", "Login")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.flag) {
+
+                        showSuccessNoti("Database Created");
+
+
+                    } else {
+                        showWarningNoti(data.msg);
+                    }
+                },
+                failure: function (response) {
+                    l.stop();
+                },
+                error: function (err, status) {
+                    l.stop();
+                },
+                complete: function (data) {
+         l.stop();
+                }
+            });
+
+        }
+    </script>
+
+</body>
+</html>

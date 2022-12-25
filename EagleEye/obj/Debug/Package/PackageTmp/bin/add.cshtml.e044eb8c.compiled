@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/Views/Accounts/Add.cshtml" hash="67377dc6" filehash="219bd2ecc4b6" flags="110000" assembly="App_Web_add.cshtml.e044eb8c" type="ASP._Page_Views_Accounts_Add_cshtml">
+    <filedeps>
+        <filedep name="/Views/Accounts/Add.cshtml" />
+    </filedeps>
+</preserve>

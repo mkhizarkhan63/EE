@@ -1,0 +1,854 @@
+﻿@model List<EagleEye.DAL.Partial.OperationLog_P>
+@using EagleEye.Common
+@using EagleEye.DAL.Partial
+@{
+    ViewBag.Title = "Operation Log";
+    Communication_P com = @SessionHandling.Communication;
+}
+@{ MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen>
+            List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Operation Log").FirstOrDefault();
+    }
+}
+<link rel="stylesheet" href="~/assets/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css">
+<link rel="stylesheet" href="~/assets/libs/bootstrap-select/bootstrap-select.css">
+
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-0">Operation Log</h4>
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="row">
+                <div class="col-sm-9">
+                    @if (Menu.Insert == true)
+                    {
+                        @*<button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnAdd" onclick="location.href='@Url.Action("Add", "TimeZone")'">
+                                <span class="fa fa-plus"></span>&nbsp;&nbsp;Add TimeZone
+                            </button>*@
+                    }
+
+                    <button id="daterange-4" class="btn btn-default dropdown-toggle md-btn-flat"></button>
+
+                    <select class="custom-select flex-grow-1 d-inline mr-2" id="ddlStatus" style="width:80px;">
+                        <option value="-1" selected="">All</option>
+                        <option value="0">Pending</option>
+                        <option value="1">Success</option>
+                        <option value="2">Failed</option>
+                    </select>
+
+                    <select class="custom-select flex-grow-1 d-inline mr-2" id="ddlDevice" style="width:150px;">
+                        <option value="0" selected="">All</option>
+                    </select>
+
+                    <button type="button" class="btn btn-primary waves-effect" id="btnSearch" onclick="Search(this)">
+                        <span class="fa fa-search"></span> Search
+                    </button>
+
+
+                </div>
+
+                <div class="col-sm-3 text-right">
+
+                    @*<div class="demo-inline-spacing">*@
+                    @if (Menu.Delete == true)
+                    {
+                        <button type="button" class="btn btn-danger waves-effect" id="btnDelete">
+                            <span class="fa fa-trash"></span> Delete Operation Log
+                        </button>
+                    }
+
+
+                    @*</div>*@
+                </div>
+            </div>
+            <hr />
+            <div class="card">
+                <div class="card-datatable table-responsive">
+                    @*<div class="text-center" id="divLoader">
+                            <img src="~/assets/img/loader.gif" /><br />
+                            Loading Data..
+                        </div>*@
+                    <table class="datatables-demo table table-striped table-bordered">
+                        <thead>
+                            @*<tr>
+                                <th>Filters</th>
+                                <th><input type="text" class="form-control" placeholder="search" id="txtTransID" /></th>
+                                <th><input type="text" class="form-control" placeholder="search" id="txtDeviceName" /></th>
+                                <th><input type="text" class="form-control" placeholder="search" id="txtAction" /></th>
+                                <th><input type="text" class="form-control" placeholder="search" id="txtLogDate" /></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>*@
+                            <tr>
+                                <th width="10px">
+                                    <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                        <input type="checkbox" class="custom-control-input" id="selectAll">
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </th>
+                               
+                                <th style="display:none;">Code</th>
+                                <th>Transaction ID</th>
+                                <th>Device</th>
+                                <th>Action</th>
+                                <th>Log Date Time</th>
+                                <th>User Name</th>
+                                <th>Status</th>
+                                <th>Message</th>
+                                <th>Device Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @*@foreach (var item in Model)
+                                {
+                                    <tr id="@item.Trans_ID">
+                                        <td></td>
+                                        <td style="display:none;"> @item.Trans_ID </td>
+                                        <td>@item.Trans_ID</td>
+                                        <td>@item.Device_ID - @item.Device_Name</td>
+                                        <td>@item.Action</td>
+                                        <td>@item.DateTime</td>
+                                        <td>@item.UserName</td>
+                                        @if (item.Status == "0")
+                                        {
+                                            <td class="text-warning" id="status_@item.Trans_ID">Pending</td>
+                                        }
+                                        else if (item.Status == "1")
+                                        {
+                                            <td class="text-success" id="status_@item.Trans_ID">Success</td>
+                                        }
+                                        else if (item.Status == "2")
+                                        {
+                                            <td class="text-danger" id="status_@item.Trans_ID">Failed</td>
+                                        }
+                                        <td id="msg_@item.Trans_ID">@item.Message</td>
+                                        @if (item.Device_Status == 1)
+                                        {
+                                            <td class="text-success" id="devstatus_@item.Trans_ID">Online</td>
+                                        }
+                                        else if (item.Device_Status == 0)
+                                        {
+                                            <td class="text-danger" id="devstatus_@item.Trans_ID">Offline</td>
+                                        }
+                                        else
+                                        {
+                                            <td id="devstatus_@item.Trans_ID">@item.Device_Status</td>
+                                        }
+                                    </tr>
+                                }*@
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Manage Auth -->
+<div class="modal fade" id="modals-auth" data-backdrop="static" style="padding-top:100px" data-keyboard="true" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Confirm Deletion
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <div class="form-row">
+                            <div class="form-group col-sm-8">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" id="txtPwd" placeholder="Password">
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <br />
+                                <input type="hidden" id="hdnAction" />
+                                <button type="button" class="btn btn-primary ladda-button" data-style="expand-right" id="btnConfirm">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- [ content ] End -->
+
+@section scripts{
+
+    <script src="~/assets/libs/moment/moment.js"></script>
+    <script src="~/assets/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js"></script>
+    <script src="assets/libs/bootstrap-select/bootstrap-select.js"></script>
+
+    @*Startup*@
+    <script type="text/javascript">
+        var startDate = moment();
+        var endDate = moment();
+        var table;
+       
+        $(document).ready(function () {
+
+         
+            //table = $('.datatables-demo').DataTable({
+            //    columnDefs: [{
+            //        orderable: false,
+            //        className: 'select-checkbox',
+            //        targets: 0
+            //    },
+            //    {
+            //        "visible": false,
+            //        "searchable": false
+            //    }],
+            //    select: {
+            //        style: 'multi',
+            //        selector: 'td:first-child'
+            //    },
+            //    //order: [
+            //    //    [1, 'asc']
+            //    //],
+            //    "createdRow": function (row, data, dataIndex) {
+
+            //        $(row).attr('id', data[1]);
+            //        $('td', row).eq(1).addClass("d-none");
+
+            //    }
+            //});
+
+
+            $('#daterange-4').daterangepicker({
+                startDate: startDate,
+                endDate: endDate,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                opens: ('right')
+            }, cb);
+
+            cb(startDate, endDate);
+
+            $("#selectAll").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    table.rows().select();
+                } else {
+                    table.rows().deselect();
+                }
+            });
+
+
+
+            GetDevices();
+            GetAllLogs();
+
+            $("#txtTransID").on('keyup', function () {
+
+                table.columns(2).search(this.value).draw();
+            });
+            $("#txtDeviceName").on('keyup', function () {
+                table.columns(3).search(this.value).draw();
+            });
+            $("#txtAction").on('keyup', function () {
+                table.columns(4).search(this.value).draw();
+            });
+
+            $("#txtLogDate").on('keyup', function () {
+                table.columns(5).search(this.value).draw();
+            });
+        });
+
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+        var selected = [];
+        function GetAllLogs() {
+            var Status = $("#ddlStatus").val();
+            var Devices = $("#ddlDevice").val();
+
+            //if (button != null) {
+            //    var l = Ladda.create(button);
+            //    l.start();
+            //}
+
+            table = $('.datatables-demo').DataTable({
+
+              
+                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "sAjaxSource": "/OperationLog/GetAllLogs",
+                "fnServerParams": function (aoData) {
+                    aoData.push({ name: "start", value: startDate.format('YYYY-MM-DD') });
+                    aoData.push({ name: "end", value: endDate.format('YYYY-MM-DD') });
+                    aoData.push({ name: "status", value: Status.toString() });
+                    aoData.push({ name: "devices", value: Devices.toString() });
+
+                },
+                "bServerSide": true,
+                "bProcessing": true,
+                "bSearchable": true,
+                "language": {
+                    "emptyTable": "No record found.",
+                    "processing":
+                        '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+                },
+                "rowCallback": function (row, data) {
+                    
+                    if ($.inArray(data.Code, selected) !== -1) {
+                        $(row).addClass('selected');
+                    }
+                },
+
+                columnDefs: [
+                    {
+                        "data": "Empty",
+                        orderable: false,
+                        sortable: false,
+                        className: 'select-checkbox',
+                        targets: 0
+
+                    },
+                    {
+                        "data": "Code",
+                        orderable: false,
+                        sortable: false,
+                        "visible": false,
+
+                        targets: 1
+                    },
+                    {
+                        "data": "Trans_ID",
+                        "autoWidth": true,
+                        "searchable": true,
+
+                        targets: 2
+
+                    },
+                    {
+                        "data": "Device_ID",
+                        "autoWidth": true,
+                        "searchable": true,
+                        "render": function (data, type, row) {
+                            var device = row.Device_ID + " - " + row.Device_Name;
+                            return device;
+                        },
+                        targets: 3
+
+                    },
+                    {
+                        "data": "Action",
+                        "autoWidth": true,
+                        "searchable": false,
+
+                        targets: 4
+
+                    },
+                    {
+                        "data": "DateTime",
+                        "autoWidth": true,
+                        "searchable": false,
+
+                        targets: 5
+
+                    },
+                    {
+                        "data": "UserName",
+                        "autoWidth": true,
+                        "searchable": false,
+
+                        targets: 6
+
+
+                    },
+                    {
+
+                        "data": "Status",
+                        "autoWidth": true,
+                        "searchable": false,
+                        "render": function (data, type, row) {
+
+                            switch (data) {
+                                case "0":
+                                    return status = '<span class="text-warning" id="status_' + row.Trans_ID + '">Pending</span>';
+                                    break;
+                                case "1":
+                                    return status = '<span class="text-success" id="status_' + row.Trans_ID + '">Success</span>';
+                                    break;
+                                case "2":
+                                    return status = '<span class="text-danger" id="status_' + row.Trans_ID + '">Failed</span>';
+                                    break;
+                            }
+                        },
+                        targets: 7
+
+
+                    },
+                    {
+                        "data": "Message",
+                        "autoWidth": true,
+                        "searchable": false,
+
+                        targets: 8
+
+
+                    },
+                    {
+                        "data": "Device_Status",
+                        "autoWidth": true,
+                        "searchable": true,
+                        "render": function (data, type, row) {
+                            var DeviceStatus = "";
+                            switch (data) {
+                                case 0:
+                                    DeviceStatus = '<span class="text-danger" id="devstatus_' + row.Trans_ID + '">Offline</span>';
+                                    break;
+                                case 1:
+                                    DeviceStatus = '<span class="text-success" id="devstatus_' + row.Trans_ID + '">Online</span>';
+                                    break;
+                            }
+                            return DeviceStatus;
+                        },
+                        targets: 9
+
+
+                    },
+
+
+                ],
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+            });
+
+           
+
+        }
+
+
+
+
+        var selectedLog = [];
+        $(function () {
+
+            //$("#btnDelete").click(function () {
+
+            //    // var button = this;
+            //    $.each(table.rows('.selected').nodes(), function (i, item) {
+
+            //        var data = table.row(this).data();
+            //        selectedLog.push(data[1]);
+
+            //    });
+
+            //    Delete(selectedLog, this);
+            //});
+
+
+            $("#btnDelete").click(function () {
+                var l = Ladda.create(this);
+                l.start();
+                if (table.rows('.selected').count() > 0) {
+                    // var button = this;
+                    $("#modals-auth").modal('toggle');
+                    //$.each(table.rows('.selected').nodes(), function (i, item) {
+
+                    //    var data = table.row(this).data();
+                    //    selectedLog.push(data[1]);
+
+                    //});
+                }
+                else {
+                    showWarningNoti("Please Select Logs To Proceed...");
+                }
+
+                l.stop();
+            });
+
+            $("#btnConfirm").click(function () {
+               // var selectedUser = [];
+
+                if (table.rows('.selected').count() > 0) {
+
+
+                    $.each(table.rows('.selected').nodes(), function (i, item) {
+
+                        var data = table.row(this).data();
+
+                        selectedLog.push(data.Code);
+
+                    });
+                    Confirm(selectedLog, this);
+                } else {
+                    showWarningNoti("Please Select Logs To Proceed...");
+                }
+               
+                //if (table.rows('.selected').count() > 0) {
+                //    $.each(table.rows('.selected').nodes(), function (i, item) {
+                     
+                //        var data = table.row(this).data();
+                      
+                //        selectedLog.push(data[0]);
+                //    });
+
+                //    Confirm(selectedLog, this);
+                //}
+                //else {
+                //    showWarningNoti("Please Select Logs To Proceed...");
+                //}
+            });
+        });
+    </script>
+
+    @*Function*@
+    <script type="text/javascript">
+
+        function cb(start, end) {
+
+            $('#daterange-4').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            startDate = start;
+            endDate = end;
+        }
+
+        function Search(button) {
+            if (button != null) {
+                var l = Ladda.create(button);
+                l.start();
+               
+            }
+
+           
+            table.clear();
+            table.destroy();
+            GetAllLogs();
+             l.stop();
+
+        }
+
+        function GetDevices() {
+
+            $.ajax({
+                url: '@Url.Action("GetAllDevices", "Device")',
+                type: "POST",
+                //data: { lstLogCode: log },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+
+                        for (var i = 0; i < data.result.length; i++) {
+
+                            $("#ddlDevice").append(new Option(data.result[i].Device_Name, data.result[i].Device_ID));
+                        }
+
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                }
+            });
+        }
+
+
+        function Confirm(log, button) {
+            var l = Ladda.create(button);
+             l.start();
+            var password = $("#txtPwd").val();
+
+            $.ajax({
+                url: '@Url.Action("ConfirmPassword", "OperationLog")',
+                type: "POST",
+                data: { Password: password, lstLogs: log },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    $("#modals-auth").modal('toggle');
+                    $("#txtPwd").val("");
+
+                            if (data.result) {
+                                showSuccessNoti('Log(s) Deleted..');
+                                table.rows('.selected').remove().draw(false);
+                            }
+                            else {
+                                showWarningNoti('Credential not correct..')
+                            }
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+
+        @*function GetAllLogs(button) {
+
+            var Status = $("#ddlStatus").val();
+            var Devices = $("#ddlDevice").val();
+
+            if (button != null) {
+            var l = Ladda.create(button);
+                l.start();
+            }
+
+            $.ajax({
+                url: '@Url.Action("GetAllLogs", "OperationLog")',
+                type: "POST",
+                data: { start: startDate.format('YYYY-MM-DD'), end: endDate.format('YYYY-MM-DD'), status: Status, devices: Devices },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        table.clear().draw();
+                        for (var i = 0; i < data.result.length; i++) {
+
+                            var device = data.result[i].Device_ID + " - " + data.result[i].Device_Name;
+                            var status = "";
+                            switch (data.result[i].Status) {
+                                case "0":
+                                    status = '<span class="text-warning" id="status_' + data.result[i].Trans_ID + '">Pending</span>';
+                                    break;
+                                case "1":
+                                    status = '<span class="text-success" id="status_' + data.result[i].Trans_ID +'">Success</span>';
+                                    break;
+                                case "2":
+                                    status = '<span class="text-danger" id="status_' + data.result[i].Trans_ID +'">Failed</span>';
+                                    break;
+                            }
+                            var DeviceStatus = "";
+                            switch (data.result[i].Device_Status) {
+                                case 0:
+                                    DeviceStatus = '<span class="text-danger" id="devstatus_' + data.result[i].Trans_ID + '">Offline</span>';
+                                    break;
+                                case 1:
+                                    DeviceStatus = '<span class="text-success" id="devstatus_' + data.result[i].Trans_ID + '">Online</span>';
+                                    break;
+                            }
+
+                            var msg = '<span id="msg_' + data.result[i].Trans_ID + '">' + data.result[i].Message+'</span>'
+                            table.row.add(
+                                [
+                                "",
+                                data.result[i].Code,
+                                data.result[i].Trans_ID,
+                                device,
+                                data.result[i].Action,
+                                data.result[i].DateTime,
+                                data.result[i].UserName,
+                                status,
+                                msg,
+                                DeviceStatus
+                            ]).draw(false);
+                        }
+                    }
+                    $("#divLoader").hide();
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    if (button != null)
+                    l.stop();
+                }
+            });
+        }*@
+        //Delete Start
+        function Delete(log, button) {
+
+            var l = Ladda.create(button);
+            l.start();
+            $.ajax({
+                url: '@Url.Action("DeleteLog", "DeviceOfflineLog")',
+                type: "POST",
+                data: { lstLogCode: log },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+
+                        swal({
+                            title: "Device Log deleted successfully!",
+                            type: "success",
+                            confirmButtonClass: 'btn-success',
+                            confirmButtonText: 'Ok!'
+                        });
+                        table.rows('.selected').remove().draw(false);
+                    } else {
+                        showWarningNoti("Device Log(s) cannot be deleted..");
+                       // table.rows('.selected').remove().draw(false);
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //Delete Ends
+
+
+        //SendOperationLog Starts
+        function SendOperationLog(trans_id, status, msg, devstatus) {
+
+            $("#status_" + trans_id).removeClass("text-warning");
+            $("#status_" + trans_id).removeClass("text-danger");
+
+            if (status == "0") {
+                $("#status_" + trans_id).addClass("text-warning");
+                $("#status_" + trans_id).html('Pending');
+                $("#msg_" + trans_id).html('<span>'+msg+'</span>');
+
+            } else if(status == "1") {
+                $("#status_" + trans_id).addClass("text-success");
+                $("#status_" + trans_id).html('Success');
+                $("#msg_" + trans_id).html('<span>' + msg + '</span>');
+            } else if (status == "2") {
+                $("#status_" + trans_id).addClass("text-danger");
+                $("#status_" + trans_id).html('Failed');
+                $("#msg_" + trans_id).html('<span>' + msg + '</span>');
+            }
+
+
+           if (devstatus == "1") {
+               $("#devstatus_" + trans_id).removeClass("text-danger");
+               $("#devstatus_" + trans_id).addClass("text-success");
+               $("#devstatus_" + trans_id).html("<div style='color:#28d094;'>Online</div>");
+
+            } else {
+               $("#devstatus_" + trans_id).addClass("text-success");
+               $("#devstatus_" + trans_id).removeClass("text-danger");
+               $("#devstatus_" + trans_id).html("<div style='color:red;'>Offline</div>");
+            }
+
+        }
+        //SendOperationLog Ends
+
+    </script>
+
+
+    @*SignalR*@
+
+
+    <script>
+        var con2 = $.hubConnection("/signalr/hubs");
+        var hub2 = con2.createHubProxy("WebHub");
+        con2.start({ transport: ["webSockets"] }).done(function () {
+            console.log("Web SignalR Connected");
+        });
+
+        con2.serverTimeoutInMilliseconds = 1000 * 60 * 10;//10 min
+        hub2.connection.logging = true;
+
+        con2.reconnected(function () {
+            console.log("Web SignalR is reconnected.");
+
+            if (hub2.connection.lastError) {
+                console.log("Web SignalR reconnected. Reason: " + hub2.connection.lastError.message);
+            }
+        });
+
+        con2.connectionSlow(function () {
+            console.log("Web SignalR is connectionSlow.");
+        });
+
+        con2.stateChanged(function () {
+            console.log("Web SignalR is stateChanged.");
+        });
+
+        con2.disconnected(function () {
+
+            console.log("Web SignalR Disconnected.");
+            if (hub2.connection.lastError) {
+                console.log("Web SignalR Disconnected. Reason: " + hub2.connection.lastError.message);
+            }
+
+            setTimeout(function () {
+                con2.start().done(function () {
+                    console.log("Web SignalR Connected");
+                });
+            }, 5000); // Restart connection after 5 seconds.
+
+        });
+
+
+    </script>
+
+
+    @if (com != null)
+    {
+        if (!string.IsNullOrEmpty(com.Server_IP) && !string.IsNullOrEmpty(com.SignalR_Port))
+        {
+
+            <script src="http://@com.Server_IP:@com.SignalR_Port/signalr/hubs"></script>
+            <script type="text/javascript">
+
+                $(function () {
+
+                    var serverIP = '@com.Server_IP';
+                    var signalrPort = '@com.SignalR_Port';
+
+                    $.connection.hub.url = "http://" + serverIP + ":" + signalrPort + "/signalr/hubs";
+                    var notifier = $.connection.NotifierHub;
+
+                    notifier.client.sendOperationLog = function (trans_id, status, msg, devstatus) {
+
+                        SendOperationLog(trans_id, status, msg, devstatus);
+                    }
+                    $.connection.hub.start().done(function () {
+                        console.log("SignalR Connected");
+                    })
+
+                    $.connection.hub.reconnected(function () {
+                        console.log("SignalR is reconnected.");
+                    });
+
+
+                    $.connection.hub.disconnected(function () {
+
+                        console.log("SignalR Disconnected.");
+
+                        if ($.connection.hub.lastError) {
+                            console.log("SignalR Disconnected. Reason: " + $.connection.hub.lastError.message);
+                        }
+
+                        setTimeout(function () {
+                            $.connection.hub.start().done(function () {
+                                console.log("SignalR Connected");
+                            });
+                        }, 10000); // Restart connection after 10 seconds.
+
+                    });
+                })
+
+            </script>
+        }
+    }
+
+}

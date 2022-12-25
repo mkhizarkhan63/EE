@@ -1,0 +1,1897 @@
+﻿@model EagleEye.DAL.Partial.Device_P
+@using EagleEye.Common
+@using EagleEye.DAL.Partial
+
+@{
+    ViewBag.Title = "Edit Device";
+    Communication_P com = @SessionHandling.Communication;
+}
+<link href="~/assets/css/loaders.css" rel="stylesheet" />
+<style>
+    .btn-dark.active {
+        background: #28D094 !important;
+    }
+</style>
+
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <div class="loadingDIV">
+        <p>Please wait...</p>
+        <div class="chaotic-orbit">
+
+        </div>
+    </div>
+
+    <input type="hidden" name="name" id="DeviceCode" value="@Model.Code" />
+    <div id="mainContent">
+        <h4 class="font-weight-bold py-3 mb-0">Device Details <button type="button" class="btn btn-primary float-right ladda-button" data-style="expand-right" id="btnSave">Apply changes</button></h4>
+        <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href='@Url.Action("Index","Device")'><i class="feather icon-home"></i></a></li>
+                <li class="breadcrumb-item"><a href='@Url.Action("Index","Device")'>Device</a></li>
+                <li class="breadcrumb-item active">Detail</li>
+                <li class="breadcrumb-item">@Model.Device_Name</li>
+            </ol>
+        </div>
+
+        <div class="card overflow-hidden">
+            <div class="row no-gutters row-bordered row-border-light">
+                <div class="col-md-3 pt-0">
+                    <div class="list-group list-group-flush account-settings-links">
+                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#device-info"><i class="fa fa-info"></i> Information</a>
+                        @*<a class="list-group-item list-group-item-action" data-toggle="list" href="#device-network"><i class="fa fa-cloud"></i>  Network</a>*@
+                        @*@if (Model.Device_Status_Info != null)
+                            {*@
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#device-capacity"><i class="fa fa-database"></i> Capacity</a>
+                        @*}*@
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#device-attendance"><i class="fa fa-calendar-alt"></i> Time Attendance</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#device-access"><i class="fa fa-check-circle"></i> Access Control</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#device-sound" onclick="LoadSoundBar()"><i class="fa fa-volume-up"></i> Sound / Display</a>
+                        @*<a class="list-group-item list-group-item-action" data-toggle="list" href="#device-setting"><i class="fa fa-wrench"></i> Advance Setting</a>*@
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="device-info">
+
+                            <div class="card-body">
+
+                                <h5 class="text-primary"><i class="fa fa-info"></i> Information</h5>
+                                <hr />
+                                <br />
+
+                                <div class="form-row">
+                                    <div class="form-group col-sm-3">
+                                        <label class="form-label">Brand</label>
+                                        <input type="text" class="form-control mb-1" value="EAGLE EYE" disabled>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="form-group col-sm-3">
+                                        <label class="form-label">Model</label>
+                                        <input type="text" class="form-control mb-1" value="EAGLE EYE PRO" disabled>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="form-group col-sm-3">
+                                        <label class="form-label">Serial Number</label>
+                                        <input type="hidden" id="hdnCode" value="@Model.Code" />
+                                        <input type="hidden" id="hdnType" value="@Model.Device_Type" />
+                                        <input type="text" class="form-control mb-1" value="@Model.Device_ID" disabled>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="form-group col-sm-3">
+                                        <label class="form-label">Reader ID</label>
+                                        <input type="number" class="form-control" value="@Model.Reader_ID" id="txtReaderId" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g / '$1');" onkeyup="stopreaderid(this)" onchange="stopnegative(this)" min="0">
+                                        <div class="clearfix"></div>
+                                    </div>
+
+                                </div>
+                                <br />
+
+                                @*<div class="form-row">
+                                        <div class="form-group col-sm-3">
+                                            <label class="form-label">Firmware</label>
+                                            <input type="text" class="form-control" id="txtFirmware" value="@Model.Firmware" disabled>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="form-group col-sm-3">
+                                            <label class="form-label">Firmware FileName</label>
+                                            <input type="text" class="form-control" id="txtFirmware_Filename" value="@Model.Firmware_Filename" disabled>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>*@
+
+                                <div class="form-row">
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Device Name</label>
+                                        <input type="text" class="form-control bootstrap-maxlength-example" maxlength="20" value="@Model.Device_Name" id="txtDeviceName">
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <br />
+
+                                        <button type="button" class="btn btn-primary ladda-button" data-style="expand-right" style="font-size:12px" id="btnSetName">Set Device Name</button>
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                        <label class="form-label">Location</label>
+                                        <select class='form-control' id='txtLocation'>
+                                            @foreach (var item in ViewBag.Loc_list)
+                                            {
+                                                <option value=@item.Code>@item.Description </option>
+
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="form-row">
+                                    <div class="col-sm-4">
+                                        @*<input type="hidden" id="hdnTime" />*@
+                                        <label class="form-label">Date Time </label>
+                                        <input type="datetime-local" class="form-control mb-1 bootstrap-example" id="txtTime" onkeydown="return false" disabled readonly>
+                                        <label class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="chkServerDate">
+                                            <span class="custom-control-label font-weight-normal">Get Current Server Date Time</span>
+                                        </label>
+                                        <div class="clearfix"></div>
+                                    </div>
+
+
+                                    <div class="col-sm-4">
+                                        <br />
+                                        <button type="button" class="btn btn-primary ladda-button" data-style="expand-right" id="btnSetTime">Set Date Time</button>
+                                    </div>
+                                    <div class="col-sm-4" style="margin:25px 0px 0 -65px">
+                                        <label class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="chckSlaveDevice">
+                                            <span class="custom-control-label">Anti Passback (APB)</span>
+                                        </label>
+                                    </div>
+
+                                    @*<div class="form-group col-sm-3">
+                                            <label class="form-label">Last Polled Record Time</label>
+                                            <input type="text" class="form-control" value="@Model.Device_LastStatusTime" id="txtLastPolled" disabled>
+                                            <div class="clearfix"></div>
+                                        </div>*@
+                                    @*<div class="form-group col-sm-3">
+                                            <br />
+                                            <button type="button" class="btn btn-primary ladda-button" data-style="expand-right" id="btnSetTime">Sync Date Time</button>
+                                        </div>*@
+                                </div>
+                                @*<br />*@
+
+                                @*<div class="form-row">
+                                        <div class="form-group col-sm-4">
+                                            <label class="form-label">Date Time </label>
+                                            <input type="datetime-local" class="form-control mb-1 bootstrap-example" id="txtTime" onkeydown="return false">
+                                            <label class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="chkServerDate">
+                                                <span class="custom-control-label font-weight-normal">Get Current Date Time</span>
+                                            </label>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <br />
+                                            <button type="button" class="btn btn-primary ladda-button" data-style="expand-right" id="btnSetTime">Set Date Time</button>
+                                        </div>
+                                    </div>*@
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="device-capacity">
+                            <div class="card-body">
+                                <h5 class="text-primary"><i class="fa fa-database"></i> Capacity</h5>
+                                <hr />
+                                <br />
+                                <div class="form-row">
+                                    @if (Model.Max_Employee != "0")
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <h5>Total Users</h5>
+                                            <span style="font-size:30px;color:#28D094;" id="Real_Employee"></span> / <span id="Max_Employee"></span>
+
+                                        </div>
+                                    }
+
+                                    @if (Model.Max_FaceReg != "0")
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <h5>Face Users</h5>
+                                            <span style="font-size:30px;color:#28D094;" id="Real_FaceReg"></span> / <span id="Max_FaceReg"></span>
+                                        </div>
+                                    }
+                                    @if (Model.Max_FPReg != "0")
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <h5>Fingers Users</h5>
+                                            <span style="font-size:30px;color:#28D094;" id="Real_FPReg"></span> / <span id="Max_FPReg"></span>
+
+                                        </div>
+                                    }
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-sm-4">
+
+                                    </div>
+                                    @if (Model.Max_FaceReg != "0")
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <h9 style="font-size:smaller;">Total Face Users In DB: </h9>
+                                            <span style="font-weight:500;color:#00a277;">@Model.FaceCount</span>
+
+                                        </div>
+                                    }
+                                    @if (Model.Max_FPReg != "0")
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <h9 style="font-size:smaller;">Total Finger Users In DB: </h9>
+                                            <span style="font-weight:500;color:#00a277;">@Model.FingerCount</span>
+
+                                        </div>
+                                    }
+                                </div>
+                                <hr />
+                                <div class="form-row">
+
+                                    @if (Model.Max_IDCardReg != "0")
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <h5>Card Users</h5>
+                                            <span style="font-size:30px;color:#28D094;" id="Real_IDCardReg"></span> / <span id="Max_IDCardReg"></span>
+
+                                        </div>
+
+                                    }
+                                    @if (Model.Max_PasswordReg != "0")
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <h5>PIN Users</h5>
+                                            <span style="font-size:30px;color:#28D094;" id="Real_PasswordReg"></span> / <span id="Max_PasswordReg"></span>
+
+                                        </div>
+                                    }
+                                    @if (Model.Max_PvReg != "0")
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <h5>Palm Users</h5>
+                                            <span style="font-size:30px;color:#28D094;" id="Real_PvReg"></span> / <span id="Max_PvReg"></span>
+
+                                        </div>
+                                    }
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-sm-4">
+
+                                    </div>
+                                    <div class="form-group col-sm-4">
+
+                                    </div>
+                                    @if (Model.Max_PvReg != "0")
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <h9 style="font-size:smaller;">Total Palm Users In DB: </h9>
+                                            <span style="font-weight:500;color:#00a277;">@Model.PalmCount</span>
+
+                                        </div>
+                                    }
+                                </div>
+                                @*<div class="form-row">
+                                        @if (Model.Max_IDCardReg != "0")
+                                        {
+                                            <div class="form-group col-sm-4">
+                                                <h9 style="font-size:smaller;">Total Card Users Enrolled</h9>
+                                                <span style="font-weight:500;color:#00a277;">1200</span>
+                                            </div>}
+                                        @if (Model.Max_PasswordReg != "0")
+                                        {
+                                            <div class="form-group col-sm-4">
+                                                <h9 style="font-size:smaller;">Total PIN Users Enrolled</h9>
+                                                <span style="font-weight:500;color:#00a277;">1200</span>
+
+                                            </div>
+                                        }
+                                        @if (Model.Max_PvReg != "0")
+                                        {
+                                            <div class="form-group col-sm-4">
+                                                <h9 style="font-size:smaller;">Total Palm Users Enrolled</h9>
+                                                <span style="font-weight:500;color:#00a277;">1200</span>
+
+                                            </div>
+                                        }
+                                    </div>*@
+                                <hr />
+
+                                <div class="form-row">
+                                    @if (Model.Max_Manager != "0")
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <h5>Administrators</h5>
+                                            <span style="font-size:30px;color:#28D094;" id="Real_Manager"></span> / <span id="Max_Manager"></span>
+                                        </div>
+                                    }
+                                    @if (Model.Max_Record != "0")
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <h5>Logs</h5>
+                                            <span style="font-size:30px;color:#28D094;" id="Max_Record"></span>
+
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="device-attendance">
+                            <div class="card-body">
+
+                                <h5 class="text-primary"><i class="fa fa-calendar-alt"></i> Time Attendance</h5>
+                                <hr />
+                                <br />
+
+                                <div class="form-row">
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Punch Interval</label>
+                                        <input type="number" class="form-control" id="txtReverify_Time" min="0" max="60" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g / '$1');" onkeyup="stoppunchinterval(this)" onchange="stopnegative(this)">
+                                        <label style="color:#a1a1a1">0 ~ 60 Minutes</label>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    @if (Model.Show_ResultTime != null)
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <label class="form-label">Verified Screen</label>
+                                            <input type="number" class="form-control" id="txtShow_ResultTime" min="0" max="30" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g / '$1');" onkeyup="stopverifiedscreen(this)" onchange="stopnegative(this)">
+                                            <label style="color:#a1a1a1">0 ~ 30 seconds</label>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    }
+                                </div>
+                                <br />
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="device-access">
+                            <div class="card-body">
+                                @if (Model.Device_Type != "ATTENDENCE")
+                                {
+                                    <h5 class="text-primary"><i class="fa fa-clock"></i> Alarm</h5>
+                                    <hr />
+                                    <br />
+                                    <div class="form-row">
+                                        @*<div class="form-group col-sm-4">
+                    <label class="switcher">
+                        <input type="checkbox" class="switcher-input" id="chkUse_Alarm">
+                        <span class="switcher-indicator">
+                            <span class="switcher-yes"></span>
+                            <span class="switcher-no"></span>
+                        </span>
+                        <span class="switcher-label">Turn On/Off Alarm</span>
+                    </label>
+                    <input type="number" class="form-control" placeholder="Seconds" id="txtAlarm_Delay" min="0" onchange="stopnegative(this)">
+                    <div class="clearfix"></div>
+                </div>*@
+                                        <div class="form-group col-sm-4">
+                                            <label class="form-label">Sensor Type</label>
+                                            @Html.DropDownListFor(x => x.DoorMagnetic_Type, EnumHelper.GetSelectList(typeof(Enumeration.DoorMagnetic_Type)), new { @class = "form-control", @onchange = "EnableSensorDelay()" })
+                                            @*<div class="clearfix"></div>*@
+                                            @*<div class="form-group row">
+                        <label class="col-form-label col-sm-auto">Sensor Delay: </label>
+                        <div class="col-sm-12 col-sm-auto">
+                            <input type="number" class="form-control" placeholder="Seconds" id="txtDoorMagnetic_Delay" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g / '$1');" onkeyup="stopdoormagnetic(this)" min="0" onchange="stopnegative(this)">
+                            <div class="clearfix"></div>
+                            <label style="color:#a1a1a1">0 ~ 200 Seconds</label>
+                        </div>
+                    </div>*@
+                                        </div>
+                                        <div class="form-group col-sm-4" id="sensordelay">
+                                            <label class="form-label">Sensor Delay: </label>
+                                            <input type="number" class="form-control" placeholder="Seconds" id="txtDoorMagnetic_Delay" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g / '$1');" onkeyup="stopdoormagnetic(this)" min="0" onchange="stopnegative(this)">
+                                            <div class="clearfix"></div>
+                                            <label style="color:#a1a1a1">0 ~ 200 Seconds</label>
+                                        </div>
+                                        @*<div class="form-group col-sm-4">
+                    <label class="switcher">
+                        <input type="checkbox" class="switcher-input" id="chkAnti_back">
+                        <span class="switcher-indicator">
+                            <span class="switcher-yes"></span>
+                            <span class="switcher-no"></span>
+                        </span>
+                        <span class="switcher-label">Anti Passback</span>
+                    </label>
+                </div>*@
+                                    </div>
+                                    <br />
+                                    <br />
+                                }
+                                <h5 class="text-primary"><i class="fa fa-lock"></i> Lock Control</h5>
+                                <hr />
+                                <br />
+                                <div class="form-row">
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Lock Delay</label>
+                                        <input type="number" class="form-control" id="txtOpenDoor_Delay" min="0" max="200" @*oninput="stopdoor_delay(this)"*@ oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g / '$1');" onchange="stopnegative(this)" onkeyup="stopdoor_delay(this)">
+                                        <label style="color:#a1a1a1">0 ~ 200 seconds</label>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">AVL Log Alerts</label>
+                                        <input type="number" class="form-control" id="txtGlog_Warning" min="0" max="999" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g / '$1');" onkeyup="stopglogwarning(this)" onchange="stopnegative(this)">
+                                        <label style="color:#a1a1a1">0 ~ 999</label>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    @if (Model.Multi_Users != null)
+                                    {
+                                        <div class="form-group col-sm-4">
+                                            <label class="form-label">Users to Open</label>
+                                            <input type="number" class="form-control" id="txtMultiUsers" min="1" max="10" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g / '$1');" onkeyup="stopmultiuser(this)" onchange="stopnegative(this)">
+                                            <label style="color:#a1a1a1">1 ~ 10</label>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    }
+                                </div>
+                                <br />
+                                <div class="form-row">
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Wiegand Type</label>
+                                        <select class="form-control mb-1" id="ddlWiegand_Type">
+                                            <option value="0" disabled selected>Select</option>
+                                            @foreach (var item in Enumeration.WeigandProtocol)
+                                            {
+                                                <option value="@item.Code">@item.Name</option>
+                                            }
+                                        </select>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Wiegand Input</label>
+                                        @Html.DropDownListFor(x => x.Wiegand_Input, EnumHelper.GetSelectList(typeof(Enumeration.Wiegand_Input)), new { @class = "form-control" })
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Wiegand Output</label>
+                                        @Html.DropDownListFor(x => x.Wiegand_Output, EnumHelper.GetSelectList(typeof(Enumeration.Wiegand_Output)), new { @class = "form-control" })
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="form-row">
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Heart Beat Interval</label>
+                                        <input type="number" class="form-control" id="recieveInterval" value="@Model.Receive_Interval" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g / '$1');" min="1" max="60" onkeyup="stopRecieveInterval(this)" onchange="stopnegative(this)">
+                                        <div class="clearfix"></div>
+                                        <label style="color:#a1a1a1">1 ~ 60 Seconds</label>
+                                    </div>
+                                    
+                                </div>
+                                <br />
+                                <br />
+                                @*<h5 class="text-primary"><i class="fa fa-clipboard-list"></i> Shift Rules</h5>
+        <hr />
+        <div class="form-row">
+            <div class="form-group col-sm-4">
+                <label class="form-label">Allow EarlyTime</label>
+                <input type="number" class="form-control" id="txtAllow_EarlyTime" min="0" onchange="stopnegative(this)">
+                <div class="clearfix"></div>
+            </div>
+            <div class="form-group col-sm-4">
+                <label class="form-label">Allow LateTime</label>
+                <input type="number" class="form-control" id="txtAllow_LateTime" min="0" onchange="stopnegative(this)">
+                <div class="clearfix"></div>
+            </div>
+        </div>*@
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="device-sound">
+                            <div class="card-body">
+
+                                <h5 class="text-primary"><i class="fa fa-volume-up"></i> Sound</h5>
+                                <hr />
+                                <br />
+                                <div class="form-row">
+
+                                    <div class="form-group col-sm-8">
+                                        <input id="bs-slider" type="text" @*onchange="SetVolume()"*@ @*data-slider-value="@Model.Volume"*@ data-slider-ticks-snap-bounds="1" data-slider-min="0" data-slider-max="10" data-slider-step="1">
+                                        <div class="clearfix"></div>
+                                    </div>
+
+                                </div>
+                                <br />
+                                <br />
+                                <h5 class="text-primary"><i class="fa fa-lightbulb"></i> Display</h5>
+                                <hr />
+                                <br />
+                                <div class="form-row">
+
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Screensaver Time</label>
+                                        <input type="number" class="form-control" id="txtScreenSaver" min="0" max="1440" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g / '$1');" onkeyup="stopscreensavertime(this)" onchange="stopnegative(this)">
+                                        <label style="color:#a1a1a1">0 ~ 1440 seconds</label>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label class="form-label">Sleep Time</label>
+                                        <input type="number" class="form-control" id="txtSleep" min="0" max="60" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g / '$1');" onkeyup="stopsleeptime(this)" onchange="stopnegative(this)">
+                                        <label style="color:#a1a1a1">0 ~ 60 minutes</label>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        @*<div class="tab-pane fade" id="device-setting">
+                                <div class="card-body">
+
+                                    <h5 class="text-primary"><i class="fa fa-wrench"></i> Advance Setting</h5>
+                                    <hr />
+                                    <br />
+                                    <div class="form-row">
+
+                                        <div class="form-group col-sm-12">
+                                            <button type="button" class="btn btn-primary ladda-button" data-style="expand-right" id="btnDelUsers">Delete All Users</button>
+                                            <button type="button" class="btn btn-primary ladda-button" data-style="expand-right" id="btnDelAdmin">Delete All Administrators</button>
+                                            <button type="button" class="btn btn-primary ladda-button" data-style="expand-right" id="btnDelLogs">Delete All Logs</button>
+                                            <button type="button" class="btn btn-danger ladda-button" data-style="expand-right" id="btnResetFK">Reset Device</button>
+                                        </div>
+                                    </div>
+                                    <br />
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [ content ] End -->
+</div>
+
+
+
+
+<div class="modal fade" id="modals-loading" data-backdrop="static" data-keyboard="false" style="padding-bottom:250px;padding-top:250px;">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-body">
+                <div class="text-center" id="divLoader">
+                    <img src="~/assets/img/loader.gif" /> <br />
+                    Loading Device Settings..
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="modals-auth" data-backdrop="static" style="padding-top:100px" data-keyboard="true" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Confirm Deletion
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <div class="form-row">
+                            <div class="form-group col-sm-4">
+                                <label class="form-label">User Name</label>
+                                <input type="text" class="form-control" id="txtUserName" placeholder="Username">
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" id="txtPwd" placeholder="Password">
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <br />
+                                <input type="hidden" id="hdnAction" />
+                                <button type="button" class="btn btn-primary ladda-button" data-style="expand-right" id="btnConfirm">Confirm</button>
+                                @*<button class="btn btn-primary waves-effect" id="btnConfirm">Confirm</button>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section scripts{
+
+    @*Startup*@
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+
+            //setting values in dropdown
+            $("#txtLocation").val('@Model.Device_Location');
+            $(".loadingDIV").css('display', 'block');
+            DisableDisconnectAll();
+            EnableSensorDelay();
+            //$(function () {
+            //    debugger;
+            //    $('a[data-toggle="li"]').on('shown', function (e) {
+            //        localStorage.setItem('lastTab', $(e.target).attr('id'));
+            //    });
+            //    var lastTab = localStorage.getItem('lastTab');
+            //    if (lastTab) {
+            //        $("#" + lastTab).tab('show');
+            //    }
+            //});
+        });
+
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+        //document.addEventListener('keydown', (e) => {
+
+        //    if (e.keyCode === 27) {
+
+        //        $(".sweet-alert").modal('toggle');
+
+
+        //    }
+        //});
+
+        $(document).ready(function () {
+            //For Loaders
+            $("#mainContent").css('display', 'none');
+
+            $("#chkServerDate").on("click", function (e) {
+                if ($(this).is(":checked")) {
+
+                    GetCurrentTime();
+                } else {
+                    $('#txtTime').val("");
+                }
+            });
+
+            $("#btnSetNetwork").click(function () {
+
+                var l = Ladda.create(this);
+                l.start();
+
+                swal({
+                    title: "Warning!",
+                    text: "Make sure DHCP is off in device before proceed!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-warning",
+                    confirmButtonText: "Continue!"
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            SetNetworkInfo();
+                            l.stop();
+                        } else {
+                            l.stop();
+                        }
+                    });
+            });
+
+            $("#btnSave").click(function () {
+                Save(this);
+            });
+
+            $("#btnConfirm").click(function () {
+                Confirm();
+            });
+
+            $("#btnGetTime").click(function () {
+                $("#chkServerDate").prop("checked", false);
+                GetTime(this);
+            });
+
+            $("#btnSetName").click(function () {
+                SetDeviceName(this);
+            });
+            $("#btnSetTime").click(function () {
+                //var l = Ladda.create(this);
+                //l.start();
+                //var id = $("#hdnCode").val();
+                SetTime(this);
+                // l.stop();
+            });
+            //$("#btnSetTime").click(function () {
+
+            //    var l = Ladda.create(this);
+            //    l.start();
+            //    var id = $("#hdnCode").val();
+
+            //    Sync(id);
+            //    l.stop();
+            //});
+
+            $("#btnDelAdmin").click(function () {
+                $("#modals-auth").modal('toggle');
+                //InitDeviceAdmin();
+                $("#hdnAction").val(2);
+
+            });
+
+            $("#btnDelUsers").click(function () {
+                $("#modals-auth").modal('toggle');
+                $("#hdnAction").val(1);
+                // InitDeviceUsers();
+
+            });
+
+            $("#btnDelLogs").click(function () {
+                $("#modals-auth").modal('toggle');
+                $("#hdnAction").val(3);
+                //InitDeviceLogs();
+
+            });
+
+            $("#btnResetFK").click(function () {
+                $("#modals-auth").modal('toggle');
+                $("#hdnAction").val(4);
+                //ResetFK();
+
+            });
+        });
+
+    </script>
+
+    @*Function*@
+    <script type="text/javascript">
+
+        var check_value = 0;
+          //Sync Start
+        function Sync(code) {
+
+            $.ajax({
+                url: '@Url.Action("SyncTime", "Device")',
+                type: "POST",
+                data: { deviceCode: code },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("Device DateTime Sync..");
+                    } else {
+                        showWarningNoti(data.msg);
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+
+
+            });
+
+
+        }
+        //Sync Ends
+
+
+
+
+        function SetDeviceName(button) {
+            var l = Ladda.create(button);
+            l.start();
+           var Model = GetModelData();
+            var device_name = $("#txtDeviceName").val();
+            if (device_name == "")
+            {
+                showWarningNoti('Kindly fill Device Name');
+                l.stop();
+            }
+            else
+            {
+                $.ajax({
+                    url: '@Url.Action("SetDeviceName", "Device")',
+                    type: "POST",
+                    data: { deviceInfo: Model, dev_name: device_name },
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+                        if (data.result) {
+
+                            showSuccessNoti('Device Name has been changed..');
+                        }
+                    },
+                    failure: function (response) {
+
+                    },
+                    error: function (err, status) {
+
+                    },
+                    complete: function (data) {
+                        l.stop();
+                    }
+
+                });
+            }
+        }
+       //GetTime Start
+        function GetCurrentTime(){
+            $.ajax({
+                url: '@Url.Action("GetCurrentTime", "Device")',
+                type: "POST",
+                data: { },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    console.log(data.result);
+                    $("#txtTime").val(data.result);
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                    //l.stop();
+                }
+            });
+
+        }
+        //GetTime Ends
+
+
+
+        //LoadData Start
+        //function LoadData() {
+
+        //    deviceTYPE = $("#hdnType").val();
+        //}
+        //LoadData Ends
+
+
+
+        //InitDeviceAdmin Starts
+        function InitDeviceAdmin(){
+            var Model = GetModelData();
+            $.ajax({
+                url: '@Url.Action("InitDeviceAdmin", "Device")',
+                type: "POST",
+                data: { deviceInfo: Model},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+
+                        showSuccessNoti('All Administrators Deleted..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+
+                }
+            });
+        }
+        //InitDeviceAdmin Ends
+
+
+        //InitDeviceUsers Starts
+        function InitDeviceUsers(){
+            var Model = GetModelData();
+            $.ajax({
+                url: '@Url.Action("InitDeviceUsers", "Device")',
+                type: "POST",
+                data: { deviceInfo: Model},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+
+                        showSuccessNoti('All Users Deleted..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+
+                }
+            });
+        }
+        //InitDeviceUsers Ends
+
+
+        //InitDeviceLogs Starts
+        function InitDeviceLogs() {
+            var Model = GetModelData();
+            $.ajax({
+                url: '@Url.Action("InitDeviceLogs", "Device")',
+                type: "POST",
+                data: { deviceInfo: Model},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+
+                        showSuccessNoti('All Logs Deleted..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+
+                }
+            });
+        }
+        //InitDeviceLogs Ends
+
+
+        function Confirm() {
+
+            var username = $("#txtUserName").val();
+            var password = $("#txtPwd").val();
+            var actionNo = $("#hdnAction").val();
+            var Model = GetModelData();
+            $.ajax({
+                url: '@Url.Action("ConfirmPassword", "Device")',
+                type: "POST",
+                data: { UserName: username, Password: password, Action: actionNo, deviceInfo: Model },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    $("#modals-auth").modal('toggle');
+                    $("#txtUserName").val("");
+                    $("#txtPwd").val("");
+                    switch (actionNo) {
+                        case "1":
+                            if (data.result) {
+                                showSuccessNoti('All Users Deleted..');
+                            }
+                            else {
+                                showWarningNoti('Login Credential not correct..')
+                            }
+                            break;
+                        case "2":
+                            if (data.result) {
+                                showSuccessNoti('All Administrator Deleted..');
+                            }
+                            else {
+                                showWarningNoti('Login Credential not correct..')
+                            }
+                            break;
+                        case "3":
+                            if (data.result) {
+                                showSuccessNoti('All Logs Deleted..');
+                            }
+                            else {
+                                showWarningNoti('Login Credential not correct..')
+                            }
+                            break;
+                        case "4":
+                            if (data.result) {
+                                showSuccessNoti('Device Reset..');
+                            }
+                            else {
+                                showWarningNoti('Login Credential not correct..')
+                            }
+                            break;
+                    }
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+
+                }
+            });
+        }
+
+        //ResetFK Starts
+        function ResetFK(){
+            var Model = GetModelData();
+            $.ajax({
+                url: '@Url.Action("ResetFK", "Device")',
+                type: "POST",
+                data: { deviceInfo: Model},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+
+                        showSuccessNoti('Device Reset..');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+
+                }
+            });
+        }
+        //ResetFK Ends
+
+
+        //GetModelData Starts
+
+        function GetModelData() {
+            var Model = {};
+            Model.isSlave = $("#chckSlaveDevice").is(":checked");
+            Model.Code = $("#hdnCode").val();
+            Model.Device_Type = $("#hdnType").val();
+            Model.Device_ID = ("@Model.Device_ID");
+            Model.Device_Name = $("#txtDeviceName").val();
+            Model.Device_Location = $("#txtLocation").val();
+            Model.Firmware_Filename = $("#txtFirmware_Filename").val();
+            Model.Firmware = $("#txtFirmware").val();
+
+            Model.Device_Info= ("@Model.Device_Info");
+            Model.Face_Data_Ver= ("@Model.Face_Data_Ver");
+            Model.Fk_Bin_Data_Lib= ("@Model.Fk_Bin_Data_Lib");
+            Model.Fp_Data_Ver= ("@Model.Fp_Data_Ver");
+            Model.Supported_Enroll_Data= ("@Model.Supported_Enroll_Data");
+
+
+            Model.Real_PvReg = $("#Real_PvReg").text();
+            Model.Max_PvReg = $("#Max_PvReg").text();
+            Model.Total_log_Count = $("Total_log_Count").text();
+            Model.Total_log_Max = $("Total_log_Max").text();
+            Model.Max_Record = $("#Max_Record").text();
+            Model.Real_FaceReg = $("#Real_FaceReg").text();
+            Model.Max_FaceReg = $("#Max_FaceReg").text();
+            Model.Real_FPReg = $("#Real_FPReg").text();
+            Model.Max_FPReg = $("#Max_FPReg").text();
+            Model.Real_IDCardReg = $("#Real_IDCardReg").text();
+            Model.Max_IDCardReg = $("#Max_IDCardReg").text();
+            Model.Real_Manager = $("#Real_Manager").text();
+            Model.Max_Manager = $("#Max_Manager").text();
+            Model.Real_PasswordReg = $("#Real_PasswordReg").text();
+            Model.Max_PasswordReg = $("#Max_PasswordReg").text();
+            Model.Max_PvReg = $("#Max_PvReg").text();
+            Model.Real_PvReg = $("#Real_PvReg").text();
+            Model.Real_Employee = $("#Real_Employee").text();
+            Model.Max_Employee = $("#Max_Employee").text();
+            Model.Device_Status = ("@Model.Device_Status");
+            Model.Active = ("@Model.Active");
+            //Model.Device_LastStatusTime = $("#txtLastPolled").val();
+
+            @*var AlarmFlag = "@Model.alarmFlag";
+            var DoorFlag = "@Model.doorFlag";
+            var AntiFlag = "@Model.antiFlag"*@
+            if (Model.Device_Type != "ATTENDENCE")
+            {
+                Model.Alarm_Delay = $("#txtAlarm_Delay").val();
+                Model.Use_Alarm = $("#chkUse_Alarm").is(":checked");
+            }
+            else
+            {
+                Model.Alarm_Delay = "NO ACCESS";
+                Model.Use_Alarm = "NO ACCESS";
+            }
+            if (Model.Device_Type != "ATTENDENCE") {
+                Model.DoorMagnetic_Delay = $("#txtDoorMagnetic_Delay").val();
+                Model.DoorMagnetic_Type = $("#DoorMagnetic_Type").val();
+            }
+            else
+            {
+                Model.DoorMagnetic_Delay = "NO ACCESS";
+                Model.DoorMagnetic_Type = "NO ACCESS";
+            }
+            //if (Model.Device_Type != "ATTENDENCE")
+            //{
+            //Model.Anti_back = $("#chkAnti_back").is(":checked");
+            //}
+            //else
+            //{
+            //    Model.Anti_back = "NO ACCESS";
+            //}
+
+            Model.Anti_back = $("#chckSlaveDevice").is(":checked");
+            Model.Receive_Interval = $("#recieveInterval").val();
+            console.log($("#recieveInterval").val());
+            Model.Reverify_Time = $("#txtReverify_Time").val();
+            Model.Show_ResultTime = $("#txtShow_ResultTime").val();
+          //  Model.Receive_Interval = $("#txtReceive_Interval").val();
+            Model.Allow_EarlyTime = $("#txtAllow_EarlyTime").val();
+            Model.Allow_LateTime = $("#txtAllow_LateTime").val();
+            Model.OpenDoor_Delay = $("#txtOpenDoor_Delay").val();
+            Model.Glog_Warning = $("#txtGlog_Warning").val();
+            Model.Wiegand_Type = $("#ddlWiegand_Type").val();
+            Model.Wiegand_Input = $("#Wiegand_Input").val();
+            Model.Wiegand_Output = $("#Wiegand_Output").val();
+            Model.Screensavers_Time = $("#txtScreenSaver").val();
+            Model.Sleep_Time = $("#txtSleep").val();
+            Model.Volume = $("#bs-slider").val();
+            Model.Reader_ID = $("#txtReaderId").val();
+            Model.Multi_Users=  $("#txtMultiUsers").val();
+
+         //   bs-slider
+
+            return Model;
+
+        }
+        //GetModelData Ends
+
+
+        //SetNetworkInfo Start
+        function SetNetworkInfo(){
+
+            var Model = GetModelData();
+            var ip = $("#txtServerIp").val();
+            var dport = $("#txtServerPort").val();
+
+            $.ajax({
+                url: '@Url.Action("SetNetworkInfo", "Device")',
+                type: "POST",
+                data: { deviceInfo: Model,ipAddress: ip, port: dport },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+
+                        showSuccessNoti('Web Server info updated successfully');
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+
+                }
+
+
+            });
+
+        }
+        //SetNetworkInfo Ends
+
+        //Save Start
+        function Save(button){
+            var Model = GetModelData();
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("UpdateDevice", "Device")',
+                type: "POST",
+                data: { deviceInfo: Model },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    //if (data.result) {
+                    //    showSuccessNoti("Device Settings Updated..")
+                    //}
+                    if (data.result) {
+
+                        swal({
+                            title: "Device settings updated successfully!",
+                                text: "Settings take time to effect in the device",
+                                type: "success",
+                                confirmButtonClass: "btn-success",
+                            confirmButtonText: "OK",
+                            showCancelButton: false,
+                        },
+                            function (isConfirm) {
+                                    if (isConfirm) {
+                                         window.location.href = '@Url.Action("Index", "Device")';
+                                    }
+                            });
+                    }
+                    else {
+                        swal({
+                            title: "Device settings failed to update..",
+                                text: "Do you want to update again?",
+                                type: "warning",
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "Yes",
+                                cancelButtonText: "No",
+                                showCancelButton: true,
+                            },
+                                function (isConfirm) {
+                                    if (isConfirm) {
+                                         @*window.location.href = '@Url.Action("Index", "Device")';*@
+                                    } else {
+                                        window.location.href = '@Url.Action("Index", "Device")';
+                                    }
+                                });
+                                //showWarningNoti("Device settings failed to update..");
+                            }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //Save Ends
+
+        //GetTime Start
+        function GetTime(button){
+            var Model = GetModelData();
+
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("GetDeviceTime", "Device")',
+                type: "POST",
+                data: { deviceInfo: Model },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        $("#txtTime").val(data.result);
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+
+        }
+        //GetTime Ends
+
+
+        //SetTime Start
+        function SetTime(button){
+            var Model = GetModelData();
+
+            var time = $("#txtTime").val();
+            if(button!=null){
+                var l = Ladda.create(button);
+                l.start();
+            }
+
+
+            $.ajax({
+                url: '@Url.Action("SetDeviceTime", "Device")',
+                type: "POST",
+                data: { deviceInfo: Model,dt:time},
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+
+                    if (data.result) {
+
+                        showSuccessNoti('Device DateTime has been changed..');
+
+                    }
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+
+
+            });
+        }
+        //SetTime Ends
+
+        //DisableAll Starts
+        function DisableAll() {
+            check_value = 0;
+            //$("#modals-loading").modal('toggle');
+                $("#txtDeviceName").attr("disabled",true);
+                $("#btnSetName").attr("disabled",true);
+                $("#txtFirmware").attr("disabled",true);
+                $("#txtFirmware_Filename").attr("disabled",true);
+                $("#txtLastPolled").attr("disabled",true);
+                $("#txtTime").attr("disabled",true);
+                $("#chkServerDate").attr("disabled",true);
+                $("#btnSetTime").attr("disabled",true);
+                $("#txtServerIp").attr("disabled",true);
+                $("#txtServerPort").attr("disabled",true);
+                $("#btnSetNetwork").attr("disabled",true);
+                $("#txtReverify_Time").attr("disabled",true);
+                $("#txtReceive_Interval").attr("disabled",true);
+                $("#chkUse_Alarm").attr("disabled",true);
+                $("#txtAlarm_Delay").attr("disabled",true);
+                $("#txtAllow_EarlyTime").attr("disabled",true);
+                $("#txtAllow_LateTime").attr("disabled",true);
+            $("#DoorMagnetic_Type").attr("disabled", true);
+
+                $("#txtOpenDoor_Delay").attr("disabled",true);
+                $("#txtDoorMagnetic_Delay").attr("disabled",true);
+                $("#txtGlog_Warning").attr("disabled",true);
+            $("#ddlWiegand_Type").attr("disabled", true);
+            $("#Wiegand_Output").attr("disabled", true);
+            $("#Wiegand_Input").attr("disabled",true);
+                $("#chkAnti_back").attr("disabled",true);
+                $("#bs-slider").attr("disabled",true);
+                $("#txtScreenSaver").attr("disabled",true);
+                $("#txtSleep").attr("disabled",true);
+                $("#btnDelUsers").attr("disabled",true);
+                $("#btnDelAdmin").attr("disabled", true);
+                $("#btnDelLogs").attr("disabled", true);
+                $("#btnResetFK").attr("disabled", true);
+                $("#btnSave").attr("disabled", true);
+            $("#txtShow_ResultTime").attr("disabled", true);
+            $("#txtReaderId").attr("disabled", true);
+            $("#txtMultiUsers").attr("disabled", true);
+            }
+
+        //DisableAll Ends
+
+        //DisableDisconnectAll Starts
+        function DisableDisconnectAll(){
+
+            var status = '@Model.Device_Status'
+            if (status == '0') {
+
+                swal({
+                    title: "Device is not connected",
+                    type: "warning",
+                    confirmButtonClass: 'btn-warning',
+                    confirmButtonText: 'Ok!'
+                });
+
+                $("#txtDeviceName").attr("disabled", true);
+                $("#btnSetName").attr("disabled", true);
+                $("#txtFirmware").attr("disabled", true);
+                $("#txtFirmware_Filename").attr("disabled", true);
+                $("#txtLastPolled").attr("disabled", true);
+                $("#txtTime").attr("disabled", true);
+                $("#chkServerDate").attr("disabled", true);
+                $("#btnSetTime").attr("disabled", true);
+                $("#txtServerIp").attr("disabled", true);
+                $("#txtServerPort").attr("disabled", true);
+                $("#btnSetNetwork").attr("disabled", true);
+                $("#txtReverify_Time").attr("disabled", true);
+                $("#txtReceive_Interval").attr("disabled", true);
+                $("#chkUse_Alarm").attr("disabled", true);
+                $("#txtAlarm_Delay").attr("disabled", true);
+                $("#txtAllow_EarlyTime").attr("disabled", true);
+                $("#txtAllow_LateTime").attr("disabled", true);
+                $("#DoorMagnetic_Type").attr("disabled", true);
+                $("#txtOpenDoor_Delay").attr("disabled", true);
+                $("#txtDoorMagnetic_Delay").attr("disabled", true);
+                $("#txtGlog_Warning").attr("disabled", true);
+                $("#ddlWiegand_Type").attr("disabled", true);
+                $("#Wiegand_Output").attr("disabled", true);
+                $("#Wiegand_Input").attr("disabled", true);
+                $("#chkAnti_back").attr("disabled", true);
+                $("#bs-slider").attr("disabled", true);
+                $("#txtScreenSaver").attr("disabled", true);
+                $("#txtSleep").attr("disabled", true);
+                $("#btnDelUsers").attr("disabled", true);
+                $("#btnDelAdmin").attr("disabled", true);
+                $("#btnDelLogs").attr("disabled", true);
+                $("#btnResetFK").attr("disabled", true);
+                $("#btnSave").attr("disabled", true);
+                $("#txtShow_ResultTime").attr("disabled", true);
+                $("#txtReaderId").attr("disabled", true);
+                $("#txtMultiUsers").attr("disabled", true);
+
+                $("#Max_Record").html("@Model.Max_Record");
+                $("#Real_FaceReg").html("@Model.Real_FaceReg");
+                $("#Max_FaceReg").html("@Model.Max_FaceReg");
+                $("#Real_FPReg").html("@Model.Real_FPReg");
+                $("#Real_IDCardReg").html("@Model.Real_IDCardReg");
+                $("#Max_FPReg").html("@Model.Max_FPReg");
+                $("#Max_IDCardReg").html("@Model.Max_IDCardReg");
+                $("#Max_Manager").html("@Model.Max_Manager");
+                $("#Real_Manager").html("@Model.Real_Manager");
+                $("#Max_PasswordReg").html("@Model.Max_PasswordReg");
+                $("#Real_PasswordReg").html("@Model.Real_PasswordReg");
+                $("#Real_PvReg").html("@Model.Real_PvReg");
+                $("#Max_PvReg").html("@Model.Max_PvReg");
+                $("#Total_log_Count").html("@Model.Total_log_Count");
+                $("#Total_log_Max").html("@Model.Total_log_Max");
+                $("#Real_Employee").html("@Model.Real_Employee");
+                $("#Max_Employee").html("@Model.Max_Employee");
+            }
+            else {
+                $(document).ready(function () {
+
+                    DisableAll();
+                    @*setTimeout(function () {
+
+                        if (check_value == 0) {
+                           // $("#modals-loading").modal('toggle');
+                            showWarningNoti("Unable to get device settings.");
+                        }
+                    }, @Model.WebTimeout);*@
+                });
+            }
+
+        }
+        //DisableDisconnectAll Ends
+
+
+
+
+
+
+
+        //DisableAll Starts
+        function EnableAll() {
+            check_value = 1;
+           // $("#modals-loading").modal('toggle');
+            $("#txtDeviceName").attr("disabled", false);
+            $("#btnSetName").attr("disabled", false);
+            $("#txtTime").attr("disabled", false);
+            $("#chkServerDate").attr("disabled", false);
+            $("#btnSetTime").attr("disabled", false);
+            $("#txtServerIp").attr("disabled", false);
+            $("#txtServerPort").attr("disabled", false);
+            $("#btnSetNetwork").attr("disabled", false);
+            $("#txtReverify_Time").attr("disabled", false);
+            $("#txtReceive_Interval").attr("disabled", false);
+            $("#chkUse_Alarm").attr("disabled", false);
+            $("#txtAlarm_Delay").attr("disabled", false);
+            $("#txtAllow_EarlyTime").attr("disabled", false);
+            $("#txtAllow_LateTime").attr("disabled", false);
+            $("#DoorMagnetic_Type").attr("disabled", false);
+            $("#txtOpenDoor_Delay").attr("disabled", false);
+            $("#txtDoorMagnetic_Delay").attr("disabled", false);
+            $("#txtGlog_Warning").attr("disabled", false);
+            $("#ddlWiegand_Type").attr("disabled", false);
+            $("#Wiegand_Output").attr("disabled", false);
+            $("#Wiegand_Input").attr("disabled", false);
+            $("#chkAnti_back").attr("disabled", false);
+            $("#bs-slider").attr("disabled", false);
+            $("#txtScreenSaver").attr("disabled", false);
+            $("#txtSleep").attr("disabled", false);
+            $("#btnDelUsers").attr("disabled", false);
+            $("#btnDelAdmin").attr("disabled", false);
+            $("#btnDelLogs").attr("disabled", false);
+            $("#btnResetFK").attr("disabled", false);
+            $("#btnSave").attr("disabled", false);
+            $("#txtShow_ResultTime").attr("disabled", false);
+            $("#txtReaderId").attr("disabled", false);
+            $("#txtMultiUsers").attr("disabled", false);
+        }
+        //DisableAll Ends
+
+
+        //LoadSoundBar Starts
+        function LoadSoundBar(){
+
+
+            setTimeout(function(){
+
+                $('#bs-slider').slider({
+                    ticks:        [0,1,2,3,4,5,6,7,8,9,10],
+                    ticks_labels: ['0','1','2','3','4','5','6','7','8','9','10'],
+                })
+
+
+            },200);
+
+        }
+        //LoadSoundBar Ends
+
+        function EnableSensorDelay() {
+
+            var doordelay = $("#DoorMagnetic_Type").val();
+            if (doordelay !="0") {
+
+                $("#sensordelay").css("display", "block");
+            } else {
+                $("#sensordelay").css("display", "none");
+            }
+        }
+
+        function stopRecieveInterval(txt) {
+            if (parseInt(txt.value) > 60) {
+                $(txt).val("60");
+            }
+        }
+
+        function stopnegative(txt) {
+            if (parseInt(txt.value) < 0)
+                $(txt).val("0");
+        }
+        function stopdoormagnetic(txt) {
+            if (parseInt(txt.value) > 200)
+                $(txt).val("200");
+        }
+        function stopglogwarning(txt) {
+            if (parseInt(txt.value) > 999)
+                $(txt).val("999");
+        }
+        function stopdoor_delay(txt) {
+            if (parseInt(txt.value) > 200)
+                $(txt).val("200");
+        }
+        function stopscreensavertime(txt) {
+            if (parseInt(txt.value) > 1440)
+                $(txt).val("1440");
+        }
+        function stopsleeptime(txt) {
+            if (parseInt(txt.value) > 60)
+                $(txt).val("60");
+        }
+        function stopmultiuser(txt) {
+            if (parseInt(txt.value) > 10)
+                $(txt).val("10");
+
+            if (parseInt(txt.value) < 1)
+                $(txt).val("1");
+        }
+        function stopverifiedscreen(txt) {
+            if (parseInt(txt.value) > 30)
+                $(txt).val("30");
+        }
+        function stoppunchinterval(txt) {
+            if (parseInt(txt.value) > 60)
+                $(txt).val("60");
+        }
+        function stopreaderid(txt) {
+            if (parseInt(txt.value) > 999)
+                $(txt).val("999");
+        }
+
+
+        //GetDeviceSettings Start
+        function GetDeviceSettings(settings, device_id) {
+          //  console.log(settings);
+            $.ajax({
+                url: '@Url.Action("GetDeviceSetting", "Device")',
+                type: "POST",
+                data: { machineInfo: settings, deviceCode: device_id },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.flag) {
+
+                    var Type = $("#hdnType").val();
+                    var UseAlarm = data.result.Use_Alarm;
+                    var Anti_back = data.result.Anti_back;
+                    var doorType = data.result.DoorMagnetic_Type;
+                    if (Type != "ATTENDENCE")
+                    {
+                        switch (UseAlarm) {
+                            case "no":
+                                UseAlarm = 0;
+                                break;
+                            case "yes":
+                                UseAlarm = 1;
+                                break;
+                            default:
+                                UseAlarm = "NO ACCESS"
+                                break;
+                }
+                $("#chkUse_Alarm").prop("checked",UseAlarm);
+            }
+                    if (Type != "ATTENDENCE")
+            {
+                switch (Anti_back) {
+                    case "no":
+                        Anti_back = 0;
+                        break;
+                    case "yes":
+                        Anti_back = 1;
+                        break;
+                    default:
+                        Anti_back = "NO ACCESS"
+                        break;
+                }
+                $("#chkAnti_back").prop("checked", Anti_back);
+                    }
+
+                    if (Type != "ATTENDENCE") {
+                        switch (doorType) {
+                            case "no":
+                                doorType = 0;
+                                break;
+                            case "open":
+                                doorType = 1;
+                                break;
+                            case "close":
+                                doorType = 2;
+                                break;
+                            default:
+                                doorType = "NO ACCESS"
+                                break;
+                        }
+                    }
+                    $("#ddlWiegand_Type").val(data.result.Wiegand_Type);
+
+                    $("#bs-slider").attr('data-slider-value', data.result.Volume);
+                    $("#bs-slider").attr('data-value', data.result.Volume);
+                    $("#bs-slider").attr('value', data.result.Volume);
+                    let val = sliderFunc(data.result.Volume);
+                    $("body .slider .slider-handle").css('left', val.toString() + '%');
+
+                    //$("#bs-slider").attr('aria-valuenow', data.result.Volume);
+                    $("#txtAlarm_Delay").val(data.result.Alarm_Delay);
+                    $("#DoorMagnetic_Type").val(doorType);
+                    $("#txtReverify_Time").val(data.result.Reverify_Time);
+                        $("#recieveInterval").val(data.result.Receive_Interval);
+                    $("#txtAllow_EarlyTime").val(data.result.Allow_EarlyTime);
+                    $("#txtAllow_LateTime").val(data.result.Allow_LateTime);
+                    $("#txtOpenDoor_Delay").val(data.result.OpenDoor_Delay);
+                    $("#txtDoorMagnetic_Delay").val(data.result.DoorMagnetic_Delay);
+                    $("#txtGlog_Warning").val(data.result.Glog_Warning);
+                    $("#Wiegand_Output").val(data.result.Wiegand_Output);
+                    $("#Wiegand_Input").val(data.result.Wiegand_Input);
+                    $("#txtScreenSaver").val(data.result.Screensavers_Time);
+                    $("#txtSleep").val(data.result.Sleep_Time);
+                    $("#txtShow_ResultTime").val(data.result.Show_ResultTime);
+                        $("#txtMultiUsers").val(data.result.Multi_Users);
+                        if (data.result.Anti_back == "no") {
+                            $("#chckSlaveDevice").prop("checked", false);
+                        } else if (data.result.Anti_back == "yes") {
+                            $("#chckSlaveDevice").prop("checked", true);
+                        }
+
+                    EnableAll();
+                    EnableSensorDelay();
+
+                    //For Loader
+                    $("#mainContent").css('display', 'block');
+                    $(".chaotic-orbit").css('display', 'none');
+
+
+                    }
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                    //For Loader
+                    //$("#mainContent").css('display', 'block');
+                    //$(".chaotic-orbit").css('display', 'none');
+                }
+
+
+            });
+
+
+        }
+        //GetDeviceSettings Ends
+
+        function sliderFunc(volume)
+        {
+
+            var marginLeft = 0;
+
+            switch (volume)
+            {
+                case "1":
+                    marginLeft = 10;
+                    break;
+                case "2":
+                    marginLeft = 20;
+                    break;
+                case "3":
+                    marginLeft = 30;
+                    break;
+
+                case "4":
+                    marginLeft = 40;
+                    break;
+
+                case "5":
+                    marginLeft = 50;
+                    break;
+
+                case "6":
+                    marginLeft = 60;
+                    break;
+                case "7":
+                    marginLeft = 70;
+                    break;
+                case "8":
+                    marginLeft = 80;
+                    break;
+                case "9":
+                    marginLeft = 90;
+                    break;
+                case "10":
+                    marginLeft = 100;
+                    break;
+            }
+            return marginLeft;
+        }
+
+
+         //GetDeviceStatus Start
+        function GetDeviceStatus(status, device_id) {
+            $.ajax({
+                url: '@Url.Action("GetDeviceStatusInfo", "Device")',
+                type: "POST",
+                data: { statusInfo: status, deviceCode: device_id },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    $("#Max_Record").html(data.result.Max_Record);
+                    $("#Real_FaceReg").html(data.result.Real_FaceReg);
+                    $("#Max_FaceReg").html(data.result.Max_FaceReg);
+                    $("#Real_FPReg").html(data.result.Real_FPReg);
+                    $("#Real_IDCardReg").html(data.result.Real_IDCardReg);
+                    $("#Max_FPReg").html(data.result.Max_FPReg);
+                    $("#Max_IDCardReg").html(data.result.Max_IDCardReg);
+                    $("#Max_Manager").html(data.result.Max_Manager);
+                    $("#Real_Manager").html(data.result.Real_Manager);
+                    $("#Max_PasswordReg").html(data.result.Max_PasswordReg);
+                    $("#Real_PasswordReg").html(data.result.Real_PasswordReg);
+                    $("#Real_PvReg").html(data.result.Real_PvReg);
+                    $("#Max_PvReg").html(data.result.Max_PvReg);
+                    $("#Total_log_Count").html(data.result.Total_log_Count);
+                    $("#Total_log_Max").html(data.result.Total_log_Max);
+                    $("#Real_Employee").html(data.result.Real_Employee);
+                    $("#Max_Employee").html(data.result.Max_Employee);
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+            });
+        }
+        //GetDeviceStatusInfo Ends
+
+        function getDeviceSettingAfterSignalR(device_id) {
+            $.ajax({
+                url: '@Url.Action("getDeviceSettingAfterSignalR", "Device")',
+                type: "POST",
+                data: { code: device_id },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result != true) {
+                        swal({
+                            title: "Warning!",
+                            text: "Device not Found",
+                            type: "warning",
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            confirmButtonClass: "btn-warning",
+                           
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                       window.location.href = '@Url.Action("Index", "Device")';
+                                  
+                                }
+                            });
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+            });
+        }
+    </script>
+
+    @*SignalR*@
+
+    @if (com != null)
+    {
+        if (!string.IsNullOrEmpty(com.Server_IP) && !string.IsNullOrEmpty(com.SignalR_Port))
+        {
+
+            <script src="http://@com.Server_IP:@com.SignalR_Port/signalr/hubs"></script>
+            <script type="text/javascript">
+
+                $(function () {
+                    //var DEVICEID;
+                    var serverIP = '@com.Server_IP';
+                    var signalrPort = '@com.SignalR_Port';
+
+                    $.connection.hub.url = "http://" + serverIP + ":" + signalrPort + "/signalr/hubs";
+                    var notifier = $.connection.NotifierHub;
+                   
+                    if (notifier == undefined)
+                    {
+                         
+                        swal({
+                            title: "Warning!",
+                            text: "Signal R Disconnected",
+                            type: "warning",
+                            confirmButtonClass: "btn-warning",
+                           
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                       window.location.href = '@Url.Action("Index", "Device")';
+                                  
+                                } else {
+                                    
+                                }
+                            });
+                    
+
+
+                    }
+
+                    notifier.client.senddevicesetting = function (settings, device_id) {
+
+
+                       GetDeviceSettings(settings, device_id);
+                    }
+                    notifier.client.senddevicestatusinfo = function (status, device_id) {
+
+                        GetDeviceStatus(status, device_id);
+                    }
+
+                    $.connection.hub.start().done(function () {
+                        console.log("SignalR Connected");
+                        var val = $("#DeviceCode").val();
+                        getDeviceSettingAfterSignalR(val);
+
+                    })
+
+                    $.connection.hub.reconnected(function () {
+                        console.log("SignalR is reconnected.");
+                    });
+
+
+                    $.connection.hub.disconnected(function () {
+                        console.log("SignalR Disconnected.");
+                      
+                        if ($.connection.hub.lastError) {
+                            console.log("SignalR Disconnected. Reason: " + $.connection.hub.lastError.message);
+                        }
+
+                        setTimeout(function () {
+                            $.connection.hub.start().done(function () {
+                                console.log("SignalR Connected");
+                            });
+                        }, 10000); // Restart connection after 10 seconds.
+
+                    });
+
+
+                })
+
+            </script>
+        }
+    }
+
+}

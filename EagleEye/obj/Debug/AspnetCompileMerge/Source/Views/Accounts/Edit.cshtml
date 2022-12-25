@@ -1,0 +1,135 @@
+﻿@model EagleEye.DAL.Partial.Account_P
+
+@{
+    ViewBag.Title = "Edit Account";
+}
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-0">Edit Account <button type="button" class="btn btn-primary float-right ladda-button" data-style="expand-right" id="btnSave">Apply Changes</button></h4>
+    <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href='@Url.Action("Index","Accounts")'><i class="ion ion-md-contacts"></i></a></li>
+            <li class="breadcrumb-item"><a href='@Url.Action("Index","Accounts")'>Accounts</a></li>
+            <li class="breadcrumb-item active">Edit</li>
+        </ol>
+    </div>
+    <div class="card overflow-hidden">
+        <div class="row no-gutters row-bordered row-border-light">
+            <div class="col-md-12">
+                <div class="card-body">
+                    <h5 class="text-primary">Credentials</h5>
+                    <hr />
+                    <br />
+                    <div class="form-row">
+                        @Html.HiddenFor(x => x.Code)
+                        <div class="form-group col-md-7">
+                            <label class="form-label">User Name</label>
+                            <input type="text" class="form-control mb-2" id="txtUserName" onkeyup="EnableButton()">
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" id="txtPwd" onkeyup="EnableButton()">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @*Startup*@
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            SetModelData();
+            EnableButton();
+        });
+
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#btnSave").click(function () {
+                Edit(this);
+            });
+        });
+
+    </script>
+
+    @*Function*@
+    <script type="text/javascript">
+
+        //Add Starts
+        function Edit(button) {
+            var l = Ladda.create(button);
+            l.start();
+            var Model = GetModelData();
+
+            $.ajax({
+                url: '@Url.Action("EditAccount", "Accounts")',
+                type: "POST",
+                data: { accounts: Model },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("Account Updated successfully");
+                        window.location.href = '@Url.Action("Index","Accounts")';
+                        } else {
+                            showWarningNoti("Account Failed to Update..");
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //Add Ends
+
+
+        //GetModelData Starts
+        function GetModelData() {
+
+            var Model = {};
+            Model.UserName = $("#txtUserName").val();
+            Model.Hash = $("#txtPwd").val();
+            Model.Code = $("#Code").val();
+            return Model;
+
+        }
+        //GetModelData Ends
+
+
+        //SetModelData Starts
+        function SetModelData() {
+
+            $("#txtUserName").val('@Model.UserName');
+           // $("#txtPwd").val('@Model.Hash');
+        }
+
+        function EnableButton() {
+            if (document.getElementById("txtPwd").value === "" || document.getElementById("txtUserName").value === ""){
+                $("#btnSave").attr("disabled", "disabled");
+            }
+            else
+            {
+                $("#btnSave").removeAttr("disabled");
+            }
+        }
+    </script>
+}

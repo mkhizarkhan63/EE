@@ -1,0 +1,505 @@
+﻿@using EagleEye.Common
+@using EagleEye.DAL.Partial
+@model  List<EagleEye.DAL.Partial.Employee_P>
+@{
+    ViewBag.Title = "Users";
+    Communication_P com = @SessionHandling.Communication;
+}
+@{ MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen>
+            List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Work Hour Report").FirstOrDefault();
+    }
+}
+<link rel="stylesheet" href="~/assets/libs/bootstrap-select/bootstrap-select.css">
+<link rel="stylesheet" href="assets/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css">
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-0">Policy Report</h4>
+
+
+    <div class="row">
+        <div class="col-md-3">
+
+            @*<div class="p-2">
+                    <label class="text-left" style="font-weight:500;font-size:small;" id="dtDate">Start Date</label>
+                    <input type="date" class="form-control text-center " onkeydown="return false" id="dtTime">
+                </div>*@
+           
+            <div class="col-sm-12 ">
+                <label  class="font-weight-semibold" style="font-size: 12px;">From Date - To Date</label>
+                <input type="text" id="dtTime" style="width: 200px;  text-align: center;" value="01/01/2015 - 01/31/2015" class="form-control  btn-white">
+            </div>
+
+
+        </div>
+        <div class="col-md-9 ">
+            <div class="d-flex justify-content-end">
+
+                <div class="p-2 mt-3 col-sm-4">
+                    <select class="selectpicker" multiple="multiple" data-style="btn-default" id="ddlEmplist" title="Employee ID" data-live-search="true">
+
+                        @foreach (Employee_P item in Model)
+                        {
+                            <option value="@item.Employee_ID">@item.Employee_ID - @item.Employee_Name</option>
+                        }
+                    </select>
+
+
+
+                </div>
+                <div class="p-2 mt-3">
+
+                    <button type="button" class="btn btn-primary ladda-button " data-style="expand-left" title="Proceed" id="btnProceed">
+                        <span class="fa fa-check-square"></span>&nbsp;&nbsp;Proceed
+                    </button>
+                </div>
+
+                <div class="p-2 mt-3">
+                    <button type="button" class="btn btn-linux waves-effect ladda-button" data-style="expand-right" title="Export" id="btnExport">
+                        <span class="fa fa-download"></span>&nbsp;&nbsp;Export
+                    </button>
+
+                </div>
+                <div class="p-2 mt-3">
+                    <button type="button" class="btn btn-info ladda-button float-right" data-style="expand-right" title="Report" id="btnReport">
+                        <span class="fa fa-file-pdf"></span>&nbsp;&nbsp;Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <hr>
+
+
+    <div class="card">
+        <div class="card-datatable table-responsive">
+
+            <table class="datatables-demo table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th width="10px">
+                            <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                <input type="checkbox" class="custom-control-input " id="selectAll">
+                                <span class="custom-control-label"></span>
+                            </label>
+                        </th>
+                        <th style="display:none;">Code</th>
+
+                        <th>Employee ID</th>
+                        <th>Employee Name</th>
+                        <th>Date</th>
+                        <th>Workhour</th>
+                        <th>Overtime</th>
+                        <th>Breakhour</th>
+                        <th>Extrahour</th>
+                        <th>Policy Name</th>
+                        <th>CreatedOn</th>
+                    </tr>
+                </thead>
+                <tbody id="myBody"></tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+</div>
+<!-- [ content ] End -->
+
+
+
+@section scripts{
+    <script src="~/assets/libs/moment/moment.js"></script>
+    <script src="~/assets/libs/bootstrap-select/bootstrap-select.js"></script>
+    <script src="assets/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js"></script>
+    @*Startup*@
+    <script type="text/javascript">
+        var table = "";
+        var selected = [];
+       
+
+        $(document).ready(function () {
+         
+            let emp = "";
+            let dt = "";
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0')
+            var mm = String(today.getMonth() + 1).padStart(2, '0')
+            var yy = today.getFullYear();
+            $("#dtTime").val(mm + "/" + dd + "/" + yy + " - " + mm + "/" + dd + "/" + yy)
+            dt = $("#dtTime").val();
+            bindDatatable(emp, dt, "");
+            $("#progress-modal").modal('toggle');
+
+
+
+        });
+    </script>
+
+
+    @* Events *@
+    <script>
+
+        $(function () {
+            var isRtl = $('body').attr('dir') === 'rtl' || $('html').attr('dir') === 'rtl';
+
+            $('#dtTime').daterangepicker({
+                opens: (isRtl ? 'left' : 'right'),
+                showWeekNumbers: true
+            });
+        });
+
+        $("#btnProceed").click(function () {
+            table.clear();
+            table.destroy();
+            GetFilterReport(this);
+
+        });
+
+        $("#btnExport").click(function (e) {
+
+            ExportExcel(this);
+
+        });
+
+        $("#selectAll").on("click", function (e) {
+            if ($(this).is(":checked")) {
+
+                table.rows({ page: 'current' }).select();
+            } else {
+                table.rows().deselect();
+            }
+        });
+
+        $("#btnReport").click(function (e) {
+            PDFReport(this);
+
+        });
+
+
+    </script>
+
+
+
+    @* Methods *@
+    <script>
+        var dateTime = "";
+        var employee = "";
+        var emp;
+        var dt;
+        var l;
+        function bindDatatable(employee, dateTime, button) {
+            let startDT;
+            let endDt;
+            emp = (employee == null) ? "" : employee.toString();
+            
+            dt = (dateTime == null) ? "" : dateTime;
+            if (dt != null) {
+                let dateArr = dt.split("-");
+                startDT = dateArr[0];
+                endDt = dateArr[1];
+            }
+            if (button != "") {
+                l = Ladda.create(button);
+                l.start();
+            }
+            table = $('.datatables-demo')
+                .DataTable({
+                    "aLengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                    "sAjaxSource": "/PolicyReport/GetTotalReport",
+                    "fnServerParams": function (aoData) {
+                        aoData.push({ name: "emp", value: emp });
+                        aoData.push({ name: "st", value: startDT });
+                        aoData.push({ name: "et", value: endDt });
+                    },
+                    "bServerSide": true,
+                    "bProcessing": true,
+                    "bSearchable": true,
+                    "language": {
+                        "emptyTable": "No record found.",
+                        "processing":
+                            '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+                    },
+                    //"rowCallback": function (row, data) {
+
+                    //    if ($.inArray(data.Code, selected) !== -1) {
+                    //        $(row).addClass('selected');
+                    //    }
+                    //},
+                    columnDefs: [
+                        {
+                            "data": "Empty",
+                            orderable: false,
+                            sortable: false,
+                            className: 'select-checkbox',
+                            targets: 0,
+                            "visible": false,
+
+                        },
+                        {
+                            "data": "Code",
+                            "searchable": true,
+                            "visible": false,
+                            targets: 1
+                        },
+                        {
+                            "data": "EmpID",
+                            "searchable": true,
+
+                            targets: 2
+                        },
+                        {
+                            "data": "EmpName",
+                            "searchable": true,
+
+                            targets: 3
+                        },
+                        {
+                            "data": "Dt",
+                            "searchable": true,
+                            "render": function (data, type, row) {
+                                return moment(data).format('MMMM D, YYYY')
+                            },
+                            "visible": false,
+                            targets: 4
+                        },
+
+                        {
+                            "data": "Workhour",
+                            "searchable": true,
+
+                            targets: 5
+                        },
+                        {
+                            "data": "Overtime",
+                            "searchable": true,
+
+                            targets: 6
+                        },
+                        {
+                            "data": "Breakhour",
+                            "searchable": true,
+                            //"render": function (data, type, row) {
+
+                            //    return console.log(data);
+
+                            //},
+                            targets: 7
+                        },
+                        {
+                            "data": "Extrahour",
+                            "searchable": true,
+
+                            targets: 8
+                        },
+                        {
+                            "data": "Policyname",
+                            "searchable": true,
+
+                            targets: 9
+                        },
+                        {
+                            "data": "CreatedOn",
+                            "searchable": true,
+                            "render": function (data, type, row) {
+
+                                return moment(data).format('MMMM D, YYYY HH:mm:ss ')
+                            },
+                            targets: 10
+                        },
+
+                    ],
+                    //select: {
+                    //    style: 'multi',
+                    //    selector: 'td:first-child'
+                    //},
+                });
+            if (button != "") {
+                l.stop();
+            }
+        }
+
+        function GetFilterReport(button) {
+
+            let emp = $("#ddlEmplist").val();
+            let dt = $("#dtTime").val();
+           
+             table.clear().draw();
+             bindDatatable(emp, dt, button)
+
+        }
+
+        function ExportExcel(button) {
+
+           // var selectedUser = [];
+            //if (table.rows('.selected').count() > 0) {
+            //    $.each(table.rows('.selected').nodes(), function (i, item) {
+            //        var data = table.row(this).data();
+            //        selectedUser.push(data.Code);
+            //    });
+            //}
+
+            if (table.rows().count() != 0) {
+
+                DownloadExcel(button);
+
+            }
+            else {
+                showWarningNoti("No Record Found!");
+            }
+
+
+        }
+
+        function DownloadExcel(button)
+        {
+            var l = Ladda.create(button);
+            l.start();
+            let startDt;
+            let endDt;
+            let emp = $("#ddlEmplist").val();
+            if (emp == null) {
+                emp = "";
+            }
+            let dt = $("#dtTime").val();
+            dt = dt.split("-");
+            startDt = dt[0];
+            endDt = dt[1];
+
+                $.ajax({
+                     url: '@Url.Action("ExportSheet", "PolicyReport")',
+                    type: "POST",
+                    data: { emp: emp.toString(), startDt: startDt, endDt: endDt},
+                     dataType: "json",
+                     cache: false,
+                     success: function (data) {
+
+                         if (data.result) {
+
+                             var a = document.createElement('a');
+                             var url = "@Request.Url.GetLeftPart(UriPartial.Authority)" + "/Reports/" + data.fullname;
+                             a.href = url;
+                             a.download = data.fullname;
+                             document.body.append(a);
+                             a.click();
+                             a.remove();
+                             window.URL.revokeObjectURL(url);
+                             showSuccessNoti("Data Exported Successfully!");
+
+                             DeleteExcelFile(data.fullname);
+
+                         } else {
+                             showWarningNoti("Issue occurred during export!");
+
+                         }
+                     },
+                     failure: function (response) {
+
+                     },
+                     error: function (err, status) {
+
+                     },
+                     complete: function (data) {
+                         l.stop();
+                     }
+                 });
+
+        }
+
+        function PDFReport(button) {
+          
+            let startDt;
+            let endDt;
+           
+            if (table.rows().count() != 0) {
+                
+                var l = Ladda.create(button);
+                l.start();
+                let emp = $("#ddlEmplist").val();
+                if (emp == null) {
+                    emp = "";
+                }
+                let dt = $("#dtTime").val();
+                dt = dt.split("-");
+                startDt = dt[0];
+                endDt = dt[1];
+                $.ajax({
+                    url: '@Url.Action("PDFReport", "PolicyReport")',
+                    type: "POST",
+                    data: { emp: emp.toString() ,startDt: startDt, endDt: endDt },
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+
+                        if (data.result) {
+
+                            var a = document.createElement('a');
+                            var url = "@Request.Url.GetLeftPart(UriPartial.Authority)" + "/Reports/" + data.fullname;
+                            a.href = url;
+                            a.download = data.fullname;
+                            document.body.append(a);
+                            a.click();
+                            a.remove();
+                            window.URL.revokeObjectURL(url);
+                            showSuccessNoti("Report Generated Successfully!");
+                            var filepath = data.fullname;
+                            DeleteExcelFile(filepath);
+                        } else {
+                            showWarningNoti("No Users to Proceed!");
+                        }
+                    },
+                    failure: function (response) {
+                        l.stop();
+                    },
+                    error: function (err, status) {
+                        l.stop();
+                    },
+                    complete: function (data) {
+                        l.stop();
+                    }
+                });
+
+
+
+            } else {
+                showWarningNoti("No Record Found!");
+            }
+
+        }
+
+
+        function DeleteExcelFile(filepath) {
+
+             $.ajax({
+                     url: '@Url.Action("Delete", "PolicyReport")',
+                     type: "POST",
+                     data: { filepath: filepath },
+                     dataType: "json",
+                     cache: false,
+                     success: function (data) {
+
+                     },
+                     failure: function (response) {
+
+                     },
+                     error: function (err, status) {
+
+                     },
+                     complete: function (data) {
+
+                     }
+                 });
+
+
+        }
+    </script>
+
+
+
+}

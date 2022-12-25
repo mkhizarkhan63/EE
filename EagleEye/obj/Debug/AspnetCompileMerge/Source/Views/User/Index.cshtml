@@ -1,0 +1,2433 @@
+﻿@model List<EagleEye.DAL.Partial.Employee_P>
+@using EagleEye.Common
+@using EagleEye.DAL.Partial
+@{
+    ViewBag.Title = "Users";
+    Communication_P com = @SessionHandling.Communication;
+}
+@{ MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen>
+            List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Users").FirstOrDefault();
+    }
+}
+
+<!--Libs-->
+<link rel="stylesheet" href="~/assets/libs/bootstrap-select/bootstrap-select.css">
+<style>
+    /*.dropdown.bootstrap-select {
+        width: 170px !important;
+    }*/
+
+    button.btn.dropdown-toggle.bs-placeholder.btn-default {
+        border: 1px solid #ebeaf3;
+    }
+
+    .dropdown-divider {
+        border: 2px solid #ebeaf3;
+    }
+
+    .modal-flex-grow {
+        flex-grow: 1 !important;
+    }
+
+    .custom-contol-d-inline-block {
+        display: inline-block !important;
+    }
+
+    .dropdown-menu {
+        top: 35px !important;
+        /*min-width: 0px !important;
+        min-height: 0px !important;*/
+        width: 100%;
+    }
+</style>
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-0">User Management</h4>
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-sm-4 demo-inline-spacing">
+                    @if (Menu.Insert == true)
+                    {
+
+                        <button type="button" class="btn btn-primary waves-effect ladda-button " data-style="expand-right" id="btnAdd" onclick="location.href='@Url.Action("Add", "User")'">
+                            <span class="fa fa-plus"></span>&nbsp;&nbsp;Add User
+                        </button>
+
+                    }
+
+
+                </div>
+                <div class="col-sm-8 text-right">
+
+                    <div class="demo-inline-spacing">
+
+                        @*<label class="custom-control custom-radio custom-contol-d-inline-block mr-2">
+                                <input name="radioType" type="radio" value="1" class="custom-control-input">
+                                <span class="custom-control-label text-expanded">Apply on All</span>
+                            </label>
+
+                            <label class="custom-control custom-radio custom-contol-d-inline-block mr-2">
+                                <input name="radioType" type="radio" value="2" class="custom-control-input" checked>
+                                <span class="custom-control-label text-expanded">Apply on Selected</span>
+                            </label>
+                            <div class="btn-group mr-2" id="hover-dropdown-demo">
+                                <button type="button" class="btn btn-primary dropdown-toggle  waves-effect" id="btnAction" data-toggle="dropdown" data-trigger="hover" aria-expanded="false">Action</button>
+                                <div class="dropdown-menu" x-placement="bottom-start" style="width: 218px !important; position: absolute; will-change: top, left; top: 35px; left: 0px;">
+                                    @* <a class="dropdown-item" href="javascript:void(0)" onclick="Action(1)" id="itemDelete">  <span class="fa fa-trash text-danger"></span>&nbsp;&nbsp;Delete User</a>*@
+                        @*@if (Menu.Update == true)
+                                    {
+                                        <a class="dropdown-item" href="javascript:void(0)" id="btnSync">  <span class="fa fa-sync text-primary"></span>&nbsp;&nbsp;Sync User</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" id="btnExportToExcel">  <span class="fa fa-upload text-linux"></span>&nbsp;&nbsp;Export To Excel</a>
+
+                                    }
+                                    @if (Menu.Update == true || Menu.Insert == true)
+                                    {
+                                        <a class="dropdown-item" href="javascript:void(0)" id="btnTransfer">  <span class="fa fa-upload text-primary"></span>&nbsp;&nbsp;Transfer To Device</a>
+                                    }
+                                    @if (Menu.Delete == true)
+                                    {
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="javascript:void(0)" id="btnDelete">  <span class="fa fa-trash text-pinterest"></span>&nbsp;&nbsp;Delete User</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" id="btnDelUsers">  <span class="fa fa-user-times text-pinterest"></span>&nbsp;&nbsp;Delete All Users</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" id="btnDelAdmin">  <span class="fa fa-user-times text-pinterest"></span>&nbsp;&nbsp;Delete All Administrators</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" id="btnManageDelete">  <span class="fa fa-user-cog text-linux"></span>&nbsp;&nbsp;Manage Deleted Users</a>
+
+
+                                    }
+                                </div>
+                            </div>*@
+                        @if (Menu.Update == true)
+                        {
+                            <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnSync">
+                                <span class="fa fa-sync"></span>&nbsp;&nbsp;Sync User
+                            </button>
+
+                        }
+                        @if (Menu.Update == true || Menu.Insert == true)
+                        {
+                            <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnTransfer">
+                                <span class="fa fa-upload"></span>&nbsp;&nbsp;Transfer To Device
+                            </button>
+                        }
+                        @if (Menu.Delete == true)
+                        {
+                            <button type="button" class="btn btn-pinterest waves-effect" id="btnDelete">
+                                <span class="fa fa-trash"></span>&nbsp;&nbsp;Delete User
+                            </button>
+
+                            @*<button type="button" class="btn btn-pinterest waves-effect" id="btnDelUsers">
+                                    <span class="fa fa-user-times"></span>&nbsp;&nbsp;Delete All Users
+                                </button>*@
+
+
+                            <button type="button" class="btn btn-pinterest waves-effect" id="btnDelAdmin">
+                                <span class="fa fa-user-times"></span>&nbsp;&nbsp;Delete All Administrators
+                            </button>
+                            <button type="button" class="btn btn-linux waves-effect" id="btnManageDelete">
+                                <span class="fa fa-user-cog"></span>&nbsp;&nbsp;Manage Deleted Users
+                            </button>
+                            <button type="button" class="btn btn-linux waves-effect" id="btnExportToExcel">
+                                <span class="fa fa-download"></span>&nbsp;&nbsp;Export To Excel
+                            </button>
+
+                        }
+
+                        <button type="button" class="btn btn-primary waves-effect mr-2" data-toggle="modal" data-target="#modals-slideFilter" id="btnSideFilter">
+                            <span class="fa fa-filter"></span>&nbsp;&nbsp;Filter
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+            @*<div class="row">
+                    <div class="col-sm-8">
+                        <div class="btn-group btn-group-justified demo-inline-spacing">
+                            <select class="selectpicker" title="Location" multiple="multiple" data-style="btn-default" id="locationFilter" data-live-search="true"></select>
+                            <select class="selectpicker" title="Status" multiple="multiple" data-style="btn-default" id="statusFilter">
+                                <option value="0">InActive</option>
+                                <option value="1">Active</option>
+
+                            </select>
+                            <button type="button" class="btn btn-success waves-effect" id="Proceed">
+                                Proceed
+                            </button>
+                        </div>
+                    </div>
+                </div>*@
+            <hr>
+
+
+            <div class="card">
+                <div class="card-datatable table-responsive">
+
+                    <table class="datatables-demo table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="10px">
+                                    <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                        <input type="checkbox" class="custom-control-input tblUserSelectAll" id="selectUserAll">
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </th>
+                                <th style="display:none;">Code</th>
+                                <th>User ID</th>
+                                <th>User Name</th>
+                                <th>Card No</th>
+                                <th>Face</th>
+                                <th>Finger Print</th>
+                                <th>Palm</th>
+                                <th>PIN</th>
+                                <th>Location</th>
+                                <th>Photo</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myBody"></tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ content ] End -->
+<!--Slide Filter Modal--->
+<div class="modal modal-slide fade" id="modals-slideFilter" aria-modal="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    Filter
+                    <br />
+                    <small class="text-muted " style="font-size:14px;">Select Filters and Search.</small>
+                </h4>
+                <button type="button" class="close" style="font-size:30px" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <br /><br />
+
+            <div class="modal-body modal-flex-grow">
+                <div class="col-md-12 ">
+                    <button type="button" class="btn btn-white" style="width:50%;" id="btnClear">Clear</button>
+                    <button type="button" class="btn btn-primary" style="width:48%;" data-dismiss="modal" id="Proceed">Apply</button>
+
+                </div>
+                <br />
+
+                <div class="col-md-12 ">
+                    <select class="selectpicker " title="Location" multiple="multiple" data-style="btn-default" id="locationFilter" data-live-search="true"></select>
+                </div>
+                <br />
+                <div class="col-md-12 ">
+                    <select class="selectpicker " title="Status" multiple="multiple" data-style="btn-default" id="statusFilter">
+                        <option value="0">InActive</option>
+                        <option value="1">Active</option>
+                    </select>
+                </div>
+                <br />
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Machine -->
+<div class="modal fade" id="modals-machine" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Select <span class="font-weight-light">Machine</span>
+                </h5>
+                <span class="text-right">
+                    <label class="badge-dark" id="lblCount"></label>
+                    @if (Menu.Insert == true || Menu.Update == true)
+                    {
+                        <button type="button" class="btn btn-primary btn-sm ladda-button" data-style="expand-right" id="btnSendToDevice"><span class="fa fa-upload"></span> Transfer To Device</button>
+                        <button type="button" class="btn btn-primary btn-sm ladda-button" data-style="expand-right" id="btnRestoreToDevice"><span class="fa fa-upload"></span> Restore To Device</button>
+                        <button type="button" class="btn btn-primary btn-sm ladda-button" data-style="expand-right" id="btnSyncUsers"><span class="fa fa-sync"></span> Sync Users</button>
+
+                    }
+                    @if (Menu.Delete == true)
+                    {
+                        <button type="button" class="btn btn-danger btn-sm ladda-button" data-style="expand-right" id="btnDeleteFromDb"><span class="fa fa-trash"></span> Delete From DB/Device</button>
+                        @*<button type="button" class="btn btn-danger btn-sm ladda-button" data-style="expand-right" id="btnDeleteFromDevice"><span class="fa fa-trash"></span> Delete From Device</button>*@
+                        <button type="button" class="btn btn-danger btn-sm ladda-button" data-style="expand-right" id="btnDeleteAllUsers"><span class="fa fa-trash"></span> Delete All Users</button>
+                        <button type="button" class="btn btn-danger btn-sm ladda-button" data-style="expand-right" id="btnDeleteAllAdmins"><span class="fa fa-trash"></span> Delete All Admins</button>
+
+                    }
+
+                    @*<button type="button" class="btn btn-primary btn-sm ladda-button" data-style="expand-right" id="btnSendAdminToDevice"><span class="fa fa-upload"></span> Set As Admin</button>*@
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body" height="400px">
+                <table class="table table-striped table-bordered" id="tblMachine">
+                    <thead>
+                        <tr>
+                            <th width="10px">
+                                <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                    <input type="checkbox" class="custom-control-input" id="selectAllMachine">
+                                    <span class="custom-control-label"></span>
+                                </label>
+                            </th>
+                            <th>Device ID</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Modal Delete -->
+<div class="modal fade" id="modals-delete" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Deleting  <span class="font-weight-light">Users...</span>
+                </h5>
+                <span class="text-right">
+                    <button type="button" class="btn btn-default btn-sm" id="btnDClose" data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body" height="400px">
+                <div class="row">
+                    <div id="dlblProgress" class="col-sm-9"></div>
+                    <div class="col-sm-3"><label id="dlblCompleted" class="float-right text-primary font-weight-semibold"></label></div>
+                </div>
+                <div class="progress" style="height:12px;">
+                    <div id="duser-bar" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Deleteed Users -->
+<div class="modal fade" id="modals-delusers" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Manage <span class="font-weight-light">Deleted Users</span>
+
+                </h5>
+                <span class="text-right">
+                    <label class="badge-dark" id="lblCount"></label>
+                    @if (Menu.Update == true || Menu.Insert == true)
+                    {
+                        <button type="button" class="btn btn-secondary btn-sm ladda-button" data-style="expand-right" id="btnRestoreFromDb"><span class="fa fa-recycle"></span> Restore To DB</button>
+                        <button type="button" class="btn btn-instagram btn-sm ladda-button" data-style="expand-right" id="btnRestoreFromMachine"><span class="fa fa-recycle"></span> Restore To Machine</button>
+                    }
+                    @if (Menu.Delete == true)
+                    {
+                        <button type="button" class="btn btn-danger btn-sm ladda-button" data-style="expand-right" id="btnDeleteFromRDB"><span class="fa fa-trash-alt"></span> Delete From DB</button>
+                    }
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" id="btnDeletedClose" onclick="location.href='@Url.Action("Index", "User")'"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body" height="400px">
+                @*<span id="lblDelete" style="font-weight:600;"></span>*@
+                <div class="col-sm-3"><label id="lblDeletedUsers" class="text-primary font-weight-semibold"></label></div>
+
+                <div class="table-responsive">
+                    <table class="tblDUsers table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="10px">
+                                    <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                        <input type="checkbox" class="custom-control-input" id="selectAllDUsers">
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </th>
+                                <th>Employee No</th>
+                                <th>Employee Name</th>
+                                <th>Gender</th>
+                                <th>Card No</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Transfer -->
+<div class="modal fade" id="modals-transfer" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Transferring  <span class="font-weight-light">Users...</span>
+                </h5>
+                <span class="text-right">
+                    <button type="button" class="btn btn-default btn-sm" id="btnClose" data-dismiss="modal" onclick="location.href='@Url.Action("Index", "User")'"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body" height="400px">
+                <div class="row">
+                    <div id="lblProgress" class="col-sm-9"></div>
+                    <div class="col-sm-3"><label id="lblCompleted" class="float-right text-primary font-weight-semibold"></label></div>
+                </div>
+                <div class="progress" style="height:12px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>
+                </div>
+                <br />
+                <table class="table table-striped table-bordered" id="tblTUsers">
+                    <thead>
+                        <tr>
+                            <th>Device</th>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Manage Auth -->
+<div class="modal fade" id="modals-auth" data-backdrop="static" style="padding-top:100px" data-keyboard="true" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Confirm Deletion
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <div class="form-row">
+                            <div class="form-group col-sm-4">
+                                <label class="form-label">User Name</label>
+                                <input type="text" class="form-control" id="txtUserName" placeholder="Username">
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" id="txtPwd" placeholder="Password">
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <br />
+                                <input type="hidden" id="hdnAction" />
+                                <button type="button" class="btn btn-primary ladda-button" data-style="expand-right" id="btnConfirm">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!---Loading Modal-->
+@*<div class="modal fade" id="modals-loader" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true" aria-labelledby="staticBackdropLabel">
+        <div class="modal-dialog modal-lg">
+            <form class="modal-content">
+                <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                    <h5 class="modal-title">
+                        Deleting  <span class="font-weight-light">Users...</span>
+                    </h5>
+                    <span class="text-right">
+                        <button type="button" class="btn btn-default btn-sm" id="btnDClose" data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+                    </span>
+
+                </div>
+                <div class="modal-body" height="400px">
+                    <div class="row">
+                        <div id="dlblProgress" class="col-sm-9"></div>
+                        <div class="col-sm-3"><label id="dlblCompleted" class="float-right text-primary font-weight-semibold"></label></div>
+                    </div>
+                    <div class="progress" style="height:12px;">
+                        <div id="duser-bar" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>*@
+
+@section scripts{
+
+    <script src="assets/libs/bootstrap-select/bootstrap-select.js"></script>
+
+    <script type="text/javascript">
+                (function ($) {
+                    var asyncCallsXHR = null;
+                    function successResponse(data, textStatus, jqXHR) {
+                        alert(data);
+                        asyncCallsXHR = null;
+                    }
+                    function errorResponse(jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown);
+                        asyncCallsXHR = null;
+                    }
+
+                    function asyncHandler(evt) {
+
+                        var btn = $(evt.currentTarget),
+                            asyncurl = btn.data('asyncurl');
+                        var data = [1, 2, 3];
+
+                        asyncCallsXHR = $.getJSON({ url: '@Url.Action("Short", "User")' }, data, successResponse).error(errorResponse);
+
+                        console.log(asyncCallsXHR);
+
+                    }
+                    $('#btn1').on('click', asyncHandler);
+                    $('#btn2').on('click', asyncHandler);
+                    $('#btn3').on('click', function () {
+                        if (asyncCallsXHR !== null)
+                            asyncCallsXHR.abort();
+                        console.log(asyncCallsXHR);
+                    });
+                })(jQuery);
+    </script>
+
+
+    @*Startup*@
+    <script type="text/javascript">
+
+        var table;
+        var tableMachine;
+        var tableDUsers;
+        var tableTUsers;
+        var asyncCallsXHR;
+        var locationFilter = "";
+
+        var statusFilter = "";
+
+
+        $(document).ready(function () {
+            getLocation();
+            bindDatatable();
+
+            
+
+            // Radio buttons start
+            $("input[name='radioType']").on('click', function (e) {
+                var column = $('.datatables-demo').DataTable().column($(this).attr('data-column'));
+
+                if ($("input[name = 'radioType']:checked").val() == '1') {
+
+                    column.visible(false);
+                    table.rows().deselect();
+                    //table.clear().destroy().draw();
+                    $(".datatables-demo #selectUserAll").attr('checked', false);
+                } else {
+
+                    $("#selectAll").attr("checked", false);
+                    column.visible(true);
+                    $(".datatables-demo #selectUserAll").attr('checked', false);
+                }
+            });
+            //// Radio buttons end
+
+
+            function getLocation() {
+                $.ajax({
+                    url: '@Url.Action("Location", "User")',
+                    type: "POST",
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+
+                        $.each(data.result, function (i, item) {
+
+                            $("#locationFilter").append($('<option>', {
+                                value: item.Code,
+                                text: item.Description
+                            }));
+                        });
+                        $('.selectpicker').selectpicker('refresh');
+                    },
+                });
+            }
+
+            $("#locationFilter").change(function () {
+                locationFilter = $(this).val();
+                if (locationFilter == null ) {
+                    locationFilter = "";
+
+
+                }
+
+            });
+            $("#statusFilter").change(function () {
+                statusFilter = $(this).val();
+                if (statusFilter == null) {
+
+                    statusFilter = "";
+
+                }
+
+            });
+
+            $("#Proceed").click(function () {
+                table.clear();
+                table.destroy();
+                bindDatatable()
+
+            });
+
+
+
+
+            $("#selectAll").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    table.rows().select();
+                } else {
+                    table.rows().deselect();
+                }
+            });
+
+            tableMachine = $('#tblMachine').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0,
+                }, {
+                    "visible": false,
+                    "searchable": false,
+                    "oTargets": [6]
+                }],
+
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+                order: [
+                    [1, 'asc']
+                ]
+            });
+
+            var connectedDevices = [];
+            var disconnectedDevices = [];
+            //when select datatable row this event fire.
+            tableMachine.on('select', function (e, dt, type, index) {
+               
+                if (type == 'row') {
+                    
+                    let data = tableMachine.rows(index).data()[0];
+                    
+                    let val = data[3].match(/>(\D+)</i);
+
+                    if (val[1].indexOf("Connected") != -1) {
+                        connectedDevices.push(val[1] + '_' + data[1]);
+                    }
+                    else {
+                        disconnectedDevices.push(val[1] + '_' + data[1]);
+                    }
+
+                    if (connectedDevices.length > 0 && disconnectedDevices.length > 0) {
+
+                        $("#btnSendToDevice").prop('disabled', true);
+                    }
+                    else if (connectedDevices.length > 0 && disconnectedDevices.length == 0) {
+                        $("#btnSendToDevice").prop('disabled', false);
+                    }
+                    else if (connectedDevices.length == 0 && disconnectedDevices.length > 0) {
+
+                        $("#btnSendToDevice").prop('disabled', true);
+                    }
+                    else if (connectedDevices.length == 0 && disconnectedDevices.length == 0) {
+                        $("#btnSendToDevice").prop('disabled', false);
+                    }
+                  
+                    //filteringDataTableEvent.push(val[1]+'_'+data[1]);
+                   
+                    //if (filteringDataTableEvent.length > 0) {
+                    //    for (elem of filteringDataTableEvent) {
+
+                    //        if (elem.indexOf("Connected") != -1) {
+                    //            $("#btnSendToDevice").prop('disabled', false);
+                    //        }
+                    //        else {
+                    //            $("#btnSendToDevice").prop('disabled', true);
+                    //        }
+                    //    }
+
+
+                    //} 
+                   
+                    //console.log(filteringDataTableEvent)
+                   
+                    
+                  
+                }
+
+            });
+            tableMachine.on('deselect', function (e, dt, type, index) {
+                if (type == 'row') {
+                    let data = tableMachine.rows(index).data()[0];
+
+                    let val = data[3].match(/>(\D+)</i);
+                    let extractValue = val[1] + '_' + data[1];
+                    let arrIndex;
+                    if (extractValue.indexOf("Connected") != -1) {
+                        arrIndex = connectedDevices.indexOf(extractValue);
+                        connectedDevices.splice(arrIndex, 1);
+                    } else {
+                        arrIndex = disconnectedDevices.indexOf(extractValue);
+                        disconnectedDevices.splice(arrIndex, 1);
+                    }
+                    if (connectedDevices.length > 0 && disconnectedDevices.length > 0) {
+
+                        $("#btnSendToDevice").prop('disabled', true);
+                    }
+                    else if (connectedDevices.length > 0 && disconnectedDevices.length == 0) {
+                        $("#btnSendToDevice").prop('disabled', false);
+                    }
+                    else if (connectedDevices.length == 0 && disconnectedDevices.length > 0) {
+
+                        $("#btnSendToDevice").prop('disabled', true);
+                    }
+                    else if (connectedDevices.length == 0 && disconnectedDevices.length == 0) {
+                        $("#btnSendToDevice").prop('disabled', false);
+                    }
+                    //let arrIndex = filteringDataTableEvent.indexOf(extractValue);
+                   
+                    //if (arrIndex > -1) {
+                    //    filteringDataTableEvent.splice(arrIndex, 1);
+                    //}
+
+
+
+                    //if (filteringDataTableEvent.length > 0) {
+                    //    for (elem of filteringDataTableEvent) {
+                    //        if (elem.indexOf("Connected") != -1) {
+                              
+                    //            $("#btnSendToDevice").prop('disabled', false);
+                    //        } else {
+                    //            $("#btnSendToDevice").prop('disabled', true);
+                    //        }
+                    //    }
+                    //} else {
+                    //    $("#btnSendToDevice").prop('disabled', false);
+                    //}
+                        
+                    
+                }
+            })
+
+            //if (tableMachine.rows('.selected').count() > 0) {
+            //    $.each(table.rows('.selected').nodes(), function (i, item) {
+            //        console.log(item)
+                    
+            //    });
+
+               
+
+            //}
+
+
+            $("#selectAllMachine").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    tableMachine.rows().select();
+                } else {
+                    
+                    tableMachine.rows().deselect();
+                }
+            });
+
+            tableDUsers = $('.tblDUsers').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0,
+                }],
+
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+                order: [
+                    [1, 'asc']
+                ]
+            });
+
+            $("#selectAllDUsers").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    tableDUsers.rows().select();
+                } else {
+                    tableDUsers.rows().deselect();
+                }
+            });
+
+            tableTUsers = $('#tblTUsers').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                order: [
+                    [0, 'asc']
+                ]
+            });
+        });
+
+        @*if(@Model.Card*@
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+
+
+        var selectedUser = [];
+        var selectedDevice = [];
+        var selectedInActiveUser = [];
+        $(function () {
+
+            $("#btnDelete").click(function () {
+
+                var button = this;
+                if (table.rows('.selected').count() > 0) {
+                    GetDevices(button, 1);
+                }
+                else {
+                    showWarningNoti("Please Select Users To Proceed...");
+                }
+
+            });
+
+            $("#btnManageDelete").click(function () {
+                var button = this;
+                GetAllDeletedUsers(button);
+            });
+
+            $("#btnTransfer").click(function () {
+
+                var button = this;
+                if (table.rows('.selected').count() > 0) {
+
+
+                    GetDevices(button, 2);
+
+                }
+                else if ($("input[name='radioType']:checked").val() == '1') {
+
+                    GetDevices(button, 2);
+                }
+                else {
+                    showWarningNoti("Please Select Users To Proceed...");
+                }
+
+            });
+
+            //Sending into Device
+            $("#btnSendToDevice").click(function () {
+
+                if (tableMachine.rows('.selected').count() > 0) {
+
+                    $.each(tableMachine.rows('.selected').nodes(), function (i, item) {
+
+                        var datadevice = tableMachine.row(this).data();
+                        selectedDevice.push(datadevice[1]);
+
+                    });
+
+                    //when select all rows
+                    if (table.rows('.selected').count() > 0)
+                    {
+                        $.each(table.rows('.selected').nodes(), function (i, item) {
+
+                            var data = table.row(this).data();
+                            selectedUser.push(data["Code"]);
+                            selectedInActiveUser.push(data["Active"]);
+                        });
+
+                     SendUserToDevice(selectedUser, selectedDevice, 1);
+
+                    }
+                    //when select single rows
+                    else if ($("input[name='radioType']:checked").val() == '1')
+                    {
+
+                        selectedUser = [];
+
+                            $.ajax({
+                                url: '@Url.Action("GetRecordsByFilter", "User")',
+                                type: "POST",
+                                dataType: "json",
+                                cache: false,
+                                data: { loc: locationFilter, status: statusFilter },
+                                success: function (data) {
+
+                                    //User Selecting after Filter
+                                    selectedUser = data.users;
+
+                                    //Selected Users are sending to device
+                                    SendUserToDevice(selectedUser, selectedDevice, 1);
+                                }
+                            });
+                    }
+                    else {
+                        showWarningNoti("Please Select Users To Proceed...");
+                    }
+                }
+                else {
+                    showWarningNoti("Please Select Machine To Proceed...");
+                }
+
+            });
+
+            $("#btnRestoreToDevice").click(function () {
+                if (tableMachine.rows('.selected').count() > 0) {
+
+                    // var selectedUser = [];
+                    //var selectedDevice = [];
+                    $.each(tableMachine.rows('.selected').nodes(), function (i, item) {
+
+                        var datadevice = tableMachine.row(this).data();
+                        selectedDevice.push(datadevice[1]);
+
+                    });
+                    $.each(tableDUsers.rows('.selected').nodes(), function (i, item) {
+
+                        var data = tableDUsers.row(this).data();
+                        selectedUser.push(data[1]);
+
+                    });
+                    //console.log(selectedUser);
+                    SendUserToDevice(selectedUser, selectedDevice, 2);
+                }
+                else {
+                    showWarningNoti("Please Select Machine To Proceed...");
+                }
+            });
+
+            $("#btnSendAdminToDevice").click(function () {
+                if (tableMachine.rows('.selected').count() > 0) {
+
+                    //var selectedUser = [];
+                    //var selectedDevice = [];
+
+                    $.each(tableMachine.rows('.selected').nodes(), function (i, item) {
+
+                        var datadevice = tableMachine.row(this).data();
+                        selectedDevice.push(datadevice[1]);
+
+                    });
+
+                    $.each(table.rows('.selected').nodes(), function (i, item) {
+
+                        var data = table.row(this).data();
+                        selectedUser.push(data[1]);
+
+                    });
+                    SendAdminToDevice(selectedUser, selectedDevice);
+                }
+                else {
+                    showWarningNoti("Please Select Machine To Proceed...");
+                }
+            });
+
+            $("#btnAdmin").click(function () {
+
+                var button = this;
+
+                if (table.rows('.selected').count() > 0) {
+                    GetDevices(button, 1);
+                }
+                else {
+                    showWarningNoti("Please Select Users To Proceed...");
+                }
+            });
+
+            $("#btnDeleteFromDb").click(function () {
+
+                var selectedUser = [];
+                $.each(table.rows('.selected').nodes(), function (i, item) {
+
+                    var data = table.row(this).data();
+                    selectedUser.push(data["Code"]);
+
+                });
+
+                var selectedDevices = [];
+                $.each(tableMachine.rows('.selected').nodes(), function (i, item) {
+
+                    var data = tableMachine.row(this).data();
+                    selectedDevices.push(data[1]);
+
+                });
+
+
+                DeleteFromDb(selectedUser, selectedDevices, this);
+                table.rows('.selected').remove().draw(false);
+            });
+
+            $("#btnDeleteFromRDB").click(function () {
+
+                var selectedUser = [];
+                $.each(tableDUsers.rows('.selected').nodes(), function (i, item) {
+
+                    var data = tableDUsers.row(this).data();
+                    selectedUser.push(data[1]);
+
+                });
+
+                DeleteFromRDB(selectedUser, this);
+                tableDUsers.rows('.selected').remove().draw(false);
+
+            });
+
+            $("#btnRestoreFromDb").click(function () {
+
+                var selectedUser = [];
+                //new editing
+                var selectedUserWithNames = [];
+                $.each(tableDUsers.rows('.selected').nodes(), function (i, item) {
+
+                    var data = tableDUsers.row(this).data();
+                    selectedUser.push(data[1]);
+                    selectedUserWithNames.push(data[2]);
+                    //console.log(data);
+
+                });
+
+                RestoreUserFromDB(selectedUser, selectedUserWithNames, this);
+
+
+            });
+
+            $("#btnDeleteFromDevice").click(function () {
+
+                if (tableMachine.rows('.selected').count() > 0) {
+
+                    var selectedUser = [];
+                    var selectedDevice = [];
+
+                    $.each(tableMachine.rows('.selected').nodes(), function (i, item) {
+
+                        var datadevice = tableMachine.row(this).data();
+                        selectedDevice.push(datadevice[1]);
+
+                    });
+
+                    $.each(table.rows('.selected').nodes(), function (i, item) {
+
+                        var data = table.row(this).data();
+                        selectedUser.push(data[1]);
+
+                    });
+                    Delete(selectedUser, selectedDevice, this);
+                    table.rows('.selected').remove().draw(false);
+                }
+                else {
+                    showWarningNoti("Please Select Machine To Proceed...");
+                }
+
+            });
+
+            $("#btnRestoreFromMachine").click(function () {
+                var button = this;
+                if (tableDUsers.rows('.selected').count() > 0) {
+
+                    $("#modals-delusers").modal('toggle');
+                    GetDevices(button, 3);
+
+                }
+                else {
+                    showWarningNoti("Please Select Users To Proceed...");
+                }
+
+            });
+
+            $("#btnConfirm").click(function () {
+
+                if (tableMachine.rows('.selected').count() > 0) {
+                    var selectedDevice = [];
+
+                    $.each(tableMachine.rows('.selected').nodes(), function (i, item) {
+
+                        var datadevice = tableMachine.row(this).data();
+                        selectedDevice.push(datadevice[1]);
+
+                        Confirm(selectedDevice);
+
+                    });
+                }
+                else {
+                    showWarningNoti("Please Select Machine To Proceed...");
+                }
+            });
+
+            $("#btnDelAdmin").click(function () {
+                var button = this;
+                GetDevices(button, 5);
+            });
+
+            $("#btnDelUsers").click(function () {
+                var button = this;
+                GetDevices(button, 4);
+            });
+
+            $("#btnSync").click(function () {
+                var button = this;
+                GetDevices(button, 6);
+            });
+
+            $("#btnDeleteAllAdmins").click(function () {
+                if (tableMachine.rows('.selected').count() > 0) {
+                    $.each(tableMachine.rows('.selected').nodes(), function (i, item) {
+                        $("#modals-machine").modal('toggle');
+                        $("#modals-auth").modal('toggle');
+                        $("#hdnAction").val(2);
+                    });
+                }
+                else {
+                    showWarningNoti("Please Select Machine To Proceed...");
+                }
+            });
+
+            $("#btnDeleteAllUsers").click(function () {
+                if (tableMachine.rows('.selected').count() > 0) {
+                    $.each(tableMachine.rows('.selected').nodes(), function (i, item) {
+                        $("#modals-machine").modal('toggle');
+                        $("#modals-auth").modal('toggle');
+                        $("#hdnAction").val(1);
+                    });
+                }
+                else {
+                    showWarningNoti("Please Select Machine To Proceed...");
+                }
+            });
+
+            $("#btnSyncUsers").click(function () {
+
+                if (tableMachine.rows('.selected').count() > 0) {
+                    $.each(tableMachine.rows('.selected').nodes(), function (i, item) {
+                        var datadevice = tableMachine.row(this).data();
+                        selectedDevice.push(datadevice[1]);
+
+                        SyncUsers(selectedDevice);
+                    });
+                }
+                else {
+                    showWarningNoti("Please Select Machine To Proceed...");
+                }
+            });
+        });
+
+        //$(".odd, .even").on("click", function () {
+        //    debugger;
+        //    var id = $(this).data("id");
+        //    alert(id);
+        //});
+
+        $("#btnExportToExcel").click(function () {
+            //var dt = $("#dtTime").val();
+            Export(this);
+        });
+    </script>
+
+    @*Function*@
+    <script type="text/javascript">
+        var selected = [];
+        function bindDatatable() {
+
+            if (locationFilter == null || statusFilter == null)
+            {
+                locationFilter = "";
+                statusFilter = "";
+
+            }
+
+
+            table = $('.datatables-demo').DataTable({
+                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "sAjaxSource": "/User/GetTotalReport",
+                "fnServerParams": function (aoData) {
+                    aoData.push({ name: "locationFilter", value: locationFilter.toString() });
+                    aoData.push({ name: "statusFilter", value: statusFilter.toString() });
+
+                },
+                "bServerSide": true,
+                "bProcessing": true,
+                "bSearchable": true,
+                "language": {
+                    "emptyTable": "No record found.",
+                    "processing":
+                        '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+                },
+                "rowCallback": function (row, data) {
+
+                    if ($.inArray(data.Code, selected) !== -1) {
+                        $(row).addClass('selected');
+                    }
+                },
+
+                columnDefs: [
+                    {
+                        "data": "Empty",
+                        orderable: false,
+                        sortable: false,
+                        className: 'select-checkbox',
+                        targets: 0
+
+                    },
+                    {
+                        "data": "Code",
+                        "searchable": true,
+                        "visible": false,
+
+                        targets: 1
+                    },
+                    {
+                        "data": "Employee_ID",
+                        "autoWidth": true,
+                        "searchable": true,
+                        "render": function (data, type, row) {
+
+                            return '<a href="/User/Edit?Code=' + data + '"><td>' + data + '</td></a>';
+
+                        },
+                        targets: 2
+
+                    },
+                    {
+                        "data": "Employee_Name",
+                        "autoWidth": true,
+                        "searchable": true,
+                        targets: 3
+
+                    },
+                    {
+                        "data": "Card_No",
+                        "autoWidth": true,
+                        "searchable": false,
+                        "render": function (data, type, row) {
+
+                            if (data != "") {
+                                return '<td><label class="switcher"><input type="checkbox" class="switcher-input" checked="checked" disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+                            }
+                            else {
+                                return '<td><label class="switcher"><input type="checkbox" class="switcher-input"  disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+                            }
+                        },
+                        targets: 4
+
+                    },
+                    {
+                        "data": "Face",
+                        "autoWidth": true,
+                        "searchable": false,
+                        "render": function (data, type, row) {
+
+
+                            if (data != "") {
+                                return '<td><label class="switcher"><input type="checkbox" class="switcher-input" checked="checked" disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+                            }
+                            else {
+                                return '<td><label class="switcher"><input type="checkbox" class="switcher-input"  disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+                            }
+
+                            //return '<td> <label class="switcher"><input type="checkbox" class="switcher-input" checked="' + data + '" disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+
+                            //fingerPrint = '<td> <label class="switcher"><input type="checkbox" class="switcher-input" checked="' + data.result[i].FingerPrint + '" disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+                            //palm = '<td> <label class="switcher"><input type="checkbox" class="switcher-input" checked="' + data.result[i].Palm + '" disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+
+                        },
+                        targets: 5
+
+                    },
+                    {
+                        "data": "FingerPrint",
+                        "autoWidth": true,
+                        "searchable": false,
+                        "render": function (data, type, row) {
+
+
+                            //return '<td> <label class="switcher"><input type="checkbox" class="switcher-input" checked="' + data + '" disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+                            if (data != "") {
+                                return '<td><label class="switcher"><input type="checkbox" class="switcher-input" checked="checked" disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+                            }
+                            else {
+                                return '<td><label class="switcher"><input type="checkbox" class="switcher-input"  disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+                            }
+                        },
+                        targets: 6
+
+
+                    },
+                    {
+
+                        "data": "Palm",
+                        "autoWidth": true,
+                        "searchable": false,
+                        "render": function (data, type, row) {
+
+                            //return '<td> <label class="switcher"><input type="checkbox" class="switcher-input" checked="' + data + '" disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+                            if (data != "") {
+                                return '<td><label class="switcher"><input type="checkbox" class="switcher-input" checked="checked" disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+                            }
+                            else {
+                                return '<td><label class="switcher"><input type="checkbox" class="switcher-input"  disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+                            }
+                        },
+                        targets: 7
+
+
+                    },
+                    {
+                        "data": "Password",
+                        "autoWidth": true,
+                        "searchable": false,
+                        "render": function (data, type, row) {
+
+                            if (data != "") {
+                                return '<td><label class="switcher"><input type="checkbox" class="switcher-input" checked="checked" disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+                            }
+                            else {
+                                return '<td><label class="switcher"><input type="checkbox" class="switcher-input"  disabled><span class="switcher-indicator"><span class="switcher-yes"><span class="ion ion-md-checkmark"></span></span><span class="switcher-no"><span class="ion ion-md-close"></span> </span></span></label></td>';
+                            }
+                        },
+                        targets: 8
+
+
+                    },
+                    {
+                        "data": "Location",
+                        "autoWidth": true,
+                        "searchable": true,
+
+                        targets: 9
+
+
+                    },
+                    {
+                        "data": "Employee_Photo",
+                        "autoWidth": true,
+                        "searchable": false,
+                        "render": function (data, type, row) {
+
+                            if (data != "") {
+                                var today = new Date();
+
+                                return '<td><img src="' + data + '?' + today.toISOString()+'" style="width:50px;height:50px" /></td>';
+                            }
+                            else {
+                                return '<td><img src="/assets/img/avatars/no-image.jpg" style="width:50px;height:50px" /></td>';
+                            }
+                        },
+                        targets: 10
+
+
+                    },
+                    {
+                        "data": "Active",
+                        "autoWidth": true,
+                        "searchable": false,
+                        "render": function (data, type, row) {
+
+                            if (data == 0) {
+                                return "InActive";
+                            } else if (data == 1) {
+                                return "Active";
+                            }
+
+                        },
+                        targets: 11
+
+
+                    },
+
+                ],
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+            });
+
+
+        }
+
+        //Datatable Select
+        $("#selectUserAll").on("click", function (e) {
+            if ($(this).is(":checked")) {
+
+                table.rows({ page: 'current' }).select();
+            } else {
+                table.rows().deselect();
+            }
+        });
+
+         //Delete start
+        function DeleteExcelFile(filepath) {
+            $.ajax({
+
+                url: '@Url.Action("Delete", "User")',
+                type: "POST",
+                data: { filename: filepath },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                }
+            });
+        }
+        //Delete end
+
+
+        //Update on 5/9/2022
+        //Importing into excel
+         function Export(button) {
+
+             var selectedUser = [];
+
+             if (table.rows('.selected').count() > 0) {
+
+
+                 $.each(table.rows('.selected').nodes(), function (i, item) {
+
+                     var data = table.row(this).data();
+                     selectedUser.push(data.Code);
+
+                 });
+
+                 // console.log(selectedUser)
+
+                 ExportExcel(selectedUser);
+                 table.rows('.selected').remove().draw(false);
+
+             }
+             else if ($("input[name='radioType']:checked").val() == '1') {
+
+                 let selectedUser = [];
+                        $.ajax({
+                            url: '@Url.Action("GetRecordsByFilter", "User")',
+                            type: "POST",
+                            dataType: "json",
+                            cache: false,
+                            data: { loc: locationFilter, status: statusFilter },
+                            success: function (data) {
+
+                                selectedUser = data.users;
+
+                                ExportExcel(selectedUser);
+
+                            }
+                        });
+
+
+             }
+             else {
+                 showWarningNoti("Please Select Users!");
+             }
+
+
+
+         }
+
+        function ExportExcel(selectedUser) {
+            $("#dlblProgress").html("");
+            $("#duser-bar").width("0%");
+            $("#btnDClose").prop("disabled", true);
+            $("#dlblCompleted").text("");
+            $("#modals-delete").modal('toggle');
+            $("#modals-delete .modal-title").html('Exporting');
+              $.ajax({
+                     url: '@Url.Action("Export", "User")',
+                     type: "POST",
+                     data: { lstUserCode: selectedUser },
+                     dataType: "json",
+                     cache: false,
+                     success: function (data) {
+
+                         if (data.result) {
+
+                             var a = document.createElement('a');
+                             var url = "@Request.Url.GetLeftPart(UriPartial.Authority)" + "/Reports/" + data.fullname;
+                             a.href = url;
+                             a.download = data.fullname;
+                             document.body.append(a);
+                             a.click();
+                             a.remove();
+                             window.URL.revokeObjectURL(url);
+                             showSuccessNoti("Data Exported Successfully!");
+                             var filepath = data.fullname;
+
+                             DeleteExcelFile(filepath);
+
+                         } else {
+                             showWarningNoti("Issue occurred during export!");
+
+                         }
+                     },
+                     failure: function (response) {
+
+                     },
+                     error: function (err, status) {
+
+                     },
+                     complete: function (data) {
+                         //l.stop();
+                     }
+                 });
+
+        }
+
+        //Sync Start
+        function SyncUsers(code) {
+            $("#modals-machine").modal('toggle');
+            $.ajax({
+                url: '@Url.Action("SyncUsers", "User")',
+                type: "POST",
+                data: { deviceCode: code },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti(data.device + " sync..");
+                    } else {
+                        showWarningNoti(data.msg);
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                }
+            });
+        }
+        //Sync Ends
+
+        function Confirm(device) {
+
+            var username = $("#txtUserName").val();
+            var password = $("#txtPwd").val();
+             var actionNo = $("#hdnAction").val();
+            $.ajax({
+                url: '@Url.Action("ConfirmDelete", "Device")',
+                type: "POST",
+                data: { UserName: username, Password: password, Action: actionNo, deviceIds: device },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    $("#modals-auth").modal('toggle');
+                    $("#txtUserName").val("");
+                    $("#txtPwd").val("");
+                    switch (actionNo) {
+                        case "1":
+                            if (data.result) {
+                                showSuccessNoti('All Users Deleted..');
+                            }
+                            else {
+                                showWarningNoti('Login Credential not correct..')
+                            }
+                            break;
+                        case "2":
+                            if (data.result) {
+                                showSuccessNoti('All Administrator Deleted..');
+                            }
+                            else {
+                                showWarningNoti('Login Credential not correct..')
+                            }
+                            break;
+                    }
+
+                },
+                failure: function (response) {
+
+                },
+                error: function (err, status) {
+
+                },
+                complete: function (data) {
+
+                }
+            });
+        }
+
+
+         function Delete(user, device, button) {
+
+
+            $("#modals-machine").modal('toggle');
+            $("#modals-delete").modal('toggle');
+            $("#dlblProgress").html("");
+            $("#duser-bar").width("0%");
+            $("#btnDClose").prop("disabled", true);
+            $("#dlblCompleted").text("");
+
+
+            $.ajax({
+                url: '@Url.Action("DeleteUsers", "User")',
+                type: "POST",
+                data: { lstUserCode: user, deviceIds: device },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+
+                        swal({
+                            title: "Users deletion process completed!",
+                            type: "success",
+                            confirmButtonClass: 'btn-success',
+                            confirmButtonText: 'Ok!'
+                        });
+                    } else {
+                        showWarningNoti("User(s) cannot be deleted..");
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                    //$("#dlblProgress").html("");
+                   // $("#dlblCompleted").text("Completed");
+                    $("#btnDClose").prop("disabled", false);
+                }
+            });
+        }
+        //Delete Ends
+
+
+
+
+
+        //RestoreUserFromDB Start
+        function RestoreUserFromDB(user, names, button) {
+            $("#lblDeletedUsers").text("");
+            var l = Ladda.create(button);
+            l.start();
+
+
+            $.ajax({
+                url: '@Url.Action("RestoreUserFromDB", "User")',
+                type: "POST",
+                data: { lstUserCode: user, lstUserWithNames: names },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+
+                        swal({
+                            title: "Users restored successfully!",
+                            type: "success",
+                            confirmButtonClass: 'btn-success',
+                            confirmButtonText: 'Ok!'
+                        });
+
+                        $.each(tableDUsers.rows('.selected').nodes(), function (i, item) {
+
+                            var DataTableRows = tableDUsers.row(this).data()[1];
+
+                            for (let i = 0; i < data.successUsers.length; i++) {
+                                if (data.successUsers[i] == DataTableRows) {
+                                    //only Restored users rows is removing
+                                    tableDUsers.row(this).remove().draw(false);
+                                }
+                            }
+
+
+
+                        });
+                        //tableDUsers.rows('.selected').remove().draw(false);
+                    } else {
+                        showWarningNoti(data.msg);
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                   // $("#lblDeletedUsers").text("Completed");
+                }
+
+
+            });
+
+
+
+        }
+        //RestoreUserFromDB Ends
+
+
+        //DeletefromRDB Start
+        function DeleteFromRDB(user, button) {
+            $("#lblDeletedUsers").text("");
+            //var l = Ladda.create(button);
+            //l.start();
+
+
+            $.ajax({
+                url: '@Url.Action("DeleteFromRDB", "User")',
+                type: "POST",
+                data: { lstUserCode: user },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+
+                        swal({
+                            title: "Users deleted successfully!",
+                            type: "success",
+                            confirmButtonClass: 'btn-success',
+                            confirmButtonText: 'Ok!'
+                        });
+                    } else {
+                        showWarningNoti("User(s) cannot be deleted..");
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    //l.stop();
+                    //$("#lblDeletedUsers").text("Completed");
+                }
+
+
+            });
+
+
+
+        }
+        //DeletefromRDB Ends
+
+
+        //Delete Start
+        function DeleteFromDb(user,devices, button) {
+
+            var l = Ladda.create(button);
+            l.start();
+
+
+            $.ajax({
+                url: '@Url.Action("DeleteUsersFromDB", "User")',
+                type: "POST",
+                data: { lstUserCode: user, lstDeviceCode: devices },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+
+                        swal({
+                            title: "Users deleted successfully!",
+                            type: "success",
+                            confirmButtonClass: 'btn-success',
+                            confirmButtonText: 'Ok!'
+                        });
+                    } else {
+                        showWarningNoti("User(s) cannot be deleted..");
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+
+
+            });
+
+
+
+        }
+        //Delete Ends
+
+                //Delete Start
+                @*function Delete(codes, button) {
+
+                    var l = Ladda.create(button);
+                    l.start();
+                    $.ajax({
+                        url: '@Url.Action("DeleteUsers", "User")',
+                        type: "POST",
+                        data: { lstUserCode: codes },
+                        dataType: "json",
+                        cache: false,
+                        success: function (data) {
+                            if (data.result) {
+                                showSuccessNoti("User deleted successfully");
+                            } else {
+                                showWarningNoti("User cannot be deleted..");
+                            }
+                        },
+                        failure: function (response) {
+                        },
+                        error: function (err, status) {
+                        },
+                        complete: function (data) {
+                            l.stop();
+                            window.location.href = '@Url.Action("Index", "User")';
+                        }
+                    });
+                }
+                //Delete Ends*@
+
+
+                //GetDevices Start
+                function GetDevices(button, id) {
+                    var connectedDevices = [];
+                    var disConnectedDevices = [];
+                    tableMachine.clear().draw();
+                if (id == 1) {
+                    //$("#btnDeleteFromDevice").css("display", "inline");
+                    $("#btnDeleteFromDb").css("display", "inline");
+                    $("#lblDelete").css("display", "inline");
+                    $("#btnSendToDevice").css("display", "none");
+                    $("#btnRestoreToDevice").css("display", "none");
+                    $("#btnDeleteAllUsers").css("display", "none");
+                    $("#btnDeleteAllAdmins").css("display", "none");
+                    $("#btnSyncUsers").css("display", "none");
+
+                }
+                else if (id == 2) {
+                    $("#btnSendToDevice").css("display", "inline");
+                    //$("#btnDeleteFromDevice").css("display", "none");
+                    $("#btnDeleteFromDb").css("display", "none");
+                    $("#btnRestoreToDevice").css("display", "none");
+                    $("#lblDelete").css("display", "none");
+                    $("#btnDeleteAllUsers").css("display", "none");
+                    $("#btnDeleteAllAdmins").css("display", "none");
+                    $("#btnSyncUsers").css("display", "none");
+                    if (connectedDevices.length > 0) {
+                        $("#btnSendToDevice").css("display", "inline");
+                    }
+                    else if (disConnectedDevices.length > 0 && data.count == data.result.length) {
+                        $("#btnSendToDevice").css("display", "none");
+                    }
+                }
+
+                else if (id == 3) {
+                    $("#btnRestoreToDevice").css("display", "inline");
+                    $("#btnSendToDevice").css("display", "none");
+                   // $("#btnDeleteFromDevice").css("display", "none");
+                    $("#btnDeleteFromDb").css("display", "none");
+                    $("#lblDelete").css("display", "none");
+                    $("#btnDeleteAllUsers").css("display", "none");
+                    $("#btnDeleteAllAdmins").css("display", "none");
+                    $("#btnSyncUsers").css("display", "none");
+                        }
+                else if (id == 4) {
+                    $("#btnRestoreToDevice").css("display", "none");
+                    $("#btnSendToDevice").css("display", "none");
+                  //  $("#btnDeleteFromDevice").css("display", "none");
+                    $("#btnDeleteFromDb").css("display", "none");
+                    $("#btnDeleteAllUsers").css("display", "inline");
+                    $("#btnDeleteAllAdmins").css("display", "none");
+                    $("#btnSyncUsers").css("display", "none");
+                        }
+                else if (id == 5) {
+                    $("#btnRestoreToDevice").css("display", "none");
+                    $("#btnSendToDevice").css("display", "none");
+                  //  $("#btnDeleteFromDevice").css("display", "none");
+                    $("#btnDeleteFromDb").css("display", "none");
+                    $("#btnDeleteAllUsers").css("display", "none");
+                    $("#btnDeleteAllAdmins").css("display", "inline");
+                    $("#btnSyncUsers").css("display", "none");
+                } else if (id == 6) {
+                    $("#btnRestoreToDevice").css("display", "none");
+                    $("#btnSendToDevice").css("display", "none");
+                  //  $("#btnDeleteFromDevice").css("display", "none");
+                    $("#btnDeleteFromDb").css("display", "none");
+                    $("#btnDeleteAllUsers").css("display", "none");
+                    $("#btnDeleteAllAdmins").css("display", "none");
+                    $("#btnSyncUsers").css("display", "inline");
+                }
+
+
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("GetAllDevices", "Device")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result != null) {
+
+                        
+                        for (var i = 0; i < data.result.length; i++) {
+
+                            if (data.result[i].Device_Status == '1') {
+                                tableMachine.row.add([
+                                    '',
+                                    data.result[i].Device_ID,
+                                    data.result[i].Device_Name,
+                                    '<span style="color:#28D094">Connected</span>'
+                                ]).draw(false);
+                                connectedDevices.push(data.result[i].Device_ID);
+                            } else {
+
+                                tableMachine.row.add([
+                                    '',
+                                    data.result[i].Device_ID,
+                                    data.result[i].Device_Name,
+                                    '<span style="color:red">Disconnected</span>'
+                                ]).draw(false);
+                                disConnectedDevices.push(data.result[i].Device_ID);
+                            }
+
+
+                        }
+
+                        //if (flag)
+                        //{
+                        //    $("#btnSendToDevice").css("display", "none");
+                        //}
+
+                    }
+
+
+                },
+                failure: function (response) {
+                    alert("failure " + response.data);
+                },
+                error: function (err, status, thrown) {
+                    alert("error " + status + " " + thrown);
+                },
+                complete: function (data) {
+                    $("#modals-machine").modal('toggle');
+                    l.stop();
+                }
+
+
+            });
+
+
+        }
+        //GetDevices Ends
+
+
+
+        //GetDeletedUsers Start
+        function GetAllDeletedUsers(button) {
+            //$("#btnRestoreFromMachine").prop("disabled", true);
+            //$("#btnRestoreFromDb").prop("disabled", true);
+            //$("#btnDeleteFromRDB").prop("disabled", true);
+            //$("#btnClose").prop("disabled", true);
+            $("#lblDeletedUsers").text("");
+            //var l = Ladda.create(button);
+            //l.start();
+
+
+            tableDUsers.clear().draw();
+            if (!$("#modals-delusers").hasClass("show"))
+                 $("#modals-delusers").modal('toggle');
+
+            $.ajax({
+                url: '@Url.Action("GetDeletedUsers", "User")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result == false) {
+
+                        $("#btnRestoreFromDb").prop("disabled", true);
+                        $("#btnDeleteFromRDB").prop("disabled", true);
+                        $("#btnRestoreFromMachine").prop("disabled", true);
+                        $("#btnDeletedClose").prop("disabled", false);
+                        showWarningNoti("No Deleted users record..");
+                    } else {
+
+                        $("#btnRestoreFromDb").prop("disabled", false);
+                        $("#btnDeleteFromRDB").prop("disabled", false);
+                        $("#btnRestoreFromMachine").prop("disabled", false);
+                        $("#btnDeletedClose").prop("disabled", false);
+
+                    }
+
+
+                },
+                failure: function (response) {
+                    alert("failure " + response.data);
+                },
+                error: function (err, status, thrown) {
+                    alert("error " + status + " " + thrown);
+                },
+                complete: function (data) {
+                    //$("#modals-delusers").modal('toggle');
+                    //l.stop();
+                }
+
+            });
+
+
+        }
+        //GetDeletedUsers Ends
+
+        //var activeUserCount = 0;
+
+        //SendUserToDevice Start
+                function SendUserToDevice(user, device,actionNo) {
+
+                    tableTUsers.clear().draw();
+                    $("#modals-machine").modal('toggle');
+                    $("#lblProgress").html("");
+                    $(".progress-bar").width("0%");
+                    $("#lblCompleted").text("");
+                    $("#modals-transfer").modal('toggle');
+                    $("#selectAllMachine").prop("checked", false);
+                    //$("#btnStop").prop("disabled", false);
+                    $("#modals-transfer #btnClose").prop("disabled", true);
+
+
+
+                    $.ajax({
+                        url: '@Url.Action("SendUserToDevice", "User")',
+                        type: "POST",
+                        data: { userCodes: user, deviceIds: device ,action :actionNo},
+                        dataType: "json",
+                        cache: false,
+                        beforeSend: function (xhr) {
+                            asyncCallsXHR = xhr;
+                        },
+                        success: function (data) {
+                            
+                            if (data.result) {
+
+                            } else {
+                                msg = "<label class='text-danger'>" + data.msg + "</label>";
+                                
+                                //for inactive user single user
+                                if (data.count == 1 && data.result != true) {
+                                    $("#modals-transfer .modal-title").html('<h5>Not Transferring <span class="font-weight-light">Users...</span></h5>');
+                                    for (let i = 0; i < data.count; i++) {
+                                        tableTUsers.row.add([
+                                            data.empDeviceName[i],
+                                            data.empID[i],
+                                            data.empUserName[i],
+                                            msg
+                                        ]).draw(false);
+                                    }
+                                    $("#modals-transfer #btnClose").prop("disabled", false);
+                                }
+                                //either active or inactive
+                                else if (data.count > 1 && data.result != true && data.filteringMultiActiveUser.length >0) {
+
+                                    for (let i = 0; i < data.filteringMultiInActiveUser.length; i++) {
+
+                                        tableTUsers.row.add([
+                                            data.filteringMultiInActiveUser[i].Device_Name,
+                                            data.filteringMultiInActiveUser[i].Employee_ID,
+                                            data.filteringMultiInActiveUser[i].Employee_Name,
+                                            msg
+                                        ]).draw(false);
+                                    }
+                                }
+                                else if (data.count > 1 && data.filteringMultiActiveUser.length == 0
+                                    && data.filteringMultiInActiveUser.length > 0 && data.result != true)
+                                     {
+                                  
+                                        $("#modals-transfer .modal-title").html('<h5>Not Transferring <span class="font-weight-light">Users...</span></h5>');
+
+                                        for (let i = 0; i < data.filteringMultiInActiveUser.length; i++) {
+
+                                            tableTUsers.row.add([
+                                                data.filteringMultiInActiveUser[i].Device_Name,
+                                                data.filteringMultiInActiveUser[i].Employee_ID,
+                                                data.filteringMultiInActiveUser[i].Employee_Name,
+                                                msg
+                                            ]).draw(false);
+                                        }
+                                         $("#modals-transfer #btnClose").prop("disabled", false);
+                                     }
+
+                            }
+
+
+                            //if (data.result == false && data.serviceIssue > 0) {
+                            //    showWarningNoti("Unable to Send User to Device Check EagleEye Service.");
+                            //    window.setTimeout(function () {
+                            //        $("#modals-transfer").modal('toggle')
+                            //    }, 300)
+                            //} else {
+
+                                    //if (data.disconnect > 0 && data.result == false) {
+                                    //    showWarningNoti("Device is Disconnected.");
+                                    //    window.setTimeout(function () {
+                                    //        $("#modals-transfer").modal('toggle')
+                                    //    }, 300)
+                                    //}
+
+
+                                    //if (data.msg == "success")
+                                    //{
+                                    //        msg = "<label class='text-success'>" + data.msg + "</label>";
+                                    //}
+                                    //else
+                                    //{
+
+                                    //        msg = "<label class='text-danger'>" + data.msg + "</label>";
+                                    //}
+
+
+                                    //if (data.count == 1 && data.result != true) {
+
+                                    //    showWarningNoti("Unable to Send InActive User to Device.");
+                                    //    // $("#modals-transfer #btnClose").click();
+
+                                    //    window.setTimeout(function () {
+                                    //        $("#modals-transfer").modal('toggle')
+                                    //    }, 300)
+
+                                    //    //$("#modals-transfer .modal-title").html('<h5>Not Transferring <span class="font-weight-light">Users...</span></h5>');
+                                    //    //tableTUsers.row.add([
+                                    //    //    devicename,
+                                    //    //    data.ids,
+                                    //    //    data.username,
+                                    //    //    msg
+                                    //    //]).draw(false);
+                                    //    //$("#modals-transfer #btnClose").prop("disabled", false);
+
+                                    //}
+                                    //else if (data.count > 1 && data.result != true) {
+                                    //    showWarningNoti("Unable to Send InActive User to Device.");
+                                    //    window.setTimeout(function () {
+                                    //        $("#modals-transfer").modal('toggle')
+                                    //    }, 300)
+                                    //    //$("#modals-transfer .modal-title").html('<h5>Not Transferring <span class="font-weight-light">Users...</span></h5>');
+
+                                    //    //for (let i = 0; i < data.count; i++) {
+                                    //    //    tableTUsers.row.add([
+                                    //    //        data.device_ids[i],
+                                    //    //        data.ids[i],
+                                    //    //        data.username[i],
+                                    //    //        msg
+                                    //    //    ]).draw(false);
+                                    //    //}
+                                    //   // $("#modals-transfer #btnClose").prop("disabled", false);
+                                    //}
+
+                                    //else if ( data.result == true) {
+
+                                    //    $("#modals-transfer .modal-title").html('<h5> Transferring <span class="font-weight-light">Users...</span></h5>');
+
+                                    //    for (let i = 0; i < data.count; i++) {
+                                    //        tableTUsers.row.add([
+                                    //            data.someUserActiveOrNot[i]["Device_Name"],
+                                    //            data.someUserActiveOrNot[i]["Employee_ID"],
+                                    //            data.someUserActiveOrNot[i]["Employee_Name"],
+                                    //            msg
+                                    //        ]).draw(false);
+                                    //    }
+
+                                    //    activeUserCount = data.activeUsers;
+                                    //    console.log("From method",activeUserCount);
+                                    //}
+
+                            //}
+                        },
+                        failure: function (response) {
+                            alert("failure " + response.data);
+                        },
+                        error: function (err, status, thrown) {
+                            alert("error " + status + " " + thrown);
+                        },
+                        complete: function (data) {
+
+                        }
+
+
+                    });
+                    //selectedUser = [];
+                    //selectedDevice = [];
+
+
+                }
+                //SendUserToDevice Ends
+
+
+                //StopProcess Starts
+                function StopProcess() {
+
+                    if (asyncCallsXHR !== null)
+                        asyncCallsXHR.abort();
+                }
+                //StopProcess Ends
+
+
+
+
+        //SendUserTransferStatus Start
+        var progress = 1;
+        var percent = 0;
+
+        function SendUserTransferStatus(user_id, user_name, device_id, device_name, msg)
+        {
+            let filteringUsers = [];
+            for (let i = 0; i < selectedInActiveUser.length; i++) {
+
+                //active-users
+                if (selectedInActiveUser[i] == 1) {
+                    filteringUsers.push(selectedInActiveUser[i])
+                }
+                //inactive-users
+                //else {
+
+                //}
+            }
+
+            var total = filteringUsers.length * selectedDevice.length;
+
+            percent = (progress * 100) / total;
+            $("#lblProgress").html("Sending to Device: <span class='text-primary font-weight-semibold'>" + device_name + "</span> Users: <span class='text-primary font-weight-semibold'>" + progress + " / " + total + "</span>");
+            $(".progress-bar").width(percent + "%");
+            if (msg == "success") {
+                msg = "<label class='text-success'>" + msg +"</label>";
+            } else {
+                msg = "<label class='text-danger'>" + msg+"</label>";
+            }
+
+            tableTUsers.row.add([
+                device_name,
+                user_id,
+                user_name,
+                msg
+            ]).draw(false);
+
+            if (total == progress) {
+                //$("#lblProgress").html("");
+               // $("#lblCompleted").text("Completed");
+                $("#modals-transfer #btnClose").prop("disabled", false);
+                progress = 1;
+                percent = 0;
+                selectedUser = [];
+                selectedDevice = [];
+            }
+            else {
+                progress++;
+            }
+        }
+        //SendUserTransferStatus Ends
+
+
+
+
+
+
+    </script>
+
+
+    @*SignalR*@
+    <script>
+        var con2 = $.hubConnection("/signalr/hubs");
+        var hub2 = con2.createHubProxy("WebHub");
+        hub2.on('sendUserTransferStatus', function (emp, flag, device, device_id, total, progress, percent, msg) {
+
+
+            $("#lblProgress").html("Sending to Device: <span class='text-primary font-weight-semibold'>" + device + "</span> Users: <span class='text-primary font-weight-semibold'>" + progress + " / " + total + "</span>");
+            $(".progress-bar").width(percent + "%");
+
+
+            //if(tableTUsers.rows().count()<=200){
+
+            var status = '';
+            if (flag)
+                status = 'Sent';
+            else
+                status = 'Failed';
+
+            status = "<label id='lbl_" + emp.Employee_ID + "_" + device_id + "' class='text-warning'>Pending</label>";
+
+
+
+
+            tableTUsers.row.add([
+                device,
+                emp.Employee_ID,
+                emp.Employee_Name,
+                emp.Card_No,
+                status
+            ]).draw(false);
+
+
+        });
+
+
+        hub2.on('sendUserDeleteStatus', function (emp, flag, device, total, progress, percent, msg) {
+            $("#dlblProgress").html("Deleting From Device: <span class='text-primary font-weight-semibold'>" + device + "</span> Users: <span class='text-primary font-weight-semibold'>" + progress + " / " + total + "</span>");
+            $("#duser-bar").width(percent + "%");
+        });
+        hub2.on('deletedUsers', function (emp, count, total) {
+            var status = '';
+            if (emp.Active == 0)
+                status = 'InActive';
+            else
+                status = 'Active';
+
+            var gender = '';
+            if (emp.Gender == 0)
+                gender = 'Male';
+            else if (emp.gender == 1)
+                gender = 'Female';
+            else
+                gender = '';
+
+            tableDUsers.row.add([
+                '',
+                emp.Employee_ID,
+                emp.Employee_Name,
+                gender,
+                emp.Card_No,
+                status
+            ]).draw(false);
+            if (total == count) {
+                $("#btnRestoreFromDb").prop("disabled", false); $("#btnRestoreFromMachine").prop("disabled", false);
+                $("#btnDeleteFromRDB").prop("disabled", false);
+                $("#btnClose").prop("disabled", false);
+                //// $("#lblDelete").css("display", "inline");
+                //$("#lblDeletedUsers").text("Completed");
+                // $("#lblDelete").html("</span> Users: <span class='text-primary font-weight-semibold'>" + count + " / " + total + "</span>");
+
+                //  $("#lblDelete").html("<span class='text-primary font-weight-semibold'>Completed</span>");
+
+            }
+        });
+
+        //For Exporting user loader
+        hub2.on('ExportUser', function (emp, total, Progress, percent) {
+
+            $("#dlblProgress").html("Exporting Users: <span class='text-primary font-weight-semibold'>" + Progress + " / " + total + "</span>");
+            $("#duser-bar").width(percent + "%");
+            if (percent == 100) {
+                $("#btnDClose").prop("disabled", false);
+            }
+
+        });
+
+        con2.start({ transport: ["webSockets"] }).done(function () {
+            console.log("Web SignalR Connected");
+        });
+        
+        con2.serverTimeoutInMilliseconds = 1000 * 60 * 10;//10 min
+        hub2.connection.logging = true;
+
+        con2.reconnected(function () {
+            console.log("Web SignalR is reconnected.");
+
+            if (hub2.connection.lastError) {
+                console.log("Web SignalR reconnected. Reason: " + hub2.connection.lastError.message);
+            }
+        });
+
+        con2.connectionSlow(function () {
+            console.log("Web SignalR is connectionSlow.");
+        });
+
+        con2.stateChanged(function () {
+            console.log("Web SignalR is stateChanged.");
+        });
+
+        con2.disconnected(function () {
+
+            console.log("Web SignalR Disconnected.");
+            if (hub2.connection.lastError) {
+                console.log("Web SignalR Disconnected. Reason: " + hub2.connection.lastError.message);
+                $("#btnManageDelete").prop("disabled", true);
+            }
+
+            setTimeout(function () {
+                con2.start().done(function () {
+                    console.log("Web SignalR Connected");
+                    $("#btnManageDelete").prop("disabled", false);
+                });
+            }, 5000); // Restart connection after 5 seconds.
+
+        });
+
+
+    </script>
+
+
+    @if (com != null)
+    {
+        if (!string.IsNullOrEmpty(com.Server_IP) && !string.IsNullOrEmpty(com.SignalR_Port))
+        {
+
+            <script src="http://@com.Server_IP:@com.SignalR_Port/signalr/hubs"></script>
+            <script type="text/javascript">
+
+                $(function () {
+
+                    var serverIP = '@com.Server_IP';
+                    var signalrPort = '@com.SignalR_Port';
+
+                    $.connection.hub.url = "http://" + serverIP + ":" + signalrPort + "/signalr/hubs";
+                    var notifier = $.connection.NotifierHub;
+
+                    notifier.client.sendUserTransferStatus = function (user_id, user_name, device_id, device_name, msg) {
+
+
+                        SendUserTransferStatus(user_id,user_name,device_id,device_name, msg);
+                    }
+
+                    $.connection.hub.start().done(function () {
+
+                        console.log("SignalR Connected");
+                    })
+
+                    $.connection.hub.reconnected(function () {
+
+                        console.log("SignalR is reconnected.");
+                    });
+
+
+                    $.connection.hub.disconnected(function () {
+
+                        showWarningNoti("SignalR Disconnected Due to Inactivity");
+                        console.log("SignalR Disconnected.");
+
+                        if ($.connection.hub.lastError) {
+                            console.log("SignalR Disconnected. Reason: " + $.connection.hub.lastError.message);
+                        }
+
+                        setTimeout(function () {
+                            $.connection.hub.start().done(function () {
+                                console.log("SignalR Connected");
+                            });
+                        }, 5000); // Restart connection after 10 seconds.
+
+                    });
+                })
+
+            </script>
+        }
+    }
+
+}

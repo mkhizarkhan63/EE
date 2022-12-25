@@ -1,0 +1,702 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EagleEyeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tbl_account">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" />
+    <Property Name="Hash" Type="varchar(max)" />
+    <Property Name="Salt" Type="varbinary(max)" />
+    <Property Name="LastLogin" Type="datetime" />
+    <Property Name="Location" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tbl_att_status">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tbl_attendence">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Attendance_DateTime" Type="datetime" />
+    <Property Name="Attendance_Photo" Type="varchar(max)" />
+    <Property Name="Polling_DateTime" Type="datetime" />
+    <Property Name="Device_ID" Type="varchar" MaxLength="250" />
+    <Property Name="Employee_ID" Type="varchar" MaxLength="50" />
+    <Property Name="Employee_Name" Type="varchar" MaxLength="150" />
+    <Property Name="Status" Type="varchar" MaxLength="250" />
+    <Property Name="Status_Description" Type="varchar" MaxLength="250" />
+    <Property Name="WorkCode" Type="varchar" MaxLength="25" />
+    <Property Name="WorkCode_Description" Type="varchar" MaxLength="250" />
+    <Property Name="DoorStatus" Type="varchar" MaxLength="100" />
+    <Property Name="Verify_Mode" Type="varchar" MaxLength="250" />
+    <Property Name="Status_TIS" Type="bit" />
+    <Property Name="Status_Oracle" Type="bit" />
+    <Property Name="Status_SQL" Type="bit" />
+    <Property Name="Ext_Status" Type="varchar" MaxLength="50" />
+    <Property Name="Status_MySQL" Type="bit" />
+  </EntityType>
+  <EntityType Name="tbl_awaitingdevice">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Device_ID" Type="varchar" MaxLength="50" />
+    <Property Name="Device_Name" Type="varchar" MaxLength="50" />
+    <Property Name="Device_Info" Type="varchar(max)" />
+    <Property Name="Device_Status_Info" Type="varchar(max)" />
+    <Property Name="Device_Type" Type="varchar" MaxLength="25" />
+    <Property Name="IsConnected" Type="bit" />
+  </EntityType>
+  <EntityType Name="tbl_communication">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Server_IP" Type="varchar" MaxLength="50" />
+    <Property Name="SignalR_Port" Type="varchar" MaxLength="50" />
+    <Property Name="Server_Port" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tbl_department">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="tbl_designation">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="tbl_device">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Device_ID" Type="varchar" MaxLength="50" />
+    <Property Name="Device_Name" Type="varchar" MaxLength="50" />
+    <Property Name="Device_Type" Type="varchar" MaxLength="50" />
+    <Property Name="Device_Info" Type="varchar(max)" />
+    <Property Name="Face_Data_Ver" Type="varchar" MaxLength="10" />
+    <Property Name="Firmware" Type="varchar" MaxLength="250" />
+    <Property Name="Firmware_Filename" Type="varchar(max)" />
+    <Property Name="Fk_Bin_Data_Lib" Type="varchar" MaxLength="25" />
+    <Property Name="Fp_Data_Ver" Type="varchar" MaxLength="10" />
+    <Property Name="Supported_Enroll_Data" Type="varchar" MaxLength="50" />
+    <Property Name="Device_Status_Info" Type="varchar(max)" />
+    <Property Name="Max_Record" Type="varchar" MaxLength="10" />
+    <Property Name="Real_FaceReg" Type="varchar" MaxLength="50" />
+    <Property Name="Max_FaceReg" Type="varchar" MaxLength="50" />
+    <Property Name="Real_FPReg" Type="varchar" MaxLength="50" />
+    <Property Name="Max_FPReg" Type="varchar" MaxLength="50" />
+    <Property Name="Real_IDCardReg" Type="varchar" MaxLength="50" />
+    <Property Name="Max_IDCardReg" Type="varchar" MaxLength="50" />
+    <Property Name="Real_Manager" Type="varchar" MaxLength="50" />
+    <Property Name="Max_Manager" Type="varchar" MaxLength="50" />
+    <Property Name="Real_PasswordReg" Type="varchar" MaxLength="50" />
+    <Property Name="Max_PasswordReg" Type="varchar" MaxLength="50" />
+    <Property Name="Real_PvReg" Type="varchar" MaxLength="10" />
+    <Property Name="Max_PvReg" Type="varchar" MaxLength="10" />
+    <Property Name="Total_log_Count" Type="varchar" MaxLength="10" />
+    <Property Name="Total_log_Max" Type="varchar" MaxLength="10" />
+    <Property Name="Real_Employee" Type="varchar" MaxLength="10" />
+    <Property Name="Max_Employee" Type="varchar" MaxLength="10" />
+    <Property Name="Device_LastStatusTime" Type="datetime" />
+    <Property Name="Alarm_Delay" Type="varchar" MaxLength="10" />
+    <Property Name="Allow_EarlyTime" Type="varchar" MaxLength="10" />
+    <Property Name="Allow_LateTime" Type="varchar" MaxLength="10" />
+    <Property Name="Anti-back" Type="varchar" MaxLength="10" />
+    <Property Name="DoorMagnetic_Delay" Type="varchar" MaxLength="10" />
+    <Property Name="DoorMagnetic_Type" Type="varchar" MaxLength="10" />
+    <Property Name="Glog_Warning" Type="varchar" MaxLength="10" />
+    <Property Name="OpenDoor_Delay" Type="varchar" MaxLength="10" />
+    <Property Name="Receive_Interval" Type="varchar" MaxLength="10" />
+    <Property Name="Reverify_Time" Type="varchar" MaxLength="10" />
+    <Property Name="Show_ResultTime" Type="varchar" MaxLength="10" />
+    <Property Name="Screensavers_Time" Type="varchar" MaxLength="10" />
+    <Property Name="Sleep_Time" Type="varchar" MaxLength="10" />
+    <Property Name="Use_Alarm" Type="varchar" MaxLength="10" />
+    <Property Name="Volume" Type="varchar" MaxLength="10" />
+    <Property Name="Wiegand_Input" Type="varchar" MaxLength="10" />
+    <Property Name="Wiegand_Output" Type="varchar" MaxLength="10" />
+    <Property Name="Wiegand_Type" Type="varchar" MaxLength="10" />
+    <Property Name="Multi_Users" Type="varchar" MaxLength="10" />
+    <Property Name="Device_Group" Type="int" />
+    <Property Name="Server_Address" Type="varchar" MaxLength="20" />
+    <Property Name="Server_Port" Type="varchar" MaxLength="20" />
+    <Property Name="Sys_Time" Type="datetime" />
+    <Property Name="Device_Status" Type="int" />
+    <Property Name="Reader_ID" Type="int" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="Last_Polled_Record" Type="datetime" />
+    <Property Name="Device_Location" Type="varchar" MaxLength="50" />
+    <Property Name="OpenDoor" Type="varchar" MaxLength="10" />
+    <Property Name="IsSlave" Type="bit" />
+  </EntityType>
+  <EntityType Name="tbl_employee">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Employee_ID" Type="varchar" MaxLength="50" />
+    <Property Name="Employee_Name" Type="varchar" MaxLength="150" />
+    <Property Name="Employee_Photo" Type="varchar(max)" />
+    <Property Name="Card_No" Type="varchar" MaxLength="50" />
+    <Property Name="User_Privilege" Type="varchar" MaxLength="50" />
+    <Property Name="Gender" Type="varchar" MaxLength="50" />
+    <Property Name="FingerPrint" Type="bit" />
+    <Property Name="Face" Type="bit" />
+    <Property Name="Palm" Type="bit" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="Device_Id" Type="varchar" MaxLength="50" />
+    <Property Name="fkDepartment_Code" Type="int" />
+    <Property Name="fkLocation_Code" Type="int" />
+    <Property Name="fkDesignation_Code" Type="int" />
+    <Property Name="fkEmployeeType_Code" Type="int" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="Address" Type="varchar(max)" />
+    <Property Name="Active" Type="int" />
+    <Property Name="Telephone" Type="varchar" MaxLength="50" />
+    <Property Name="Trans_Id" Type="varchar" MaxLength="50" />
+    <Property Name="Update_Date" Type="datetime" />
+    <Property Name="Cmd_Param" Type="varbinary(max)" />
+    <Property Name="finger_0" Type="varbinary(max)" />
+    <Property Name="finger_1" Type="varbinary(max)" />
+    <Property Name="finger_2" Type="varbinary(max)" />
+    <Property Name="finger_3" Type="varbinary(max)" />
+    <Property Name="finger_4" Type="varbinary(max)" />
+    <Property Name="finger_5" Type="varbinary(max)" />
+    <Property Name="finger_6" Type="varbinary(max)" />
+    <Property Name="finger_7" Type="varbinary(max)" />
+    <Property Name="finger_8" Type="varbinary(max)" />
+    <Property Name="finger_9" Type="varbinary(max)" />
+    <Property Name="face_data" Type="varbinary(max)" />
+    <Property Name="palm_0" Type="varbinary(max)" />
+    <Property Name="palm_1" Type="varbinary(max)" />
+    <Property Name="photo_data" Type="varbinary(max)" />
+    <Property Name="Valid_DateStart" Type="varchar" MaxLength="50" />
+    <Property Name="Valid_DateEnd" Type="varchar" MaxLength="50" />
+    <Property Name="Sunday" Type="varchar" MaxLength="25" />
+    <Property Name="Monday" Type="varchar" MaxLength="25" />
+    <Property Name="Tuesday" Type="varchar" MaxLength="25" />
+    <Property Name="Wednesday" Type="varchar" MaxLength="25" />
+    <Property Name="Thursday" Type="varchar" MaxLength="25" />
+    <Property Name="Friday" Type="varchar" MaxLength="25" />
+    <Property Name="Saturday" Type="varchar" MaxLength="25" />
+    <Property Name="IsDelete" Type="bit" />
+    <Property Name="WorkHourPolicyCode" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_employeetype">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="tbl_exceptionlog">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Exception_Layer" Type="varchar" MaxLength="250" />
+    <Property Name="Method" Type="varchar(max)" />
+    <Property Name="Stacktrace" Type="varchar(max)" />
+    <Property Name="Error_Message" Type="varchar(max)" />
+    <Property Name="Form" Type="varchar" MaxLength="250" />
+    <Property Name="Exception_DateTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tbl_expiredusers">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Employee_ID" Type="varchar" MaxLength="50" />
+    <Property Name="Employee_Name" Type="varchar" MaxLength="150" />
+    <Property Name="Employee_Photo" Type="varchar(max)" />
+    <Property Name="Card_No" Type="varchar" MaxLength="50" />
+    <Property Name="User_Privilege" Type="varchar" MaxLength="50" />
+    <Property Name="Gender" Type="varchar" MaxLength="50" />
+    <Property Name="FingerPrint" Type="bit" />
+    <Property Name="Face" Type="bit" />
+    <Property Name="Palm" Type="bit" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="Device_Id" Type="varchar" MaxLength="50" />
+    <Property Name="fkDepartment_Code" Type="int" />
+    <Property Name="fkLocation_Code" Type="int" />
+    <Property Name="fkDesignation_Code" Type="int" />
+    <Property Name="fkEmployeeType_Code" Type="int" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="Address" Type="varchar(max)" />
+    <Property Name="Active" Type="int" />
+    <Property Name="Telephone" Type="varchar" MaxLength="50" />
+    <Property Name="Trans_Id" Type="varchar" MaxLength="50" />
+    <Property Name="Update_Date" Type="datetime" />
+    <Property Name="Cmd_Param" Type="varbinary(max)" />
+    <Property Name="finger_0" Type="varbinary(max)" />
+    <Property Name="finger_1" Type="varbinary(max)" />
+    <Property Name="finger_2" Type="varbinary(max)" />
+    <Property Name="finger_3" Type="varbinary(max)" />
+    <Property Name="finger_4" Type="varbinary(max)" />
+    <Property Name="finger_5" Type="varbinary(max)" />
+    <Property Name="finger_6" Type="varbinary(max)" />
+    <Property Name="finger_7" Type="varbinary(max)" />
+    <Property Name="finger_8" Type="varbinary(max)" />
+    <Property Name="finger_9" Type="varbinary(max)" />
+    <Property Name="face_data" Type="varbinary(max)" />
+    <Property Name="palm_0" Type="varbinary(max)" />
+    <Property Name="palm_1" Type="varbinary(max)" />
+    <Property Name="photo_data" Type="varbinary(max)" />
+    <Property Name="Valid_DateStart" Type="varchar" MaxLength="50" />
+    <Property Name="Valid_DateEnd" Type="varchar" MaxLength="50" />
+    <Property Name="Sunday" Type="varchar" MaxLength="25" />
+    <Property Name="Monday" Type="varchar" MaxLength="25" />
+    <Property Name="Tuesday" Type="varchar" MaxLength="25" />
+    <Property Name="Wednesday" Type="varchar" MaxLength="25" />
+    <Property Name="Thursday" Type="varchar" MaxLength="25" />
+    <Property Name="Friday" Type="varchar" MaxLength="25" />
+    <Property Name="Saturday" Type="varchar" MaxLength="25" />
+    <Property Name="IsDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="tbl_fkcmd_trans">
+    <Key>
+      <PropertyRef Name="trans_id" />
+    </Key>
+    <Property Name="trans_id" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="device_id" Type="varchar" MaxLength="24" Nullable="false" />
+    <Property Name="user_id" Type="varchar" MaxLength="50" />
+    <Property Name="timezone_no" Type="varchar" MaxLength="50" />
+    <Property Name="cmd_code" Type="varchar" MaxLength="32" Nullable="false" />
+    <Property Name="return_code" Type="varchar" MaxLength="64" />
+    <Property Name="status" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="update_time" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_fkcmd_trans_cmd_param">
+    <Key>
+      <PropertyRef Name="trans_id" />
+    </Key>
+    <Property Name="trans_id" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="device_id" Type="varchar" MaxLength="24" Nullable="false" />
+    <Property Name="cmd_param" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tbl_fkcmd_trans_cmd_param_offline">
+    <Key>
+      <PropertyRef Name="trans_id" />
+    </Key>
+    <Property Name="trans_id" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="device_id" Type="varchar" MaxLength="24" Nullable="false" />
+    <Property Name="cmd_param" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tbl_fkcmd_trans_cmd_result">
+    <Key>
+      <PropertyRef Name="trans_id" />
+    </Key>
+    <Property Name="trans_id" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="device_id" Type="varchar" MaxLength="24" Nullable="false" />
+    <Property Name="cmd_result" Type="varbinary(max)" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'EagleEye.dbo.tbl_fkcmd_trans_cmd_result_log_data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tbl_fkcmd_trans_cmd_result_log_data">
+    <Key>
+      <PropertyRef Name="trans_id" />
+      <PropertyRef Name="device_id" />
+    </Key>
+    <Property Name="trans_id" Type="nvarchar" MaxLength="16" Nullable="false" />
+    <Property Name="device_id" Type="nvarchar" MaxLength="24" Nullable="false" />
+    <Property Name="user_id" Type="nvarchar" MaxLength="64" />
+    <Property Name="verify_mode" Type="nvarchar" MaxLength="64" />
+    <Property Name="io_mode" Type="nvarchar" MaxLength="32" />
+    <Property Name="io_time" Type="datetime" />
+    <Property Name="io_workcode" Type="nchar" MaxLength="16" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'EagleEye.dbo.tbl_fkcmd_trans_cmd_result_slog_data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tbl_fkcmd_trans_cmd_result_slog_data">
+    <Key>
+      <PropertyRef Name="trans_id" />
+      <PropertyRef Name="device_id" />
+    </Key>
+    <Property Name="trans_id" Type="nvarchar" MaxLength="16" Nullable="false" />
+    <Property Name="device_id" Type="nvarchar" MaxLength="24" Nullable="false" />
+    <Property Name="kind" Type="nvarchar" MaxLength="64" />
+    <Property Name="tobackup_number" Type="nvarchar" MaxLength="64" />
+    <Property Name="user_id" Type="nvarchar" MaxLength="64" />
+    <Property Name="touser_id" Type="nvarchar" MaxLength="64" />
+    <Property Name="operation_time" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tbl_fkcmd_trans_cmd_result_user_id_list">
+    <Key>
+      <PropertyRef Name="code" />
+    </Key>
+    <Property Name="code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="trans_id" Type="nvarchar" MaxLength="16" Nullable="false" />
+    <Property Name="device_id" Type="nvarchar" MaxLength="24" Nullable="false" />
+    <Property Name="user_id" Type="nvarchar" MaxLength="64" />
+    <Property Name="backup_number" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_fkcmd_trans_offline">
+    <Key>
+      <PropertyRef Name="trans_id" />
+    </Key>
+    <Property Name="trans_id" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="device_id" Type="varchar" MaxLength="24" />
+    <Property Name="user_id" Type="varchar" MaxLength="50" />
+    <Property Name="timezone_no" Type="varchar" MaxLength="50" />
+    <Property Name="cmd_code" Type="varchar" MaxLength="32" />
+    <Property Name="return_code" Type="varchar" MaxLength="64" />
+    <Property Name="status" Type="varchar" MaxLength="16" />
+    <Property Name="update_time" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tbl_fkdevice_status">
+    <Key>
+      <PropertyRef Name="device_id" />
+    </Key>
+    <Property Name="device_id" Type="varchar" MaxLength="24" Nullable="false" />
+    <Property Name="device_name" Type="varchar" MaxLength="24" Nullable="false" />
+    <Property Name="connected" Type="int" Nullable="false" />
+    <Property Name="last_update_time" Type="datetime" Nullable="false" />
+    <Property Name="last_update_fk_time" Type="datetime" />
+    <Property Name="device_info" Type="nvarchar" MaxLength="2048" />
+    <Property Name="dev_model" Type="varchar" MaxLength="24" />
+    <Property Name="dev_status_info" Type="nvarchar" MaxLength="1024" />
+    <Property Name="con_status" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_irregularemployee">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Employee_ID" Type="varchar" MaxLength="50" />
+    <Property Name="Employee_Name" Type="varchar" MaxLength="150" />
+    <Property Name="Employee_Photo" Type="varchar(max)" />
+    <Property Name="Card_No" Type="varchar" MaxLength="50" />
+    <Property Name="User_Privilege" Type="varchar" MaxLength="50" />
+    <Property Name="Gender" Type="varchar" MaxLength="50" />
+    <Property Name="FingerPrint" Type="bit" />
+    <Property Name="Face" Type="bit" />
+    <Property Name="Palm" Type="bit" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="Device_Id" Type="varchar" MaxLength="50" />
+    <Property Name="fkDepartment_Code" Type="int" />
+    <Property Name="fkLocation_Code" Type="int" />
+    <Property Name="fkDesignation_Code" Type="int" />
+    <Property Name="fkEmployeeType_Code" Type="int" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="Address" Type="varchar(max)" />
+    <Property Name="Active" Type="int" />
+    <Property Name="Telephone" Type="varchar" MaxLength="50" />
+    <Property Name="Trans_Id" Type="varchar" MaxLength="50" />
+    <Property Name="Update_Date" Type="datetime" />
+    <Property Name="Cmd_Param" Type="varbinary(max)" />
+    <Property Name="finger_0" Type="varbinary(max)" />
+    <Property Name="finger_1" Type="varbinary(max)" />
+    <Property Name="finger_2" Type="varbinary(max)" />
+    <Property Name="finger_3" Type="varbinary(max)" />
+    <Property Name="finger_4" Type="varbinary(max)" />
+    <Property Name="finger_5" Type="varbinary(max)" />
+    <Property Name="finger_6" Type="varbinary(max)" />
+    <Property Name="finger_7" Type="varbinary(max)" />
+    <Property Name="finger_8" Type="varbinary(max)" />
+    <Property Name="finger_9" Type="varbinary(max)" />
+    <Property Name="face_data" Type="varbinary(max)" />
+    <Property Name="palm_0" Type="varbinary(max)" />
+    <Property Name="palm_1" Type="varbinary(max)" />
+    <Property Name="photo_data" Type="varbinary(max)" />
+    <Property Name="IsDelete" Type="bit" />
+    <Property Name="Msg" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="tbl_location">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="250" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_menu">
+    <Key>
+      <PropertyRef Name="Menu_Id" />
+    </Key>
+    <Property Name="Menu_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Menu_Name" Type="varchar" MaxLength="100" />
+    <Property Name="Menu_Controller" Type="varchar" MaxLength="100" />
+    <Property Name="Menu_Action" Type="varchar" MaxLength="100" />
+    <Property Name="Parent" Type="varchar" MaxLength="25" />
+    <Property Name="Icon" Type="varchar" MaxLength="25" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="tbl_menurights">
+    <Key>
+      <PropertyRef Name="Menu_Rights_Id" />
+    </Key>
+    <Property Name="Menu_Rights_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User_Id" Type="int" />
+    <Property Name="Menu_Id" Type="int" />
+    <Property Name="Insert" Type="bit" />
+    <Property Name="Update" Type="bit" />
+    <Property Name="Delete" Type="bit" />
+    <Property Name="View" Type="bit" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="tbl_operationlog">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Trans_ID" Type="varchar" MaxLength="25" />
+    <Property Name="Device_ID" Type="varchar" MaxLength="25" />
+    <Property Name="Device_Name" Type="varchar" MaxLength="50" />
+    <Property Name="Action" Type="varchar" MaxLength="250" />
+    <Property Name="Status" Type="varchar" MaxLength="10" />
+    <Property Name="Message" Type="varchar" MaxLength="50" />
+    <Property Name="UpdateTime" Type="datetime" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" />
+    <Property Name="Device_Status" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_policyDetail">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DayCheck" Type="bit" />
+    <Property Name="Day" Type="varchar" MaxLength="10" />
+    <Property Name="Workhour" Type="varchar" MaxLength="20" />
+    <Property Name="Overtime" Type="varchar" MaxLength="20" />
+    <Property Name="Breakhour" Type="varchar" MaxLength="20" />
+    <Property Name="isOvertimeActive" Type="bit" />
+    <Property Name="PolicyCode" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_policyWithEmployee">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Emp_id" Type="varchar" MaxLength="20" />
+    <Property Name="Dt" Type="datetime" />
+    <Property Name="Workhour" Type="varchar" MaxLength="20" />
+    <Property Name="Overtime" Type="varchar" MaxLength="20" />
+    <Property Name="Breakhour" Type="varchar" MaxLength="20" />
+    <Property Name="Extrahour" Type="varchar" MaxLength="20" />
+    <Property Name="Policycode" Type="varchar" MaxLength="20" />
+    <Property Name="CreatedOn" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'EagleEye.dbo.tbl_realtime_doorstatus' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tbl_realtime_doorstatus">
+    <Key>
+      <PropertyRef Name="update_time" />
+    </Key>
+    <Property Name="update_time" Type="datetime" Nullable="false" />
+    <Property Name="device_id" Type="varchar" MaxLength="24" />
+    <Property Name="door_status" Type="varchar" MaxLength="16" />
+  </EntityType>
+  <EntityType Name="tbl_realtime_enroll_data">
+    <Key>
+      <PropertyRef Name="code" />
+    </Key>
+    <Property Name="code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="update_time" Type="datetime" Nullable="false" />
+    <Property Name="device_id" Type="varchar" MaxLength="24" Nullable="false" />
+    <Property Name="user_id" Type="varchar" MaxLength="64" Nullable="false" />
+    <Property Name="user_data" Type="varbinary(max)" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'EagleEye.dbo.tbl_realtime_glog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tbl_realtime_glog">
+    <Key>
+      <PropertyRef Name="update_time" />
+    </Key>
+    <Property Name="update_time" Type="datetime" Nullable="false" />
+    <Property Name="device_id" Type="varchar" MaxLength="24" />
+    <Property Name="user_id" Type="varchar" MaxLength="64" />
+    <Property Name="verify_mode" Type="varchar" MaxLength="64" />
+    <Property Name="io_mode" Type="varchar" MaxLength="32" />
+    <Property Name="io_time" Type="datetime" />
+    <Property Name="io_workcode" Type="nchar" MaxLength="16" />
+    <Property Name="log_image" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tbl_realtime_userinfo">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="user_name" Type="varchar" MaxLength="50" />
+    <Property Name="privilige" Type="varchar" MaxLength="50" />
+    <Property Name="card" Type="varchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="Face" Type="varbinary(max)" />
+    <Property Name="photo" Type="varbinary(max)" />
+    <Property Name="Fp_0" Type="varbinary(max)" />
+    <Property Name="Fp_1" Type="varbinary(max)" />
+    <Property Name="Fp_2" Type="varbinary(max)" />
+    <Property Name="Fp_3" Type="varbinary(max)" />
+    <Property Name="Fp_4" Type="varbinary(max)" />
+    <Property Name="Fp_5" Type="varbinary(max)" />
+    <Property Name="Fp_6" Type="varbinary(max)" />
+    <Property Name="Fp_7" Type="varbinary(max)" />
+    <Property Name="Fp_8" Type="varbinary(max)" />
+    <Property Name="Fp_9" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tbl_setting">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AppSetting_Path" Type="varchar(max)" />
+    <Property Name="ServiceName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tbl_temptable">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Device_ID" Type="varchar" MaxLength="50" />
+    <Property Name="Employee_ID" Type="varchar" MaxLength="50" />
+    <Property Name="Cmd" Type="varchar" MaxLength="200" />
+    <Property Name="DateTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tbl_timezone">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Timezone_No" Type="varchar" MaxLength="20" />
+    <Property Name="Timezone_Name" Type="varchar" MaxLength="50" />
+    <Property Name="Period_1_Start" Type="varchar" MaxLength="50" />
+    <Property Name="Period_1_End" Type="varchar" MaxLength="50" />
+    <Property Name="Period_2_Start" Type="varchar" MaxLength="50" />
+    <Property Name="Period_2_End" Type="varchar" MaxLength="50" />
+    <Property Name="Period_3_Start" Type="varchar" MaxLength="50" />
+    <Property Name="Period_3_End" Type="varchar" MaxLength="50" />
+    <Property Name="Period_4_Start" Type="varchar" MaxLength="50" />
+    <Property Name="Period_4_End" Type="varchar" MaxLength="50" />
+    <Property Name="Period_5_Start" Type="varchar" MaxLength="50" />
+    <Property Name="Period_5_End" Type="varchar" MaxLength="50" />
+    <Property Name="Period_6_Start" Type="varchar" MaxLength="50" />
+    <Property Name="Period_6_End" Type="varchar" MaxLength="50" />
+    <Property Name="Status" Type="bit" />
+  </EntityType>
+  <EntityType Name="tbl_workcode">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tbl_workHourPolicy">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PolicyName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="isActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Function Name="usp_check_reset_fk_cmd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="dev_id" Type="varchar" Mode="In" />
+    <Parameter Name="trans_id" Type="varchar" Mode="InOut" />
+  </Function>
+  <Function Name="usp_receive_cmd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="dev_id" Type="varchar" Mode="In" />
+    <Parameter Name="trans_id" Type="varchar" Mode="InOut" />
+    <Parameter Name="cmd_code" Type="varchar" Mode="InOut" />
+    <Parameter Name="cmd_param_bin" Type="varbinary(max)" Mode="InOut" />
+  </Function>
+  <Function Name="usp_set_cmd_result" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="dev_id" Type="varchar" Mode="In" />
+    <Parameter Name="trans_id" Type="varchar" Mode="In" />
+    <Parameter Name="return_code" Type="varchar" Mode="In" />
+    <Parameter Name="cmd_result_bin" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="usp_update_device_conn_status" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="dev_id" Type="varchar" Mode="In" />
+    <Parameter Name="dev_name" Type="varchar" Mode="In" />
+    <Parameter Name="tm_last_update" Type="datetime" Mode="In" />
+    <Parameter Name="fktm_last_update" Type="datetime" Mode="In" />
+    <Parameter Name="dev_info" Type="varchar" Mode="In" />
+    <Parameter Name="dev_model" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="EagleEyeModelStoreContainer">
+    <EntitySet Name="tbl_account" EntityType="Self.tbl_account" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_att_status" EntityType="Self.tbl_att_status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_attendence" EntityType="Self.tbl_attendence" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_awaitingdevice" EntityType="Self.tbl_awaitingdevice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_communication" EntityType="Self.tbl_communication" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_department" EntityType="Self.tbl_department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_designation" EntityType="Self.tbl_designation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_device" EntityType="Self.tbl_device" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_employee" EntityType="Self.tbl_employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_employeetype" EntityType="Self.tbl_employeetype" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_exceptionlog" EntityType="Self.tbl_exceptionlog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_expiredusers" EntityType="Self.tbl_expiredusers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_fkcmd_trans" EntityType="Self.tbl_fkcmd_trans" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_fkcmd_trans_cmd_param" EntityType="Self.tbl_fkcmd_trans_cmd_param" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_fkcmd_trans_cmd_param_offline" EntityType="Self.tbl_fkcmd_trans_cmd_param_offline" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_fkcmd_trans_cmd_result" EntityType="Self.tbl_fkcmd_trans_cmd_result" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_fkcmd_trans_cmd_result_user_id_list" EntityType="Self.tbl_fkcmd_trans_cmd_result_user_id_list" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_fkcmd_trans_offline" EntityType="Self.tbl_fkcmd_trans_offline" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_fkdevice_status" EntityType="Self.tbl_fkdevice_status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_irregularemployee" EntityType="Self.tbl_irregularemployee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_location" EntityType="Self.tbl_location" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_menu" EntityType="Self.tbl_menu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_menurights" EntityType="Self.tbl_menurights" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_operationlog" EntityType="Self.tbl_operationlog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_policyDetail" EntityType="Self.tbl_policyDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_policyWithEmployee" EntityType="Self.tbl_policyWithEmployee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_realtime_enroll_data" EntityType="Self.tbl_realtime_enroll_data" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_realtime_userinfo" EntityType="Self.tbl_realtime_userinfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_setting" EntityType="Self.tbl_setting" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_temptable" EntityType="Self.tbl_temptable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_timezone" EntityType="Self.tbl_timezone" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_workcode" EntityType="Self.tbl_workcode" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_workHourPolicy" EntityType="Self.tbl_workHourPolicy" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_fkcmd_trans_cmd_result_log_data" EntityType="Self.tbl_fkcmd_trans_cmd_result_log_data" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tbl_fkcmd_trans_cmd_result_log_data].[trans_id] AS [trans_id], 
+    [tbl_fkcmd_trans_cmd_result_log_data].[device_id] AS [device_id], 
+    [tbl_fkcmd_trans_cmd_result_log_data].[user_id] AS [user_id], 
+    [tbl_fkcmd_trans_cmd_result_log_data].[verify_mode] AS [verify_mode], 
+    [tbl_fkcmd_trans_cmd_result_log_data].[io_mode] AS [io_mode], 
+    [tbl_fkcmd_trans_cmd_result_log_data].[io_time] AS [io_time], 
+    [tbl_fkcmd_trans_cmd_result_log_data].[io_workcode] AS [io_workcode]
+    FROM [dbo].[tbl_fkcmd_trans_cmd_result_log_data] AS [tbl_fkcmd_trans_cmd_result_log_data]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tbl_fkcmd_trans_cmd_result_slog_data" EntityType="Self.tbl_fkcmd_trans_cmd_result_slog_data" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tbl_fkcmd_trans_cmd_result_slog_data].[trans_id] AS [trans_id], 
+    [tbl_fkcmd_trans_cmd_result_slog_data].[device_id] AS [device_id], 
+    [tbl_fkcmd_trans_cmd_result_slog_data].[kind] AS [kind], 
+    [tbl_fkcmd_trans_cmd_result_slog_data].[tobackup_number] AS [tobackup_number], 
+    [tbl_fkcmd_trans_cmd_result_slog_data].[user_id] AS [user_id], 
+    [tbl_fkcmd_trans_cmd_result_slog_data].[touser_id] AS [touser_id], 
+    [tbl_fkcmd_trans_cmd_result_slog_data].[operation_time] AS [operation_time]
+    FROM [dbo].[tbl_fkcmd_trans_cmd_result_slog_data] AS [tbl_fkcmd_trans_cmd_result_slog_data]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tbl_realtime_doorstatus" EntityType="Self.tbl_realtime_doorstatus" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tbl_realtime_doorstatus].[update_time] AS [update_time], 
+    [tbl_realtime_doorstatus].[device_id] AS [device_id], 
+    [tbl_realtime_doorstatus].[door_status] AS [door_status]
+    FROM [dbo].[tbl_realtime_doorstatus] AS [tbl_realtime_doorstatus]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tbl_realtime_glog" EntityType="Self.tbl_realtime_glog" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tbl_realtime_glog].[update_time] AS [update_time], 
+    [tbl_realtime_glog].[device_id] AS [device_id], 
+    [tbl_realtime_glog].[user_id] AS [user_id], 
+    [tbl_realtime_glog].[verify_mode] AS [verify_mode], 
+    [tbl_realtime_glog].[io_mode] AS [io_mode], 
+    [tbl_realtime_glog].[io_time] AS [io_time], 
+    [tbl_realtime_glog].[io_workcode] AS [io_workcode], 
+    [tbl_realtime_glog].[log_image] AS [log_image]
+    FROM [dbo].[tbl_realtime_glog] AS [tbl_realtime_glog]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

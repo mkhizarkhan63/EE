@@ -1,0 +1,36 @@
+﻿@model List<EagleEye.DAL.Partial.Device_P>
+
+<table class="datatables-demo table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th class="select-checkbox"></th>
+                <th style="display:none;">Code</th>
+                <th>Device ID</th>
+                <th>Name</th>
+                <th>Device Type</th>
+                <th>IP Address</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr id="@item.Code">
+                    <td></td>
+                    <td style="display:none;">@item.Code</td>
+                    <td><a href="/Device/Edit?Code=@item.Code"> @item.Device_ID </a></td>
+                    <td>@item.Device_Name</td>
+                    <td>@item.Device_Type</td>
+                    <td>@item.Device_IP</td>
+                    <td>@Enum.GetName(typeof(EagleEye.Common.Enumeration.DeviceStatus), item.Device_Status)</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+    
+
+    
+    

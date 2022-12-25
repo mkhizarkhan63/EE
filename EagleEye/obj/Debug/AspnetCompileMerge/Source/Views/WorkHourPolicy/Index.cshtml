@@ -1,0 +1,270 @@
+﻿
+
+@using EagleEye.DAL.Partial
+
+@{ MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen>
+            List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Work Hour Policy").FirstOrDefault();
+    }
+}
+
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-0">Work Hour Policy</h4>
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-sm-4 demo-inline-spacing">
+                    @if (Menu.Insert == true)
+                    {
+
+                        <button type="button" class="btn btn-primary waves-effect ladda-button " data-style="expand-right" id="btnAdd" onclick="location.href='@Url.Action("Add", "WorkHourPolicy")'">
+                            <span class="fa fa-plus"></span>&nbsp;&nbsp;Work Hour Policy
+                        </button>
+
+                    }
+                </div>
+
+                <div class="col-sm-8 text-right">
+
+                    <div class="demo-inline-spacing">
+                        <button type="button" class="btn btn-danger waves-effect ladda-button " disabled data-style="expand-right" id="deletePolicy">
+                            Delete Policy
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            <hr>
+            <div class="card">
+                <div class="card-datatable table-responsive">
+                    <table class="datatables-demo table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="10px">
+                                    <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                        <input type="checkbox" class="custom-control-input" id="selectAll">
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </th>
+                                <th style="display:none;">Code</th>
+                                <th>Policy Name</th>
+                                <th>Created On</th>
+                                <th>Status</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="myBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ content ] End -->
+<script src="~/assets/libs/moment/moment.js"></script>
+
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+
+            bindDatatable();
+            $("#selectAll").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    table.rows().select();
+                } else {
+                    table.rows().deselect();
+                }
+            });
+        });
+
+    </script>
+
+
+    @* Methods *@
+
+    <script>
+        var table = '';
+        var selected = [];
+        var selectedPolicy = [];
+
+        function bindDatatable() {
+
+            table = $('.datatables-demo').DataTable({
+                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "sAjaxSource": "/WorkHourPolicy/GetTotalReport",
+                //"fnServerParams": function (aoData) {
+                //    aoData.push({ name: "locationFilter", value: locationFilter.toString() });
+                //    aoData.push({ name: "statusFilter", value: statusFilter.toString() });
+
+                //},
+                "bServerSide": true,
+                "bProcessing": true,
+                "bSearchable": true,
+                "language": {
+                    "emptyTable": "No record found.",
+                    "processing":
+                        '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+                },
+                "rowCallback": function (row, data) {
+
+                    if ($.inArray(data.Code, selected) !== -1) {
+                        $(row).addClass('selected');
+                    }
+                },
+
+                columnDefs: [
+                    {
+                        "data": "Empty",
+                        orderable: false,
+                        sortable: false,
+                        className: 'select-checkbox',
+                        targets: 0
+
+                    },
+                    {
+                        "data": "workHour_PolicyCode",
+                        "searchable": true,
+                        "visible": false,
+
+                        targets: 1
+                    },
+
+                    {
+                        "data": "workHour_PolicyName",
+                        "searchable": true,
+                        "render": function (dt, type, row) {
+
+                            return "<a href='WorkHourPolicy/Edit?Code=" + row.workHour_PolicyCode + "'>" + dt.charAt(0).toUpperCase() + dt.slice(1) + "</a>";
+                        },
+
+                        targets: 2
+                    },
+
+
+                    {
+                        "data": "workHour_PolicyCreatedOn",
+                        "autoWidth": true,
+                        "searchable": true,
+                        "render": function (dt, type, row) {
+
+                            return moment(dt).format('MMMM D, YYYY HH:mm:ss ')
+                        },
+                        targets: 3
+
+                    },
+                    {
+                        "data": "workHour_PolicyIsActive",
+                        "autoWidth": true,
+                        "searchable": true,
+                        "render": function (dt, type, row) {
+
+                            return dt == true ? "Active" : "InActive"
+                        },
+                        targets: 4
+
+                    },
+
+
+                ],
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+            });
+
+
+        }
+
+            $(function () {
+                table.on('select', function (e, dt, type, indexes) {
+                   var count = table.rows('.selected').count();
+
+                    if (count > 0) {
+
+                        $("#deletePolicy").attr("disabled", false);
+                    } else {
+
+                        $("#deletePolicy").attr("disabled", true);
+                    }
+                   
+               
+                });
+
+                table.on('deselect', function (e, dt, type, indexes) {
+                    var count = table.rows('.selected').count();
+                    if (count == 0) {
+
+                        $("#deletePolicy").attr("disabled", true);
+                    } else {
+
+                        $("#deletePolicy").attr("disabled", false);
+                    }
+
+                    });
+
+            });
+    </script>
+
+    @* Events *@
+    <script>
+
+        $("#deletePolicy").click(function () {
+            var button = this;
+            if (table.rows('.selected').count() > 0) {
+                $.each(table.rows('.selected').nodes(), function (i, item) {
+
+                    var data = table.row(this).data();
+                    selectedPolicy.push(data["workHour_PolicyCode"]);
+
+                });
+                        var l = Ladda.create(button);
+                        l.start();
+              $.ajax({
+                url: '@Url.Action("DeletedPolicies", "WorkHourPolicy")',
+                type: "POST",
+                dataType: "json",
+                data: { selectedPolicy: selectedPolicy},
+                cache: false,
+                success: function (data) {
+
+
+                    if (data.result)
+                    {
+                        table.clear();
+                        table.destroy();
+                        bindDatatable();
+                    }
+
+                },
+                failure: function (response) {
+                    alert("failure " + response.data);
+                },
+                error: function (err, status, thrown) {
+                    alert("error " + status + " " + thrown);
+                },
+                complete: function (data) {
+
+                    l.stop();
+                }
+
+            });
+            }
+            else {
+                showWarningNoti("Please Select Policy To Proceed...");
+            }
+
+        });
+
+    </script>
+
+
+}

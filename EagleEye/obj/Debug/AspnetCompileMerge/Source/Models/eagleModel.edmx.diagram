@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8678209df7354c4480096ecf4040bf6a" Name="Diagram1" ZoomLevel="80">
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_account" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_att_status" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_attendence" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_awaitingdevice" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_communication" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_department" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_designation" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_device" Width="1.5" PointX="6.75" PointY="3.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_employee" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_employeetype" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_exceptionlog" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_expiredusers" Width="1.5" PointX="8.75" PointY="7.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_fkcmd_trans" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_param" Width="1.5" PointX="10.75" PointY="4.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_param_offline" Width="1.5" PointX="10.75" PointY="7.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_result" Width="1.5" PointX="10.75" PointY="10.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_result_user_id_list" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_fkcmd_trans_offline" Width="1.5" PointX="12.75" PointY="3.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_fkdevice_status" Width="1.5" PointX="12.75" PointY="7.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_irregularemployee" Width="1.5" PointX="12.75" PointY="11.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_location" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_menu" Width="1.5" PointX="14.75" PointY="3.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_menurights" Width="1.5" PointX="14.75" PointY="7.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_operationlog" Width="1.5" PointX="14.75" PointY="11.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_policyDetail" Width="1.5" PointX="14.75" PointY="15.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_policyWithEmployee" Width="1.5" PointX="16.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_realtime_enroll_data" Width="1.5" PointX="16.75" PointY="4.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_realtime_userinfo" Width="1.5" PointX="16.75" PointY="7.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_setting" Width="1.5" PointX="16.75" PointY="13.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_temptable" Width="1.5" PointX="16.75" PointY="16.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_timezone" Width="1.5" PointX="4.75" PointY="17.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_workcode" Width="1.5" PointX="18.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_workHourPolicy" Width="1.5" PointX="0.75" PointY="18.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_result_log_data" Width="1.5" PointX="18.75" PointY="3.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_result_slog_data" Width="1.5" PointX="6.75" PointY="18.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_realtime_doorstatus" Width="1.5" PointX="18.75" PointY="7.75" />
+        <EntityTypeShape EntityType="EagleEyeModel.tbl_realtime_glog" Width="1.5" PointX="8.75" PointY="18.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,2024 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EagleEyeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_account">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="Hash" Type="varchar(max)" />
+          <Property Name="Salt" Type="varbinary(max)" />
+          <Property Name="LastLogin" Type="datetime" />
+          <Property Name="Location" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_att_status">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_attendence">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Attendance_DateTime" Type="datetime" />
+          <Property Name="Attendance_Photo" Type="varchar(max)" />
+          <Property Name="Polling_DateTime" Type="datetime" />
+          <Property Name="Device_ID" Type="varchar" MaxLength="250" />
+          <Property Name="Employee_ID" Type="varchar" MaxLength="50" />
+          <Property Name="Employee_Name" Type="varchar" MaxLength="150" />
+          <Property Name="Status" Type="varchar" MaxLength="250" />
+          <Property Name="Status_Description" Type="varchar" MaxLength="250" />
+          <Property Name="WorkCode" Type="varchar" MaxLength="25" />
+          <Property Name="WorkCode_Description" Type="varchar" MaxLength="250" />
+          <Property Name="DoorStatus" Type="varchar" MaxLength="100" />
+          <Property Name="Verify_Mode" Type="varchar" MaxLength="250" />
+          <Property Name="Status_TIS" Type="bit" />
+          <Property Name="Status_Oracle" Type="bit" />
+          <Property Name="Status_SQL" Type="bit" />
+          <Property Name="Ext_Status" Type="varchar" MaxLength="50" />
+          <Property Name="Status_MySQL" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbl_awaitingdevice">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Device_ID" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Name" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Info" Type="varchar(max)" />
+          <Property Name="Device_Status_Info" Type="varchar(max)" />
+          <Property Name="Device_Type" Type="varchar" MaxLength="25" />
+          <Property Name="IsConnected" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbl_communication">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Server_IP" Type="varchar" MaxLength="50" />
+          <Property Name="SignalR_Port" Type="varchar" MaxLength="50" />
+          <Property Name="Server_Port" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_department">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="tbl_designation">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="tbl_device">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Device_ID" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Name" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Type" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Info" Type="varchar(max)" />
+          <Property Name="Face_Data_Ver" Type="varchar" MaxLength="10" />
+          <Property Name="Firmware" Type="varchar" MaxLength="250" />
+          <Property Name="Firmware_Filename" Type="varchar(max)" />
+          <Property Name="Fk_Bin_Data_Lib" Type="varchar" MaxLength="25" />
+          <Property Name="Fp_Data_Ver" Type="varchar" MaxLength="10" />
+          <Property Name="Supported_Enroll_Data" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Status_Info" Type="varchar(max)" />
+          <Property Name="Max_Record" Type="varchar" MaxLength="10" />
+          <Property Name="Real_FaceReg" Type="varchar" MaxLength="50" />
+          <Property Name="Max_FaceReg" Type="varchar" MaxLength="50" />
+          <Property Name="Real_FPReg" Type="varchar" MaxLength="50" />
+          <Property Name="Max_FPReg" Type="varchar" MaxLength="50" />
+          <Property Name="Real_IDCardReg" Type="varchar" MaxLength="50" />
+          <Property Name="Max_IDCardReg" Type="varchar" MaxLength="50" />
+          <Property Name="Real_Manager" Type="varchar" MaxLength="50" />
+          <Property Name="Max_Manager" Type="varchar" MaxLength="50" />
+          <Property Name="Real_PasswordReg" Type="varchar" MaxLength="50" />
+          <Property Name="Max_PasswordReg" Type="varchar" MaxLength="50" />
+          <Property Name="Real_PvReg" Type="varchar" MaxLength="10" />
+          <Property Name="Max_PvReg" Type="varchar" MaxLength="10" />
+          <Property Name="Total_log_Count" Type="varchar" MaxLength="10" />
+          <Property Name="Total_log_Max" Type="varchar" MaxLength="10" />
+          <Property Name="Real_Employee" Type="varchar" MaxLength="10" />
+          <Property Name="Max_Employee" Type="varchar" MaxLength="10" />
+          <Property Name="Device_LastStatusTime" Type="datetime" />
+          <Property Name="Alarm_Delay" Type="varchar" MaxLength="10" />
+          <Property Name="Allow_EarlyTime" Type="varchar" MaxLength="10" />
+          <Property Name="Allow_LateTime" Type="varchar" MaxLength="10" />
+          <Property Name="Anti-back" Type="varchar" MaxLength="10" />
+          <Property Name="DoorMagnetic_Delay" Type="varchar" MaxLength="10" />
+          <Property Name="DoorMagnetic_Type" Type="varchar" MaxLength="10" />
+          <Property Name="Glog_Warning" Type="varchar" MaxLength="10" />
+          <Property Name="OpenDoor_Delay" Type="varchar" MaxLength="10" />
+          <Property Name="Receive_Interval" Type="varchar" MaxLength="10" />
+          <Property Name="Reverify_Time" Type="varchar" MaxLength="10" />
+          <Property Name="Show_ResultTime" Type="varchar" MaxLength="10" />
+          <Property Name="Screensavers_Time" Type="varchar" MaxLength="10" />
+          <Property Name="Sleep_Time" Type="varchar" MaxLength="10" />
+          <Property Name="Use_Alarm" Type="varchar" MaxLength="10" />
+          <Property Name="Volume" Type="varchar" MaxLength="10" />
+          <Property Name="Wiegand_Input" Type="varchar" MaxLength="10" />
+          <Property Name="Wiegand_Output" Type="varchar" MaxLength="10" />
+          <Property Name="Wiegand_Type" Type="varchar" MaxLength="10" />
+          <Property Name="Multi_Users" Type="varchar" MaxLength="10" />
+          <Property Name="Device_Group" Type="int" />
+          <Property Name="Server_Address" Type="varchar" MaxLength="20" />
+          <Property Name="Server_Port" Type="varchar" MaxLength="20" />
+          <Property Name="Sys_Time" Type="datetime" />
+          <Property Name="Device_Status" Type="int" />
+          <Property Name="Reader_ID" Type="int" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Last_Polled_Record" Type="datetime" />
+          <Property Name="Device_Location" Type="varchar" MaxLength="50" />
+          <Property Name="OpenDoor" Type="varchar" MaxLength="10" />
+          <Property Name="IsSlave" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbl_employee">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_ID" Type="varchar" MaxLength="50" />
+          <Property Name="Employee_Name" Type="varchar" MaxLength="150" />
+          <Property Name="Employee_Photo" Type="varchar(max)" />
+          <Property Name="Card_No" Type="varchar" MaxLength="50" />
+          <Property Name="User_Privilege" Type="varchar" MaxLength="50" />
+          <Property Name="Gender" Type="varchar" MaxLength="50" />
+          <Property Name="FingerPrint" Type="bit" />
+          <Property Name="Face" Type="bit" />
+          <Property Name="Palm" Type="bit" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Id" Type="varchar" MaxLength="50" />
+          <Property Name="fkDepartment_Code" Type="int" />
+          <Property Name="fkLocation_Code" Type="int" />
+          <Property Name="fkDesignation_Code" Type="int" />
+          <Property Name="fkEmployeeType_Code" Type="int" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar(max)" />
+          <Property Name="Active" Type="int" />
+          <Property Name="Telephone" Type="varchar" MaxLength="50" />
+          <Property Name="Trans_Id" Type="varchar" MaxLength="50" />
+          <Property Name="Update_Date" Type="datetime" />
+          <Property Name="Cmd_Param" Type="varbinary(max)" />
+          <Property Name="finger_0" Type="varbinary(max)" />
+          <Property Name="finger_1" Type="varbinary(max)" />
+          <Property Name="finger_2" Type="varbinary(max)" />
+          <Property Name="finger_3" Type="varbinary(max)" />
+          <Property Name="finger_4" Type="varbinary(max)" />
+          <Property Name="finger_5" Type="varbinary(max)" />
+          <Property Name="finger_6" Type="varbinary(max)" />
+          <Property Name="finger_7" Type="varbinary(max)" />
+          <Property Name="finger_8" Type="varbinary(max)" />
+          <Property Name="finger_9" Type="varbinary(max)" />
+          <Property Name="face_data" Type="varbinary(max)" />
+          <Property Name="palm_0" Type="varbinary(max)" />
+          <Property Name="palm_1" Type="varbinary(max)" />
+          <Property Name="photo_data" Type="varbinary(max)" />
+          <Property Name="Valid_DateStart" Type="varchar" MaxLength="50" />
+          <Property Name="Valid_DateEnd" Type="varchar" MaxLength="50" />
+          <Property Name="Sunday" Type="varchar" MaxLength="25" />
+          <Property Name="Monday" Type="varchar" MaxLength="25" />
+          <Property Name="Tuesday" Type="varchar" MaxLength="25" />
+          <Property Name="Wednesday" Type="varchar" MaxLength="25" />
+          <Property Name="Thursday" Type="varchar" MaxLength="25" />
+          <Property Name="Friday" Type="varchar" MaxLength="25" />
+          <Property Name="Saturday" Type="varchar" MaxLength="25" />
+          <Property Name="IsDelete" Type="bit" />
+          <Property Name="WorkHourPolicyCode" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_employeetype">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="tbl_exceptionlog">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Exception_Layer" Type="varchar" MaxLength="250" />
+          <Property Name="Method" Type="varchar(max)" />
+          <Property Name="Stacktrace" Type="varchar(max)" />
+          <Property Name="Error_Message" Type="varchar(max)" />
+          <Property Name="Form" Type="varchar" MaxLength="250" />
+          <Property Name="Exception_DateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_expiredusers">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_ID" Type="varchar" MaxLength="50" />
+          <Property Name="Employee_Name" Type="varchar" MaxLength="150" />
+          <Property Name="Employee_Photo" Type="varchar(max)" />
+          <Property Name="Card_No" Type="varchar" MaxLength="50" />
+          <Property Name="User_Privilege" Type="varchar" MaxLength="50" />
+          <Property Name="Gender" Type="varchar" MaxLength="50" />
+          <Property Name="FingerPrint" Type="bit" />
+          <Property Name="Face" Type="bit" />
+          <Property Name="Palm" Type="bit" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Id" Type="varchar" MaxLength="50" />
+          <Property Name="fkDepartment_Code" Type="int" />
+          <Property Name="fkLocation_Code" Type="int" />
+          <Property Name="fkDesignation_Code" Type="int" />
+          <Property Name="fkEmployeeType_Code" Type="int" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar(max)" />
+          <Property Name="Active" Type="int" />
+          <Property Name="Telephone" Type="varchar" MaxLength="50" />
+          <Property Name="Trans_Id" Type="varchar" MaxLength="50" />
+          <Property Name="Update_Date" Type="datetime" />
+          <Property Name="Cmd_Param" Type="varbinary(max)" />
+          <Property Name="finger_0" Type="varbinary(max)" />
+          <Property Name="finger_1" Type="varbinary(max)" />
+          <Property Name="finger_2" Type="varbinary(max)" />
+          <Property Name="finger_3" Type="varbinary(max)" />
+          <Property Name="finger_4" Type="varbinary(max)" />
+          <Property Name="finger_5" Type="varbinary(max)" />
+          <Property Name="finger_6" Type="varbinary(max)" />
+          <Property Name="finger_7" Type="varbinary(max)" />
+          <Property Name="finger_8" Type="varbinary(max)" />
+          <Property Name="finger_9" Type="varbinary(max)" />
+          <Property Name="face_data" Type="varbinary(max)" />
+          <Property Name="palm_0" Type="varbinary(max)" />
+          <Property Name="palm_1" Type="varbinary(max)" />
+          <Property Name="photo_data" Type="varbinary(max)" />
+          <Property Name="Valid_DateStart" Type="varchar" MaxLength="50" />
+          <Property Name="Valid_DateEnd" Type="varchar" MaxLength="50" />
+          <Property Name="Sunday" Type="varchar" MaxLength="25" />
+          <Property Name="Monday" Type="varchar" MaxLength="25" />
+          <Property Name="Tuesday" Type="varchar" MaxLength="25" />
+          <Property Name="Wednesday" Type="varchar" MaxLength="25" />
+          <Property Name="Thursday" Type="varchar" MaxLength="25" />
+          <Property Name="Friday" Type="varchar" MaxLength="25" />
+          <Property Name="Saturday" Type="varchar" MaxLength="25" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbl_fkcmd_trans">
+          <Key>
+            <PropertyRef Name="trans_id" />
+          </Key>
+          <Property Name="trans_id" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="device_id" Type="varchar" MaxLength="24" Nullable="false" />
+          <Property Name="user_id" Type="varchar" MaxLength="50" />
+          <Property Name="timezone_no" Type="varchar" MaxLength="50" />
+          <Property Name="cmd_code" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="return_code" Type="varchar" MaxLength="64" />
+          <Property Name="status" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="update_time" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_fkcmd_trans_cmd_param">
+          <Key>
+            <PropertyRef Name="trans_id" />
+          </Key>
+          <Property Name="trans_id" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="device_id" Type="varchar" MaxLength="24" Nullable="false" />
+          <Property Name="cmd_param" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbl_fkcmd_trans_cmd_param_offline">
+          <Key>
+            <PropertyRef Name="trans_id" />
+          </Key>
+          <Property Name="trans_id" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="device_id" Type="varchar" MaxLength="24" Nullable="false" />
+          <Property Name="cmd_param" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbl_fkcmd_trans_cmd_result">
+          <Key>
+            <PropertyRef Name="trans_id" />
+          </Key>
+          <Property Name="trans_id" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="device_id" Type="varchar" MaxLength="24" Nullable="false" />
+          <Property Name="cmd_result" Type="varbinary(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EagleEye.dbo.tbl_fkcmd_trans_cmd_result_log_data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tbl_fkcmd_trans_cmd_result_log_data">
+          <Key>
+            <PropertyRef Name="trans_id" />
+            <PropertyRef Name="device_id" />
+          </Key>
+          <Property Name="trans_id" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="device_id" Type="nvarchar" MaxLength="24" Nullable="false" />
+          <Property Name="user_id" Type="nvarchar" MaxLength="64" />
+          <Property Name="verify_mode" Type="nvarchar" MaxLength="64" />
+          <Property Name="io_mode" Type="nvarchar" MaxLength="32" />
+          <Property Name="io_time" Type="datetime" />
+          <Property Name="io_workcode" Type="nchar" MaxLength="16" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EagleEye.dbo.tbl_fkcmd_trans_cmd_result_slog_data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tbl_fkcmd_trans_cmd_result_slog_data">
+          <Key>
+            <PropertyRef Name="trans_id" />
+            <PropertyRef Name="device_id" />
+          </Key>
+          <Property Name="trans_id" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="device_id" Type="nvarchar" MaxLength="24" Nullable="false" />
+          <Property Name="kind" Type="nvarchar" MaxLength="64" />
+          <Property Name="tobackup_number" Type="nvarchar" MaxLength="64" />
+          <Property Name="user_id" Type="nvarchar" MaxLength="64" />
+          <Property Name="touser_id" Type="nvarchar" MaxLength="64" />
+          <Property Name="operation_time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_fkcmd_trans_cmd_result_user_id_list">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="trans_id" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="device_id" Type="nvarchar" MaxLength="24" Nullable="false" />
+          <Property Name="user_id" Type="nvarchar" MaxLength="64" />
+          <Property Name="backup_number" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_fkcmd_trans_offline">
+          <Key>
+            <PropertyRef Name="trans_id" />
+          </Key>
+          <Property Name="trans_id" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="device_id" Type="varchar" MaxLength="24" />
+          <Property Name="user_id" Type="varchar" MaxLength="50" />
+          <Property Name="timezone_no" Type="varchar" MaxLength="50" />
+          <Property Name="cmd_code" Type="varchar" MaxLength="32" />
+          <Property Name="return_code" Type="varchar" MaxLength="64" />
+          <Property Name="status" Type="varchar" MaxLength="16" />
+          <Property Name="update_time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_fkdevice_status">
+          <Key>
+            <PropertyRef Name="device_id" />
+          </Key>
+          <Property Name="device_id" Type="varchar" MaxLength="24" Nullable="false" />
+          <Property Name="device_name" Type="varchar" MaxLength="24" Nullable="false" />
+          <Property Name="connected" Type="int" Nullable="false" />
+          <Property Name="last_update_time" Type="datetime" Nullable="false" />
+          <Property Name="last_update_fk_time" Type="datetime" />
+          <Property Name="device_info" Type="nvarchar" MaxLength="2048" />
+          <Property Name="dev_model" Type="varchar" MaxLength="24" />
+          <Property Name="dev_status_info" Type="nvarchar" MaxLength="1024" />
+          <Property Name="con_status" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_irregularemployee">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_ID" Type="varchar" MaxLength="50" />
+          <Property Name="Employee_Name" Type="varchar" MaxLength="150" />
+          <Property Name="Employee_Photo" Type="varchar(max)" />
+          <Property Name="Card_No" Type="varchar" MaxLength="50" />
+          <Property Name="User_Privilege" Type="varchar" MaxLength="50" />
+          <Property Name="Gender" Type="varchar" MaxLength="50" />
+          <Property Name="FingerPrint" Type="bit" />
+          <Property Name="Face" Type="bit" />
+          <Property Name="Palm" Type="bit" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Id" Type="varchar" MaxLength="50" />
+          <Property Name="fkDepartment_Code" Type="int" />
+          <Property Name="fkLocation_Code" Type="int" />
+          <Property Name="fkDesignation_Code" Type="int" />
+          <Property Name="fkEmployeeType_Code" Type="int" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar(max)" />
+          <Property Name="Active" Type="int" />
+          <Property Name="Telephone" Type="varchar" MaxLength="50" />
+          <Property Name="Trans_Id" Type="varchar" MaxLength="50" />
+          <Property Name="Update_Date" Type="datetime" />
+          <Property Name="Cmd_Param" Type="varbinary(max)" />
+          <Property Name="finger_0" Type="varbinary(max)" />
+          <Property Name="finger_1" Type="varbinary(max)" />
+          <Property Name="finger_2" Type="varbinary(max)" />
+          <Property Name="finger_3" Type="varbinary(max)" />
+          <Property Name="finger_4" Type="varbinary(max)" />
+          <Property Name="finger_5" Type="varbinary(max)" />
+          <Property Name="finger_6" Type="varbinary(max)" />
+          <Property Name="finger_7" Type="varbinary(max)" />
+          <Property Name="finger_8" Type="varbinary(max)" />
+          <Property Name="finger_9" Type="varbinary(max)" />
+          <Property Name="face_data" Type="varbinary(max)" />
+          <Property Name="palm_0" Type="varbinary(max)" />
+          <Property Name="palm_1" Type="varbinary(max)" />
+          <Property Name="photo_data" Type="varbinary(max)" />
+          <Property Name="IsDelete" Type="bit" />
+          <Property Name="Msg" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="tbl_location">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_menu">
+          <Key>
+            <PropertyRef Name="Menu_Id" />
+          </Key>
+          <Property Name="Menu_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Menu_Name" Type="varchar" MaxLength="100" />
+          <Property Name="Menu_Controller" Type="varchar" MaxLength="100" />
+          <Property Name="Menu_Action" Type="varchar" MaxLength="100" />
+          <Property Name="Parent" Type="varchar" MaxLength="25" />
+          <Property Name="Icon" Type="varchar" MaxLength="25" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbl_menurights">
+          <Key>
+            <PropertyRef Name="Menu_Rights_Id" />
+          </Key>
+          <Property Name="Menu_Rights_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_Id" Type="int" />
+          <Property Name="Menu_Id" Type="int" />
+          <Property Name="Insert" Type="bit" />
+          <Property Name="Update" Type="bit" />
+          <Property Name="Delete" Type="bit" />
+          <Property Name="View" Type="bit" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbl_operationlog">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Trans_ID" Type="varchar" MaxLength="25" />
+          <Property Name="Device_ID" Type="varchar" MaxLength="25" />
+          <Property Name="Device_Name" Type="varchar" MaxLength="50" />
+          <Property Name="Action" Type="varchar" MaxLength="250" />
+          <Property Name="Status" Type="varchar" MaxLength="10" />
+          <Property Name="Message" Type="varchar" MaxLength="50" />
+          <Property Name="UpdateTime" Type="datetime" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="Device_Status" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_policyDetail">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DayCheck" Type="bit" />
+          <Property Name="Day" Type="varchar" MaxLength="10" />
+          <Property Name="Workhour" Type="varchar" MaxLength="20" />
+          <Property Name="Overtime" Type="varchar" MaxLength="20" />
+          <Property Name="Breakhour" Type="varchar" MaxLength="20" />
+          <Property Name="isOvertimeActive" Type="bit" />
+          <Property Name="PolicyCode" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_policyWithEmployee">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Emp_id" Type="varchar" MaxLength="20" />
+          <Property Name="Dt" Type="datetime" />
+          <Property Name="Workhour" Type="varchar" MaxLength="20" />
+          <Property Name="Overtime" Type="varchar" MaxLength="20" />
+          <Property Name="Breakhour" Type="varchar" MaxLength="20" />
+          <Property Name="Extrahour" Type="varchar" MaxLength="20" />
+          <Property Name="Policycode" Type="varchar" MaxLength="20" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EagleEye.dbo.tbl_realtime_doorstatus' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tbl_realtime_doorstatus">
+          <Key>
+            <PropertyRef Name="update_time" />
+          </Key>
+          <Property Name="update_time" Type="datetime" Nullable="false" />
+          <Property Name="device_id" Type="varchar" MaxLength="24" />
+          <Property Name="door_status" Type="varchar" MaxLength="16" />
+        </EntityType>
+        <EntityType Name="tbl_realtime_enroll_data">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="update_time" Type="datetime" Nullable="false" />
+          <Property Name="device_id" Type="varchar" MaxLength="24" Nullable="false" />
+          <Property Name="user_id" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="user_data" Type="varbinary(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'EagleEye.dbo.tbl_realtime_glog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tbl_realtime_glog">
+          <Key>
+            <PropertyRef Name="update_time" />
+          </Key>
+          <Property Name="update_time" Type="datetime" Nullable="false" />
+          <Property Name="device_id" Type="varchar" MaxLength="24" />
+          <Property Name="user_id" Type="varchar" MaxLength="64" />
+          <Property Name="verify_mode" Type="varchar" MaxLength="64" />
+          <Property Name="io_mode" Type="varchar" MaxLength="32" />
+          <Property Name="io_time" Type="datetime" />
+          <Property Name="io_workcode" Type="nchar" MaxLength="16" />
+          <Property Name="log_image" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbl_realtime_userinfo">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="user_name" Type="varchar" MaxLength="50" />
+          <Property Name="privilige" Type="varchar" MaxLength="50" />
+          <Property Name="card" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="Face" Type="varbinary(max)" />
+          <Property Name="photo" Type="varbinary(max)" />
+          <Property Name="Fp_0" Type="varbinary(max)" />
+          <Property Name="Fp_1" Type="varbinary(max)" />
+          <Property Name="Fp_2" Type="varbinary(max)" />
+          <Property Name="Fp_3" Type="varbinary(max)" />
+          <Property Name="Fp_4" Type="varbinary(max)" />
+          <Property Name="Fp_5" Type="varbinary(max)" />
+          <Property Name="Fp_6" Type="varbinary(max)" />
+          <Property Name="Fp_7" Type="varbinary(max)" />
+          <Property Name="Fp_8" Type="varbinary(max)" />
+          <Property Name="Fp_9" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbl_setting">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AppSetting_Path" Type="varchar(max)" />
+          <Property Name="ServiceName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_temptable">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Device_ID" Type="varchar" MaxLength="50" />
+          <Property Name="Employee_ID" Type="varchar" MaxLength="50" />
+          <Property Name="Cmd" Type="varchar" MaxLength="200" />
+          <Property Name="DateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_timezone">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Timezone_No" Type="varchar" MaxLength="20" />
+          <Property Name="Timezone_Name" Type="varchar" MaxLength="50" />
+          <Property Name="Period_1_Start" Type="varchar" MaxLength="50" />
+          <Property Name="Period_1_End" Type="varchar" MaxLength="50" />
+          <Property Name="Period_2_Start" Type="varchar" MaxLength="50" />
+          <Property Name="Period_2_End" Type="varchar" MaxLength="50" />
+          <Property Name="Period_3_Start" Type="varchar" MaxLength="50" />
+          <Property Name="Period_3_End" Type="varchar" MaxLength="50" />
+          <Property Name="Period_4_Start" Type="varchar" MaxLength="50" />
+          <Property Name="Period_4_End" Type="varchar" MaxLength="50" />
+          <Property Name="Period_5_Start" Type="varchar" MaxLength="50" />
+          <Property Name="Period_5_End" Type="varchar" MaxLength="50" />
+          <Property Name="Period_6_Start" Type="varchar" MaxLength="50" />
+          <Property Name="Period_6_End" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbl_workcode">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_workHourPolicy">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PolicyName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Function Name="usp_check_reset_fk_cmd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dev_id" Type="varchar" Mode="In" />
+          <Parameter Name="trans_id" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="usp_receive_cmd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dev_id" Type="varchar" Mode="In" />
+          <Parameter Name="trans_id" Type="varchar" Mode="InOut" />
+          <Parameter Name="cmd_code" Type="varchar" Mode="InOut" />
+          <Parameter Name="cmd_param_bin" Type="varbinary(max)" Mode="InOut" />
+        </Function>
+        <Function Name="usp_set_cmd_result" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dev_id" Type="varchar" Mode="In" />
+          <Parameter Name="trans_id" Type="varchar" Mode="In" />
+          <Parameter Name="return_code" Type="varchar" Mode="In" />
+          <Parameter Name="cmd_result_bin" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="usp_update_device_conn_status" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dev_id" Type="varchar" Mode="In" />
+          <Parameter Name="dev_name" Type="varchar" Mode="In" />
+          <Parameter Name="tm_last_update" Type="datetime" Mode="In" />
+          <Parameter Name="fktm_last_update" Type="datetime" Mode="In" />
+          <Parameter Name="dev_info" Type="varchar" Mode="In" />
+          <Parameter Name="dev_model" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="EagleEyeModelStoreContainer">
+          <EntitySet Name="tbl_account" EntityType="Self.tbl_account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_att_status" EntityType="Self.tbl_att_status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_attendence" EntityType="Self.tbl_attendence" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_awaitingdevice" EntityType="Self.tbl_awaitingdevice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_communication" EntityType="Self.tbl_communication" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_department" EntityType="Self.tbl_department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_designation" EntityType="Self.tbl_designation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_device" EntityType="Self.tbl_device" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_employee" EntityType="Self.tbl_employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_employeetype" EntityType="Self.tbl_employeetype" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_exceptionlog" EntityType="Self.tbl_exceptionlog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_expiredusers" EntityType="Self.tbl_expiredusers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_fkcmd_trans" EntityType="Self.tbl_fkcmd_trans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_fkcmd_trans_cmd_param" EntityType="Self.tbl_fkcmd_trans_cmd_param" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_fkcmd_trans_cmd_param_offline" EntityType="Self.tbl_fkcmd_trans_cmd_param_offline" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_fkcmd_trans_cmd_result" EntityType="Self.tbl_fkcmd_trans_cmd_result" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_fkcmd_trans_cmd_result_user_id_list" EntityType="Self.tbl_fkcmd_trans_cmd_result_user_id_list" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_fkcmd_trans_offline" EntityType="Self.tbl_fkcmd_trans_offline" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_fkdevice_status" EntityType="Self.tbl_fkdevice_status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_irregularemployee" EntityType="Self.tbl_irregularemployee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_location" EntityType="Self.tbl_location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_menu" EntityType="Self.tbl_menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_menurights" EntityType="Self.tbl_menurights" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_operationlog" EntityType="Self.tbl_operationlog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_policyDetail" EntityType="Self.tbl_policyDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_policyWithEmployee" EntityType="Self.tbl_policyWithEmployee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_realtime_enroll_data" EntityType="Self.tbl_realtime_enroll_data" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_realtime_userinfo" EntityType="Self.tbl_realtime_userinfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_setting" EntityType="Self.tbl_setting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_temptable" EntityType="Self.tbl_temptable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_timezone" EntityType="Self.tbl_timezone" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_workcode" EntityType="Self.tbl_workcode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_workHourPolicy" EntityType="Self.tbl_workHourPolicy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_fkcmd_trans_cmd_result_log_data" EntityType="Self.tbl_fkcmd_trans_cmd_result_log_data" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tbl_fkcmd_trans_cmd_result_log_data].[trans_id] AS [trans_id], 
+    [tbl_fkcmd_trans_cmd_result_log_data].[device_id] AS [device_id], 
+    [tbl_fkcmd_trans_cmd_result_log_data].[user_id] AS [user_id], 
+    [tbl_fkcmd_trans_cmd_result_log_data].[verify_mode] AS [verify_mode], 
+    [tbl_fkcmd_trans_cmd_result_log_data].[io_mode] AS [io_mode], 
+    [tbl_fkcmd_trans_cmd_result_log_data].[io_time] AS [io_time], 
+    [tbl_fkcmd_trans_cmd_result_log_data].[io_workcode] AS [io_workcode]
+    FROM [dbo].[tbl_fkcmd_trans_cmd_result_log_data] AS [tbl_fkcmd_trans_cmd_result_log_data]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tbl_fkcmd_trans_cmd_result_slog_data" EntityType="Self.tbl_fkcmd_trans_cmd_result_slog_data" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tbl_fkcmd_trans_cmd_result_slog_data].[trans_id] AS [trans_id], 
+    [tbl_fkcmd_trans_cmd_result_slog_data].[device_id] AS [device_id], 
+    [tbl_fkcmd_trans_cmd_result_slog_data].[kind] AS [kind], 
+    [tbl_fkcmd_trans_cmd_result_slog_data].[tobackup_number] AS [tobackup_number], 
+    [tbl_fkcmd_trans_cmd_result_slog_data].[user_id] AS [user_id], 
+    [tbl_fkcmd_trans_cmd_result_slog_data].[touser_id] AS [touser_id], 
+    [tbl_fkcmd_trans_cmd_result_slog_data].[operation_time] AS [operation_time]
+    FROM [dbo].[tbl_fkcmd_trans_cmd_result_slog_data] AS [tbl_fkcmd_trans_cmd_result_slog_data]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tbl_realtime_doorstatus" EntityType="Self.tbl_realtime_doorstatus" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tbl_realtime_doorstatus].[update_time] AS [update_time], 
+    [tbl_realtime_doorstatus].[device_id] AS [device_id], 
+    [tbl_realtime_doorstatus].[door_status] AS [door_status]
+    FROM [dbo].[tbl_realtime_doorstatus] AS [tbl_realtime_doorstatus]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tbl_realtime_glog" EntityType="Self.tbl_realtime_glog" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tbl_realtime_glog].[update_time] AS [update_time], 
+    [tbl_realtime_glog].[device_id] AS [device_id], 
+    [tbl_realtime_glog].[user_id] AS [user_id], 
+    [tbl_realtime_glog].[verify_mode] AS [verify_mode], 
+    [tbl_realtime_glog].[io_mode] AS [io_mode], 
+    [tbl_realtime_glog].[io_time] AS [io_time], 
+    [tbl_realtime_glog].[io_workcode] AS [io_workcode], 
+    [tbl_realtime_glog].[log_image] AS [log_image]
+    FROM [dbo].[tbl_realtime_glog] AS [tbl_realtime_glog]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EagleEyeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EagleEyeEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="usp_check_reset_fk_cmd">
+            <Parameter Name="dev_id" Mode="In" Type="String" />
+            <Parameter Name="trans_id" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_receive_cmd">
+            <Parameter Name="dev_id" Mode="In" Type="String" />
+            <Parameter Name="trans_id" Mode="InOut" Type="String" />
+            <Parameter Name="cmd_code" Mode="InOut" Type="String" />
+            <Parameter Name="cmd_param_bin" Mode="InOut" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="usp_set_cmd_result" ReturnType="Collection(String)">
+            <Parameter Name="dev_id" Mode="In" Type="String" />
+            <Parameter Name="trans_id" Mode="In" Type="String" />
+            <Parameter Name="return_code" Mode="In" Type="String" />
+            <Parameter Name="cmd_result_bin" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="usp_update_device_conn_status">
+            <Parameter Name="dev_id" Mode="In" Type="String" />
+            <Parameter Name="dev_name" Mode="In" Type="String" />
+            <Parameter Name="tm_last_update" Mode="In" Type="DateTime" />
+            <Parameter Name="fktm_last_update" Mode="In" Type="DateTime" />
+            <Parameter Name="dev_info" Mode="In" Type="String" />
+            <Parameter Name="dev_model" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tbl_account" EntityType="EagleEyeModel.tbl_account" />
+          <EntitySet Name="tbl_att_status" EntityType="EagleEyeModel.tbl_att_status" />
+          <EntitySet Name="tbl_attendence" EntityType="EagleEyeModel.tbl_attendence" />
+          <EntitySet Name="tbl_awaitingdevice" EntityType="EagleEyeModel.tbl_awaitingdevice" />
+          <EntitySet Name="tbl_communication" EntityType="EagleEyeModel.tbl_communication" />
+          <EntitySet Name="tbl_department" EntityType="EagleEyeModel.tbl_department" />
+          <EntitySet Name="tbl_designation" EntityType="EagleEyeModel.tbl_designation" />
+          <EntitySet Name="tbl_device" EntityType="EagleEyeModel.tbl_device" />
+          <EntitySet Name="tbl_employee" EntityType="EagleEyeModel.tbl_employee" />
+          <EntitySet Name="tbl_employeetype" EntityType="EagleEyeModel.tbl_employeetype" />
+          <EntitySet Name="tbl_exceptionlog" EntityType="EagleEyeModel.tbl_exceptionlog" />
+          <EntitySet Name="tbl_expiredusers" EntityType="EagleEyeModel.tbl_expiredusers" />
+          <EntitySet Name="tbl_fkcmd_trans" EntityType="EagleEyeModel.tbl_fkcmd_trans" />
+          <EntitySet Name="tbl_fkcmd_trans_cmd_param" EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_param" />
+          <EntitySet Name="tbl_fkcmd_trans_cmd_param_offline" EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_param_offline" />
+          <EntitySet Name="tbl_fkcmd_trans_cmd_result" EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_result" />
+          <EntitySet Name="tbl_fkcmd_trans_cmd_result_user_id_list" EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_result_user_id_list" />
+          <EntitySet Name="tbl_fkcmd_trans_offline" EntityType="EagleEyeModel.tbl_fkcmd_trans_offline" />
+          <EntitySet Name="tbl_fkdevice_status" EntityType="EagleEyeModel.tbl_fkdevice_status" />
+          <EntitySet Name="tbl_irregularemployee" EntityType="EagleEyeModel.tbl_irregularemployee" />
+          <EntitySet Name="tbl_location" EntityType="EagleEyeModel.tbl_location" />
+          <EntitySet Name="tbl_menu" EntityType="EagleEyeModel.tbl_menu" />
+          <EntitySet Name="tbl_menurights" EntityType="EagleEyeModel.tbl_menurights" />
+          <EntitySet Name="tbl_operationlog" EntityType="EagleEyeModel.tbl_operationlog" />
+          <EntitySet Name="tbl_policyDetail" EntityType="EagleEyeModel.tbl_policyDetail" />
+          <EntitySet Name="tbl_policyWithEmployee" EntityType="EagleEyeModel.tbl_policyWithEmployee" />
+          <EntitySet Name="tbl_realtime_enroll_data" EntityType="EagleEyeModel.tbl_realtime_enroll_data" />
+          <EntitySet Name="tbl_realtime_userinfo" EntityType="EagleEyeModel.tbl_realtime_userinfo" />
+          <EntitySet Name="tbl_setting" EntityType="EagleEyeModel.tbl_setting" />
+          <EntitySet Name="tbl_temptable" EntityType="EagleEyeModel.tbl_temptable" />
+          <EntitySet Name="tbl_timezone" EntityType="EagleEyeModel.tbl_timezone" />
+          <EntitySet Name="tbl_workcode" EntityType="EagleEyeModel.tbl_workcode" />
+          <EntitySet Name="tbl_workHourPolicy" EntityType="EagleEyeModel.tbl_workHourPolicy" />
+          <EntitySet Name="tbl_fkcmd_trans_cmd_result_log_data" EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_result_log_data" />
+          <EntitySet Name="tbl_fkcmd_trans_cmd_result_slog_data" EntityType="EagleEyeModel.tbl_fkcmd_trans_cmd_result_slog_data" />
+          <EntitySet Name="tbl_realtime_doorstatus" EntityType="EagleEyeModel.tbl_realtime_doorstatus" />
+          <EntitySet Name="tbl_realtime_glog" EntityType="EagleEyeModel.tbl_realtime_glog" />
+          </EntityContainer>
+        <EntityType Name="tbl_account">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Hash" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Salt" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="LastLogin" Type="DateTime" Precision="3" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_att_status">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_attendence">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Attendance_DateTime" Type="DateTime" Precision="3" />
+          <Property Name="Attendance_Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Polling_DateTime" Type="DateTime" Precision="3" />
+          <Property Name="Device_ID" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Employee_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Employee_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Status_Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="WorkCode" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="WorkCode_Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="DoorStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Verify_Mode" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Status_TIS" Type="Boolean" />
+          <Property Name="Status_Oracle" Type="Boolean" />
+          <Property Name="Status_SQL" Type="Boolean" />
+          <Property Name="Ext_Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status_MySQL" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tbl_awaitingdevice">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Device_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Status_Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Type" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="IsConnected" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tbl_communication">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Server_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SignalR_Port" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Server_Port" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_department">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_designation">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_device">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Device_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Face_Data_Ver" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Firmware" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Firmware_Filename" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Fk_Bin_Data_Lib" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Fp_Data_Ver" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Supported_Enroll_Data" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Status_Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Max_Record" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Real_FaceReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_FaceReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_FPReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_FPReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_IDCardReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_IDCardReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_Manager" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_Manager" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_PasswordReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Max_PasswordReg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Real_PvReg" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Max_PvReg" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Total_log_Count" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Total_log_Max" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Real_Employee" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Max_Employee" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Device_LastStatusTime" Type="DateTime" Precision="3" />
+          <Property Name="Alarm_Delay" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Allow_EarlyTime" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Allow_LateTime" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Anti_back" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DoorMagnetic_Delay" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DoorMagnetic_Type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Glog_Warning" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OpenDoor_Delay" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Receive_Interval" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Reverify_Time" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Show_ResultTime" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Screensavers_Time" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Sleep_Time" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Use_Alarm" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Volume" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Wiegand_Input" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Wiegand_Output" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Wiegand_Type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Multi_Users" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Group" Type="Int32" />
+          <Property Name="Server_Address" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Server_Port" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Sys_Time" Type="DateTime" Precision="3" />
+          <Property Name="Device_Status" Type="Int32" />
+          <Property Name="Reader_ID" Type="Int32" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Last_Polled_Record" Type="DateTime" Precision="3" />
+          <Property Name="Device_Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OpenDoor" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IsSlave" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tbl_employee">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Employee_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Employee_Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Card_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="User_Privilege" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FingerPrint" Type="Boolean" />
+          <Property Name="Face" Type="Boolean" />
+          <Property Name="Palm" Type="Boolean" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fkDepartment_Code" Type="Int32" />
+          <Property Name="fkLocation_Code" Type="Int32" />
+          <Property Name="fkDesignation_Code" Type="Int32" />
+          <Property Name="fkEmployeeType_Code" Type="Int32" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Trans_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Update_Date" Type="DateTime" Precision="3" />
+          <Property Name="Cmd_Param" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_0" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_1" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_2" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_3" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_4" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_5" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_6" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_7" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_8" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_9" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="face_data" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="palm_0" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="palm_1" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="photo_data" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Valid_DateStart" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Valid_DateEnd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sunday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Monday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Tuesday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Wednesday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Thursday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Friday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Saturday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <Property Name="WorkHourPolicyCode" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_employeetype">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_exceptionlog">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Exception_Layer" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Method" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Stacktrace" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Error_Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Form" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Exception_DateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_expiredusers">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Employee_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Employee_Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Card_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="User_Privilege" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FingerPrint" Type="Boolean" />
+          <Property Name="Face" Type="Boolean" />
+          <Property Name="Palm" Type="Boolean" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fkDepartment_Code" Type="Int32" />
+          <Property Name="fkLocation_Code" Type="Int32" />
+          <Property Name="fkDesignation_Code" Type="Int32" />
+          <Property Name="fkEmployeeType_Code" Type="Int32" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Trans_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Update_Date" Type="DateTime" Precision="3" />
+          <Property Name="Cmd_Param" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_0" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_1" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_2" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_3" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_4" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_5" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_6" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_7" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_8" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_9" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="face_data" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="palm_0" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="palm_1" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="photo_data" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Valid_DateStart" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Valid_DateEnd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sunday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Monday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Tuesday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Wednesday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Thursday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Friday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Saturday" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="IsDelete" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tbl_fkcmd_trans">
+          <Key>
+            <PropertyRef Name="trans_id" />
+          </Key>
+          <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="timezone_no" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cmd_code" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="return_code" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="update_time" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_fkcmd_trans_cmd_param">
+          <Key>
+            <PropertyRef Name="trans_id" />
+          </Key>
+          <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="cmd_param" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_fkcmd_trans_cmd_param_offline">
+          <Key>
+            <PropertyRef Name="trans_id" />
+          </Key>
+          <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="cmd_param" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_fkcmd_trans_cmd_result">
+          <Key>
+            <PropertyRef Name="trans_id" />
+          </Key>
+          <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="cmd_result" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_fkcmd_trans_cmd_result_user_id_list">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="true" />
+          <Property Name="user_id" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="backup_number" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_fkcmd_trans_offline">
+          <Key>
+            <PropertyRef Name="trans_id" />
+          </Key>
+          <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="device_id" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="timezone_no" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cmd_code" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="return_code" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="update_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_fkdevice_status">
+          <Key>
+            <PropertyRef Name="device_id" />
+          </Key>
+          <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="device_name" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="connected" Type="Int32" Nullable="false" />
+          <Property Name="last_update_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="last_update_fk_time" Type="DateTime" Precision="3" />
+          <Property Name="device_info" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" />
+          <Property Name="dev_model" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="dev_status_info" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="con_status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_irregularemployee">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Employee_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Employee_Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Card_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="User_Privilege" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FingerPrint" Type="Boolean" />
+          <Property Name="Face" Type="Boolean" />
+          <Property Name="Palm" Type="Boolean" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fkDepartment_Code" Type="Int32" />
+          <Property Name="fkLocation_Code" Type="Int32" />
+          <Property Name="fkDesignation_Code" Type="Int32" />
+          <Property Name="fkEmployeeType_Code" Type="Int32" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Trans_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Update_Date" Type="DateTime" Precision="3" />
+          <Property Name="Cmd_Param" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_0" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_1" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_2" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_3" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_4" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_5" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_6" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_7" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_8" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="finger_9" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="face_data" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="palm_0" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="palm_1" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="photo_data" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <Property Name="Msg" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_location">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_menu">
+          <Key>
+            <PropertyRef Name="Menu_Id" />
+          </Key>
+          <Property Name="Menu_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Menu_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Menu_Controller" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Menu_Action" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Parent" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Icon" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tbl_menurights">
+          <Key>
+            <PropertyRef Name="Menu_Rights_Id" />
+          </Key>
+          <Property Name="Menu_Rights_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_Id" Type="Int32" />
+          <Property Name="Menu_Id" Type="Int32" />
+          <Property Name="Insert" Type="Boolean" />
+          <Property Name="Update" Type="Boolean" />
+          <Property Name="Delete" Type="Boolean" />
+          <Property Name="View" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tbl_operationlog">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Trans_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Device_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Action" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device_Status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_policyDetail">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DayCheck" Type="Boolean" />
+          <Property Name="Day" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Workhour" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Overtime" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Breakhour" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="isOvertimeActive" Type="Boolean" />
+          <Property Name="PolicyCode" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_policyWithEmployee">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Emp_id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Dt" Type="DateTime" Precision="3" />
+          <Property Name="Workhour" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Overtime" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Breakhour" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Extrahour" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Policycode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_realtime_enroll_data">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="update_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="user_id" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="user_data" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_realtime_userinfo">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="privilige" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="card" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Face" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Fp_0" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Fp_1" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Fp_2" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Fp_3" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Fp_4" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Fp_5" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Fp_6" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Fp_7" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Fp_8" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Fp_9" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_setting">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AppSetting_Path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_temptable">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Device_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Employee_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Cmd" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_timezone">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Timezone_No" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Timezone_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Period_1_Start" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Period_1_End" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Period_2_Start" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Period_2_End" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Period_3_Start" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Period_3_End" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Period_4_Start" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Period_4_End" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Period_5_Start" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Period_5_End" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Period_6_Start" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Period_6_End" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tbl_workcode">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_workHourPolicy">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PolicyName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_fkcmd_trans_cmd_result_log_data">
+          <Key>
+            <PropertyRef Name="trans_id" />
+            <PropertyRef Name="device_id" />
+          </Key>
+          <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="true" />
+          <Property Name="user_id" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="verify_mode" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="io_mode" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="io_time" Type="DateTime" Precision="3" />
+          <Property Name="io_workcode" Type="String" MaxLength="16" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_fkcmd_trans_cmd_result_slog_data">
+          <Key>
+            <PropertyRef Name="trans_id" />
+            <PropertyRef Name="device_id" />
+          </Key>
+          <Property Name="trans_id" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="device_id" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="true" />
+          <Property Name="kind" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="tobackup_number" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="user_id" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="touser_id" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="operation_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_realtime_doorstatus">
+          <Key>
+            <PropertyRef Name="update_time" />
+          </Key>
+          <Property Name="update_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="device_id" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="door_status" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_realtime_glog">
+          <Key>
+            <PropertyRef Name="update_time" />
+          </Key>
+          <Property Name="update_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="device_id" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="user_id" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="verify_mode" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="io_mode" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="io_time" Type="DateTime" Precision="3" />
+          <Property Name="io_workcode" Type="String" MaxLength="16" FixedLength="true" Unicode="true" />
+          <Property Name="log_image" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EagleEyeModelStoreContainer" CdmEntityContainer="EagleEyeEntities">
+          <FunctionImportMapping FunctionImportName="usp_check_reset_fk_cmd" FunctionName="EagleEyeModel.Store.usp_check_reset_fk_cmd" />
+          <FunctionImportMapping FunctionImportName="usp_receive_cmd" FunctionName="EagleEyeModel.Store.usp_receive_cmd" />
+          <FunctionImportMapping FunctionImportName="usp_set_cmd_result" FunctionName="EagleEyeModel.Store.usp_set_cmd_result" />
+          <FunctionImportMapping FunctionImportName="usp_update_device_conn_status" FunctionName="EagleEyeModel.Store.usp_update_device_conn_status" />
+          <EntitySetMapping Name="tbl_account">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_account">
+              <MappingFragment StoreEntitySet="tbl_account">
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Hash" ColumnName="Hash" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_att_status">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_att_status">
+              <MappingFragment StoreEntitySet="tbl_att_status">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_attendence">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_attendence">
+              <MappingFragment StoreEntitySet="tbl_attendence">
+                <ScalarProperty Name="Status_MySQL" ColumnName="Status_MySQL" />
+                <ScalarProperty Name="Ext_Status" ColumnName="Ext_Status" />
+                <ScalarProperty Name="Status_SQL" ColumnName="Status_SQL" />
+                <ScalarProperty Name="Status_Oracle" ColumnName="Status_Oracle" />
+                <ScalarProperty Name="Status_TIS" ColumnName="Status_TIS" />
+                <ScalarProperty Name="Verify_Mode" ColumnName="Verify_Mode" />
+                <ScalarProperty Name="DoorStatus" ColumnName="DoorStatus" />
+                <ScalarProperty Name="WorkCode_Description" ColumnName="WorkCode_Description" />
+                <ScalarProperty Name="WorkCode" ColumnName="WorkCode" />
+                <ScalarProperty Name="Status_Description" ColumnName="Status_Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Employee_Name" ColumnName="Employee_Name" />
+                <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+                <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+                <ScalarProperty Name="Polling_DateTime" ColumnName="Polling_DateTime" />
+                <ScalarProperty Name="Attendance_Photo" ColumnName="Attendance_Photo" />
+                <ScalarProperty Name="Attendance_DateTime" ColumnName="Attendance_DateTime" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_awaitingdevice">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_awaitingdevice">
+              <MappingFragment StoreEntitySet="tbl_awaitingdevice">
+                <ScalarProperty Name="IsConnected" ColumnName="IsConnected" />
+                <ScalarProperty Name="Device_Type" ColumnName="Device_Type" />
+                <ScalarProperty Name="Device_Status_Info" ColumnName="Device_Status_Info" />
+                <ScalarProperty Name="Device_Info" ColumnName="Device_Info" />
+                <ScalarProperty Name="Device_Name" ColumnName="Device_Name" />
+                <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_communication">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_communication">
+              <MappingFragment StoreEntitySet="tbl_communication">
+                <ScalarProperty Name="Server_Port" ColumnName="Server_Port" />
+                <ScalarProperty Name="SignalR_Port" ColumnName="SignalR_Port" />
+                <ScalarProperty Name="Server_IP" ColumnName="Server_IP" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_department">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_department">
+              <MappingFragment StoreEntitySet="tbl_department">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_designation">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_designation">
+              <MappingFragment StoreEntitySet="tbl_designation">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_device">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_device">
+              <MappingFragment StoreEntitySet="tbl_device">
+                <ScalarProperty Name="IsSlave" ColumnName="IsSlave" />
+                <ScalarProperty Name="OpenDoor" ColumnName="OpenDoor" />
+                <ScalarProperty Name="Device_Location" ColumnName="Device_Location" />
+                <ScalarProperty Name="Last_Polled_Record" ColumnName="Last_Polled_Record" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Reader_ID" ColumnName="Reader_ID" />
+                <ScalarProperty Name="Device_Status" ColumnName="Device_Status" />
+                <ScalarProperty Name="Sys_Time" ColumnName="Sys_Time" />
+                <ScalarProperty Name="Server_Port" ColumnName="Server_Port" />
+                <ScalarProperty Name="Server_Address" ColumnName="Server_Address" />
+                <ScalarProperty Name="Device_Group" ColumnName="Device_Group" />
+                <ScalarProperty Name="Multi_Users" ColumnName="Multi_Users" />
+                <ScalarProperty Name="Wiegand_Type" ColumnName="Wiegand_Type" />
+                <ScalarProperty Name="Wiegand_Output" ColumnName="Wiegand_Output" />
+                <ScalarProperty Name="Wiegand_Input" ColumnName="Wiegand_Input" />
+                <ScalarProperty Name="Volume" ColumnName="Volume" />
+                <ScalarProperty Name="Use_Alarm" ColumnName="Use_Alarm" />
+                <ScalarProperty Name="Sleep_Time" ColumnName="Sleep_Time" />
+                <ScalarProperty Name="Screensavers_Time" ColumnName="Screensavers_Time" />
+                <ScalarProperty Name="Show_ResultTime" ColumnName="Show_ResultTime" />
+                <ScalarProperty Name="Reverify_Time" ColumnName="Reverify_Time" />
+                <ScalarProperty Name="Receive_Interval" ColumnName="Receive_Interval" />
+                <ScalarProperty Name="OpenDoor_Delay" ColumnName="OpenDoor_Delay" />
+                <ScalarProperty Name="Glog_Warning" ColumnName="Glog_Warning" />
+                <ScalarProperty Name="DoorMagnetic_Type" ColumnName="DoorMagnetic_Type" />
+                <ScalarProperty Name="DoorMagnetic_Delay" ColumnName="DoorMagnetic_Delay" />
+                <ScalarProperty Name="Anti_back" ColumnName="Anti-back" />
+                <ScalarProperty Name="Allow_LateTime" ColumnName="Allow_LateTime" />
+                <ScalarProperty Name="Allow_EarlyTime" ColumnName="Allow_EarlyTime" />
+                <ScalarProperty Name="Alarm_Delay" ColumnName="Alarm_Delay" />
+                <ScalarProperty Name="Device_LastStatusTime" ColumnName="Device_LastStatusTime" />
+                <ScalarProperty Name="Max_Employee" ColumnName="Max_Employee" />
+                <ScalarProperty Name="Real_Employee" ColumnName="Real_Employee" />
+                <ScalarProperty Name="Total_log_Max" ColumnName="Total_log_Max" />
+                <ScalarProperty Name="Total_log_Count" ColumnName="Total_log_Count" />
+                <ScalarProperty Name="Max_PvReg" ColumnName="Max_PvReg" />
+                <ScalarProperty Name="Real_PvReg" ColumnName="Real_PvReg" />
+                <ScalarProperty Name="Max_PasswordReg" ColumnName="Max_PasswordReg" />
+                <ScalarProperty Name="Real_PasswordReg" ColumnName="Real_PasswordReg" />
+                <ScalarProperty Name="Max_Manager" ColumnName="Max_Manager" />
+                <ScalarProperty Name="Real_Manager" ColumnName="Real_Manager" />
+                <ScalarProperty Name="Max_IDCardReg" ColumnName="Max_IDCardReg" />
+                <ScalarProperty Name="Real_IDCardReg" ColumnName="Real_IDCardReg" />
+                <ScalarProperty Name="Max_FPReg" ColumnName="Max_FPReg" />
+                <ScalarProperty Name="Real_FPReg" ColumnName="Real_FPReg" />
+                <ScalarProperty Name="Max_FaceReg" ColumnName="Max_FaceReg" />
+                <ScalarProperty Name="Real_FaceReg" ColumnName="Real_FaceReg" />
+                <ScalarProperty Name="Max_Record" ColumnName="Max_Record" />
+                <ScalarProperty Name="Device_Status_Info" ColumnName="Device_Status_Info" />
+                <ScalarProperty Name="Supported_Enroll_Data" ColumnName="Supported_Enroll_Data" />
+                <ScalarProperty Name="Fp_Data_Ver" ColumnName="Fp_Data_Ver" />
+                <ScalarProperty Name="Fk_Bin_Data_Lib" ColumnName="Fk_Bin_Data_Lib" />
+                <ScalarProperty Name="Firmware_Filename" ColumnName="Firmware_Filename" />
+                <ScalarProperty Name="Firmware" ColumnName="Firmware" />
+                <ScalarProperty Name="Face_Data_Ver" ColumnName="Face_Data_Ver" />
+                <ScalarProperty Name="Device_Info" ColumnName="Device_Info" />
+                <ScalarProperty Name="Device_Type" ColumnName="Device_Type" />
+                <ScalarProperty Name="Device_Name" ColumnName="Device_Name" />
+                <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_employee">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_employee">
+              <MappingFragment StoreEntitySet="tbl_employee">
+                <ScalarProperty Name="WorkHourPolicyCode" ColumnName="WorkHourPolicyCode" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Saturday" ColumnName="Saturday" />
+                <ScalarProperty Name="Friday" ColumnName="Friday" />
+                <ScalarProperty Name="Thursday" ColumnName="Thursday" />
+                <ScalarProperty Name="Wednesday" ColumnName="Wednesday" />
+                <ScalarProperty Name="Tuesday" ColumnName="Tuesday" />
+                <ScalarProperty Name="Monday" ColumnName="Monday" />
+                <ScalarProperty Name="Sunday" ColumnName="Sunday" />
+                <ScalarProperty Name="Valid_DateEnd" ColumnName="Valid_DateEnd" />
+                <ScalarProperty Name="Valid_DateStart" ColumnName="Valid_DateStart" />
+                <ScalarProperty Name="photo_data" ColumnName="photo_data" />
+                <ScalarProperty Name="palm_1" ColumnName="palm_1" />
+                <ScalarProperty Name="palm_0" ColumnName="palm_0" />
+                <ScalarProperty Name="face_data" ColumnName="face_data" />
+                <ScalarProperty Name="finger_9" ColumnName="finger_9" />
+                <ScalarProperty Name="finger_8" ColumnName="finger_8" />
+                <ScalarProperty Name="finger_7" ColumnName="finger_7" />
+                <ScalarProperty Name="finger_6" ColumnName="finger_6" />
+                <ScalarProperty Name="finger_5" ColumnName="finger_5" />
+                <ScalarProperty Name="finger_4" ColumnName="finger_4" />
+                <ScalarProperty Name="finger_3" ColumnName="finger_3" />
+                <ScalarProperty Name="finger_2" ColumnName="finger_2" />
+                <ScalarProperty Name="finger_1" ColumnName="finger_1" />
+                <ScalarProperty Name="finger_0" ColumnName="finger_0" />
+                <ScalarProperty Name="Cmd_Param" ColumnName="Cmd_Param" />
+                <ScalarProperty Name="Update_Date" ColumnName="Update_Date" />
+                <ScalarProperty Name="Trans_Id" ColumnName="Trans_Id" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="fkEmployeeType_Code" ColumnName="fkEmployeeType_Code" />
+                <ScalarProperty Name="fkDesignation_Code" ColumnName="fkDesignation_Code" />
+                <ScalarProperty Name="fkLocation_Code" ColumnName="fkLocation_Code" />
+                <ScalarProperty Name="fkDepartment_Code" ColumnName="fkDepartment_Code" />
+                <ScalarProperty Name="Device_Id" ColumnName="Device_Id" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Palm" ColumnName="Palm" />
+                <ScalarProperty Name="Face" ColumnName="Face" />
+                <ScalarProperty Name="FingerPrint" ColumnName="FingerPrint" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="User_Privilege" ColumnName="User_Privilege" />
+                <ScalarProperty Name="Card_No" ColumnName="Card_No" />
+                <ScalarProperty Name="Employee_Photo" ColumnName="Employee_Photo" />
+                <ScalarProperty Name="Employee_Name" ColumnName="Employee_Name" />
+                <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_employeetype">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_employeetype">
+              <MappingFragment StoreEntitySet="tbl_employeetype">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_exceptionlog">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_exceptionlog">
+              <MappingFragment StoreEntitySet="tbl_exceptionlog">
+                <ScalarProperty Name="Exception_DateTime" ColumnName="Exception_DateTime" />
+                <ScalarProperty Name="Form" ColumnName="Form" />
+                <ScalarProperty Name="Error_Message" ColumnName="Error_Message" />
+                <ScalarProperty Name="Stacktrace" ColumnName="Stacktrace" />
+                <ScalarProperty Name="Method" ColumnName="Method" />
+                <ScalarProperty Name="Exception_Layer" ColumnName="Exception_Layer" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_expiredusers">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_expiredusers">
+              <MappingFragment StoreEntitySet="tbl_expiredusers">
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="Saturday" ColumnName="Saturday" />
+                <ScalarProperty Name="Friday" ColumnName="Friday" />
+                <ScalarProperty Name="Thursday" ColumnName="Thursday" />
+                <ScalarProperty Name="Wednesday" ColumnName="Wednesday" />
+                <ScalarProperty Name="Tuesday" ColumnName="Tuesday" />
+                <ScalarProperty Name="Monday" ColumnName="Monday" />
+                <ScalarProperty Name="Sunday" ColumnName="Sunday" />
+                <ScalarProperty Name="Valid_DateEnd" ColumnName="Valid_DateEnd" />
+                <ScalarProperty Name="Valid_DateStart" ColumnName="Valid_DateStart" />
+                <ScalarProperty Name="photo_data" ColumnName="photo_data" />
+                <ScalarProperty Name="palm_1" ColumnName="palm_1" />
+                <ScalarProperty Name="palm_0" ColumnName="palm_0" />
+                <ScalarProperty Name="face_data" ColumnName="face_data" />
+                <ScalarProperty Name="finger_9" ColumnName="finger_9" />
+                <ScalarProperty Name="finger_8" ColumnName="finger_8" />
+                <ScalarProperty Name="finger_7" ColumnName="finger_7" />
+                <ScalarProperty Name="finger_6" ColumnName="finger_6" />
+                <ScalarProperty Name="finger_5" ColumnName="finger_5" />
+                <ScalarProperty Name="finger_4" ColumnName="finger_4" />
+                <ScalarProperty Name="finger_3" ColumnName="finger_3" />
+                <ScalarProperty Name="finger_2" ColumnName="finger_2" />
+                <ScalarProperty Name="finger_1" ColumnName="finger_1" />
+                <ScalarProperty Name="finger_0" ColumnName="finger_0" />
+                <ScalarProperty Name="Cmd_Param" ColumnName="Cmd_Param" />
+                <ScalarProperty Name="Update_Date" ColumnName="Update_Date" />
+                <ScalarProperty Name="Trans_Id" ColumnName="Trans_Id" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="fkEmployeeType_Code" ColumnName="fkEmployeeType_Code" />
+                <ScalarProperty Name="fkDesignation_Code" ColumnName="fkDesignation_Code" />
+                <ScalarProperty Name="fkLocation_Code" ColumnName="fkLocation_Code" />
+                <ScalarProperty Name="fkDepartment_Code" ColumnName="fkDepartment_Code" />
+                <ScalarProperty Name="Device_Id" ColumnName="Device_Id" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Palm" ColumnName="Palm" />
+                <ScalarProperty Name="Face" ColumnName="Face" />
+                <ScalarProperty Name="FingerPrint" ColumnName="FingerPrint" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="User_Privilege" ColumnName="User_Privilege" />
+                <ScalarProperty Name="Card_No" ColumnName="Card_No" />
+                <ScalarProperty Name="Employee_Photo" ColumnName="Employee_Photo" />
+                <ScalarProperty Name="Employee_Name" ColumnName="Employee_Name" />
+                <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_fkcmd_trans">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans">
+              <MappingFragment StoreEntitySet="tbl_fkcmd_trans">
+                <ScalarProperty Name="update_time" ColumnName="update_time" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="return_code" ColumnName="return_code" />
+                <ScalarProperty Name="cmd_code" ColumnName="cmd_code" />
+                <ScalarProperty Name="timezone_no" ColumnName="timezone_no" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_fkcmd_trans_cmd_param">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans_cmd_param">
+              <MappingFragment StoreEntitySet="tbl_fkcmd_trans_cmd_param">
+                <ScalarProperty Name="cmd_param" ColumnName="cmd_param" />
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_fkcmd_trans_cmd_param_offline">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans_cmd_param_offline">
+              <MappingFragment StoreEntitySet="tbl_fkcmd_trans_cmd_param_offline">
+                <ScalarProperty Name="cmd_param" ColumnName="cmd_param" />
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_fkcmd_trans_cmd_result">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans_cmd_result">
+              <MappingFragment StoreEntitySet="tbl_fkcmd_trans_cmd_result">
+                <ScalarProperty Name="cmd_result" ColumnName="cmd_result" />
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_fkcmd_trans_cmd_result_user_id_list">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans_cmd_result_user_id_list">
+              <MappingFragment StoreEntitySet="tbl_fkcmd_trans_cmd_result_user_id_list">
+                <ScalarProperty Name="backup_number" ColumnName="backup_number" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_fkcmd_trans_offline">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans_offline">
+              <MappingFragment StoreEntitySet="tbl_fkcmd_trans_offline">
+                <ScalarProperty Name="update_time" ColumnName="update_time" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="return_code" ColumnName="return_code" />
+                <ScalarProperty Name="cmd_code" ColumnName="cmd_code" />
+                <ScalarProperty Name="timezone_no" ColumnName="timezone_no" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_fkdevice_status">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkdevice_status">
+              <MappingFragment StoreEntitySet="tbl_fkdevice_status">
+                <ScalarProperty Name="con_status" ColumnName="con_status" />
+                <ScalarProperty Name="dev_status_info" ColumnName="dev_status_info" />
+                <ScalarProperty Name="dev_model" ColumnName="dev_model" />
+                <ScalarProperty Name="device_info" ColumnName="device_info" />
+                <ScalarProperty Name="last_update_fk_time" ColumnName="last_update_fk_time" />
+                <ScalarProperty Name="last_update_time" ColumnName="last_update_time" />
+                <ScalarProperty Name="connected" ColumnName="connected" />
+                <ScalarProperty Name="device_name" ColumnName="device_name" />
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_irregularemployee">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_irregularemployee">
+              <MappingFragment StoreEntitySet="tbl_irregularemployee">
+                <ScalarProperty Name="Msg" ColumnName="Msg" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="photo_data" ColumnName="photo_data" />
+                <ScalarProperty Name="palm_1" ColumnName="palm_1" />
+                <ScalarProperty Name="palm_0" ColumnName="palm_0" />
+                <ScalarProperty Name="face_data" ColumnName="face_data" />
+                <ScalarProperty Name="finger_9" ColumnName="finger_9" />
+                <ScalarProperty Name="finger_8" ColumnName="finger_8" />
+                <ScalarProperty Name="finger_7" ColumnName="finger_7" />
+                <ScalarProperty Name="finger_6" ColumnName="finger_6" />
+                <ScalarProperty Name="finger_5" ColumnName="finger_5" />
+                <ScalarProperty Name="finger_4" ColumnName="finger_4" />
+                <ScalarProperty Name="finger_3" ColumnName="finger_3" />
+                <ScalarProperty Name="finger_2" ColumnName="finger_2" />
+                <ScalarProperty Name="finger_1" ColumnName="finger_1" />
+                <ScalarProperty Name="finger_0" ColumnName="finger_0" />
+                <ScalarProperty Name="Cmd_Param" ColumnName="Cmd_Param" />
+                <ScalarProperty Name="Update_Date" ColumnName="Update_Date" />
+                <ScalarProperty Name="Trans_Id" ColumnName="Trans_Id" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="fkEmployeeType_Code" ColumnName="fkEmployeeType_Code" />
+                <ScalarProperty Name="fkDesignation_Code" ColumnName="fkDesignation_Code" />
+                <ScalarProperty Name="fkLocation_Code" ColumnName="fkLocation_Code" />
+                <ScalarProperty Name="fkDepartment_Code" ColumnName="fkDepartment_Code" />
+                <ScalarProperty Name="Device_Id" ColumnName="Device_Id" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Palm" ColumnName="Palm" />
+                <ScalarProperty Name="Face" ColumnName="Face" />
+                <ScalarProperty Name="FingerPrint" ColumnName="FingerPrint" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="User_Privilege" ColumnName="User_Privilege" />
+                <ScalarProperty Name="Card_No" ColumnName="Card_No" />
+                <ScalarProperty Name="Employee_Photo" ColumnName="Employee_Photo" />
+                <ScalarProperty Name="Employee_Name" ColumnName="Employee_Name" />
+                <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_location">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_location">
+              <MappingFragment StoreEntitySet="tbl_location">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_menu">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_menu">
+              <MappingFragment StoreEntitySet="tbl_menu">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Parent" ColumnName="Parent" />
+                <ScalarProperty Name="Menu_Action" ColumnName="Menu_Action" />
+                <ScalarProperty Name="Menu_Controller" ColumnName="Menu_Controller" />
+                <ScalarProperty Name="Menu_Name" ColumnName="Menu_Name" />
+                <ScalarProperty Name="Menu_Id" ColumnName="Menu_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_menurights">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_menurights">
+              <MappingFragment StoreEntitySet="tbl_menurights">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="View" ColumnName="View" />
+                <ScalarProperty Name="Delete" ColumnName="Delete" />
+                <ScalarProperty Name="Update" ColumnName="Update" />
+                <ScalarProperty Name="Insert" ColumnName="Insert" />
+                <ScalarProperty Name="Menu_Id" ColumnName="Menu_Id" />
+                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+                <ScalarProperty Name="Menu_Rights_Id" ColumnName="Menu_Rights_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_operationlog">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_operationlog">
+              <MappingFragment StoreEntitySet="tbl_operationlog">
+                <ScalarProperty Name="Device_Status" ColumnName="Device_Status" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Device_Name" ColumnName="Device_Name" />
+                <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+                <ScalarProperty Name="Trans_ID" ColumnName="Trans_ID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_policyDetail">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_policyDetail">
+              <MappingFragment StoreEntitySet="tbl_policyDetail">
+                <ScalarProperty Name="PolicyCode" ColumnName="PolicyCode" />
+                <ScalarProperty Name="isOvertimeActive" ColumnName="isOvertimeActive" />
+                <ScalarProperty Name="Breakhour" ColumnName="Breakhour" />
+                <ScalarProperty Name="Overtime" ColumnName="Overtime" />
+                <ScalarProperty Name="Workhour" ColumnName="Workhour" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="DayCheck" ColumnName="DayCheck" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_policyWithEmployee">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_policyWithEmployee">
+              <MappingFragment StoreEntitySet="tbl_policyWithEmployee">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Policycode" ColumnName="Policycode" />
+                <ScalarProperty Name="Extrahour" ColumnName="Extrahour" />
+                <ScalarProperty Name="Breakhour" ColumnName="Breakhour" />
+                <ScalarProperty Name="Overtime" ColumnName="Overtime" />
+                <ScalarProperty Name="Workhour" ColumnName="Workhour" />
+                <ScalarProperty Name="Dt" ColumnName="Dt" />
+                <ScalarProperty Name="Emp_id" ColumnName="Emp_id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_realtime_enroll_data">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_realtime_enroll_data">
+              <MappingFragment StoreEntitySet="tbl_realtime_enroll_data">
+                <ScalarProperty Name="user_data" ColumnName="user_data" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+                <ScalarProperty Name="update_time" ColumnName="update_time" />
+                <ScalarProperty Name="code" ColumnName="code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_realtime_userinfo">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_realtime_userinfo">
+              <MappingFragment StoreEntitySet="tbl_realtime_userinfo">
+                <ScalarProperty Name="Fp_9" ColumnName="Fp_9" />
+                <ScalarProperty Name="Fp_8" ColumnName="Fp_8" />
+                <ScalarProperty Name="Fp_7" ColumnName="Fp_7" />
+                <ScalarProperty Name="Fp_6" ColumnName="Fp_6" />
+                <ScalarProperty Name="Fp_5" ColumnName="Fp_5" />
+                <ScalarProperty Name="Fp_4" ColumnName="Fp_4" />
+                <ScalarProperty Name="Fp_3" ColumnName="Fp_3" />
+                <ScalarProperty Name="Fp_2" ColumnName="Fp_2" />
+                <ScalarProperty Name="Fp_1" ColumnName="Fp_1" />
+                <ScalarProperty Name="Fp_0" ColumnName="Fp_0" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="Face" ColumnName="Face" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="card" ColumnName="card" />
+                <ScalarProperty Name="privilige" ColumnName="privilige" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_setting">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_setting">
+              <MappingFragment StoreEntitySet="tbl_setting">
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="AppSetting_Path" ColumnName="AppSetting_Path" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_temptable">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_temptable">
+              <MappingFragment StoreEntitySet="tbl_temptable">
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Cmd" ColumnName="Cmd" />
+                <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+                <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_timezone">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_timezone">
+              <MappingFragment StoreEntitySet="tbl_timezone">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Period_6_End" ColumnName="Period_6_End" />
+                <ScalarProperty Name="Period_6_Start" ColumnName="Period_6_Start" />
+                <ScalarProperty Name="Period_5_End" ColumnName="Period_5_End" />
+                <ScalarProperty Name="Period_5_Start" ColumnName="Period_5_Start" />
+                <ScalarProperty Name="Period_4_End" ColumnName="Period_4_End" />
+                <ScalarProperty Name="Period_4_Start" ColumnName="Period_4_Start" />
+                <ScalarProperty Name="Period_3_End" ColumnName="Period_3_End" />
+                <ScalarProperty Name="Period_3_Start" ColumnName="Period_3_Start" />
+                <ScalarProperty Name="Period_2_End" ColumnName="Period_2_End" />
+                <ScalarProperty Name="Period_2_Start" ColumnName="Period_2_Start" />
+                <ScalarProperty Name="Period_1_End" ColumnName="Period_1_End" />
+                <ScalarProperty Name="Period_1_Start" ColumnName="Period_1_Start" />
+                <ScalarProperty Name="Timezone_Name" ColumnName="Timezone_Name" />
+                <ScalarProperty Name="Timezone_No" ColumnName="Timezone_No" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_workcode">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_workcode">
+              <MappingFragment StoreEntitySet="tbl_workcode">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_workHourPolicy">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_workHourPolicy">
+              <MappingFragment StoreEntitySet="tbl_workHourPolicy">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="PolicyName" ColumnName="PolicyName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_fkcmd_trans_cmd_result_log_data">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans_cmd_result_log_data">
+              <MappingFragment StoreEntitySet="tbl_fkcmd_trans_cmd_result_log_data">
+                <ScalarProperty Name="io_workcode" ColumnName="io_workcode" />
+                <ScalarProperty Name="io_time" ColumnName="io_time" />
+                <ScalarProperty Name="io_mode" ColumnName="io_mode" />
+                <ScalarProperty Name="verify_mode" ColumnName="verify_mode" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_fkcmd_trans_cmd_result_slog_data">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans_cmd_result_slog_data">
+              <MappingFragment StoreEntitySet="tbl_fkcmd_trans_cmd_result_slog_data">
+                <ScalarProperty Name="operation_time" ColumnName="operation_time" />
+                <ScalarProperty Name="touser_id" ColumnName="touser_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="tobackup_number" ColumnName="tobackup_number" />
+                <ScalarProperty Name="kind" ColumnName="kind" />
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+                <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_realtime_doorstatus">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_realtime_doorstatus">
+              <MappingFragment StoreEntitySet="tbl_realtime_doorstatus">
+                <ScalarProperty Name="door_status" ColumnName="door_status" />
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+                <ScalarProperty Name="update_time" ColumnName="update_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_realtime_glog">
+            <EntityTypeMapping TypeName="EagleEyeModel.tbl_realtime_glog">
+              <MappingFragment StoreEntitySet="tbl_realtime_glog">
+                <ScalarProperty Name="log_image" ColumnName="log_image" />
+                <ScalarProperty Name="io_workcode" ColumnName="io_workcode" />
+                <ScalarProperty Name="io_time" ColumnName="io_time" />
+                <ScalarProperty Name="io_mode" ColumnName="io_mode" />
+                <ScalarProperty Name="verify_mode" ColumnName="verify_mode" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+                <ScalarProperty Name="update_time" ColumnName="update_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

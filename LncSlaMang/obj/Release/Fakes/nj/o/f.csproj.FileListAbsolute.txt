@@ -1,0 +1,2 @@
+G:\Adnan Backup\LicenseGenerator_CopiedBySK\LicenseGenerator\LncSlaMang\obj\Release\Fakes\nj\o\f.csprojAssemblyReference.cache
+G:\Adnan Backup\LicenseGenerator_CopiedBySK\LicenseGenerator\LncSlaMang\obj\Release\Fakes\nj\o\f.csproj.CoreCompileInputs.cache

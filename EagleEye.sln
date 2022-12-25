@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonProject", "Common\CommonProject.csproj", "{7F7A9C33-727E-4E31-8A2D-921AD83F76F1}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Eagle_Eye_Service_Setup", "Hysoon_Service_Setup\Hysoon_Service_Setup.vdproj", "{B3376459-0D1F-4302-9195-CD0D4AEF9733}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EagleEye_Service", "EagleEye_Service\EagleEye_Service.csproj", "{4AB4D249-FEBA-40B4-9214-CD371A4F369E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EagleEye", "EagleEye\EagleEye.csproj", "{7B78321D-9756-408D-A052-9685BE93C43E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F7A9C33-727E-4E31-8A2D-921AD83F76F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F7A9C33-727E-4E31-8A2D-921AD83F76F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F7A9C33-727E-4E31-8A2D-921AD83F76F1}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F7A9C33-727E-4E31-8A2D-921AD83F76F1}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{B3376459-0D1F-4302-9195-CD0D4AEF9733}.Debug|Any CPU.ActiveCfg = Debug
+		{B3376459-0D1F-4302-9195-CD0D4AEF9733}.Release|Any CPU.ActiveCfg = Release
+		{4AB4D249-FEBA-40B4-9214-CD371A4F369E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AB4D249-FEBA-40B4-9214-CD371A4F369E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AB4D249-FEBA-40B4-9214-CD371A4F369E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AB4D249-FEBA-40B4-9214-CD371A4F369E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B78321D-9756-408D-A052-9685BE93C43E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B78321D-9756-408D-A052-9685BE93C43E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B78321D-9756-408D-A052-9685BE93C43E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B78321D-9756-408D-A052-9685BE93C43E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {34A199C2-615E-45B8-A962-385C01218124}
+	EndGlobalSection
+EndGlobal

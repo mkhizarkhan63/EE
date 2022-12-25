@@ -1,0 +1,259 @@
+﻿@model List<EagleEye.DAL.Partial.Device_OfflineLog_P>
+@using EagleEye.Common
+@using EagleEye.DAL.Partial
+@{
+    ViewBag.Title = "TimeZones Broadcast Status";
+    Communication_P com = @SessionHandling.Communication;
+}
+@{ MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen>
+            List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "TimeZones Broadcast Status").FirstOrDefault();
+    }
+}
+<style>
+    /*.hideText {
+        -webkit-text-security: disc;
+    }*/
+</style>
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-0">TimeZones Broadcast Status</h4>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-sm-3">
+                    @*@if (Menu.Insert == true)
+                        {
+                            <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnAdd" onclick="location.href='@Url.Action("Add", "TimeZone")'">
+                                <span class="fa fa-plus"></span>&nbsp;&nbsp;Add TimeZone
+                            </button>
+                        }*@
+                </div>
+
+                <div class="col-sm-9 text-right">
+                        @if (Menu.Update == true)
+                        {
+                            @*<button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnSync">
+                                    <span class="fa fa-sync"></span>&nbsp;&nbsp;Sync TimeZone
+                                </button>*@
+
+                        }
+                        @*@if (Menu.Update == true || Menu.Insert == true)
+                            {
+                                <button type="button" class="btn btn-primary waves-effect ladda-button" data-style="expand-right" id="btnTransfer">
+                                    <span class="fa fa-upload"></span>&nbsp;&nbsp;Transfer To Device
+                                </button>
+
+                            }*@
+                        @if (Menu.Delete == true)
+                        {
+                            <button type="button" class="btn btn-danger waves-effect" id="btnDelete">
+                                <span class="fa fa-trash"></span>&nbsp;&nbsp;Delete Logs
+                            </button>
+                        }
+                </div>
+            </div>
+            <hr />
+            <div class="card">
+                <div class="card-datatable table-responsive">
+                    <div class="text-center" id="divLoader">
+                        <img src="~/assets/img/loader.gif" /><br />
+                        Loading Data..
+                    </div>
+                    <table class="datatables-demo table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="10px">
+                                    <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                        <input type="checkbox" class="custom-control-input" id="selectAll">
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </th>
+                                <th>Transaction ID</th>
+                                <th>Device</th>
+                                <th>TimeZone No</th>
+                                <th>TimeZone Name</th>
+                                <th>Log Date Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @*@foreach (var item in Model)
+                                {
+                                    <tr id="@item.trans_id">
+                                        <td></td>
+                                        <td style="display:none;"> @item.trans_id </td>
+                                        <td>@item.device_id</td>
+                                        <td>@item.Device_Name</td>
+                                        <td>@item.timezone_no</td>
+                                        <td>@item.timezone_name</td>
+                                        <td>@item.update_time</td>
+                                        @if (item.status == "WAIT")
+                                        {
+                                            <td class="text-warning">Pending</td>
+                                        }
+                                    </tr>
+                                }*@
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ content ] End -->
+
+@section scripts{
+
+    @*Startup*@
+    <script type="text/javascript">
+
+        var table;
+
+        $(document).ready(function () {
+
+            table = $('.datatables-demo').DataTable({
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0
+                },
+                {
+                    "visible": false,
+                    "searchable": false
+                }],
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+                order: [
+                    [3, 'asc']
+                ],
+                stateSave: true
+            });
+
+            $("#selectAll").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    table.rows().select();
+                } else {
+                    table.rows().deselect();
+                }
+            });
+
+            GetAllLogs();
+        });
+
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+
+        var selectedLog = [];
+        $(function () {
+
+            $("#btnDelete").click(function () {
+
+                // var button = this;
+                $.each(table.rows('.selected').nodes(), function (i, item) {
+
+                    var data = table.row(this).data();
+                    selectedLog.push(data[1]);
+
+                });
+
+                Delete(selectedLog, this);
+            });
+        });
+    </script>
+
+    @*Function*@
+    <script type="text/javascript">
+
+        function GetAllLogs() {
+            $.ajax({
+                url: '@Url.Action("GetAllLogs", "TimeZonesBroadcast")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        table.clear().draw();
+                        for (var i = 0; i < data.result.length; i++) {
+                            var device = data.result[i].device_id + " - " + data.result[i].Device_Name;
+                            var status = "";
+                            switch (data.result[i].status) {
+                                case "WAIT":
+                                    status = '<span class="text-warning">Pending</span>';
+                                    break;
+                            }
+                           // var code = '<td style="display:none;">' + data.result[i].trans_id +'</td>'
+
+                            table.row.add([
+                                '',
+                                data.result[i].trans_id,
+                                device,
+                                data.result[i].timezone_no,
+                                data.result[i].timezone_name,
+                                data.result[i].update_time,
+                                status
+                            ]).draw(false);
+                        }
+                    }
+                    $("#divLoader").hide();
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+
+                }
+            });
+        }
+        //Delete Start
+        function Delete(log, button) {
+
+            var l = Ladda.create(button);
+            l.start();
+            $.ajax({
+                url: '@Url.Action("DeleteLog", "TimeZonesBroadcast")',
+                type: "POST",
+                data: { lstLogCode: log },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+
+                        swal({
+                            title: "Device Log deleted successfully!",
+                            type: "success",
+                            confirmButtonClass: 'btn-success',
+                            confirmButtonText: 'Ok!'
+                        });
+                        table.rows('.selected').remove().draw(false);
+                    } else {
+                        showWarningNoti("Device Log(s) cannot be deleted..");
+                       // table.rows('.selected').remove().draw(false);
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+            });
+        }
+        //Delete Ends
+    </script>
+
+}

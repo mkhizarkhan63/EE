@@ -1,0 +1,1 @@
+server=MWD-ADNAN;database=EagleEye;uid=sa;pwd=abc123;

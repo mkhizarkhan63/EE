@@ -1,0 +1,641 @@
+﻿@model EagleEye.DAL.Partial.TimeZone_P
+@using EagleEye.DAL.Partial
+@using EagleEye.Common
+
+@{
+    ViewBag.Title = "Add TimeZone";
+    Communication_P com = @SessionHandling.Communication;
+
+}
+@{ MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen>
+            List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Time Zone").FirstOrDefault();
+    }
+}
+
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    @if (Menu.Insert == true)
+    {<h4 class="font-weight-bold py-3 mb-0">Add TimeZone <button type="button" class="btn btn-primary float-right ladda-button" data-style="expand-right" id="btnSave">Save TimeZone</button></h4>
+    }  <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href='@Url.Action("Index","TimeZone")'><i class="feather icon-clock"></i></a></li>
+            <li class="breadcrumb-item"><a href='@Url.Action("Index","TimeZone")'>TimeZone</a></li>
+            <li class="breadcrumb-item active">Add</li>
+        </ol>
+    </div>
+
+    <div class="card overflow-hidden">
+        <div class="row no-gutters row-bordered row-border-light">
+            <div class="card-body">
+                <h5 class="text-primary">
+                    Information
+                </h5>
+                <hr />
+                <br />
+                <div class="form-row">
+                    @Html.HiddenFor(x => x.Code)
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">TimeZone No</label>
+                        <input type="text" class="form-control" id="txt_Timezone_No">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label class="form-label">TimeZone Name</label>
+                        <input type="text" class="form-control" id="txt_Timezone_Name">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-sm-1">
+                        <label class="form-label" style="font-size:24px;">01</label>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 1 (Start)</label>
+                        <input type="time" class="form-control" id="txt_period_1_start">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 1 (End)</label>
+                        <input type="time" class="form-control" id="txt_period_1_end">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-sm-1">
+                        <label class="form-label" style="font-size:24px;">02</label>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 2 (Start)</label>
+                        <input type="time" class="form-control" id="txt_period_2_start">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 2 (End)</label>
+                        <input type="time" class="form-control" id="txt_period_2_end">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-sm-1">
+                        <label class="form-label" style="font-size:24px;">03</label>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 3 (Start)</label>
+                        <input type="time" class="form-control" id="txt_period_3_start" />
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 3 (End)</label>
+                        <input type="time" class="form-control" id="txt_period_3_end">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-sm-1">
+                        <label class="form-label" style="font-size:24px;">04</label>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 4 (Start)</label>
+                        <input type="time" class="form-control" id="txt_period_4_start">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 4 (End)</label>
+                        <input type="time" class="form-control" id="txt_period_4_end" />
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-sm-1">
+                        <label class="form-label" style="font-size:24px;">05</label>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 5 (Start)</label>
+                        <input type="time" class="form-control" id="txt_period_5_start">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 5 (End)</label>
+                        <input type="time" class="form-control" id="txt_period_5_end">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-sm-1">
+                        <label class="form-label" style="font-size:24px;">06</label>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 6 (Start)</label>
+                        <input type="time" class="form-control" id="txt_period_6_start" />
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 6 (End)</label>
+                        <input type="time" class="form-control" id="txt_period_6_end" />
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Machine -->
+<div class="modal fade" id="modals-machine" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Select <span class="font-weight-light">Machine</span>
+                </h5>
+                <span class="text-right">
+                    <label class="badge-dark" id="lblCount"></label>
+                    @if (Menu.Insert == true || Menu.Update == true)
+                    {
+                        <button type="button" class="btn btn-primary btn-sm ladda-button" data-style="expand-right" id="btnSendToDevice"><span class="fa fa-upload"></span> Transfer To Device</button>
+                    } <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body" height="400px">
+                <table class="table table-striped table-bordered" id="tblMachine">
+                    <thead>
+                        <tr>
+                            <th width="10px">
+                                <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                    <input type="checkbox" class="custom-control-input" id="selectAllMachine">
+                                    <span class="custom-control-label"></span>
+                                </label>
+                            </th>
+                            <th>Device ID</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Transfer -->
+<div class="modal fade" id="modals-transfer" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Transferring  <span class="font-weight-light">Users...</span>
+                </h5>
+                <span class="text-right">
+                    <button type="button" class="btn btn-success btn-sm" id="btnDone"><span class="fa fa-check"></span> Done</button>
+                    <button type="button" class="btn btn-default btn-sm" id="btnClose" data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body" height="400px">
+                <div class="row">
+                    <div id="lblProgress" class="col-sm-9"></div>
+                    <div class="col-sm-3"><label id="lblCompleted" class="float-right text-primary font-weight-semibold"></label></div>
+                </div>
+                <div class="progress" style="height:12px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>
+                </div>
+                <br />
+                <table class="table table-striped table-bordered" id="tblTTimeZone">
+                    <thead>
+                        <tr>
+                            <th>Device</th>
+                            <th>TimeZone ID</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section scripts{
+    @*Startup*@
+    <script type="text/javascript">
+
+
+        //SetModelData();
+        var table;
+        var tableMachine;
+        var tableTTimeZone;
+
+        $(document).ready(function () {
+            tableMachine = $('#tblMachine').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0,
+                }, {
+                    "visible": false,
+                    "searchable": false,
+                    "oTargets": [6]
+                }],
+
+                select: {
+                    style: 'multi',
+                    selector: 'td:first-child'
+                },
+                order: [
+                    [1, 'asc']
+                ]
+            });
+
+            $("#selectAllMachine").on("click", function (e) {
+                if ($(this).is(":checked")) {
+                    tableMachine.rows().select();
+                } else {
+                    tableMachine.rows().deselect();
+                }
+            });
+
+
+        });
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+
+        var selectedTimeZone = [];
+        var selectedDevice = [];
+        $(document).ready(function () {
+             $("#btnSave").click(function () {
+
+                Add(this);
+
+            });
+            
+            $("#btnDone").click(function ()
+            {
+                window.location.href = '@Url.Action("Index", "TimeZone")';
+            });
+            $("#btnSendToDevice").click(function () {
+                if (tableMachine.rows('.selected').count() > 0) {
+
+                    $.each(tableMachine.rows('.selected').nodes(), function (i, item) {
+
+                        var datadevice = tableMachine.row(this).data();
+                        selectedDevice.push(datadevice[1]);
+                    });
+
+                    selectedTimeZone.push($("#Code").val());
+                    SendUserToDevice(selectedTimeZone, selectedDevice, 1);
+                }
+                else {
+                    showWarningNoti("Please Select Machine To Proceed...");
+                }
+            });
+
+            tableTTimeZone = $('#tblTTimeZone').DataTable({
+                "lengthChange": false,
+                "pageLength": 5,
+                order: [
+                    [0, 'asc']
+                ]
+            });
+
+
+        });
+    </script>
+
+    @*Function*@
+    <script type="text/javascript">
+
+        @*function SetModelData() {
+            $("#txt_TimeZone_No").text('@Model.Timezone_No');
+            $("#Code").val('@Model.Code');
+              $("#txt_period_1_start").val('@Model.Period_1_Start');
+              $("#txt_period_1_end").val('@Model.Period_1_End');
+            $("#txt_period_2_start").val('@Model.Period_2_Start');
+            $("#txt_period_2_end").val('@Model.Period_2_End');
+             $("#txt_period_3_start").val('@Model.Period_3_Start');
+             $("#txt_period_3_end").val('@Model.Period_3_End');
+              $("#txt_period_4_start").val('@Model.Period_4_Start');
+            $("#txt_period_4_end").val('@Model.Period_4_End');
+              $("#txt_period_5_start").val('@Model.Period_5_Start');
+            $("#txt_period_5_end").val('@Model.Period_5_End');
+            $("#txt_period_6_start").val('@Model.Period_6_Start');
+             $("#txt_period_6_end").val('@Model.Period_6_End');
+        }*@
+        function Add(button) {
+            var Model = GetModelData();
+            var l = Ladda.create(button);
+            l.start();
+            if ($("#txt_Timezone_No").val() == "") {
+                l.stop();
+                return showWarningNoti("Please enter TimeZone No");
+            }
+            if ($("#txt_Timezone_No").val() == "0") {
+                l.stop();
+                return showWarningNoti("Please enter valid TimeZone");
+            }
+            else {
+                $.ajax({
+                url: '@Url.Action("AddTimeZone", "TimeZone")',
+                type: "POST",
+                data: { timezone: Model },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result) {
+                        showSuccessNoti("Time Zone Added..");
+                        window.location.href = '@Url.Action("Index", "TimeZone")';
+                    }
+                    else {
+                        if (data.msg == "") {
+                            showWarningNoti("Time Zone not Added..");
+                        }
+                        else {
+                            showWarningNoti(data.msg);
+                        }
+                    }
+
+                    @*if (data.result) {
+                        $("#Code").val(data.code);
+                            swal({
+                                title: "Time Zone added successfully!",
+                                text: "Do you wish to send it to device?",
+                                type: "success",
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "Yes",
+                                cancelButtonText: "No",
+                                showCancelButton: true,
+                            },
+                                function (isConfirm) {
+                                    if (isConfirm) {
+
+                                        GetDevices();
+
+                                    } else {
+                                        window.location.href = '@Url.Action("Index", "User")';
+                                    }
+                                });
+
+                        } else {
+                            if (data.msg == "") {
+                                showWarningNoti("Time Zone not Added..");
+                            }
+                            else {
+                                showWarningNoti(data.msg);
+                            }
+                        }*@
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+
+            });
+            }
+        }
+
+
+        //SendTimeZOneToDevice Start
+        function SendTimeZoneToDevice(tz, device) {
+            tableTTimeZone.clear().draw();
+            $("#modals-machine").modal('toggle');
+            $("#modals-transfer").modal('toggle');
+            $("#lblProgress").html("");
+                    $(".progress-bar").width("0%");
+                    $("#selectAllMachine").prop("checked", false);
+                    $("#lblCompleted").text("");
+                    //$("#btnStop").prop("disabled", false);
+                    $("#btnClose").prop("disabled", true);
+
+
+                    $.ajax({
+                        url: '@Url.Action("SendTimeZoneToDevice", "TimeZone")',
+                        type: "POST",
+                        data: { tzCodes: tz, deviceIds: device },
+                        dataType: "json",
+                        cache: false,
+                        beforeSend: function (xhr) {
+                            asyncCallsXHR = xhr;
+                        },
+                        success: function (data) {
+
+                            if (data.result) {
+
+                            } else {
+
+                                swal({
+                                    title: data.msg,
+                                    type: "warning",
+                                    confirmButtonClass: 'btn-warning',
+                                    confirmButtonText: 'Ok!'
+                                });
+                            }
+
+                        },
+                        failure: function (response) {
+                            alert("failure " + response.data);
+                        },
+                        error: function (err, status, thrown) {
+                            alert("error " + status + " " + thrown);
+                        },
+                        complete: function (data) {
+
+                        }
+
+
+                    });
+                }
+                //SendTimeZOneToDevice Ends
+
+
+        function GetDevices() {
+            tableMachine.clear().draw();
+            //var l = Ladda.create(button);
+            //l.start();
+
+            $.ajax({
+                url: '@Url.Action("GetAllDevices", "Device")',
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    if (data.result != null) {
+
+
+                        for (var i = 0; i < data.result.length; i++) {
+
+                            if (data.result[i].Device_Status == '1') {
+                                tableMachine.row.add([
+                                '',
+                                data.result[i].Device_ID,
+                                data.result[i].Device_Name,
+                                'Connected'
+                                ]).draw(false);
+                            }
+                        }
+                    }
+                },
+                failure: function (response) {
+                    alert("failure " + response.data);
+                },
+                error: function (err, status, thrown) {
+                    alert("error " + status + " " + thrown);
+                },
+                complete: function (data) {
+                    $("#modals-machine").modal('toggle');
+                   // l.stop();
+                }
+            });
+
+
+        }
+        //GetDevices Ends
+
+        //GetModelData Starts
+
+        function GetModelData() {
+            var Model = {};
+            Model.Code = $("#Code").val();
+            Model.Period_1_Start = $("#txt_period_1_start").val();
+            Model.Period_1_End = $("#txt_period_1_end").val();
+            Model.Period_2_Start = $("#txt_period_2_start").val();
+            Model.Period_2_End = $("#txt_period_2_end").val();
+            Model.Period_3_Start = $("#txt_period_3_start").val();
+            Model.Period_3_End = $("#txt_period_3_end").val();
+            Model.Period_4_Start = $("#txt_period_4_start").val();
+            Model.Period_4_End = $("#txt_period_4_end").val();
+            Model.Period_5_Start = $("#txt_period_5_start").val();
+            Model.Period_5_End = $("#txt_period_5_end").val();
+            Model.Period_6_Start = $("#txt_period_6_start").val();
+            Model.Period_6_End = $("#txt_period_6_end").val();
+            Model.Timezone_No = $("#txt_Timezone_No").val();
+            Model.Timezone_Name = $("#txt_Timezone_Name").val();
+            return Model;
+
+        }
+        //GetModelData Ends
+
+
+        //SendTZTransferStatus Start
+        var progress = 1;
+        var percent = 0;
+        function SendTZTransferStatus(timezone_no, device_id, device_name, msg) {
+            var total = selectedTimeZone.length * selectedDevice.length;
+
+            percent = (progress * 100) / total;
+            $("#lblProgress").html("Sending to Device: <span class='text-primary font-weight-semibold'>" + device_name + "</span> TimeZones: <span class='text-primary font-weight-semibold'>" + progress + " / " + total + "</span>");
+            $(".progress-bar").width(percent + "%");
+            if (msg == "success") {
+                msg = "<label class='text-success'>" + msg + "</label>";
+            } else {
+                msg = "<label class='text-danger'>" + msg + "</label>";
+            }
+
+            tableTTimeZone.row.add([
+                device_name,
+                timezone_no,
+                msg
+            ]).draw(false);
+
+            if (total == progress) {
+                $("#lblProgress").html("");
+                // $("#lblCompleted").text("Completed");
+                $("#btnClose").prop("disabled", false);
+                progress = 1;
+                percent = 0;
+                selectedTimeZone = [];
+                selectedDevice = [];
+            }
+            else {
+                progress++;
+            }
+        }
+        //SendTZTransferStatus Ends
+    </script>
+    @*SignalR*@
+
+
+
+    @if (com != null)
+    {
+        if (!string.IsNullOrEmpty(com.Server_IP) && !string.IsNullOrEmpty(com.SignalR_Port))
+        {
+
+            <script src="http://@com.Server_IP:@com.SignalR_Port/signalr/hubs"></script>
+            <script type="text/javascript">
+
+                $(function () {
+
+                    var serverIP = '@com.Server_IP';
+                    var signalrPort = '@com.SignalR_Port';
+
+                    $.connection.hub.url = "http://" + serverIP + ":" + signalrPort + "/signalr/hubs";
+                    var notifier = $.connection.NotifierHub;
+
+                    notifier.client.sendTZTransferStatus = function (timezone_no, device_id, device_name, msg) {
+                       
+                        SendTZTransferStatus(timezone_no, device_id, device_name, msg);
+                    }
+
+                    $.connection.hub.start().done(function () {
+                        console.log("SignalR Connected");
+                    })
+
+                    $.connection.hub.reconnected(function () {
+                        console.log("SignalR is reconnected.");
+                    });
+
+
+                    $.connection.hub.disconnected(function () {
+
+                        console.log("SignalR Disconnected.");
+
+                        if ($.connection.hub.lastError) {
+                            console.log("SignalR Disconnected. Reason: " + $.connection.hub.lastError.message);
+                        }
+
+                        setTimeout(function () {
+                            $.connection.hub.start().done(function () {
+                                console.log("SignalR Connected");
+                            });
+                        }, 10000); // Restart connection after 10 seconds.
+
+                    });
+
+
+                })
+
+            </script>
+        }
+    }
+
+}

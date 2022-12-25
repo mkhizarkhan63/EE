@@ -1,0 +1,367 @@
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\EagleEye_Service.exe.config
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\EagleEye_Service.exe
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\EagleEye_Service.pdb
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Common.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Cors.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.HttpListener.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Hosting.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\MySql.Data.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Newtonsoft.Json.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Owin.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\LncSlaMang.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Oracle.DataAccess.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\mll.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Algorithm.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Common.pdb
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Common.dll.config
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.pdb
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.xml
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.pdb
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.xml
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.pdb
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.xml
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.xml
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Cors.xml
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.HttpListener.xml
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Hosting.xml
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.xml
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.Cookies.xml
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.OAuth.xml
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\MySql.Data.xml
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csprojAssemblyReference.cache
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\Interop.NetFwTypeLib.dll
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.ResolveComReference.cache
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye.ProjectInstaller.resources
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.GenerateResource.cache
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.CoreCompileInputs.cache
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.CopyComplete
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.exe
+H:\DRIVE G\Ammad-Development\EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.pdb
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\EagleEye_Service.exe.config
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\EagleEye_Service.exe
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\EagleEye_Service.pdb
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Common.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\log4net.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Cors.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.HttpListener.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Hosting.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\MySql.Data.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Newtonsoft.Json.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Owin.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\LncSlaMang.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Oracle.DataAccess.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\mll.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Algorithm.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Common.pdb
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.pdb
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.xml
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.pdb
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.xml
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.pdb
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.xml
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.xml
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Cors.xml
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.HttpListener.xml
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Hosting.xml
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.xml
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.Cookies.xml
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.OAuth.xml
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\bin\Debug\MySql.Data.xml
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csprojResolveAssemblyReference.cache
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\obj\Debug\Interop.NetFwTypeLib.dll
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.ResolveComReference.cache
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye.ProjectInstaller.resources
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.GenerateResource.Cache
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.exe
+D:\Mohiuddin\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.pdb
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\EagleEye_Service.exe.config
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\EagleEye_Service.exe
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\EagleEye_Service.pdb
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Common.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\log4net.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Cors.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.HttpListener.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Hosting.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\MySql.Data.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Newtonsoft.Json.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Owin.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\LncSlaMang.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Oracle.DataAccess.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\mll.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Algorithm.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Common.pdb
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Common.dll.config
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.pdb
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.xml
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.pdb
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.xml
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.pdb
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.xml
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.xml
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Cors.xml
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.HttpListener.xml
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Hosting.xml
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.xml
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.Cookies.xml
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.OAuth.xml
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\MySql.Data.xml
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csprojAssemblyReference.cache
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\Interop.NetFwTypeLib.dll
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.ResolveComReference.cache
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye.ProjectInstaller.resources
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.GenerateResource.cache
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.CoreCompileInputs.cache
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.CopyComplete
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.exe
+H:\Khizar\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.pdb
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\EagleEye_Service.exe.config
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\EagleEye_Service.exe
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\EagleEye_Service.pdb
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Common.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\log4net.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Cors.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.HttpListener.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Hosting.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\MySql.Data.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Newtonsoft.Json.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Owin.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\LncSlaMang.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Oracle.DataAccess.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\mll.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Algorithm.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Common.pdb
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Common.dll.config
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.pdb
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.xml
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.pdb
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.xml
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.pdb
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.xml
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.xml
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Cors.xml
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.HttpListener.xml
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Hosting.xml
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.xml
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.Cookies.xml
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.OAuth.xml
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\bin\Debug\MySql.Data.xml
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csprojAssemblyReference.cache
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\Interop.NetFwTypeLib.dll
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.ResolveComReference.cache
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye.ProjectInstaller.resources
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.GenerateResource.cache
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.CoreCompileInputs.cache
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.CopyComplete
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.exe
+H:\Khizar\Customization\Airlift EagleEye\Eagle_Eye\EagleEye_Service\obj\Debug\EagleEye_Service.pdb
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\EagleEye_Service.exe.config
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\EagleEye_Service.exe
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\EagleEye_Service.pdb
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Common.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\log4net.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.Cors.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.HttpListener.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.Hosting.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\MySql.Data.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Newtonsoft.Json.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Owin.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\LncSlaMang.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Oracle.DataAccess.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\mll.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Algorithm.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Common.pdb
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Common.dll.config
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.pdb
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.xml
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.pdb
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.xml
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.pdb
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.xml
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.xml
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.Cors.xml
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.HttpListener.xml
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.Hosting.xml
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.xml
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.Cookies.xml
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.OAuth.xml
+H:\Khizar\EagleEye Standard\EagleEye_Service\bin\Debug\MySql.Data.xml
+H:\Khizar\EagleEye Standard\EagleEye_Service\obj\Debug\EagleEye_Service.csprojAssemblyReference.cache
+H:\Khizar\EagleEye Standard\EagleEye_Service\obj\Debug\Interop.NetFwTypeLib.dll
+H:\Khizar\EagleEye Standard\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.ResolveComReference.cache
+H:\Khizar\EagleEye Standard\EagleEye_Service\obj\Debug\EagleEye.ProjectInstaller.resources
+H:\Khizar\EagleEye Standard\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.GenerateResource.cache
+H:\Khizar\EagleEye Standard\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.CoreCompileInputs.cache
+H:\Khizar\EagleEye Standard\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.CopyComplete
+H:\Khizar\EagleEye Standard\EagleEye_Service\obj\Debug\EagleEye_Service.exe
+H:\Khizar\EagleEye Standard\EagleEye_Service\obj\Debug\EagleEye_Service.pdb
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\EagleEye_Service.exe.config
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\EagleEye_Service.exe
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\EagleEye_Service.pdb
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Common.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\log4net.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Cors.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.HttpListener.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Hosting.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\MySql.Data.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Newtonsoft.Json.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Owin.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\LncSlaMang.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Oracle.DataAccess.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\mll.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Algorithm.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Common.pdb
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Common.dll.config
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.pdb
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.xml
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.pdb
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.xml
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.pdb
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.xml
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.xml
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Cors.xml
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.HttpListener.xml
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Hosting.xml
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.xml
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.Cookies.xml
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.OAuth.xml
+H:\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\MySql.Data.xml
+H:\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye_Service.csprojAssemblyReference.cache
+H:\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\Interop.NetFwTypeLib.dll
+H:\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.ResolveComReference.cache
+H:\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye.ProjectInstaller.resources
+H:\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.GenerateResource.cache
+H:\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.CoreCompileInputs.cache
+H:\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.CopyComplete
+H:\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye_Service.exe
+H:\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye_Service.pdb
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\EagleEye_Service.exe.config
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\EagleEye_Service.exe
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\EagleEye_Service.pdb
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Common.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\log4net.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Cors.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.HttpListener.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Hosting.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\MySql.Data.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Newtonsoft.Json.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Owin.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\LncSlaMang.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Oracle.DataAccess.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\mll.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Algorithm.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Common.pdb
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Common.dll.config
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.pdb
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Client.xml
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.pdb
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.Core.xml
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.pdb
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.xml
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.xml
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Cors.xml
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.HttpListener.xml
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Hosting.xml
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.xml
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.Cookies.xml
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\Microsoft.Owin.Security.OAuth.xml
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\bin\Debug\MySql.Data.xml
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye_Service.csprojAssemblyReference.cache
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\Interop.NetFwTypeLib.dll
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.ResolveComReference.cache
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye.ProjectInstaller.resources
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.GenerateResource.cache
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.CoreCompileInputs.cache
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye_Service.csproj.CopyComplete
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye_Service.exe
+H:\KHIZAR - Development\EagleEye Standard_workhour\EagleEye_Service\obj\Debug\EagleEye_Service.pdb

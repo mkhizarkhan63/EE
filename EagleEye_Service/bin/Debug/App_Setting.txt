@@ -1,0 +1,1 @@
+server=MWD-faiza;database=EagleEye;uid=sa;pwd=abc123;

@@ -1,0 +1,422 @@
+﻿@model EagleEye.DAL.Partial.TimeZone_P
+@using EagleEye.DAL.Partial
+@using EagleEye.Common
+
+@{
+    ViewBag.Title = "Edit TimeZone";
+    Communication_P com = @SessionHandling.Communication;
+
+}
+@{ MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen>
+            List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Time Zone").FirstOrDefault();
+    }
+}
+
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    @if (Menu.Insert == true)
+    {<h4 class="font-weight-bold py-3 mb-0">Edit TimeZone <button type="button" class="btn btn-primary float-right ladda-button" data-style="expand-right" id="btnSave">Apply Changes</button></h4>
+    }  <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href='@Url.Action("Index","TimeZone")'><i class="feather icon-clock"></i></a></li>
+            <li class="breadcrumb-item"><a href='@Url.Action("Index","TimeZone")'>TimeZone</a></li>
+            <li class="breadcrumb-item active">Edit</li>
+        </ol>
+    </div>
+
+    <div class="card overflow-hidden">
+        <div class="row no-gutters row-bordered row-border-light">
+            <div class="card-body">
+                <h5 class="text-primary">
+                    Information
+                </h5>
+                <hr />
+                <br />
+                <div class="form-row">
+                    @Html.HiddenFor(x => x.Code)
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">TimeZone No</label><br />
+                        <label class="form-label" id="txt_TimeZone_No" style="font-size:30px;"></label>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label class="form-label">TimeZone Name</label>
+                        <input type="text" class="form-control" id="txt_Timezone_Name">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-sm-1">
+                        <label class="form-label" style="font-size:24px;">01</label>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 1 (Start)</label>
+                        <input type="time" class="form-control" id="txt_period_1_start">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 1 (End)</label>
+                        <input type="time" class="form-control" id="txt_period_1_end">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-sm-1">
+                        <label class="form-label" style="font-size:24px;">02</label>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 2 (Start)</label>
+                        <input type="time" class="form-control" id="txt_period_2_start">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 2 (End)</label>
+                        <input type="time" class="form-control" id="txt_period_2_end">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-sm-1">
+                        <label class="form-label" style="font-size:24px;">03</label>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 3 (Start)</label>
+                        <input type="time" class="form-control" id="txt_period_3_start" />
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 3 (End)</label>
+                        <input type="time" class="form-control" id="txt_period_3_end">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-sm-1">
+                        <label class="form-label" style="font-size:24px;">04</label>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 4 (Start)</label>
+                        <input type="time" class="form-control" id="txt_period_4_start">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 4 (End)</label>
+                        <input type="time" class="form-control" id="txt_period_4_end" />
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-sm-1">
+                        <label class="form-label" style="font-size:24px;">05</label>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 5 (Start)</label>
+                        <input type="time" class="form-control" id="txt_period_5_start">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 5 (End)</label>
+                        <input type="time" class="form-control" id="txt_period_5_end">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-sm-1">
+                        <label class="form-label" style="font-size:24px;">06</label>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 6 (Start)</label>
+                        <input type="time" class="form-control" id="txt_period_6_start" />
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="form-label">Period 6 (End)</label>
+                        <input type="time" class="form-control" id="txt_period_6_end" />
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Machine -->
+<div class="modal fade" id="modals-machine" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Select <span class="font-weight-light">Machine</span>
+                </h5>
+                <span class="text-right">
+                    <label class="badge-dark" id="lblCount"></label>
+                    <button type="button" class="btn btn-primary btn-sm ladda-button" data-style="expand-right" id="btnSendToDevice"><span class="fa fa-upload"></span> Transfer To Device</button>
+                    @*<button type="button" class="btn btn-primary btn-sm ladda-button" data-style="expand-right" id="btnSendAdminToDevice"><span class="fa fa-upload"></span> Set As Admin</button>*@
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body" height="400px">
+                <table class="table table-striped table-bordered" id="tblMachine">
+                    <thead>
+                        <tr>
+                            <th width="10px">
+                                <label class="custom-control custom-checkbox" style="margin-left:10px;">
+                                    <input type="checkbox" class="custom-control-input" id="selectAllMachine">
+                                    <span class="custom-control-label"></span>
+                                </label>
+                            </th>
+                            <th>Device ID</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Modal Transfer -->
+<div class="modal fade" id="modals-transfer" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content">
+            <div class="modal-header" style="padding: 1.25rem 1.5625rem 0 1.5625rem;">
+                <h5 class="modal-title">
+                    Transferring  <span class="font-weight-light">Users...</span>
+                </h5>
+                <span class="text-right">
+                    <button type="button" class="btn btn-success btn-sm" id="btnDone"><span class="fa fa-check"></span> Done</button>
+                    <button type="button" class="btn btn-default btn-sm" id="btnClose" data-dismiss="modal"><span class="fa fa-times"></span> Close</button>
+                </span>
+
+            </div>
+            <div class="modal-body" height="400px">
+                <div class="row">
+                    <div id="lblProgress" class="col-sm-9"></div>
+                    <div class="col-sm-3"><label id="lblCompleted" class="float-right text-primary font-weight-semibold"></label></div>
+                </div>
+                <div class="progress" style="height:12px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>
+                </div>
+                <br />
+                <table class="table table-striped table-bordered" id="tblTUsers">
+                    <thead>
+                        <tr>
+                            <th>Device</th>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section scripts{
+    @*Startup*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            SetModelData();
+
+            // vanillaTextMask.maskInput({
+            //     inputElement: $('#txt_period_1_start')[0],
+            //    mask: [/[1-9]/, /\d/, ':', /\d/, /\d/]
+            //});
+        });
+
+
+    </script>
+
+    @*Events*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnSave").click(function () {
+                Edit(this);
+            });
+        });
+    </script>
+
+    @*Function*@
+    <script type="text/javascript">
+        function Edit(button) {
+            var Model = GetModelData();
+            var l = Ladda.create(button);
+            l.start();
+
+            $.ajax({
+                url: '@Url.Action("EditTimeZone", "TimeZone")',
+                type: "POST",
+                data: { timezone: Model },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.result) {
+                        showSuccessNoti("Time Zone Updated..");
+                       // window.location.href = '@Url.Action("Index", "TimeZone")';
+                        swal({
+                            title: "Success!",
+                            text: "Time Zone Updated..!",
+                            type: "success",
+                            showCancelButton: false,
+                            confirmButtonClass: "btn-success",
+                            confirmButtonText: "Ok!"
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                  window.location.href = '@Url.Action("Index", "TimeZone")';
+                                    
+                                } else {
+                                   
+                                }
+                            });
+                    } else {
+                        if (data.msg == "") {
+                            showWarningNoti("Time Zone not Added..");
+                        }
+                        else {
+                            showWarningNoti(data.msg);
+                        }
+                    }
+                    
+                },
+                failure: function (response) {
+                },
+                error: function (err, status) {
+                },
+                complete: function (data) {
+                    l.stop();
+                }
+
+            });
+        }
+
+        //SetModelData Starts
+        function SetModelData() {
+            $("#txt_TimeZone_No").text('@Model.Timezone_No');
+            $("#txt_Timezone_Name").val('@Model.Timezone_Name');
+            $("#Code").val('@Model.Code');
+              $("#txt_period_1_start").val('@Model.Period_1_Start');
+              $("#txt_period_1_end").val('@Model.Period_1_End');
+            $("#txt_period_2_start").val('@Model.Period_2_Start');
+            $("#txt_period_2_end").val('@Model.Period_2_End');
+             $("#txt_period_3_start").val('@Model.Period_3_Start');
+             $("#txt_period_3_end").val('@Model.Period_3_End');
+              $("#txt_period_4_start").val('@Model.Period_4_Start');
+            $("#txt_period_4_end").val('@Model.Period_4_End');
+              $("#txt_period_5_start").val('@Model.Period_5_Start');
+            $("#txt_period_5_end").val('@Model.Period_5_End');
+            $("#txt_period_6_start").val('@Model.Period_6_Start');
+             $("#txt_period_6_end").val('@Model.Period_6_End');
+
+        }
+
+        //SetModelData Ends
+
+        //GetModelData Starts
+
+        function GetModelData() {
+            var Model = {};
+            Model.Code = $("#Code").val();
+            Model.Period_1_Start = $("#txt_period_1_start").val();
+            Model.Period_1_End = $("#txt_period_1_end").val();
+            Model.Period_2_Start = $("#txt_period_2_start").val();
+            Model.Period_2_End = $("#txt_period_2_end").val();
+            Model.Period_3_Start = $("#txt_period_3_start").val();
+            Model.Period_3_End = $("#txt_period_3_end").val();
+            Model.Period_4_Start = $("#txt_period_4_start").val();
+            Model.Period_4_End = $("#txt_period_4_end").val();
+            Model.Period_5_Start = $("#txt_period_5_start").val();
+            Model.Period_5_End = $("#txt_period_5_end").val();
+            Model.Period_6_Start = $("#txt_period_6_start").val();
+            Model.Period_6_End = $("#txt_period_6_end").val();
+            Model.Timezone_No = $("#txt_TimeZone_No").text();
+            Model.Timezone_Name = $("#txt_Timezone_Name").val();
+            return Model;
+
+        }
+        //GetModelData Ends
+    </script>
+    @*SignalR*@
+
+
+
+    @if (com != null)
+    {
+        if (!string.IsNullOrEmpty(com.Server_IP) && !string.IsNullOrEmpty(com.SignalR_Port))
+        {
+
+            <script src="http://@com.Server_IP:@com.SignalR_Port/signalr/hubs"></script>
+            <script type="text/javascript">
+
+                $(function () {
+
+                    var serverIP = '@com.Server_IP';
+                    var signalrPort = '@com.SignalR_Port';
+
+                    $.connection.hub.url = "http://" + serverIP + ":" + signalrPort + "/signalr/hubs";
+                    var notifier = $.connection.NotifierHub;
+
+                    notifier.client.sendUserTransferStatus = function (user_id, user_name, device_id, device_name, msg) {
+                        SendUserTransferStatus(user_id,user_name,device_id,device_name, msg);
+                    }
+
+                    $.connection.hub.start().done(function () {
+                        console.log("SignalR Connected");
+                    })
+
+                    $.connection.hub.reconnected(function () {
+                        console.log("SignalR is reconnected.");
+                    });
+
+
+                    $.connection.hub.disconnected(function () {
+
+                        console.log("SignalR Disconnected.");
+
+                        if ($.connection.hub.lastError) {
+                            console.log("SignalR Disconnected. Reason: " + $.connection.hub.lastError.message);
+                        }
+
+                        setTimeout(function () {
+                            $.connection.hub.start().done(function () {
+                                console.log("SignalR Connected");
+                            });
+                        }, 10000); // Restart connection after 10 seconds.
+
+                    });
+
+
+                })
+
+            </script>
+        }
+    }
+
+}

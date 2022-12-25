@@ -1,0 +1,635 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EagleEyeModelStoreContainer" CdmEntityContainer="EagleEyeEntities">
+    <FunctionImportMapping FunctionImportName="usp_check_reset_fk_cmd" FunctionName="EagleEyeModel.Store.usp_check_reset_fk_cmd" />
+    <FunctionImportMapping FunctionImportName="usp_receive_cmd" FunctionName="EagleEyeModel.Store.usp_receive_cmd" />
+    <FunctionImportMapping FunctionImportName="usp_set_cmd_result" FunctionName="EagleEyeModel.Store.usp_set_cmd_result" />
+    <FunctionImportMapping FunctionImportName="usp_update_device_conn_status" FunctionName="EagleEyeModel.Store.usp_update_device_conn_status" />
+    <EntitySetMapping Name="tbl_account">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_account">
+        <MappingFragment StoreEntitySet="tbl_account">
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+          <ScalarProperty Name="Salt" ColumnName="Salt" />
+          <ScalarProperty Name="Hash" ColumnName="Hash" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_att_status">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_att_status">
+        <MappingFragment StoreEntitySet="tbl_att_status">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_attendence">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_attendence">
+        <MappingFragment StoreEntitySet="tbl_attendence">
+          <ScalarProperty Name="Status_MySQL" ColumnName="Status_MySQL" />
+          <ScalarProperty Name="Ext_Status" ColumnName="Ext_Status" />
+          <ScalarProperty Name="Status_SQL" ColumnName="Status_SQL" />
+          <ScalarProperty Name="Status_Oracle" ColumnName="Status_Oracle" />
+          <ScalarProperty Name="Status_TIS" ColumnName="Status_TIS" />
+          <ScalarProperty Name="Verify_Mode" ColumnName="Verify_Mode" />
+          <ScalarProperty Name="DoorStatus" ColumnName="DoorStatus" />
+          <ScalarProperty Name="WorkCode_Description" ColumnName="WorkCode_Description" />
+          <ScalarProperty Name="WorkCode" ColumnName="WorkCode" />
+          <ScalarProperty Name="Status_Description" ColumnName="Status_Description" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Employee_Name" ColumnName="Employee_Name" />
+          <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+          <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+          <ScalarProperty Name="Polling_DateTime" ColumnName="Polling_DateTime" />
+          <ScalarProperty Name="Attendance_Photo" ColumnName="Attendance_Photo" />
+          <ScalarProperty Name="Attendance_DateTime" ColumnName="Attendance_DateTime" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_awaitingdevice">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_awaitingdevice">
+        <MappingFragment StoreEntitySet="tbl_awaitingdevice">
+          <ScalarProperty Name="IsConnected" ColumnName="IsConnected" />
+          <ScalarProperty Name="Device_Type" ColumnName="Device_Type" />
+          <ScalarProperty Name="Device_Status_Info" ColumnName="Device_Status_Info" />
+          <ScalarProperty Name="Device_Info" ColumnName="Device_Info" />
+          <ScalarProperty Name="Device_Name" ColumnName="Device_Name" />
+          <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_communication">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_communication">
+        <MappingFragment StoreEntitySet="tbl_communication">
+          <ScalarProperty Name="Server_Port" ColumnName="Server_Port" />
+          <ScalarProperty Name="SignalR_Port" ColumnName="SignalR_Port" />
+          <ScalarProperty Name="Server_IP" ColumnName="Server_IP" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_department">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_department">
+        <MappingFragment StoreEntitySet="tbl_department">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_designation">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_designation">
+        <MappingFragment StoreEntitySet="tbl_designation">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_device">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_device">
+        <MappingFragment StoreEntitySet="tbl_device">
+          <ScalarProperty Name="IsSlave" ColumnName="IsSlave" />
+          <ScalarProperty Name="OpenDoor" ColumnName="OpenDoor" />
+          <ScalarProperty Name="Device_Location" ColumnName="Device_Location" />
+          <ScalarProperty Name="Last_Polled_Record" ColumnName="Last_Polled_Record" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="Reader_ID" ColumnName="Reader_ID" />
+          <ScalarProperty Name="Device_Status" ColumnName="Device_Status" />
+          <ScalarProperty Name="Sys_Time" ColumnName="Sys_Time" />
+          <ScalarProperty Name="Server_Port" ColumnName="Server_Port" />
+          <ScalarProperty Name="Server_Address" ColumnName="Server_Address" />
+          <ScalarProperty Name="Device_Group" ColumnName="Device_Group" />
+          <ScalarProperty Name="Multi_Users" ColumnName="Multi_Users" />
+          <ScalarProperty Name="Wiegand_Type" ColumnName="Wiegand_Type" />
+          <ScalarProperty Name="Wiegand_Output" ColumnName="Wiegand_Output" />
+          <ScalarProperty Name="Wiegand_Input" ColumnName="Wiegand_Input" />
+          <ScalarProperty Name="Volume" ColumnName="Volume" />
+          <ScalarProperty Name="Use_Alarm" ColumnName="Use_Alarm" />
+          <ScalarProperty Name="Sleep_Time" ColumnName="Sleep_Time" />
+          <ScalarProperty Name="Screensavers_Time" ColumnName="Screensavers_Time" />
+          <ScalarProperty Name="Show_ResultTime" ColumnName="Show_ResultTime" />
+          <ScalarProperty Name="Reverify_Time" ColumnName="Reverify_Time" />
+          <ScalarProperty Name="Receive_Interval" ColumnName="Receive_Interval" />
+          <ScalarProperty Name="OpenDoor_Delay" ColumnName="OpenDoor_Delay" />
+          <ScalarProperty Name="Glog_Warning" ColumnName="Glog_Warning" />
+          <ScalarProperty Name="DoorMagnetic_Type" ColumnName="DoorMagnetic_Type" />
+          <ScalarProperty Name="DoorMagnetic_Delay" ColumnName="DoorMagnetic_Delay" />
+          <ScalarProperty Name="Anti_back" ColumnName="Anti-back" />
+          <ScalarProperty Name="Allow_LateTime" ColumnName="Allow_LateTime" />
+          <ScalarProperty Name="Allow_EarlyTime" ColumnName="Allow_EarlyTime" />
+          <ScalarProperty Name="Alarm_Delay" ColumnName="Alarm_Delay" />
+          <ScalarProperty Name="Device_LastStatusTime" ColumnName="Device_LastStatusTime" />
+          <ScalarProperty Name="Max_Employee" ColumnName="Max_Employee" />
+          <ScalarProperty Name="Real_Employee" ColumnName="Real_Employee" />
+          <ScalarProperty Name="Total_log_Max" ColumnName="Total_log_Max" />
+          <ScalarProperty Name="Total_log_Count" ColumnName="Total_log_Count" />
+          <ScalarProperty Name="Max_PvReg" ColumnName="Max_PvReg" />
+          <ScalarProperty Name="Real_PvReg" ColumnName="Real_PvReg" />
+          <ScalarProperty Name="Max_PasswordReg" ColumnName="Max_PasswordReg" />
+          <ScalarProperty Name="Real_PasswordReg" ColumnName="Real_PasswordReg" />
+          <ScalarProperty Name="Max_Manager" ColumnName="Max_Manager" />
+          <ScalarProperty Name="Real_Manager" ColumnName="Real_Manager" />
+          <ScalarProperty Name="Max_IDCardReg" ColumnName="Max_IDCardReg" />
+          <ScalarProperty Name="Real_IDCardReg" ColumnName="Real_IDCardReg" />
+          <ScalarProperty Name="Max_FPReg" ColumnName="Max_FPReg" />
+          <ScalarProperty Name="Real_FPReg" ColumnName="Real_FPReg" />
+          <ScalarProperty Name="Max_FaceReg" ColumnName="Max_FaceReg" />
+          <ScalarProperty Name="Real_FaceReg" ColumnName="Real_FaceReg" />
+          <ScalarProperty Name="Max_Record" ColumnName="Max_Record" />
+          <ScalarProperty Name="Device_Status_Info" ColumnName="Device_Status_Info" />
+          <ScalarProperty Name="Supported_Enroll_Data" ColumnName="Supported_Enroll_Data" />
+          <ScalarProperty Name="Fp_Data_Ver" ColumnName="Fp_Data_Ver" />
+          <ScalarProperty Name="Fk_Bin_Data_Lib" ColumnName="Fk_Bin_Data_Lib" />
+          <ScalarProperty Name="Firmware_Filename" ColumnName="Firmware_Filename" />
+          <ScalarProperty Name="Firmware" ColumnName="Firmware" />
+          <ScalarProperty Name="Face_Data_Ver" ColumnName="Face_Data_Ver" />
+          <ScalarProperty Name="Device_Info" ColumnName="Device_Info" />
+          <ScalarProperty Name="Device_Type" ColumnName="Device_Type" />
+          <ScalarProperty Name="Device_Name" ColumnName="Device_Name" />
+          <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_employee">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_employee">
+        <MappingFragment StoreEntitySet="tbl_employee">
+          <ScalarProperty Name="WorkHourPolicyCode" ColumnName="WorkHourPolicyCode" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="Saturday" ColumnName="Saturday" />
+          <ScalarProperty Name="Friday" ColumnName="Friday" />
+          <ScalarProperty Name="Thursday" ColumnName="Thursday" />
+          <ScalarProperty Name="Wednesday" ColumnName="Wednesday" />
+          <ScalarProperty Name="Tuesday" ColumnName="Tuesday" />
+          <ScalarProperty Name="Monday" ColumnName="Monday" />
+          <ScalarProperty Name="Sunday" ColumnName="Sunday" />
+          <ScalarProperty Name="Valid_DateEnd" ColumnName="Valid_DateEnd" />
+          <ScalarProperty Name="Valid_DateStart" ColumnName="Valid_DateStart" />
+          <ScalarProperty Name="photo_data" ColumnName="photo_data" />
+          <ScalarProperty Name="palm_1" ColumnName="palm_1" />
+          <ScalarProperty Name="palm_0" ColumnName="palm_0" />
+          <ScalarProperty Name="face_data" ColumnName="face_data" />
+          <ScalarProperty Name="finger_9" ColumnName="finger_9" />
+          <ScalarProperty Name="finger_8" ColumnName="finger_8" />
+          <ScalarProperty Name="finger_7" ColumnName="finger_7" />
+          <ScalarProperty Name="finger_6" ColumnName="finger_6" />
+          <ScalarProperty Name="finger_5" ColumnName="finger_5" />
+          <ScalarProperty Name="finger_4" ColumnName="finger_4" />
+          <ScalarProperty Name="finger_3" ColumnName="finger_3" />
+          <ScalarProperty Name="finger_2" ColumnName="finger_2" />
+          <ScalarProperty Name="finger_1" ColumnName="finger_1" />
+          <ScalarProperty Name="finger_0" ColumnName="finger_0" />
+          <ScalarProperty Name="Cmd_Param" ColumnName="Cmd_Param" />
+          <ScalarProperty Name="Update_Date" ColumnName="Update_Date" />
+          <ScalarProperty Name="Trans_Id" ColumnName="Trans_Id" />
+          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="fkEmployeeType_Code" ColumnName="fkEmployeeType_Code" />
+          <ScalarProperty Name="fkDesignation_Code" ColumnName="fkDesignation_Code" />
+          <ScalarProperty Name="fkLocation_Code" ColumnName="fkLocation_Code" />
+          <ScalarProperty Name="fkDepartment_Code" ColumnName="fkDepartment_Code" />
+          <ScalarProperty Name="Device_Id" ColumnName="Device_Id" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Palm" ColumnName="Palm" />
+          <ScalarProperty Name="Face" ColumnName="Face" />
+          <ScalarProperty Name="FingerPrint" ColumnName="FingerPrint" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="User_Privilege" ColumnName="User_Privilege" />
+          <ScalarProperty Name="Card_No" ColumnName="Card_No" />
+          <ScalarProperty Name="Employee_Photo" ColumnName="Employee_Photo" />
+          <ScalarProperty Name="Employee_Name" ColumnName="Employee_Name" />
+          <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_employeetype">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_employeetype">
+        <MappingFragment StoreEntitySet="tbl_employeetype">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_exceptionlog">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_exceptionlog">
+        <MappingFragment StoreEntitySet="tbl_exceptionlog">
+          <ScalarProperty Name="Exception_DateTime" ColumnName="Exception_DateTime" />
+          <ScalarProperty Name="Form" ColumnName="Form" />
+          <ScalarProperty Name="Error_Message" ColumnName="Error_Message" />
+          <ScalarProperty Name="Stacktrace" ColumnName="Stacktrace" />
+          <ScalarProperty Name="Method" ColumnName="Method" />
+          <ScalarProperty Name="Exception_Layer" ColumnName="Exception_Layer" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_expiredusers">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_expiredusers">
+        <MappingFragment StoreEntitySet="tbl_expiredusers">
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="Saturday" ColumnName="Saturday" />
+          <ScalarProperty Name="Friday" ColumnName="Friday" />
+          <ScalarProperty Name="Thursday" ColumnName="Thursday" />
+          <ScalarProperty Name="Wednesday" ColumnName="Wednesday" />
+          <ScalarProperty Name="Tuesday" ColumnName="Tuesday" />
+          <ScalarProperty Name="Monday" ColumnName="Monday" />
+          <ScalarProperty Name="Sunday" ColumnName="Sunday" />
+          <ScalarProperty Name="Valid_DateEnd" ColumnName="Valid_DateEnd" />
+          <ScalarProperty Name="Valid_DateStart" ColumnName="Valid_DateStart" />
+          <ScalarProperty Name="photo_data" ColumnName="photo_data" />
+          <ScalarProperty Name="palm_1" ColumnName="palm_1" />
+          <ScalarProperty Name="palm_0" ColumnName="palm_0" />
+          <ScalarProperty Name="face_data" ColumnName="face_data" />
+          <ScalarProperty Name="finger_9" ColumnName="finger_9" />
+          <ScalarProperty Name="finger_8" ColumnName="finger_8" />
+          <ScalarProperty Name="finger_7" ColumnName="finger_7" />
+          <ScalarProperty Name="finger_6" ColumnName="finger_6" />
+          <ScalarProperty Name="finger_5" ColumnName="finger_5" />
+          <ScalarProperty Name="finger_4" ColumnName="finger_4" />
+          <ScalarProperty Name="finger_3" ColumnName="finger_3" />
+          <ScalarProperty Name="finger_2" ColumnName="finger_2" />
+          <ScalarProperty Name="finger_1" ColumnName="finger_1" />
+          <ScalarProperty Name="finger_0" ColumnName="finger_0" />
+          <ScalarProperty Name="Cmd_Param" ColumnName="Cmd_Param" />
+          <ScalarProperty Name="Update_Date" ColumnName="Update_Date" />
+          <ScalarProperty Name="Trans_Id" ColumnName="Trans_Id" />
+          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="fkEmployeeType_Code" ColumnName="fkEmployeeType_Code" />
+          <ScalarProperty Name="fkDesignation_Code" ColumnName="fkDesignation_Code" />
+          <ScalarProperty Name="fkLocation_Code" ColumnName="fkLocation_Code" />
+          <ScalarProperty Name="fkDepartment_Code" ColumnName="fkDepartment_Code" />
+          <ScalarProperty Name="Device_Id" ColumnName="Device_Id" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Palm" ColumnName="Palm" />
+          <ScalarProperty Name="Face" ColumnName="Face" />
+          <ScalarProperty Name="FingerPrint" ColumnName="FingerPrint" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="User_Privilege" ColumnName="User_Privilege" />
+          <ScalarProperty Name="Card_No" ColumnName="Card_No" />
+          <ScalarProperty Name="Employee_Photo" ColumnName="Employee_Photo" />
+          <ScalarProperty Name="Employee_Name" ColumnName="Employee_Name" />
+          <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_fkcmd_trans">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans">
+        <MappingFragment StoreEntitySet="tbl_fkcmd_trans">
+          <ScalarProperty Name="update_time" ColumnName="update_time" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="return_code" ColumnName="return_code" />
+          <ScalarProperty Name="cmd_code" ColumnName="cmd_code" />
+          <ScalarProperty Name="timezone_no" ColumnName="timezone_no" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="device_id" ColumnName="device_id" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_fkcmd_trans_cmd_param">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans_cmd_param">
+        <MappingFragment StoreEntitySet="tbl_fkcmd_trans_cmd_param">
+          <ScalarProperty Name="cmd_param" ColumnName="cmd_param" />
+          <ScalarProperty Name="device_id" ColumnName="device_id" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_fkcmd_trans_cmd_param_offline">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans_cmd_param_offline">
+        <MappingFragment StoreEntitySet="tbl_fkcmd_trans_cmd_param_offline">
+          <ScalarProperty Name="cmd_param" ColumnName="cmd_param" />
+          <ScalarProperty Name="device_id" ColumnName="device_id" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_fkcmd_trans_cmd_result">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans_cmd_result">
+        <MappingFragment StoreEntitySet="tbl_fkcmd_trans_cmd_result">
+          <ScalarProperty Name="cmd_result" ColumnName="cmd_result" />
+          <ScalarProperty Name="device_id" ColumnName="device_id" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_fkcmd_trans_cmd_result_user_id_list">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans_cmd_result_user_id_list">
+        <MappingFragment StoreEntitySet="tbl_fkcmd_trans_cmd_result_user_id_list">
+          <ScalarProperty Name="backup_number" ColumnName="backup_number" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="device_id" ColumnName="device_id" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_fkcmd_trans_offline">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans_offline">
+        <MappingFragment StoreEntitySet="tbl_fkcmd_trans_offline">
+          <ScalarProperty Name="update_time" ColumnName="update_time" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="return_code" ColumnName="return_code" />
+          <ScalarProperty Name="cmd_code" ColumnName="cmd_code" />
+          <ScalarProperty Name="timezone_no" ColumnName="timezone_no" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="device_id" ColumnName="device_id" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_fkdevice_status">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkdevice_status">
+        <MappingFragment StoreEntitySet="tbl_fkdevice_status">
+          <ScalarProperty Name="con_status" ColumnName="con_status" />
+          <ScalarProperty Name="dev_status_info" ColumnName="dev_status_info" />
+          <ScalarProperty Name="dev_model" ColumnName="dev_model" />
+          <ScalarProperty Name="device_info" ColumnName="device_info" />
+          <ScalarProperty Name="last_update_fk_time" ColumnName="last_update_fk_time" />
+          <ScalarProperty Name="last_update_time" ColumnName="last_update_time" />
+          <ScalarProperty Name="connected" ColumnName="connected" />
+          <ScalarProperty Name="device_name" ColumnName="device_name" />
+          <ScalarProperty Name="device_id" ColumnName="device_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_irregularemployee">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_irregularemployee">
+        <MappingFragment StoreEntitySet="tbl_irregularemployee">
+          <ScalarProperty Name="Msg" ColumnName="Msg" />
+          <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+          <ScalarProperty Name="photo_data" ColumnName="photo_data" />
+          <ScalarProperty Name="palm_1" ColumnName="palm_1" />
+          <ScalarProperty Name="palm_0" ColumnName="palm_0" />
+          <ScalarProperty Name="face_data" ColumnName="face_data" />
+          <ScalarProperty Name="finger_9" ColumnName="finger_9" />
+          <ScalarProperty Name="finger_8" ColumnName="finger_8" />
+          <ScalarProperty Name="finger_7" ColumnName="finger_7" />
+          <ScalarProperty Name="finger_6" ColumnName="finger_6" />
+          <ScalarProperty Name="finger_5" ColumnName="finger_5" />
+          <ScalarProperty Name="finger_4" ColumnName="finger_4" />
+          <ScalarProperty Name="finger_3" ColumnName="finger_3" />
+          <ScalarProperty Name="finger_2" ColumnName="finger_2" />
+          <ScalarProperty Name="finger_1" ColumnName="finger_1" />
+          <ScalarProperty Name="finger_0" ColumnName="finger_0" />
+          <ScalarProperty Name="Cmd_Param" ColumnName="Cmd_Param" />
+          <ScalarProperty Name="Update_Date" ColumnName="Update_Date" />
+          <ScalarProperty Name="Trans_Id" ColumnName="Trans_Id" />
+          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="fkEmployeeType_Code" ColumnName="fkEmployeeType_Code" />
+          <ScalarProperty Name="fkDesignation_Code" ColumnName="fkDesignation_Code" />
+          <ScalarProperty Name="fkLocation_Code" ColumnName="fkLocation_Code" />
+          <ScalarProperty Name="fkDepartment_Code" ColumnName="fkDepartment_Code" />
+          <ScalarProperty Name="Device_Id" ColumnName="Device_Id" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Palm" ColumnName="Palm" />
+          <ScalarProperty Name="Face" ColumnName="Face" />
+          <ScalarProperty Name="FingerPrint" ColumnName="FingerPrint" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="User_Privilege" ColumnName="User_Privilege" />
+          <ScalarProperty Name="Card_No" ColumnName="Card_No" />
+          <ScalarProperty Name="Employee_Photo" ColumnName="Employee_Photo" />
+          <ScalarProperty Name="Employee_Name" ColumnName="Employee_Name" />
+          <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_location">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_location">
+        <MappingFragment StoreEntitySet="tbl_location">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_menu">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_menu">
+        <MappingFragment StoreEntitySet="tbl_menu">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Icon" ColumnName="Icon" />
+          <ScalarProperty Name="Parent" ColumnName="Parent" />
+          <ScalarProperty Name="Menu_Action" ColumnName="Menu_Action" />
+          <ScalarProperty Name="Menu_Controller" ColumnName="Menu_Controller" />
+          <ScalarProperty Name="Menu_Name" ColumnName="Menu_Name" />
+          <ScalarProperty Name="Menu_Id" ColumnName="Menu_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_menurights">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_menurights">
+        <MappingFragment StoreEntitySet="tbl_menurights">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="View" ColumnName="View" />
+          <ScalarProperty Name="Delete" ColumnName="Delete" />
+          <ScalarProperty Name="Update" ColumnName="Update" />
+          <ScalarProperty Name="Insert" ColumnName="Insert" />
+          <ScalarProperty Name="Menu_Id" ColumnName="Menu_Id" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="Menu_Rights_Id" ColumnName="Menu_Rights_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_operationlog">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_operationlog">
+        <MappingFragment StoreEntitySet="tbl_operationlog">
+          <ScalarProperty Name="Device_Status" ColumnName="Device_Status" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="Device_Name" ColumnName="Device_Name" />
+          <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+          <ScalarProperty Name="Trans_ID" ColumnName="Trans_ID" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_policyDetail">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_policyDetail">
+        <MappingFragment StoreEntitySet="tbl_policyDetail">
+          <ScalarProperty Name="PolicyCode" ColumnName="PolicyCode" />
+          <ScalarProperty Name="isOvertimeActive" ColumnName="isOvertimeActive" />
+          <ScalarProperty Name="Breakhour" ColumnName="Breakhour" />
+          <ScalarProperty Name="Overtime" ColumnName="Overtime" />
+          <ScalarProperty Name="Workhour" ColumnName="Workhour" />
+          <ScalarProperty Name="Day" ColumnName="Day" />
+          <ScalarProperty Name="DayCheck" ColumnName="DayCheck" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_policyWithEmployee">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_policyWithEmployee">
+        <MappingFragment StoreEntitySet="tbl_policyWithEmployee">
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="Policycode" ColumnName="Policycode" />
+          <ScalarProperty Name="Extrahour" ColumnName="Extrahour" />
+          <ScalarProperty Name="Breakhour" ColumnName="Breakhour" />
+          <ScalarProperty Name="Overtime" ColumnName="Overtime" />
+          <ScalarProperty Name="Workhour" ColumnName="Workhour" />
+          <ScalarProperty Name="Dt" ColumnName="Dt" />
+          <ScalarProperty Name="Emp_id" ColumnName="Emp_id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_realtime_enroll_data">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_realtime_enroll_data">
+        <MappingFragment StoreEntitySet="tbl_realtime_enroll_data">
+          <ScalarProperty Name="user_data" ColumnName="user_data" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="device_id" ColumnName="device_id" />
+          <ScalarProperty Name="update_time" ColumnName="update_time" />
+          <ScalarProperty Name="code" ColumnName="code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_realtime_userinfo">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_realtime_userinfo">
+        <MappingFragment StoreEntitySet="tbl_realtime_userinfo">
+          <ScalarProperty Name="Fp_9" ColumnName="Fp_9" />
+          <ScalarProperty Name="Fp_8" ColumnName="Fp_8" />
+          <ScalarProperty Name="Fp_7" ColumnName="Fp_7" />
+          <ScalarProperty Name="Fp_6" ColumnName="Fp_6" />
+          <ScalarProperty Name="Fp_5" ColumnName="Fp_5" />
+          <ScalarProperty Name="Fp_4" ColumnName="Fp_4" />
+          <ScalarProperty Name="Fp_3" ColumnName="Fp_3" />
+          <ScalarProperty Name="Fp_2" ColumnName="Fp_2" />
+          <ScalarProperty Name="Fp_1" ColumnName="Fp_1" />
+          <ScalarProperty Name="Fp_0" ColumnName="Fp_0" />
+          <ScalarProperty Name="photo" ColumnName="photo" />
+          <ScalarProperty Name="Face" ColumnName="Face" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="card" ColumnName="card" />
+          <ScalarProperty Name="privilige" ColumnName="privilige" />
+          <ScalarProperty Name="user_name" ColumnName="user_name" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_setting">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_setting">
+        <MappingFragment StoreEntitySet="tbl_setting">
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+          <ScalarProperty Name="AppSetting_Path" ColumnName="AppSetting_Path" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_temptable">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_temptable">
+        <MappingFragment StoreEntitySet="tbl_temptable">
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="Cmd" ColumnName="Cmd" />
+          <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+          <ScalarProperty Name="Device_ID" ColumnName="Device_ID" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_timezone">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_timezone">
+        <MappingFragment StoreEntitySet="tbl_timezone">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Period_6_End" ColumnName="Period_6_End" />
+          <ScalarProperty Name="Period_6_Start" ColumnName="Period_6_Start" />
+          <ScalarProperty Name="Period_5_End" ColumnName="Period_5_End" />
+          <ScalarProperty Name="Period_5_Start" ColumnName="Period_5_Start" />
+          <ScalarProperty Name="Period_4_End" ColumnName="Period_4_End" />
+          <ScalarProperty Name="Period_4_Start" ColumnName="Period_4_Start" />
+          <ScalarProperty Name="Period_3_End" ColumnName="Period_3_End" />
+          <ScalarProperty Name="Period_3_Start" ColumnName="Period_3_Start" />
+          <ScalarProperty Name="Period_2_End" ColumnName="Period_2_End" />
+          <ScalarProperty Name="Period_2_Start" ColumnName="Period_2_Start" />
+          <ScalarProperty Name="Period_1_End" ColumnName="Period_1_End" />
+          <ScalarProperty Name="Period_1_Start" ColumnName="Period_1_Start" />
+          <ScalarProperty Name="Timezone_Name" ColumnName="Timezone_Name" />
+          <ScalarProperty Name="Timezone_No" ColumnName="Timezone_No" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_workcode">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_workcode">
+        <MappingFragment StoreEntitySet="tbl_workcode">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_workHourPolicy">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_workHourPolicy">
+        <MappingFragment StoreEntitySet="tbl_workHourPolicy">
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+          <ScalarProperty Name="PolicyName" ColumnName="PolicyName" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_fkcmd_trans_cmd_result_log_data">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans_cmd_result_log_data">
+        <MappingFragment StoreEntitySet="tbl_fkcmd_trans_cmd_result_log_data">
+          <ScalarProperty Name="io_workcode" ColumnName="io_workcode" />
+          <ScalarProperty Name="io_time" ColumnName="io_time" />
+          <ScalarProperty Name="io_mode" ColumnName="io_mode" />
+          <ScalarProperty Name="verify_mode" ColumnName="verify_mode" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="device_id" ColumnName="device_id" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_fkcmd_trans_cmd_result_slog_data">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_fkcmd_trans_cmd_result_slog_data">
+        <MappingFragment StoreEntitySet="tbl_fkcmd_trans_cmd_result_slog_data">
+          <ScalarProperty Name="operation_time" ColumnName="operation_time" />
+          <ScalarProperty Name="touser_id" ColumnName="touser_id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="tobackup_number" ColumnName="tobackup_number" />
+          <ScalarProperty Name="kind" ColumnName="kind" />
+          <ScalarProperty Name="device_id" ColumnName="device_id" />
+          <ScalarProperty Name="trans_id" ColumnName="trans_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_realtime_doorstatus">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_realtime_doorstatus">
+        <MappingFragment StoreEntitySet="tbl_realtime_doorstatus">
+          <ScalarProperty Name="door_status" ColumnName="door_status" />
+          <ScalarProperty Name="device_id" ColumnName="device_id" />
+          <ScalarProperty Name="update_time" ColumnName="update_time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_realtime_glog">
+      <EntityTypeMapping TypeName="EagleEyeModel.tbl_realtime_glog">
+        <MappingFragment StoreEntitySet="tbl_realtime_glog">
+          <ScalarProperty Name="log_image" ColumnName="log_image" />
+          <ScalarProperty Name="io_workcode" ColumnName="io_workcode" />
+          <ScalarProperty Name="io_time" ColumnName="io_time" />
+          <ScalarProperty Name="io_mode" ColumnName="io_mode" />
+          <ScalarProperty Name="verify_mode" ColumnName="verify_mode" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="device_id" ColumnName="device_id" />
+          <ScalarProperty Name="update_time" ColumnName="update_time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

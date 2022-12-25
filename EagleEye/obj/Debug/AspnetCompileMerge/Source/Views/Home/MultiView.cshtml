@@ -1,0 +1,593 @@
+﻿@model EagleEye.DAL.Partial.Attendance_P
+@using EagleEye.DAL.Partial
+@using EagleEye.Common
+@{
+    ViewBag.Title = "MultiView";
+    Communication_P com = @SessionHandling.Communication;
+}
+
+<style type="text/css">
+    .responsive {
+        width: 120px;
+        max-width: 150px;
+        height: 120px;
+        max-height: 150px;
+        padding: 5px;
+    }
+
+
+    .responsive-card {
+        width: 100%;
+        height: auto;
+        font-size: small;
+        padding: 10px;
+        font-weight: 700;
+    }
+
+    .card-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .table th, .table td {
+        align-content: center;
+        padding: 0.5rem;
+        vertical-align: top;
+    }
+</style>
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-0">Multi View</h4>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="title">
+
+                                <label class="float-left" style="padding-top:10px;">Live Data - Device Group A</label>
+
+                                <span class="dropdown float-right" style="display:inline-block">
+                                    <select class="btn btn-default dropdown-toggle md-btn-flat float-right" id="ddlDevice1" onchange="SetSession1(),GetDiv()">
+                                        <option value="0" selected>No Device</option>
+                                        @foreach (Device_P item in Model.DeviceList)
+                                        {
+                                            <option value="@item.Device_ID">@item.Device_Name - @item.Device_ID</option>
+                                        }
+                                    </select>
+                                </span>
+                            </h5>
+                        </div>
+
+                        <div class="row" id="GroupAHide">
+                            <div class="col order-0 order-xl-0 order-lg-0 order-md-0 order-sm-0 text-center">
+                                <label class="center" style="color:red; font-size:24px;">Please Select Device</label>
+                            </div>
+                        </div>
+                        <div id="GroupA">
+                            <div class="row">
+                                <div class="col-auto text-center">
+                                    <img src="~/assets/img/avatars/no-image.jpg" id="a_Photo" class="img-fluid" style="padding:5px;width:150px;height:150px;" />
+                                    <br />
+                                    <br />
+                                </div>
+                                <div class="col">
+                                    <table class="table table-striped responsive-card" id="a_Table">
+                                        <tr>
+                                            <td>ID</td>
+                                            <td style="font-weight:400;"><span id="a_ID"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td style="font-weight:400;"><span id="a_Name"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>DateTime</td>
+                                            <td style="font-weight:400;"><span id="a_DateTime"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>VerifyMode</td>
+                                            <td style="font-weight:400;"><span id="a_Verify_Mode"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Device</td>
+                                            <td style="font-weight:400;"><span id="a_Device"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status</td>
+                                            <td style="font-weight:400;"><span id="a_Status"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="title">
+
+                                <label class="float-left" style="padding-top:10px;">Live Data - Device Group B</label>
+
+                                <span class="dropdown float-right" style="display:inline-block">
+                                    <select class="btn btn-default dropdown-toggle md-btn-flat float-right" id="ddlDevice2" onchange="SetSession2(), GetDiv()">
+                                        <option value="0" selected>No Device</option>
+                                        @foreach (Device_P item in Model.DeviceList)
+                                        {
+                                            <option value="@item.Device_ID">@item.Device_Name - @item.Device_ID</option>
+                                        }
+                                    </select>
+                                </span>
+                            </h5>
+                        </div>
+
+                        <div class="row" id="GroupBHide">
+                            <div class="col order-0 order-xl-0 order-lg-0 order-md-0 order-sm-0 text-center">
+                                <label class="center" style="color:red; font-size:24px;">Please Select Device</label>
+                            </div>
+                        </div>
+
+                        <div id="GroupB">
+                            <div class="row">
+                                <div class="col-auto text-center">
+                                    <img src="~/assets/img/avatars/no-image.jpg" id="b_Photo" class="img-fluid" style="padding:5px;width:150px;height:150px;" />
+                                    <br />
+                                    <br />
+                                </div>
+                                <div class="col">
+                                    <table class="table table-striped responsive-card" id="b_Table">
+                                        <tr>
+                                            <td>ID</td>
+                                            <td style="font-weight:400;"><span id="b_ID"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td style="font-weight:400;"><span id="b_Name"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>DateTime</td>
+                                            <td style="font-weight:400;"><span id="b_DateTime"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>VerifyMode</td>
+                                            <td style="font-weight:400;"><span id="b_Verify_Mode"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Device</td>
+                                            <td style="font-weight:400;"><span id="b_Device"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status</td>
+                                            <td style="font-weight:400;"><span id="b_Status"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="title">
+
+                                <label class="float-left" style="padding-top:10px;">Live Data - Device Group C</label>
+
+                                <span class="dropdown float-right" style="display:inline-block">
+                                    <select class="btn btn-default dropdown-toggle md-btn-flat float-right" id="ddlDevice3" onchange="SetSession3(),GetDiv()">
+                                        <option value="0" selected>No Device</option>
+                                        @foreach (Device_P item in Model.DeviceList)
+                                        {
+                                            <option value="@item.Device_ID">@item.Device_Name - @item.Device_ID</option>
+                                        }
+                                    </select>
+                                </span>
+                            </h5>
+                        </div>
+                        <div class="row" id="GroupCHide">
+                            <div class="col order-0 order-xl-0 order-lg-0 order-md-0 order-sm-0 text-center">
+                                <label class="center" style="color:red; font-size:24px;">Please Select Device</label>
+                            </div>
+                        </div>
+                        <div id="GroupC">
+                            <div class="row">
+                                <div class="col-auto text-center">
+                                    <img src="~/assets/img/avatars/no-image.jpg" id="c_Photo" class="img-fluid" style="padding:5px;width:150px;height:150px;" />
+                                    <br />
+                                    <br />
+                                </div>
+                                <div class="col">
+                                    <table class="table table-striped responsive-card" id="c_Table">
+                                        <tr>
+                                            <td>ID</td>
+                                            <td style="font-weight:400;"><span id="c_ID"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td style="font-weight:400;"><span id="c_Name"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>DateTime</td>
+                                            <td style="font-weight:400;"><span id="c_DateTime"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>VerifyMode</td>
+                                            <td style="font-weight:400;"><span id="c_Verify_Mode"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Device</td>
+                                            <td style="font-weight:400;"><span id="c_Device"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status</td>
+                                            <td style="font-weight:400;"><span id="c_Status"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="title">
+
+                                <label class="float-left" style="padding-top:10px;">Live Data - Device Group D</label>
+
+                                <span class="dropdown float-right" style="display:inline-block">
+                                    <select class="btn btn-default dropdown-toggle md-btn-flat float-right" id="ddlDevice4" onchange="SetSession4(),GetDiv()">
+                                        <option value="0" selected>No Device</option>
+                                        @foreach (Device_P item in Model.DeviceList)
+                                        {
+                                            <option value="@item.Device_ID">@item.Device_Name - @item.Device_ID</option>
+                                        }
+                                    </select>
+                                </span>
+                            </h5>
+                        </div>
+                        <div class="row" id="GroupDHide">
+                            <div class="col order-0 order-xl-0 order-lg-0 order-md-0 order-sm-0 text-center">
+                                <label class="center" style="color:red; font-size:24px;">Please Select Device</label>
+                            </div>
+                        </div>
+                        <div id="GroupD">
+                            <div class="row">
+                                <div class="col-auto text-center">
+                                    <img src="~/assets/img/avatars/no-image.jpg" id="d_Photo" class="img-fluid" style="padding:5px;width:150px;height:150px;" />
+                                    <br />
+                                    <br />
+                                </div>
+                                <div class="col">
+                                    <table class="table table-striped responsive-card" id="d_Table">
+                                        <tr>
+                                            <td>ID</td>
+                                            <td style="font-weight:400;"><span id="d_ID"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td style="font-weight:400;"><span id="d_Name"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>DateTime</td>
+                                            <td style="font-weight:400;"><span id="d_DateTime"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>VerifyMode</td>
+                                            <td style="font-weight:400;"><span id="d_Verify_Mode"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Device</td>
+                                            <td style="font-weight:400;"><span id="d_Device"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status</td>
+                                            <td style="font-weight:400;"><span id="d_Status"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+
+
+    @*Startup*@
+    <script type="text/javascript">
+
+        var groups;
+        //var devices;
+        $(document).ready(function () {
+            SetDropdown();
+            GetSession();
+            GetDiv();
+            //GetGroups();
+            // GetDevices();
+
+        });
+
+    </script>
+
+
+
+    @*Function*@
+    <script type="text/javascript">
+
+        function SetDropdown() {
+            $("#ddlDevice1").val(0);
+            $("#ddlDevice2").val(0);
+            $("#ddlDevice3").val(0);
+            $("#ddlDevice4").val(0);
+        }
+
+        function SetSession1() {
+            var drpValue1 = $("#ddlDevice1").val();
+            var drpValue2 = $("#ddlDevice2").val();
+            var drpValue3 = $("#ddlDevice3").val();
+            var drpValue4 = $("#ddlDevice4").val();
+            if (drpValue1 != 0)
+            {
+                if (drpValue1 == drpValue2 || drpValue1 == drpValue3 || drpValue1 == drpValue4) {
+                    showWarningNoti("Device Already Selected");
+                    $("#ddlDevice1").val(0);
+                    localStorage.setItem("drpValue1", 0);
+                }
+                else {
+                    localStorage.setItem("drpValue1", drpValue1);
+                }
+
+            } else {
+                localStorage.setItem("drpValue1", drpValue1);
+            }
+        }
+
+        function SetSession2() {
+            var drpValue1 = $("#ddlDevice1").val();
+            var drpValue2 = $("#ddlDevice2").val();
+            var drpValue3 = $("#ddlDevice3").val();
+            var drpValue4 = $("#ddlDevice4").val();
+            if (drpValue2 != 0) {
+                if (drpValue2 == drpValue1 || drpValue2 == drpValue3 || drpValue2 == drpValue4) {
+                    showWarningNoti("Device Already Selected");
+                    $("#ddlDevice2").val(0);
+                    localStorage.setItem("drpValue2", 0);
+                } else {
+                    localStorage.setItem("drpValue2", drpValue2);
+                }
+
+            } else {
+                localStorage.setItem("drpValue2", drpValue2);
+
+            }
+        }
+
+        function SetSession3() {
+            var drpValue1 = $("#ddlDevice1").val();
+            var drpValue2 = $("#ddlDevice2").val();
+            var drpValue3 = $("#ddlDevice3").val();
+            var drpValue4 = $("#ddlDevice4").val();
+
+            if (drpValue3 != 0) {
+                if (drpValue3 == drpValue2 || drpValue3 == drpValue1 || drpValue3 == drpValue4) {
+                    showWarningNoti("Device Already Selected");
+                    $("#ddlDevice3").val(0);
+                    localStorage.setItem("drpValue3", 0);
+                } else {
+                    localStorage.setItem("drpValue3", drpValue3);
+                }
+
+            } else {
+                localStorage.setItem("drpValue3", drpValue3);
+            }
+        }
+
+        function SetSession4() {
+            var drpValue1 = $("#ddlDevice1").val();
+            var drpValue2 = $("#ddlDevice2").val();
+            var drpValue3 = $("#ddlDevice3").val();
+            var drpValue4 = $("#ddlDevice4").val();
+
+            if (drpValue4 != 0) {
+                if (drpValue4 == drpValue2 || drpValue4 == drpValue3 || drpValue4 == drpValue1) {
+                    showWarningNoti("Device Already Selected");
+                    $("#ddlDevice4").val(0);
+                    localStorage.setItem("drpValue4", 0);
+                } else {
+                    localStorage.setItem("drpValue4", drpValue4);
+                }
+            }
+            else {
+                localStorage.setItem("drpValue4", drpValue4);
+            }
+        }
+
+        function GetDiv() {
+            if ($("#ddlDevice1").val() == 0) {
+
+                $("#GroupAHide").css("display", "block");
+                $("#GroupA").css("display", "none");
+            } else {
+                $("#GroupAHide").css("display", "none");
+                $("#GroupA").css("display", "block");
+            }
+
+            if ($("#ddlDevice2").val() == 0) {
+
+                $("#GroupBHide").css("display", "block");
+                $("#GroupB").css("display", "none");
+            } else {
+                $("#GroupBHide").css("display", "none");
+                $("#GroupB").css("display", "block");
+            }
+
+            if ($("#ddlDevice3").val() == 0) {
+
+                $("#GroupCHide").css("display", "block");
+                $("#GroupC").css("display", "none");
+            } else {
+                $("#GroupCHide").css("display", "none");
+                $("#GroupC").css("display", "block");
+            }
+
+            if ($("#ddlDevice4").val() == 0) {
+
+                $("#GroupDHide").css("display", "block");
+                $("#GroupD").css("display", "none");
+            } else {
+                $("#GroupDHide").css("display", "none");
+                $("#GroupD").css("display", "block");
+            }
+
+        }
+
+        function GetSession() {
+            var drpValue1 = window.localStorage.getItem("drpValue1");
+            if (drpValue1 != "") { $("#ddlDevice1").val(drpValue1); }
+            else { $("#ddlDevice1").val(0); }
+
+            var drpValue2 = window.localStorage.getItem("drpValue2");
+            if (drpValue2 != "") { $("#ddlDevice2").val(drpValue2); }
+            else { $("#ddlDevice2").val(0); }
+
+            var drpValue3 = window.localStorage.getItem("drpValue3");
+            if (drpValue3 != "") { $("#ddlDevice3").val(drpValue3); }
+            else { $("#ddlDevice3").val(0); }
+
+            var drpValue4 = window.localStorage.getItem("drpValue4");
+            if (drpValue4 != "") { $("#ddlDevice4").val(drpValue4); }
+            else { $("#ddlDevice4").val(0); }
+        }
+
+        function GetEventLogs(log) {
+             var device1 = $("#ddlDevice1").val();
+             var device2 = $("#ddlDevice2").val();
+             var device3 = $("#ddlDevice3").val();
+             var device4 = $("#ddlDevice4").val();
+             var id = '0';
+
+                 if (device1 == log.DeviceID) {
+                     id = 'a';
+                 } if (device2 == log.DeviceID) {
+                     id = 'b';
+                 } if (device3 == log.DeviceID) {
+                     id = 'c';
+                 } if (device4 == log.DeviceID) {
+                     id = 'd';
+                 }
+
+
+
+           if(log.UserName!=null){
+
+                if (log.UserName.includes("Stranger") || log.UserName.includes("Irregular")  || log.UserName.includes("Black")) {
+                     $("#"+id+"_Table").addClass("table-danger");
+                }
+                else{
+                    $("#"+id+"_Table").removeClass("table-danger");
+                    }
+            }
+
+            var today = new Date().toISOString();
+
+           if(log.Photo!=null && log.Photo!=''){
+               $("#" + id + "_Photo").attr("src", log.Photo + "?" + today);
+                    }
+           else{
+                 $("#"+id+"_Photo").attr("src","/assets/img/avatars/no-image.jpg");
+               }
+
+           $("#"+id+"_ID").text(log.UserID);
+           $("#"+id+"_Name").text(log.UserName);
+            $("#" + id + "_DateTime").text(log.DateTime);
+            $("#" + id + "_Verify_Mode").text(log.VerifyMode);
+           $("#"+id+"_Device").text(log.DeviceName);
+           $("#"+id+"_Status").text(log.Status);
+           
+          
+
+        }
+
+    </script>
+
+    @*SignalR*@
+
+    @if (com != null)
+    {
+        if (!string.IsNullOrEmpty(com.Server_IP) && !string.IsNullOrEmpty(com.SignalR_Port))
+        {
+
+            <script src="http://@com.Server_IP:@com.SignalR_Port/signalr/hubs"></script>
+            <script type="text/javascript">
+
+                $(function () {
+
+                    var serverIP = '@com.Server_IP';
+                    var signalrPort = '@com.SignalR_Port';
+
+                    $.connection.hub.url = "http://" + serverIP + ":" + signalrPort + "/signalr/hubs";
+                    var notifier = $.connection.NotifierHub;
+
+                    notifier.client.eventLogs = function (log) {
+                        GetEventLogs(log);
+                    }
+
+                    $.connection.hub.start().done(function () {
+                        console.log("SignalR Connected");
+                    })
+
+                    $.connection.hub.reconnected(function () {
+                        console.log("SignalR is reconnected.");
+                    });
+
+
+                    $.connection.hub.disconnected(function () {
+
+                        console.log("SignalR Disconnected.");
+
+                        if ($.connection.hub.lastError) {
+                            console.log("SignalR Disconnected. Reason: " + $.connection.hub.lastError.message);
+                        }
+
+                        setTimeout(function () {
+                            $.connection.hub.start().done(function () {
+                                console.log("SignalR Connected");
+                            });
+                        }, 10000); // Restart connection after 10 seconds.
+
+                    });
+
+
+                })
+
+            </script>
+        }
+    }
+
+}

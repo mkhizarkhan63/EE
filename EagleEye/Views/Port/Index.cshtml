@@ -1,0 +1,330 @@
+﻿@model EagleEye.DAL.Partial.Communication_P
+@using EagleEye.DAL.Partial
+@{
+    ViewBag.Title = "Port";
+    MenuGen Menu = new MenuGen();
+
+    if (Session["Menu"] != null)
+    {
+        List<MenuGen> List = (List<MenuGen>)Session["Menu"];
+        Menu = List.Where(x => x.Menu_Name == "Port").FirstOrDefault();
+    }
+}
+
+<!-- [ content ] Start -->
+<div class="container-fluid flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-0">
+        Port
+        @if (Menu.Insert == true || Menu.Update == true)
+        {
+            <button type="button" class="btn btn-primary float-right ladda-button" data-style="expand-right" id="btnSave">Apply changes</button>
+        }
+    </h4>
+    <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")"><i class="feather icon-home"></i></a></li>
+            <li class="breadcrumb-item active">port configuration</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4 overflow-hidden">
+                <div class="card-body">
+
+                    <div class="form-row">
+
+                        <div class="form-group col-sm-4">
+                            <label class="form-label">Server IP</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="@Model.Server_IP" id="txtServerIP" pattern="^[0-9]+$">
+                                <input type="hidden" id="hdnCode" value="@Model.Code" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-4">
+                            <label class="form-label">Server Port</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control bootstrap-maxlength-example" value="@Model.Server_Port" id="txtServerPort" onkeyup = "if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength='5'  disabled>
+                                <span class="input-group-append">
+                                    <button class="btn btn-primary" type="button" id="btnServerPort"><i class="fa fa-pencil-alt"></i></button>
+                                </span>
+                            </div>
+                            <label class="badge" id="bServerPort"></label>
+                        </div>
+
+                        <div class="form-group col-sm-4">
+                            <label class="form-label">SignalR Port</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control bootstrap-maxlength-example" value="@Model.SignalR_Port" id="txtSignalRPort" onkeyup = "if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength='5' disabled>
+                                <span class="input-group-append">
+                                    <button class="btn btn-primary" type="button" id="btnSignalr"><i class="fa fa-pencil-alt"></i></button>
+                                </span>
+                            </div>
+                            <label class="badge" id="bSignalr"></label>
+                        </div>
+
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ content ] End -->
+
+
+@section scripts{
+
+
+    @*Events*@
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            //$("#txtServerIP").keyup(function (e) {
+            //    var key = e.charCode || e.keyCode || 0;
+            //    var data = $(this).val();
+            //    if (key == 8 || key == 9 || key == 13 || key == 46 || key == 110 || key == 190 || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105)) {
+
+            //        var regex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            //        var bool = regex.test(data);
+            //        if (bool)
+            //        {
+            //            return true;
+
+            //        }
+            //    }
+            //    else {
+            //        let temp;
+            //        let newStr = data;
+            //        let char = String.fromCharCode(key).toLowerCase();
+            //        temp = data.toLowerCase().search(char);
+            //        newStr = newStr.replace(data.charAt(temp), '');
+            //        data = newStr;
+            //        $(this).val(data)
+            //    }
+               
+
+            //});
+           
+
+           
+            vanillaTextMask.maskInput({
+                inputElement: $('#txtServerIP')[0],
+                mask: [/[0-9]/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/]
+            });
+
+            //vanillaTextMask.maskInput({
+            //    inputElement: $('#txtTcpPort')[0],
+            //    mask: [/[1-9]/, /\d/, /\d/, /\d/, /\d/, '']
+            //});
+
+            //vanillaTextMask.maskInput({
+            //    inputElement: $('#txtUdpPort')[0],
+            //    mask: [/[1-9]/, /\d/, /\d/, /\d/, /\d/, '']
+            //});
+
+            //vanillaTextMask.maskInput({
+            //    inputElement: $('#txtSignalRPort')[0],
+            //    mask: [/[1-9]/, /\d/, /\d/, /\d/, ''],
+
+
+            //});
+
+               
+          
+
+            //});
+            //vanillaTextMask.maskInput({
+            //    inputElement: $('#txtServerPort')[0],
+            //    mask: [/[1-9]/, /\d/, /\d/, /\d/, /\d/],
+
+            //});
+
+            $("#btnServerPort").click(function () {
+
+                if ($(this).hasClass("btn-primary")) {
+
+                    $(this).removeClass("btn-primary");
+                    $(this).addClass("btn-secondary");
+                    $("#txtServerPort").removeAttr("disabled");
+
+                } else {
+
+                    var port = $("#txtServerPort").val();
+                    CheckPort(port, "S");
+                }
+
+            });
+
+
+
+            $("#btnSignalr").click(function () {
+
+                if ($(this).hasClass("btn-primary")) {
+
+                    $(this).removeClass("btn-primary");
+                    $(this).addClass("btn-secondary");
+                    $("#txtSignalRPort").removeAttr("disabled");
+
+                } else {
+
+                    var port = $("#txtSignalRPort").val();
+                    CheckPort(port, "SR");
+                }
+
+            });
+
+
+
+            $("#btnSave").click(function () {
+
+                if ($("#bSignalr").hasClass("badge-warning")) {
+
+                    showWarningNoti('Incorrect Port!!');
+
+                }
+                else {
+
+                    var Model = {};
+                    Model.Code = $("#hdnCode").val();
+                    Model.Server_IP = $("#txtServerIP").val();
+                    Model.SignalR_Port = $("#txtSignalRPort").val();
+                    Model.Server_Port= $("#txtServerPort").val();
+
+                    $.ajax({
+                        url: '@Url.Action("Save", "Port")',
+                        type: "POST",
+                        data: { data: Model },
+                        dataType: "json",
+                        cache: false,
+                        success: function (data) {
+
+                            if (data.result) {
+                              //  window.location.href = '@Url.Action("Index", "Device")';
+                                showSuccessNoti('Settings Successfully Updated..!!');
+                            }
+
+                        },
+                        failure: function (response) {
+
+                        },
+                        error: function (err, status) {
+
+                        }
+                    })
+
+                }
+            });
+
+
+
+        });
+
+    </script>
+
+
+    @*Function*@
+    <script type="text/javascript">
+
+        function CheckPort(port, name) {
+            var p =parseInt(port);
+
+            if (p >=1024 && p <= 65535) {
+
+                $.ajax({
+                    url: '@Url.Action("CheckPort", "Port")',
+                    type: "POST",
+                    data: { port: port },
+                    dataType: "json",
+                    cache: false,
+                    success: function (data) {
+
+                        var flag = data.result;
+
+                        switch (name) {
+
+                           case "S":
+                                if (flag) {
+
+                                    showStatus("#bServerPort", 1);
+
+                                    $("#btnServerPort").addClass("btn-primary");
+                                    $("#btnServerPort").removeClass("btn-secondary");
+                                    $("#txtServerPort").attr("disabled", true);
+
+                                } else {
+                                    showStatus("#bServerPort", 2);
+                                }
+                                break;
+                            case "SR":
+                                if (flag) {
+
+                                    showStatus("#bSignalr", 1);
+
+                                    $("#btnSignalr").addClass("btn-primary");
+                                    $("#btnSignalr").removeClass("btn-secondary");
+                                    $("#txtSignalRPort").attr("disabled", true);
+
+                                } else {
+                                    showStatus("#bSignalr", 2);
+                                }
+                                break;
+
+                            default:
+
+                        }
+
+
+
+
+
+                    },
+                    failure: function (response) {
+
+                    },
+                    error: function (err, status) {
+
+                    }
+                });
+
+            }
+        }
+
+
+        function showStatus(label, status) {
+
+            $(label).removeClass("badge-success");
+            $(label).removeClass("badge-warning");
+            $(label).text("");
+
+            switch (status) {
+                case 1:
+                    $(label).text("Available");
+                    $(label).addClass("badge-success");
+                    break;
+                case 2:
+                    $(label).text("Not Available");
+                    $(label).addClass("badge-warning");
+                    break;
+                case 3:
+                    $(label).text("Invalid port");
+                    $(label).addClass("badge-warning");
+                    break;
+
+                default:
+
+            }
+
+
+        }
+
+    </script>
+
+
+
+}
